@@ -5,11 +5,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Helvitic AI - L’IA au service de votre entreprise</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<section class="hero" id="home">
+    <div class="hero-content">
+        <h1>L'IA au service de vos performances</h1>
+        <p class="hero-subtitle">Révolutionnez votre pilotage d'entreprise avec nos solutions EPM intelligentes et nos analytics prédictifs de nouvelle génération</p>
+        <a href="#contact-form" class="hero-cta">
+            <i class="fas fa-rocket"></i>
+            Démarrer votre transformation IA
+        </a>
+    </div>
+    <style>
+        section.hero {
+            background-image: url('hero-background.jpg');
+            padding-bottom: 50px;
+        }
+    </style>
+</section>
 
+<!-- Contact Section -->
+<section class="section" id="contact">
+    <div class="container">
+        <h2 class="section-title fade-in">Prêt à transformer votre entreprise ?</h2>
+        <p class="section-subtitle fade-in">Contactez-nous pour une consultation gratuite personnalisée</p>
+        <div class="contact-content">
+            <form class="contact-form fade-in" id="contact-form" action="https://formsubmit.co/helviticaich@gmail.com" method="POST">
+                <input type="hidden" name="_subject" value="Nouvelle demande - HelviticAI">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="box">
+                <input type="hidden" name="_next" value="merci.html">
+            </form>
+        </div>
+    </style>
+</section>
   <!-- 🌐 Header -->
   <header class="bg-white shadow-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
