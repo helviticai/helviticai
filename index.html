@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helvitic AI</title>
+  <style>
+    /* --- Reset & base --- */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #222;
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+      color: #0044cc;
+      font-weight: bold;
+    }
+
+    h1 a {
+      text-decoration: underline;
+    }
+
+    /* --- Header --- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 50px;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      animation: fadeDown 1s ease;
+    }
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-small {
+      height: 40px;   /* Taille du logo */
+      margin-right: 8px; /* Espace entre le logo et le texte */
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: bold;
+      color: #0040ff; /* bleu stylé */
+    }
+
+    nav a {
+      margin-left: 20px;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ff0000;
+    }
+
+    /* --- Hero --- */
+    .hero {
+      margin-top: 120px;
+      animation: fadeUp 1s ease;
+    }
+
+    .logo-large {
+      width: 160px;
+      height: auto;
+      animation: popIn 1s ease;
+    }
+
+    h1 {
+      margin: 20px 0;
+      font-size: 36px;
+      color: #0044cc;
+    }
+
+    .flag {
+      font-size: 28px;
+      color: red;
+      vertical-align: middle;
+    }
+
+    /* --- Sections --- */
+    section {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      animation: fadeUp 1s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    h2 {
+      color: #0044cc;
+      margin-bottom: 15px;
+    }
+
+    /* --- CTA Section --- */
+    .cta {
+      background: linear-gradient(135deg, #0044cc, #0077ff);
+      color: #fff;
+      padding: 50px 30px;
+      margin: 60px auto;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      animation: fadeUp 1s ease;
+    }
+
+    .cta h2 {
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+
+    .cta p {
+      font-size: 18px;
+      margin-bottom: 25px;
+    }
+
+    .cta-button {
+      background: #fff;
+      color: #0044cc;
+      font-size: 18px;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .cta-button:hover {
+      background: #ff0000;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    /* --- Footer --- */
+    footer {
+      background: #f8f8f8;
+      padding: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    footer a {
+      color: #0044cc;
+      margin: 0 8px;
+    }
+
+    /* --- Animations --- */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 20px;
+      }
+      nav a {
+        margin-left: 10px;
+        font-size: 14px;
+      }
+      .logo-large {
+        width: 120px;
+      }
+      h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <a href="#home" class="logo-link">
+      <img src="logo.svg" alt="Logo Helvitic AI" class="logo-small">
+      <span class="brand-name">Helvitic AI</span>
+    </a>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#about">À propos</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <img src="logo.svg" alt="Logo Helvitic AI" class="logo-large">
+    <h1><a href="#">Helvitic AI <span class="flag">✚</span></a></h1>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <h2>Nos Services</h2>
+    <p>Nous proposons des solutions d'intelligence artificielle adaptées à vos besoins : automatisation, analyse de données et innovation digitale.</p>
+  </section>
+
+  <!-- À propos -->
+  <section id="about">
+    <h2>À propos</h2>
+    <p>Helvitic AI est une startup spécialisée dans l’IA appliquée aux entreprises. Notre mission : rendre l’intelligence artificielle accessible, fiable et efficace.</p>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Envoyez-nous un message à <a href="mailto:contact@helvitic.ai">contact@helvitic.ai</a></p>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="cta">
+    <h2>Prêt à transformer votre entreprise avec l’IA ?</h2>
+    <p>Contactez-nous dès aujourd’hui et découvrez comment Helvitic AI peut vous aider à innover.</p>
+    <a href="#contact" class="cta-button">Nous contacter</a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Helvitic AI — Tous droits réservés.</p>
+    <p>
+      <a href="#home">Accueil</a> |
+      <a href="#services">Services</a> |
+      <a href="#about">À propos</a> |
+      <a href="#contact">Contact</a>
+    </p>
+  </footer>
+
+</body>
+</html>
