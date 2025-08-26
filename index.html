@@ -393,51 +393,60 @@
     </div>
     
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-      <div class="service-card p-8 rounded-2xl shadow-lg bg-white group">
-        <div class="text-4xl mb-4 group-hover:animate-bounce">⚡</div>
-        <h3 class="text-2xl font-bold mb-4 text-gray-800">Automatisation</h3>
-        <p class="text-gray-600 leading-relaxed">
-          Optimisez vos processus avec des solutions intelligentes qui réduisent les tâches répétitives.
-        </p>
-        <div class="mt-6 text-blue-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-          En savoir plus →
-        </div>
-      </div>
-      
-      <div class="service-card p-8 rounded-2xl shadow-lg bg-white group" style="animation-delay: 0.1s">
-        <div class="text-4xl mb-4 group-hover:animate-bounce">📊</div>
-        <h3 class="text-2xl font-bold mb-4 text-gray-800">Analyse de données</h3>
-        <p class="text-gray-600 leading-relaxed">
-          Exploitez vos données pour prendre de meilleures décisions stratégiques et operationnelles.
-        </p>
-        <div class="mt-6 text-blue-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-          En savoir plus →
-        </div>
-      </div>
-      
-      <div class="service-card p-8 rounded-2xl shadow-lg bg-white group" style="animation-delay: 0.2s">
-        <div class="text-4xl mb-4 group-hover:animate-bounce">🤖</div>
-        <h3 class="text-2xl font-bold mb-4 text-gray-800">IA Personnalisée</h3>
-        <p class="text-gray-600 leading-relaxed">
-          Des modèles d'intelligence artificielle adaptés spécifiquement à vos besoins métiers.
-        </p>
-        <div class="mt-6 text-blue-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-          En savoir plus →
-        </div>
-      </div>
-      
-      <div class="service-card p-8 rounded-2xl shadow-lg bg-white group" style="animation-delay: 0.3s">
-        <div class="text-4xl mb-4 group-hover:animate-bounce">🌐</div>
-        <h3 class="text-2xl font-bold mb-4 text-gray-800">Innovation digitale</h3>
-        <p class="text-gray-600 leading-relaxed">
-          Accompagnement complet dans la transformation numérique de votre entreprise.
-        </p>
-        <div class="mt-6 text-blue-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-          En savoir plus →
-        </div>
-      </div>
-    </div>
-  </section>
+
+  <!-- Automatisation -->
+  <div class="service-card p-8 rounded-2xl shadow-lg bg-white group" style="animation: fade-in-up 0.8s ease-out 0s both;">
+    <div class="text-4xl mb-4 group-hover:animate-bounce">⚡</div>
+    <h3 class="text-2xl font-bold mb-4 text-gray-800">Automatisation</h3>
+    <p class="text-gray-600 leading-relaxed">
+      Optimisez vos processus avec des solutions intelligentes qui réduisent les tâches répétitives.
+    </p>
+    <button onclick="toggleDetails('auto-details')" 
+            class="mt-6 text-blue-600 font-semibold hover:underline">
+      En savoir plus →
+    </button>
+  </div>
+
+  <!-- Analyse de données -->
+  <div class="service-card p-8 rounded-2xl shadow-lg bg-white group" style="animation: fade-in-up 0.8s ease-out 0.1s both;">
+    <div class="text-4xl mb-4 group-hover:animate-bounce">📊</div>
+    <h3 class="text-2xl font-bold mb-4 text-gray-800">Analyse de données</h3>
+    <p class="text-gray-600 leading-relaxed">
+      Exploitez vos données pour prendre de meilleures décisions stratégiques et opérationnelles.
+    </p>
+    <button onclick="toggleDetails('data-details')" 
+            class="mt-6 text-blue-600 font-semibold hover:underline">
+      En savoir plus →
+    </button>
+  </div>
+
+  <!-- IA Personnalisée -->
+  <div class="service-card p-8 rounded-2xl shadow-lg bg-white group" style="animation: fade-in-up 0.8s ease-out 0.2s both;">
+    <div class="text-4xl mb-4 group-hover:animate-bounce">🤖</div>
+    <h3 class="text-2xl font-bold mb-4 text-gray-800">IA Personnalisée</h3>
+    <p class="text-gray-600 leading-relaxed">
+      Des modèles d'intelligence artificielle adaptés spécifiquement à vos besoins métiers.
+    </p>
+    <button onclick="toggleDetails('ia-details')" 
+            class="mt-6 text-blue-600 font-semibold hover:underline">
+      En savoir plus →
+    </button>
+  </div>
+
+  <!-- Innovation digitale -->
+  <div class="service-card p-8 rounded-2xl shadow-lg bg-white group" style="animation: fade-in-up 0.8s ease-out 0.3s both;">
+    <div class="text-4xl mb-4 group-hover:animate-bounce">🌐</div>
+    <h3 class="text-2xl font-bold mb-4 text-gray-800">Innovation digitale</h3>
+    <p class="text-gray-600 leading-relaxed">
+      Accompagnement complet dans la transformation numérique de votre entreprise.
+    </p>
+    <button onclick="toggleDetails('innovation-details')" 
+            class="mt-6 text-blue-600 font-semibold hover:underline">
+      En savoir plus →
+    </button>
+  </div>
+
+</div>
 
   <!-- À propos améliorée -->
   <section id="apropos" class="py-20 px-6 bg-gradient-to-br from-blue-50 to-blue-100">
