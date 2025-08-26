@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -13,10 +11,14 @@
 </head>
 <body>
 
-  <!-- ✅ Navbar -->
+  <!-- ✅ Navbar avec logo -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#home">HelviticAI</a>
+      <!-- Logo + Texte -->
+      <a class="navbar-brand d-flex align-items-center fw-bold" href="#home">
+        <img src="assets/logo.png" alt="HelviticAI Logo" width="40" height="40" class="me-2">
+        HelviticAI
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -25,7 +27,9 @@
           <li class="nav-item"><a class="nav-link" href="#about">À propos</a></li>
           <li class="nav-item"><a class="nav-link" href="#services">Solutions IA</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-          <li class="nav-item"><a class="nav-link btn btn-primary text-white px-3 ms-2" href="#contact-form">Consultation Gratuite</a></li>
+          <li class="nav-item">
+            <a class="nav-link btn btn-primary text-white px-3 ms-2" href="#contact-form">Consultation Gratuite</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -34,6 +38,7 @@
   <!-- ✅ Hero -->
   <header id="home" class="bg-primary text-white text-center d-flex align-items-center" style="height:100vh;">
     <div class="container">
+      <img src="assets/logo.png" alt="HelviticAI Logo" width="100" class="mb-3">
       <h1 class="display-4 fw-bold">Bienvenue chez HelviticAI</h1>
       <p class="lead">Nous aidons les entreprises à exploiter la puissance de l’Intelligence Artificielle.</p>
       <a href="#services" class="btn btn-light btn-lg mt-3">Découvrir nos solutions</a>
@@ -128,7 +133,7 @@
         <div class="g-recaptcha mb-3" data-sitekey="VOTRE_SITE_KEY_ICI"></div>
 
         <!-- Champs cachés FormSubmit -->
-        <input type="hidden" name="_captcha" value="false"> <!-- on désactive le captcha par défaut -->
+        <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_next" value="https://votre-site.com/#merci">
 
