@@ -438,6 +438,53 @@
       </div>
     </div>
   </section>
+  <!-- Sections détaillées --> 
+<section id="service-details" class="max-w-5xl mx-auto px-6 space-y-8">
+  <!-- Automatisation -->
+  <div id="auto-details" class="hidden bg-white p-8 rounded-2xl shadow-md">
+    <h3 class="text-2xl font-bold mb-4">⚡ Automatisation intelligente</h3>
+    <p class="text-gray-600 mb-4">Libérez vos équipes des tâches répétitives grâce à des solutions d’automatisation sur mesure...</p>
+    <ul class="list-disc pl-6 space-y-2 text-gray-600">
+      <li><strong>Workflows administratifs :</strong> optimisez vos processus internes.</li>
+      <li><strong>Emails & demandes clients :</strong> automatisez vos réponses et améliorez la réactivité.</li>
+      <li><strong>Intégration CRM/ERP :</strong> connectez vos outils pour un flux fluide.</li>
+    </ul>
+  </div>
+
+  <!-- Analyse de données -->
+  <div id="data-details" class="hidden bg-white p-8 rounded-2xl shadow-md">
+    <h3 class="text-2xl font-bold mb-4">📊 Analyse de données</h3>
+    <p class="text-gray-600 mb-4">Nous transformons vos données brutes en insights clairs et actionnables...</p>
+    <ul class="list-disc pl-6 space-y-2 text-gray-600">
+      <li><strong>Tableaux de bord :</strong> visualisez vos KPIs en temps réel.</li>
+      <li><strong>Prédiction des tendances :</strong> anticipez vos besoins et vos opportunités.</li>
+      <li><strong>Détection d’anomalies :</strong> identifiez rapidement les problèmes cachés.</li>
+    </ul>
+  </div>
+
+  <!-- IA Personnalisée -->
+  <div id="ia-details" class="hidden bg-white p-8 rounded-2xl shadow-md">
+    <h3 class="text-2xl font-bold mb-4">🤖 IA Personnalisée</h3>
+    <p class="text-gray-600 mb-4">Nous développons des modèles d’IA conçus pour vos besoins métiers...</p>
+    <ul class="list-disc pl-6 space-y-2 text-gray-600">
+      <li><strong>Chatbots :</strong> support client 24/7.</li>
+      <li><strong>Recommandations :</strong> proposez du contenu personnalisé.</li>
+      <li><strong>Prédictions métiers :</strong> optimisez ventes et logistique.</li>
+    </ul>
+  </div>
+
+  <!-- Innovation digitale -->
+  <div id="innovation-details" class="hidden bg-white p-8 rounded-2xl shadow-md">
+    <h3 class="text-2xl font-bold mb-4">🌐 Innovation digitale</h3>
+    <p class="text-gray-600 mb-4">Nous vous accompagnons dans votre transformation numérique...</p>
+    <ul class="list-disc pl-6 space-y-2 text-gray-600">
+      <li><strong>Transformation numérique :</strong> adaptez vos outils et méthodes de travail.</li>
+      <li><strong>Développement web & mobile :</strong> des apps modernes et performantes.</li>
+      <li><strong>Outils collaboratifs :</strong> boostez la communication interne.</li>
+    </ul>
+  </div>
+</section>
+
 
   <!-- À propos améliorée -->
   <section id="apropos" class="py-20 px-6 bg-gradient-to-br from-blue-50 to-blue-100">
@@ -860,6 +907,15 @@
       document.body.style.opacity = '1';
     });
   </script>
+  <script>
+  function toggleDetails(id) {
+    document.querySelectorAll('#service-details > div')
+      .forEach(div => div.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+
 
 </body>
 </html> 
