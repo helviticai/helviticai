@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Helvetic AI - L'IA au service de la performance financière</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
+    .fade-in.show { opacity: 1; transform: translateY(0); }
+    .accordion-content { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+    .accordion-content.open { max-height: 1000px; }
+    .focus-ring:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+    .flag { cursor: pointer; width: 28px; display: inline-block; }
+  </style>
+</head>
+<body class="bg-white text-gray-900">
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur border-b border-gray-100 z-50">
+    <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center space-x-3">
+        <img src="logo.png" alt="Logo Helvetic AI" class="h-10 w-10 object-contain"/>
+        <span class="text-xl font-semibold">Helvetic AI</span>
+      </a>
+      <div class="flex items-center space-x-3">
+        <img src="fr.png" class="flag" onclick="setLanguage('fr')" alt="FR">
+        <img src="en.png" class="flag" onclick="setLanguage('en')" alt="EN">
+        <img src="de.png" class="flag" onclick="setLanguage('de')" alt="DE">
+      </div>
+      <button id="mobileMenuBtn" class="md:hidden text-gray-700 focus-ring" aria-label="Menu">☰</button>
+      <ul id="mainMenu" class="hidden md:flex items-center gap-8 font-medium">
+        <li><a href="#mission" data-fr="Mission" data-en="Mission" data-de="Mission" class="hover:text-blue-600">Mission</a></li>
+        <li><a href="#expertises" data-fr="Expertises" data-en="Expertise" data-de="Expertisen" class="hover:text-blue-600">Expertises</a></li>
+        <li><a href="#methodologie" data-fr="Méthodologie" data-en="Methodology" data-de="Methodik" class="hover:text-blue-600">Méthodologie</a></li>
+        <li><a href="#identite" data-fr="Identité" data-en="Identity" data-de="Identität" class="hover:text-blue-600">Identité</a></li>
+        <li><a href="#equipe" data-fr="Équipe" data-en="Team" data-de="Team" class="hover:text-blue-600">Équipe</a></li>
+        <li><a href="#contact" data-fr="Contact" data-en="Contact" data-de="Kontakt" class="hover:text-blue-600">Contact</a></li>
+      </ul>
+    </nav>
+    <div id="mobilePanel" class="hidden md:hidden border-t border-gray-100">
+      <ul class="px-6 py-3 space-y-3 font-medium">
+        <li><a href="#mission" data-fr="Mission" data-en="Mission" data-de="Mission" class="block py-1 hover:text-blue-600">Mission</a></li>
+        <li><a href="#expertises" data-fr="Expertises" data-en="Expertise" data-de="Expertisen" class="block py-1 hover:text-blue-600">Expertises</a></li>
+        <li><a href="#methodologie" data-fr="Méthodologie" data-en="Methodology" data-de="Methodik" class="block py-1 hover:text-blue-600">Méthodologie</a></li>
+        <li><a href="#identite" data-fr="Identité" data-en="Identity" data-de="Identität" class="block py-1 hover:text-blue-600">Identité</a></li>
+        <li><a href="#equipe" data-fr="Équipe" data-en="Team" data-de="Team" class="block py-1 hover:text-blue-600">Équipe</a></li>
+        <li><a href="#contact" data-fr="Contact" data-en="Contact" data-de="Kontakt" class="block py-1 hover:text-blue-600">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="bg-[#0A0F2C] text-white min-h-[86vh] flex items-center pt-28">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-10">
+      <div class="md:w-1/2 space-y-6 fade-in">
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight" 
+            data-fr="L'intelligence artificielle<br/><span class='text-blue-400'>au service de la performance financière.</span>"
+            data-en="Artificial intelligence<br/><span class='text-blue-400'>at the service of financial performance.</span>"
+            data-de="Künstliche Intelligenz<br/><span class='text-blue-400'>im Dienste der finanziellen Leistungsfähigkeit.</span>">
+          L'intelligence artificielle<br/><span class="text-blue-400">au service de la performance financière.</span>
+        </h1>
+        <p class="text-lg text-gray-300" 
+           data-fr="Des solutions innovantes pour optimiser vos processus financiers et améliorer votre prise de décision."
+           data-en="Innovative solutions to optimize your financial processes and improve your decision-making."
+           data-de="Innovative Lösungen zur Optimierung Ihrer Finanzprozesse und Verbesserung Ihrer Entscheidungsfindung.">
+          Des solutions innovantes pour optimiser vos processus financiers et améliorer votre prise de décision.
+        </p>
+        <div class="flex gap-4">
+          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium"
+             data-fr="Découvrir nos solutions" data-en="Discover our solutions" data-de="Unsere Lösungen entdecken">Découvrir nos solutions</a>
+          <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium"
+             data-fr="Nous contacter" data-en="Contact us" data-de="Kontaktieren Sie uns">Nous contacter</a>
+        </div>
+      </div>
+      <div class="md:w-1/2 flex justify-center fade-in">
+        <img src="robot_logo.png" alt="Robot regardant le logo" class="w-[520px] max-w-full h-auto object-contain"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- (Les autres sections Mission, Expertises, Méthodologie, Identité, Équipe, Contact, Bot suivent le même schéma multilingue avec data-fr, data-en, data-de...) -->
+
+  <script>
+    function setLanguage(lang) {
+      document.querySelectorAll('[data-fr]').forEach(el => {
+        el.innerHTML = el.getAttribute('data-' + lang);
+      });
+    }
+    setLanguage('fr');
+  </script>
+</body>
+</html>
