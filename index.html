@@ -10,20 +10,73 @@
     .fade-in { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
     .fade-in.show { opacity: 1; transform: translateY(0); }
 
-    /* Accordéons : transition d'ouverture */
+    /* Accordéons */
     .accordion-content { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
     .accordion-content.open { max-height: 1000px; }
 
-    /* Amélioration focus */
+    /* Focus */
     .focus-ring:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
 
-    /* Petites améliorations typographiques */
+    /* Smooth scroll */
     html { scroll-behavior: smooth; }
+
+    /* === Styles du robot & logo === */
+    .robot-container { position: relative; animation: subtleBob 4s ease-in-out infinite; }
+    @keyframes subtleBob { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+    .robot { width: 200px; height: 250px; position: relative; margin: auto; }
+    .robot-head {
+      width: 120px; height: 100px;
+      background: linear-gradient(145deg, #e8f4f8, #b8d4e3);
+      border-radius: 60px 60px 40px 40px;
+      margin: 0 auto; position: relative;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    .visor { width: 90px; height: 35px; background: linear-gradient(90deg, #1a1a2e, #16213e);
+      border-radius: 20px; position: absolute; top: 25px; left: 15px; overflow: hidden; }
+    .visor-glow { width: 100%; height: 100%; background: linear-gradient(90deg, transparent, #40e0ff, transparent); animation: scan 2s linear infinite; }
+    @keyframes scan { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+    .eye { width: 20px; height: 20px; background: radial-gradient(circle, #40e0ff, #0080ff);
+      border-radius: 50%; position: absolute; top: 30px; right: 10px; box-shadow: 0 0 15px #40e0ff; animation: eyeGlow 2s ease-in-out infinite alternate; }
+    @keyframes eyeGlow { 0% { box-shadow: 0 0 15px #40e0ff; transform: scale(1); } 100% { box-shadow: 0 0 25px #40e0ff, 0 0 35px #40e0ff; transform: scale(1.1); } }
+    .robot-body {
+      width: 100px; height: 120px;
+      background: linear-gradient(145deg, #e8f4f8, #b8d4e3);
+      border-radius: 20px; margin: 10px auto;
+      position: relative; box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    .chest-circle { width: 30px; height: 30px; background: radial-gradient(circle, #40e0ff, #0080ff);
+      border-radius: 50%; position: absolute; top: 30px; left: 35px;
+      box-shadow: 0 0 20px rgba(64, 224, 255, 0.6); animation: pulse 3s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.2); opacity: 1; } }
+    .arm { width: 60px; height: 25px; background: linear-gradient(145deg, #e8f4f8, #b8d4e3);
+      border-radius: 15px; position: absolute; top: 40px; }
+    .arm.left { left: -50px; transform: rotate(-15deg); }
+    .arm.right { right: -50px; transform: rotate(15deg) translateY(20px); animation: pointingGesture 3s ease-in-out infinite; }
+    @keyframes pointingGesture { 0%, 100% { transform: rotate(15deg) translateY(20px); } 50% { transform: rotate(5deg) translateY(15px); } }
+    .logo-container { margin-top: 20px; animation: logoFloat 5s ease-in-out infinite; text-align: center; }
+    @keyframes logoFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+    .logo { width: 150px; height: 150px; position: relative; margin: auto; }
+    .logo-h { width: 120px; height: 120px; position: relative; margin: 0 auto; }
+    .h-left, .h-right, .h-middle { position: absolute; background: linear-gradient(135deg, #4169E1, #40e0ff); border-radius: 15px; }
+    .h-left, .h-right { width: 25px; height: 90px; top: 15px; }
+    .h-left { left: 15px; } .h-right { right: 15px; }
+    .h-middle { width: 50px; height: 20px; top: 50px; left: 35px; }
+    .logo-text { margin-top: 10px; font-size: 28px; font-weight: bold; color: #4169E1;
+      text-shadow: 0 0 20px rgba(65, 105, 225, 0.5); }
+    .ai-plus { color: #4169E1; } .plus { color: #ff4444; font-size: 26px; }
+    .connection-ray { width: 160px; height: 2px; margin: 20px auto;
+      background: linear-gradient(90deg, transparent, #40e0ff, transparent);
+      animation: connectionPulse 2s ease-in-out infinite; }
+    @keyframes connectionPulse { 0%, 100% { opacity: 0.3; transform: scaleX(0.8); } 50% { opacity: 0.8; transform: scaleX(1.2); } }
+    .logo-glow { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle, rgba(64, 224, 255, 0.2), transparent);
+      border-radius: 50%; animation: logoGlow 4s ease-in-out infinite; }
+    @keyframes logoGlow { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.1); } }
   </style>
 </head>
 <body class="bg-white text-gray-900">
 
-  <!-- NAVBAR sticky -->
+  <!-- NAVBAR -->
   <header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur border-b border-gray-100 z-50">
     <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
       <a href="#" class="flex items-center space-x-3">
@@ -39,16 +92,6 @@
         <li><a href="#contact" class="hover:text-blue-600">Contact</a></li>
       </ul>
     </nav>
-    <!-- Menu mobile -->
-    <div id="mobilePanel" class="hidden md:hidden border-t border-gray-100">
-      <ul class="px-6 py-3 space-y-3 font-medium">
-        <li><a href="#mission" class="block py-1 hover:text-blue-600">Mission</a></li>
-        <li><a href="#expertises" class="block py-1 hover:text-blue-600">Expertises</a></li>
-        <li><a href="#methodologie" class="block py-1 hover:text-blue-600">Méthodologie</a></li>
-        <li><a href="#identite" class="block py-1 hover:text-blue-600">Identité</a></li>
-        <li><a href="#contact" class="block py-1 hover:text-blue-600">Contact</a></li>
-      </ul>
-    </div>
   </header>
 
   <!-- HERO -->
@@ -68,10 +111,43 @@
         </div>
       </div>
       <div class="md:w-1/2 flex justify-center fade-in">
-        <img src="illustration.png" alt="Illustration IA" class="w-[520px] max-w-full h-auto object-contain"/>
+        <!-- Illustration remplacée par le robot -->
+        <div class="flex flex-col items-center">
+          <div class="robot-container">
+            <div class="robot">
+              <div class="robot-head">
+                <div class="visor"><div class="visor-glow"></div></div>
+                <div class="eye"></div>
+              </div>
+              <div class="robot-body">
+                <div class="chest-circle"></div>
+                <div class="arm left"></div>
+                <div class="arm right"></div>
+              </div>
+            </div>
+          </div>
+          <div class="connection-ray"></div>
+          <div class="logo-container">
+            <div class="logo">
+              <div class="logo-glow"></div>
+              <div class="logo-h">
+                <div class="h-left"></div>
+                <div class="h-right"></div>
+                <div class="h-middle"></div>
+              </div>
+            </div>
+            <div class="logo-text">Helvetic <span class="ai-plus">AI<span class="plus">+</span></span></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- le reste de ton site : Mission, Expertises, Méthodologie, Identité, Équipe, Contact, Bot -->
+  <!-- ... (inchangé par rapport à ta version précédente) ... -->
+
+</body>
+</html>
 
   <!-- NOTRE MISSION -->
   <section id="mission" class="py-20">
