@@ -318,64 +318,76 @@
     </div>
   </section>
 
- <!-- MÉTHODOLOGIE (timeline visuelle) -->
+<!-- MÉTHODOLOGIE (timeline) -->
 <section id="methodologie" class="py-20 bg-gray-50">
-  <div class="container mx-auto px-6 max-w-6xl">
+  <div class="container mx-auto px-6 max-w-5xl">
     <!-- TITRES -->
-    <h2 class="text-4xl font-bold text-center mb-16 fade-in lang fr active">Notre Méthodologie</h2>
-    <h2 class="text-4xl font-bold text-center mb-16 fade-in lang en">Our Methodology</h2>
-    <h2 class="text-4xl font-bold text-center mb-16 fade-in lang de">Unsere Methodik</h2>
+    <h2 class="text-4xl font-bold text-center mb-16 lang fr active">Notre Méthodologie</h2>
+    <h2 class="text-4xl font-bold text-center mb-16 lang en">Our Methodology</h2>
+    <h2 class="text-4xl font-bold text-center mb-16 lang de">Unsere Methodik</h2>
 
     <!-- Timeline -->
-    <div class="relative">
-      <!-- Ligne centrale -->
-      <div class="absolute top-6 left-0 right-0 h-1 bg-blue-200"></div>
+    <div class="relative border-l-4 border-blue-600 pl-8 space-y-12">
 
-      <!-- Étapes -->
-      <div class="grid grid-cols-5 gap-6 text-center relative z-10">
-        <!-- Step 1 -->
-        <div class="fade-in">
-          <div class="bg-blue-600 text-white w-12 h-12 mx-auto rounded-full flex items-center justify-center font-bold text-lg shadow-lg">01</div>
-          <p class="mt-4 lang fr active font-medium">Analyse des besoins</p>
-          <p class="mt-4 lang en font-medium">Needs analysis</p>
-          <p class="mt-4 lang de font-medium">Bedarfsanalyse</p>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="fade-in">
-          <div class="bg-blue-600 text-white w-12 h-12 mx-auto rounded-full flex items-center justify-center font-bold text-lg shadow-lg">02</div>
-          <p class="mt-4 lang fr active font-medium">Conception de la solution</p>
-          <p class="mt-4 lang en font-medium">Solution design</p>
-          <p class="mt-4 lang de font-medium">Lösungskonzeption</p>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="fade-in">
-          <div class="bg-blue-600 text-white w-12 h-12 mx-auto rounded-full flex items-center justify-center font-bold text-lg shadow-lg">03</div>
-          <p class="mt-4 lang fr active font-medium">Développement & intégration</p>
-          <p class="mt-4 lang en font-medium">Development & integration</p>
-          <p class="mt-4 lang de font-medium">Entwicklung & Integration</p>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="fade-in">
-          <div class="bg-blue-600 text-white w-12 h-12 mx-auto rounded-full flex items-center justify-center font-bold text-lg shadow-lg">04</div>
-          <p class="mt-4 lang fr active font-medium">Formation & transfert</p>
-          <p class="mt-4 lang en font-medium">Training & knowledge transfer</p>
-          <p class="mt-4 lang de font-medium">Schulung & Wissenstransfer</p>
-        </div>
-
-        <!-- Step 5 -->
-        <div class="fade-in">
-          <div class="bg-blue-600 text-white w-12 h-12 mx-auto rounded-full flex items-center justify-center font-bold text-lg shadow-lg">05</div>
-          <p class="mt-4 lang fr active font-medium">Support & amélioration continue</p>
-          <p class="mt-4 lang en font-medium">Support & continuous improvement</p>
-          <p class="mt-4 lang de font-medium">Support & kontinuierliche Verbesserung</p>
-        </div>
+      <!-- Étape 01 -->
+      <div>
+        <span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">01</span>
+        <h3 class="text-xl font-semibold lang fr active">Analyse des besoins</h3>
+        <h3 class="text-xl font-semibold lang en">Needs analysis</h3>
+        <h3 class="text-xl font-semibold lang de">Bedarfsanalyse</h3>
+        <p class="text-gray-700 mt-2 lang fr active">Compréhension approfondie de vos processus et objectifs pour cibler les vrais leviers de performance.</p>
+        <p class="text-gray-700 mt-2 lang en">In-depth understanding of your processes and goals to target real performance drivers.</p>
+        <p class="text-gray-700 mt-2 lang de">Umfassendes Verständnis Ihrer Prozesse und Ziele, um die echten Leistungshebel zu identifizieren.</p>
       </div>
+
+      <!-- Étape 02 -->
+      <div>
+        <span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">02</span>
+        <h3 class="text-xl font-semibold lang fr active">Conception de la solution</h3>
+        <h3 class="text-xl font-semibold lang en">Solution design</h3>
+        <h3 class="text-xl font-semibold lang de">Lösungskonzeption</h3>
+        <p class="text-gray-700 mt-2 lang fr active">Conception d’une solution sur mesure alignée sur vos besoins stratégiques et opérationnels.</p>
+        <p class="text-gray-700 mt-2 lang en">Design of a tailor-made solution aligned with your strategic and operational needs.</p>
+        <p class="text-gray-700 mt-2 lang de">Entwurf einer maßgeschneiderten Lösung, abgestimmt auf Ihre strategischen und operativen Anforderungen.</p>
+      </div>
+
+      <!-- Étape 03 -->
+      <div>
+        <span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">03</span>
+        <h3 class="text-xl font-semibold lang fr active">Développement & intégration</h3>
+        <h3 class="text-xl font-semibold lang en">Development & integration</h3>
+        <h3 class="text-xl font-semibold lang de">Entwicklung & Integration</h3>
+        <p class="text-gray-700 mt-2 lang fr active">Développement agile, intégration fluide dans vos systèmes existants, sécurisation et tests.</p>
+        <p class="text-gray-700 mt-2 lang en">Agile development, seamless integration with your existing systems, security and testing.</p>
+        <p class="text-gray-700 mt-2 lang de">Agile Entwicklung, nahtlose Integration in Ihre bestehenden Systeme, Sicherheit und Tests.</p>
+      </div>
+
+      <!-- Étape 04 -->
+      <div>
+        <span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">04</span>
+        <h3 class="text-xl font-semibold lang fr active">Formation & transfert de compétences</h3>
+        <h3 class="text-xl font-semibold lang en">Training & knowledge transfer</h3>
+        <h3 class="text-xl font-semibold lang de">Schulung & Wissenstransfer</h3>
+        <p class="text-gray-700 mt-2 lang fr active">Accompagnement pédagogique et transfert de compétences pour rendre vos équipes autonomes.</p>
+        <p class="text-gray-700 mt-2 lang en">Training and knowledge transfer to empower your teams and ensure autonomy.</p>
+        <p class="text-gray-700 mt-2 lang de">Schulung und Wissenstransfer, um Ihre Teams zu befähigen und Selbstständigkeit zu gewährleisten.</p>
+      </div>
+
+      <!-- Étape 05 -->
+      <div>
+        <span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">05</span>
+        <h3 class="text-xl font-semibold lang fr active">Support & amélioration continue</h3>
+        <h3 class="text-xl font-semibold lang en">Support & continuous improvement</h3>
+        <h3 class="text-xl font-semibold lang de">Support & kontinuierliche Verbesserung</h3>
+        <p class="text-gray-700 mt-2 lang fr active">Un support durable avec une amélioration continue pour garantir la performance à long terme.</p>
+        <p class="text-gray-700 mt-2 lang en">Long-term support with continuous improvement to ensure sustained performance.</p>
+        <p class="text-gray-700 mt-2 lang de">Langfristiger Support mit kontinuierlicher Verbesserung zur Sicherstellung nachhaltiger Performance.</p>
+      </div>
+
     </div>
   </div>
 </section>
+
 
 
   <!-- IDENTITE -->
