@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Helvetic AI - L'IA au service de la performance financière</title>
+  <title>Helvetic AI - IA au service de la performance financière</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     html { scroll-behavior: smooth; }
@@ -13,6 +13,7 @@
     .accordion-content.open { max-height: 1000px; }
     .focus-ring:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
     .flag { cursor: pointer; width: 28px; display: inline-block; }
+    .rotate-180 { transform: rotate(180deg); }
   </style>
 </head>
 <body class="bg-white text-gray-900">
@@ -24,29 +25,46 @@
         <img src="logo.png" alt="Logo Helvetic AI" class="h-10 w-10 object-contain"/>
         <span class="text-xl font-semibold">Helvetic AI</span>
       </a>
-      <div class="flex items-center space-x-3">
-        <img src="fr.png" class="flag" onclick="setLanguage('fr')" alt="FR">
-        <img src="en.png" class="flag" onclick="setLanguage('en')" alt="EN">
-        <img src="de.png" class="flag" onclick="setLanguage('de')" alt="DE">
-      </div>
-      <button id="mobileMenuBtn" class="md:hidden text-gray-700 focus-ring" aria-label="Menu">☰</button>
+
       <ul id="mainMenu" class="hidden md:flex items-center gap-8 font-medium">
-        <li><a href="#mission" data-fr="Mission" data-en="Mission" data-de="Mission" class="hover:text-blue-600">Mission</a></li>
-        <li><a href="#expertises" data-fr="Expertises" data-en="Expertise" data-de="Expertisen" class="hover:text-blue-600">Expertises</a></li>
-        <li><a href="#methodologie" data-fr="Méthodologie" data-en="Methodology" data-de="Methodik" class="hover:text-blue-600">Méthodologie</a></li>
-        <li><a href="#identite" data-fr="Identité" data-en="Identity" data-de="Identität" class="hover:text-blue-600">Identité</a></li>
-        <li><a href="#equipe" data-fr="Équipe" data-en="Team" data-de="Team" class="hover:text-blue-600">Équipe</a></li>
-        <li><a href="#contact" data-fr="Contact" data-en="Contact" data-de="Kontakt" class="hover:text-blue-600">Contact</a></li>
+        <li><a href="#mission" class="hover:text-blue-600"
+               data-fr="Mission" data-en="Mission" data-de="Mission">Mission</a></li>
+        <li><a href="#expertises" class="hover:text-blue-600"
+               data-fr="Expertises" data-en="Expertise" data-de="Expertisen">Expertises</a></li>
+        <li><a href="#methodologie" class="hover:text-blue-600"
+               data-fr="Méthodologie" data-en="Methodology" data-de="Methodik">Méthodologie</a></li>
+        <li><a href="#identite" class="hover:text-blue-600"
+               data-fr="Identité" data-en="Identity" data-de="Identität">Identité</a></li>
+        <li><a href="#equipe" class="hover:text-blue-600"
+               data-fr="Équipe" data-en="Team" data-de="Team">Équipe</a></li>
+        <li><a href="#contact" class="hover:text-blue-600"
+               data-fr="Contact" data-en="Contact" data-de="Kontakt">Contact</a></li>
       </ul>
+
+      <div class="flex items-center space-x-2">
+        <button onclick="setLanguage('fr')" class="text-xl" aria-label="Français">🇫🇷</button>
+        <button onclick="setLanguage('en')" class="text-xl" aria-label="English">🇬🇧</button>
+        <button onclick="setLanguage('de')" class="text-xl" aria-label="Deutsch">🇩🇪</button>
+      </div>
+
+      <button id="mobileMenuBtn" class="md:hidden text-gray-700 focus-ring" aria-label="Menu">☰</button>
     </nav>
+
+    <!-- Menu mobile -->
     <div id="mobilePanel" class="hidden md:hidden border-t border-gray-100">
       <ul class="px-6 py-3 space-y-3 font-medium">
-        <li><a href="#mission" data-fr="Mission" data-en="Mission" data-de="Mission" class="block py-1 hover:text-blue-600">Mission</a></li>
-        <li><a href="#expertises" data-fr="Expertises" data-en="Expertise" data-de="Expertisen" class="block py-1 hover:text-blue-600">Expertises</a></li>
-        <li><a href="#methodologie" data-fr="Méthodologie" data-en="Methodology" data-de="Methodik" class="block py-1 hover:text-blue-600">Méthodologie</a></li>
-        <li><a href="#identite" data-fr="Identité" data-en="Identity" data-de="Identität" class="block py-1 hover:text-blue-600">Identité</a></li>
-        <li><a href="#equipe" data-fr="Équipe" data-en="Team" data-de="Team" class="block py-1 hover:text-blue-600">Équipe</a></li>
-        <li><a href="#contact" data-fr="Contact" data-en="Contact" data-de="Kontakt" class="block py-1 hover:text-blue-600">Contact</a></li>
+        <li><a href="#mission" class="block py-1 hover:text-blue-600"
+               data-fr="Mission" data-en="Mission" data-de="Mission">Mission</a></li>
+        <li><a href="#expertises" class="block py-1 hover:text-blue-600"
+               data-fr="Expertises" data-en="Expertise" data-de="Expertisen">Expertises</a></li>
+        <li><a href="#methodologie" class="block py-1 hover:text-blue-600"
+               data-fr="Méthodologie" data-en="Methodology" data-de="Methodik">Méthodologie</a></li>
+        <li><a href="#identite" class="block py-1 hover:text-blue-600"
+               data-fr="Identité" data-en="Identity" data-de="Identität">Identité</a></li>
+        <li><a href="#equipe" class="block py-1 hover:text-blue-600"
+               data-fr="Équipe" data-en="Team" data-de="Team">Équipe</a></li>
+        <li><a href="#contact" class="block py-1 hover:text-blue-600"
+               data-fr="Contact" data-en="Contact" data-de="Kontakt">Contact</a></li>
       </ul>
     </div>
   </header>
@@ -55,23 +73,27 @@
   <section class="bg-[#0A0F2C] text-white min-h-[86vh] flex items-center pt-28">
     <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-10">
       <div class="md:w-1/2 space-y-6 fade-in">
-        <h1 class="text-4xl md:text-5xl font-bold leading-tight" 
-            data-fr="L'intelligence artificielle<br/><span class='text-blue-400'>au service de la performance financière.</span>"
-            data-en="Artificial intelligence<br/><span class='text-blue-400'>at the service of financial performance.</span>"
-            data-de="Künstliche Intelligenz<br/><span class='text-blue-400'>im Dienste der finanziellen Leistungsfähigkeit.</span>">
-          L'intelligence artificielle<br/><span class="text-blue-400">au service de la performance financière.</span>
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight"
+            data-fr="L'intelligence artificielle <br/><span class='text-blue-400'>au service de la performance financière.</span>"
+            data-en="Artificial Intelligence <br/><span class='text-blue-400'>at the service of financial performance.</span>"
+            data-de="Künstliche Intelligenz <br/><span class='text-blue-400'>im Dienste der finanziellen Leistungsfähigkeit.</span>">
+          L'intelligence artificielle <br/><span class="text-blue-400">au service de la performance financière.</span>
         </h1>
-        <p class="text-lg text-gray-300" 
+        <p class="text-lg text-gray-300"
            data-fr="Des solutions innovantes pour optimiser vos processus financiers et améliorer votre prise de décision."
-           data-en="Innovative solutions to optimize your financial processes and improve your decision-making."
-           data-de="Innovative Lösungen zur Optimierung Ihrer Finanzprozesse und Verbesserung Ihrer Entscheidungsfindung.">
+           data-en="Innovative solutions to optimize your financial processes and improve decision-making."
+           data-de="Innovative Lösungen zur Optimierung Ihrer Finanzprozesse und zur Verbesserung der Entscheidungsfindung.">
           Des solutions innovantes pour optimiser vos processus financiers et améliorer votre prise de décision.
         </p>
         <div class="flex gap-4">
           <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium"
-             data-fr="Découvrir nos solutions" data-en="Discover our solutions" data-de="Unsere Lösungen entdecken">Découvrir nos solutions</a>
+             data-fr="Découvrir nos solutions" data-en="Discover our solutions" data-de="Unsere Lösungen entdecken">
+            Découvrir nos solutions
+          </a>
           <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium"
-             data-fr="Nous contacter" data-en="Contact us" data-de="Kontaktieren Sie uns">Nous contacter</a>
+             data-fr="Nous contacter" data-en="Contact us" data-de="Kontaktieren Sie uns">
+            Nous contacter
+          </a>
         </div>
       </div>
       <div class="md:w-1/2 flex justify-center fade-in">
@@ -80,43 +102,57 @@
     </div>
   </section>
 
-  <!-- (Les autres sections Mission, Expertises, Méthodologie, Identité, Équipe, Contact, Bot suivent le même schéma multilingue avec data-fr, data-en, data-de...) -->
-<!-- NOTRE MISSION -->
+  <!-- NOTRE MISSION -->
   <section id="mission" class="py-20">
     <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold text-center mb-12 fade-in">Notre Mission</h2>
+      <h2 class="text-4xl font-bold text-center mb-12 fade-in"
+          data-fr="Notre Mission" data-en="Our Mission" data-de="Unsere Mission">Notre Mission</h2>
       <div class="grid md:grid-cols-3 gap-8">
         <div class="md:col-span-2 space-y-4 fade-in">
-          <h3 class="text-2xl text-blue-600 font-semibold">Transformer la finance par l'IA</h3>
-          <p>
+          <h3 class="text-2xl text-blue-600 font-semibold"
+              data-fr="Transformer la finance par l'IA" data-en="Transforming Finance with AI" data-de="Finanzen mit KI transformieren">
+            Transformer la finance par l'IA
+          </h3>
+          <p data-fr="Chez Helvetic AI, nous accompagnons les directions financières dans leur transformation digitale grâce à des technologies d'IA fiables et utiles."
+             data-en="At Helvetic AI, we support finance leaders in their digital transformation with reliable, useful AI technologies."
+             data-de="Bei Helvetic AI unterstützen wir Finanzverantwortliche bei der digitalen Transformation mit zuverlässigen, praxisnahen KI‑Technologien.">
             Chez Helvetic AI, nous accompagnons les directions financières dans leur transformation digitale grâce à des technologies d'IA fiables et utiles.
           </p>
-          <p>
+          <p data-fr="Notre expertise combine la connaissance des enjeux EPM (Enterprise Performance Management) avec des méthodes d'implémentation éprouvées, pour des résultats mesurables."
+             data-en="Our expertise combines deep EPM (Enterprise Performance Management) knowledge with proven implementation methods for measurable results."
+             data-de="Unsere Expertise verbindet fundiertes EPM‑Know-how mit erprobten Implementierungsmethoden für messbare Ergebnisse.">
             Notre expertise combine la connaissance des enjeux EPM (Enterprise Performance Management) avec des méthodes d'implémentation éprouvées, pour des résultats mesurables.
           </p>
-          <p>
+          <p data-fr="Sécurité, précision et fiabilité des données guident nos choix — des valeurs au cœur de notre identité suisse."
+             data-en="Security, accuracy and data reliability guide our choices—values at the heart of our Swiss identity."
+             data-de="Sicherheit, Genauigkeit und Datenzuverlässigkeit leiten unsere Entscheidungen – Werte, die unsere Schweizer Identität prägen.">
             Sécurité, précision et fiabilité des données guident nos choix — des valeurs au cœur de notre identité suisse.
           </p>
         </div>
         <div class="bg-blue-50 p-6 rounded-xl shadow fade-in">
-          <h4 class="text-xl font-semibold mb-3">Nos engagements</h4>
+          <h4 class="text-xl font-semibold mb-3"
+              data-fr="Nos engagements" data-en="Our Commitments" data-de="Unsere Verpflichtungen">Nos engagements</h4>
           <ul class="space-y-2 text-gray-700">
-            <li>• Innovation pragmatique</li>
-            <li>• Précision des analyses</li>
-            <li>• Fiabilité opérationnelle</li>
-            <li>• Sécurité & conformité</li>
-            <li>• Excellence de service</li>
+            <li data-fr="• Innovation pragmatique" data-en="• Pragmatic innovation" data-de="• Pragmatische Innovation">• Innovation pragmatique</li>
+            <li data-fr="• Précision des analyses" data-en="• Analytical precision" data-de="• Analytische Präzision">• Précision des analyses</li>
+            <li data-fr="• Fiabilité opérationnelle" data-en="• Operational reliability" data-de="• Operative Zuverlässigkeit">• Fiabilité opérationnelle</li>
+            <li data-fr="• Sécurité & conformité" data-en="• Security & compliance" data-de="• Sicherheit & Compliance">• Sécurité & conformité</li>
+            <li data-fr="• Excellence de service" data-en="• Service excellence" data-de="• Service-Exzellenz">• Excellence de service</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- EXPERTISES (accordéons avec flèches) -->
+  <!-- EXPERTISES (accordéons) -->
   <section id="expertises" class="py-20 bg-gray-50">
     <div class="container mx-auto px-6 max-w-5xl">
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in">Nos Expertises</h2>
-      <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in">
+      <h2 class="text-4xl font-bold text-center mb-6 fade-in"
+          data-fr="Nos Expertises" data-en="Our Expertise" data-de="Unsere Expertisen">Nos Expertises</h2>
+      <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in"
+         data-fr="Explorez nos domaines d’intervention et découvrez comment Helvetic AI peut accélérer votre performance financière."
+         data-en="Explore our areas of intervention and discover how Helvetic AI can accelerate your financial performance."
+         data-de="Entdecken Sie unsere Kompetenzfelder und wie Helvetic AI Ihre finanzielle Performance beschleunigen kann.">
         Explorez nos domaines d’intervention et découvrez comment Helvetic AI peut accélérer votre performance financière.
       </p>
 
@@ -126,18 +162,27 @@
           <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
             <span class="flex items-center gap-3">
               <span class="text-blue-600 font-bold">➤</span>
-              Prévision & Budgétisation
+              <span data-fr="Prévision & Budgétisation" data-en="Forecasting & Budgeting" data-de="Forecasting & Budgetierung">Prévision & Budgétisation</span>
             </span>
             <span class="accordion-icon transition-transform">▼</span>
           </button>
           <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4">
-              Modèles prédictifs pour des prévisions fiables, scénarios dynamiques, rolling forecast et budgets plus précis.
+            <p class="mb-4"
+               data-fr="Modèles prédictifs pour des prévisions fiables, scénarios dynamiques, rolling forecast et budgets plus précis."
+               data-en="Predictive models for reliable forecasts, dynamic scenarios, rolling forecasts and more accurate budgets."
+               data-de="Prädiktive Modelle für verlässliche Prognosen, dynamische Szenarien, Rolling Forecasts und präzisere Budgets.">
+               Modèles prédictifs pour des prévisions fiables, scénarios dynamiques, rolling forecast et budgets plus précis.
             </p>
             <ul class="list-disc pl-5 space-y-1">
-              <li>Prévisions mensuelles/hebdomadaires basées sur l’IA</li>
-              <li>Scénarios What-if & sensibilités</li>
-              <li>Alignement Budget ↔ Réel (variance & drivers)</li>
+              <li data-fr="Prévisions mensuelles/hebdomadaires basées sur l’IA"
+                  data-en="AI-based monthly/weekly forecasts"
+                  data-de="KI‑gestützte Monats-/Wochenprognosen">Prévisions mensuelles/hebdomadaires basées sur l’IA</li>
+              <li data-fr="Scénarios What-if & sensibilités"
+                  data-en="What‑if scenarios & sensitivities"
+                  data-de="What‑if‑Szenarien & Sensitivitäten">Scénarios What-if & sensibilités</li>
+              <li data-fr="Alignement Budget ↔ Réel (variance & drivers)"
+                  data-en="Budget ↔ Actual alignment (variance & drivers)"
+                  data-de="Abgleich Budget ↔ Ist (Varianzen & Treiber)">Alignement Budget ↔ Réel (variance & drivers)</li>
             </ul>
           </div>
         </div>
@@ -147,18 +192,27 @@
           <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
             <span class="flex items-center gap-3">
               <span class="text-blue-600 font-bold">➤</span>
-              Automatisation des processus
+              <span data-fr="Automatisation des processus" data-en="Process Automation" data-de="Prozessautomatisierung">Automatisation des processus</span>
             </span>
             <span class="accordion-icon transition-transform">▼</span>
           </button>
           <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4">
-              RPA & IA pour réduire les tâches manuelles, fiabiliser les données et accélérer vos clôtures.
+            <p class="mb-4"
+               data-fr="RPA & IA pour réduire les tâches manuelles, fiabiliser les données et accélérer vos clôtures."
+               data-en="RPA & AI to reduce manual tasks, secure data quality and speed up closing."
+               data-de="RPA & KI zur Reduzierung manueller Aufgaben, zur Datensicherung und zur Beschleunigung der Abschlüsse.">
+               RPA & IA pour réduire les tâches manuelles, fiabiliser les données et accélérer vos clôtures.
             </p>
             <ul class="list-disc pl-5 space-y-1">
-              <li>Réconciliation automatique, extraction intelligente</li>
-              <li>Workflows d’approbation avec traçabilité</li>
-              <li>Réduction des erreurs, productivité accrue</li>
+              <li data-fr="Réconciliation automatique, extraction intelligente"
+                  data-en="Automated reconciliation, intelligent extraction"
+                  data-de="Automatischer Abgleich, intelligente Extraktion">Réconciliation automatique, extraction intelligente</li>
+              <li data-fr="Workflows d’approbation avec traçabilité"
+                  data-en="Approval workflows with traceability"
+                  data-de="Genehmigungs-Workflows mit Nachvollziehbarkeit">Workflows d’approbation avec traçabilité</li>
+              <li data-fr="Réduction des erreurs, productivité accrue"
+                  data-en="Fewer errors, higher productivity"
+                  data-de="Weniger Fehler, höhere Produktivität">Réduction des erreurs, productivité accrue</li>
             </ul>
           </div>
         </div>
@@ -168,18 +222,27 @@
           <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
             <span class="flex items-center gap-3">
               <span class="text-blue-600 font-bold">➤</span>
-              Aide à la décision
+              <span data-fr="Aide à la décision" data-en="Decision Support" data-de="Entscheidungsunterstützung">Aide à la décision</span>
             </span>
             <span class="accordion-icon transition-transform">▼</span>
           </button>
           <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4">
-              Insights stratégiques issus de vos données (KPI, alerting, recommandations) pour décider vite et bien.
+            <p class="mb-4"
+               data-fr="Insights stratégiques issus de vos données (KPI, alerting, recommandations) pour décider vite et bien."
+               data-en="Strategic insights from your data (KPIs, alerts, recommendations) to decide quickly and well."
+               data-de="Strategische Erkenntnisse aus Ihren Daten (KPIs, Alerts, Empfehlungen) für schnelle, fundierte Entscheidungen.">
+               Insights stratégiques issus de vos données (KPI, alerting, recommandations) pour décider vite et bien.
             </p>
             <ul class="list-disc pl-5 space-y-1">
-              <li>Tableaux de bord & alertes intelligentes</li>
-              <li>Analyse des marges, cash, risques</li>
-              <li>Recommandations actionnables par l’IA</li>
+              <li data-fr="Tableaux de bord & alertes intelligentes"
+                  data-en="Dashboards & smart alerts"
+                  data-de="Dashboards & intelligente Alerts">Tableaux de bord & alertes intelligentes</li>
+              <li data-fr="Analyse des marges, cash, risques"
+                  data-en="Margin, cash and risk analysis"
+                  data-de="Analyse von Marge, Cash und Risiken">Analyse des marges, cash, risques</li>
+              <li data-fr="Recommandations actionnables par l’IA"
+                  data-en="AI-powered actionable recommendations"
+                  data-de="Umsetzbare KI‑Empfehlungen">Recommandations actionnables par l’IA</li>
             </ul>
           </div>
         </div>
@@ -189,18 +252,27 @@
           <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
             <span class="flex items-center gap-3">
               <span class="text-blue-600 font-bold">➤</span>
-              Solutions EPM
+              <span data-fr="Solutions EPM" data-en="EPM Solutions" data-de="EPM‑Lösungen">Solutions EPM</span>
             </span>
             <span class="accordion-icon transition-transform">▼</span>
           </button>
           <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4">
-              Conception et intégration EPM sur mesure, parfaitement adaptées à votre écosystème et vos contraintes.
+            <p class="mb-4"
+               data-fr="Conception et intégration EPM sur mesure, parfaitement adaptées à votre écosystème et vos contraintes."
+               data-en="Tailor‑made EPM design and integration, perfectly adapted to your ecosystem and constraints."
+               data-de="Maßgeschneiderte EPM‑Konzeption und ‑Integration, abgestimmt auf Ihr Ökosystem und Ihre Rahmenbedingungen.">
+               Conception et intégration EPM sur mesure, parfaitement adaptées à votre écosystème et vos contraintes.
             </p>
             <ul class="list-disc pl-5 space-y-1">
-              <li>Modélisation, référentiels, gouvernance des données</li>
-              <li>Connecteurs systèmes & sécurité renforcée</li>
-              <li>Accompagnement au changement et formation</li>
+              <li data-fr="Modélisation, référentiels, gouvernance des données"
+                  data-en="Modeling, master data, data governance"
+                  data-de="Modellierung, Stammdaten, Data Governance">Modélisation, référentiels, gouvernance des données</li>
+              <li data-fr="Connecteurs systèmes & sécurité renforcée"
+                  data-en="System connectors & enhanced security"
+                  data-de="System‑Connectoren & erhöhte Sicherheit">Connecteurs systèmes & sécurité renforcée</li>
+              <li data-fr="Accompagnement au changement et formation"
+                  data-en="Change management and training"
+                  data-de="Change Management und Schulungen">Accompagnement au changement et formation</li>
             </ul>
           </div>
         </div>
@@ -208,10 +280,11 @@
     </div>
   </section>
 
-  <!-- MÉTHODOLOGIE (accordéons avec flèches) -->
+  <!-- MÉTHODOLOGIE -->
   <section id="methodologie" class="py-20">
     <div class="container mx-auto px-6 max-w-5xl">
-      <h2 class="text-4xl font-bold text-center mb-10 fade-in">Notre Méthodologie</h2>
+      <h2 class="text-4xl font-bold text-center mb-10 fade-in"
+          data-fr="Notre Méthodologie" data-en="Our Methodology" data-de="Unsere Methodik">Notre Méthodologie</h2>
 
       <div class="space-y-4">
         <!-- 01 -->
@@ -219,16 +292,21 @@
           <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
             <span class="flex items-center gap-3">
               <span class="bg-blue-600 text-white rounded-full w-9 h-9 text-sm flex items-center justify-center font-bold">01</span>
-              Analyse des besoins
+              <span data-fr="Analyse des besoins" data-en="Needs Analysis" data-de="Bedarfsanalyse">Analyse des besoins</span>
             </span>
             <span class="accordion-icon transition-transform">▼</span>
           </button>
           <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-3">Compréhension approfondie de vos processus et objectifs pour cibler les vrais leviers de performance.</p>
+            <p class="mb-3"
+               data-fr="Compréhension approfondie de vos processus et objectifs pour cibler les vrais leviers de performance."
+               data-en="In‑depth understanding of your processes and objectives to target real performance levers."
+               data-de="Tiefes Verständnis Ihrer Prozesse und Ziele, um die echten Performance‑Hebel zu identifizieren.">
+               Compréhension approfondie de vos processus et objectifs pour cibler les vrais leviers de performance.
+            </p>
             <ul class="list-disc pl-5 space-y-1">
-              <li>Cartographie des flux & données</li>
-              <li>Identification des quick-wins et priorités</li>
-              <li>Roadmap réaliste et mesurable</li>
+              <li data-fr="Cartographie des flux & données" data-en="Flow & data mapping" data-de="Prozess- & Datenlandkarte">Cartographie des flux & données</li>
+              <li data-fr="Identification des quick-wins et priorités" data-en="Quick wins & priorities identification" data-de="Identifikation von Quick Wins & Prioritäten">Identification des quick-wins et priorités</li>
+              <li data-fr="Roadmap réaliste et mesurable" data-en="Realistic, measurable roadmap" data-de="Realistische, messbare Roadmap">Roadmap réaliste et mesurable</li>
             </ul>
           </div>
         </div>
@@ -238,16 +316,21 @@
           <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
             <span class="flex items-center gap-3">
               <span class="bg-blue-600 text-white rounded-full w-9 h-9 text-sm flex items-center justify-center font-bold">02</span>
-              Conception de solution
+              <span data-fr="Conception de solution" data-en="Solution Design" data-de="Lösungsdesign">Conception de solution</span>
             </span>
             <span class="accordion-icon transition-transform">▼</span>
           </button>
           <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-3">Design sur mesure en respectant vos contraintes IT, sécurité et conformité.</p>
+            <p class="mb-3"
+               data-fr="Design sur mesure en respectant vos contraintes IT, sécurité et conformité."
+               data-en="Tailor‑made design respecting your IT, security and compliance constraints."
+               data-de="Maßgeschneidertes Design unter Berücksichtigung Ihrer IT‑, Sicherheits‑ und Compliance‑Vorgaben.">
+               Design sur mesure en respectant vos contraintes IT, sécurité et conformité.
+            </p>
             <ul class="list-disc pl-5 space-y-1">
-              <li>Choix technologiques adaptés</li>
-              <li>Prototypage rapide & validation métier</li>
-              <li>Plan d’intégration et de tests</li>
+              <li data-fr="Choix technologiques adaptés" data-en="Fit‑for‑purpose technology choices" data-de="Passende Technologieauswahl">Choix technologiques adaptés</li>
+              <li data-fr="Prototypage rapide & validation métier" data-en="Rapid prototyping & business validation" data-de="Schnelles Prototyping & fachliche Validierung">Prototypage rapide & validation métier</li>
+              <li data-fr="Plan d’intégration et de tests" data-en="Integration & testing plan" data-de="Integrations‑ & Testplan">Plan d’intégration et de tests</li>
             </ul>
           </div>
         </div>
@@ -257,16 +340,21 @@
           <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
             <span class="flex items-center gap-3">
               <span class="bg-blue-600 text-white rounded-full w-9 h-9 text-sm flex items-center justify-center font-bold">03</span>
-              Développement & intégration
+              <span data-fr="Développement & intégration" data-en="Development & Integration" data-de="Entwicklung & Integration">Développement & intégration</span>
             </span>
             <span class="accordion-icon transition-transform">▼</span>
           </button>
           <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-3">Méthodologie agile avec points de validation réguliers.</p>
+            <p class="mb-3"
+               data-fr="Méthodologie agile avec points de validation réguliers."
+               data-en="Agile methodology with regular validation points."
+               data-de="Agile Methodik mit regelmäßigen Abstimmungspunkten.">
+               Méthodologie agile avec points de validation réguliers.
+            </p>
             <ul class="list-disc pl-5 space-y-1">
-              <li>Sprints courts et démonstrations</li>
-              <li>Tests unitaires & d’intégration</li>
-              <li>Qualité et sécurité by design</li>
+              <li data-fr="Sprints courts et démonstrations" data-en="Short sprints & demos" data-de="Kurze Sprints & Demos">Sprints courts et démonstrations</li>
+              <li data-fr="Tests unitaires & d’intégration" data-en="Unit & integration testing" data-de="Unit‑ & Integrationstests">Tests unitaires & d’intégration</li>
+              <li data-fr="Qualité et sécurité by design" data-en="Quality & security by design" data-de="Quality & Security by Design">Qualité et sécurité by design</li>
             </ul>
           </div>
         </div>
@@ -276,16 +364,21 @@
           <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
             <span class="flex items-center gap-3">
               <span class="bg-blue-600 text-white rounded-full w-9 h-9 text-sm flex items-center justify-center font-bold">04</span>
-              Implémentation & formation
+              <span data-fr="Implémentation & formation" data-en="Deployment & Training" data-de="Implementierung & Schulung">Implémentation & formation</span>
             </span>
             <span class="accordion-icon transition-transform">▼</span>
           </button>
           <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-3">Déploiement progressif, formation des équipes et transfert de compétences.</p>
+            <p class="mb-3"
+               data-fr="Déploiement progressif, formation des équipes et transfert de compétences."
+               data-en="Progressive rollout, team training and knowledge transfer."
+               data-de="Schrittweiser Rollout, Teamschulungen und Know‑how‑Transfer.">
+               Déploiement progressif, formation des équipes et transfert de compétences.
+            </p>
             <ul class="list-disc pl-5 space-y-1">
-              <li>Pilotes, montée en charge</li>
-              <li>Guides & sessions de formation</li>
-              <li>Support au démarrage</li>
+              <li data-fr="Pilotes, montée en charge" data-en="Pilots, scale‑up" data-de="Piloten, Skalierung">Pilotes, montée en charge</li>
+              <li data-fr="Guides & sessions de formation" data-en="Guides & training sessions" data-de="Leitfäden & Schulungen">Guides & sessions de formation</li>
+              <li data-fr="Support au démarrage" data-en="Go‑live support" data-de="Go‑Live‑Support">Support au démarrage</li>
             </ul>
           </div>
         </div>
@@ -295,16 +388,21 @@
           <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
             <span class="flex items-center gap-3">
               <span class="bg-blue-600 text-white rounded-full w-9 h-9 text-sm flex items-center justify-center font-bold">05</span>
-              Suivi & optimisation continue
+              <span data-fr="Suivi & optimisation continue" data-en="Monitoring & Continuous Improvement" data-de="Monitoring & kontinuierliche Optimierung">Suivi & optimisation continue</span>
             </span>
             <span class="accordion-icon transition-transform">▼</span>
           </button>
           <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-3">Accompagnement post-déploiement pour améliorer durablement la performance.</p>
+            <p class="mb-3"
+               data-fr="Accompagnement post-déploiement pour améliorer durablement la performance."
+               data-en="Post‑deployment support to sustainably improve performance."
+               data-de="Begleitung nach dem Rollout zur nachhaltigen Leistungssteigerung.">
+               Accompagnement post-déploiement pour améliorer durablement la performance.
+            </p>
             <ul class="list-disc pl-5 space-y-1">
-              <li>Monitoring & KPI</li>
-              <li>Améliorations continues</li>
-              <li>Évolutions fonctionnelles</li>
+              <li data-fr="Monitoring & KPI" data-en="Monitoring & KPIs" data-de="Monitoring & KPIs">Monitoring & KPI</li>
+              <li data-fr="Améliorations continues" data-en="Continuous improvements" data-de="Kontinuierliche Verbesserungen">Améliorations continues</li>
+              <li data-fr="Évolutions fonctionnelles" data-en="Functional enhancements" data-de="Funktionale Weiterentwicklungen">Évolutions fonctionnelles</li>
             </ul>
           </div>
         </div>
@@ -315,31 +413,54 @@
   <!-- IDENTITÉ SUISSE -->
   <section id="identite" class="py-20 bg-[#0A0F2C] text-white">
     <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold mb-10 fade-in">Notre Identité Suisse</h2>
+      <h2 class="text-4xl font-bold mb-10 fade-in"
+          data-fr="Notre Identité Suisse" data-en="Our Swiss Identity" data-de="Unsere Schweizer Identität">Notre Identité Suisse</h2>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2">Fiabilité</h3>
-          <p>Des standards élevés et des résultats constants pour vos processus critiques.</p>
+          <h3 class="font-semibold text-xl mb-2"
+              data-fr="Fiabilité" data-en="Reliability" data-de="Zuverlässigkeit">Fiabilité</h3>
+          <p data-fr="Des standards élevés et des résultats constants pour vos processus critiques."
+             data-en="High standards and consistent results for your critical processes."
+             data-de="Hohe Standards und konsistente Ergebnisse für Ihre kritischen Prozesse.">
+            Des standards élevés et des résultats constants pour vos processus critiques.
+          </p>
         </div>
         <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2">Précision</h3>
-          <p>Rigueur et contrôle pour des analyses financières de confiance.</p>
+          <h3 class="font-semibold text-xl mb-2"
+              data-fr="Précision" data-en="Precision" data-de="Präzision">Précision</h3>
+          <p data-fr="Rigueur et contrôle pour des analyses financières de confiance."
+             data-en="Rigor and control for trustworthy financial analyses."
+             data-de="Strenge und Kontrolle für verlässliche Finanzanalysen.">
+            Rigueur et contrôle pour des analyses financières de confiance.
+          </p>
         </div>
         <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2">Sécurité</h3>
-          <p>Protection avancée des données et conformité stricte.</p>
+          <h3 class="font-semibold text-xl mb-2"
+              data-fr="Sécurité" data-en="Security" data-de="Sicherheit">Sécurité</h3>
+          <p data-fr="Protection avancée des données et conformité stricte."
+             data-en="Advanced data protection and strict compliance."
+             data-de="Erweiterter Datenschutz und strenge Compliance.">
+            Protection avancée des données et conformité stricte.
+          </p>
         </div>
         <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2">Innovation</h3>
-          <p>Technologies IA au service d’une performance durable.</p>
+          <h3 class="font-semibold text-xl mb-2"
+              data-fr="Innovation" data-en="Innovation" data-de="Innovation">Innovation</h3>
+          <p data-fr="Technologies IA au service d’une performance durable."
+             data-en="AI technologies serving sustainable performance."
+             data-de="KI‑Technologien für nachhaltige Performance.">
+            Technologies IA au service d’une performance durable.
+          </p>
         </div>
       </div>
     </div>
   </section>
-      <!-- ÉQUIPE FONDATRICE -->
+
+  <!-- ÉQUIPE FONDATRICE -->
   <section id="equipe" class="py-20 bg-gray-50">
     <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold mb-12 fade-in">Équipe Fondatrice</h2>
+      <h2 class="text-4xl font-bold mb-12 fade-in"
+          data-fr="Équipe Fondatrice" data-en="Founding Team" data-de="Gründungsteam">Équipe Fondatrice</h2>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
         
@@ -348,10 +469,15 @@
           <img src="Kahina AOUDIA.png" alt="Kahina Aoudia"  class="w-full h-80 object-contain bg-gray-100">
           <div class="p-6">
             <h3 class="text-xl font-semibold text-gray-900">Kahina Aoudia</h3>
-            <p class="text-blue-600 font-medium">Co-fondatrice & Directrice Stratégie</p>
-            <p class="mt-3 text-gray-600 text-sm">
-              Visionnaire en stratégie digitale et transformation, Kahina accompagne les entreprises 
-              dans l’intégration réussie de l’intelligence artificielle au service de la performance financière.
+            <p class="text-blue-600 font-medium"
+               data-fr="Co‑fondatrice & Directrice Stratégie"
+               data-en="Co‑founder & Strategy Director"
+               data-de="Mitgründerin & Strategie‑Leitung">Co‑fondatrice & Directrice Stratégie</p>
+            <p class="mt-3 text-gray-600 text-sm"
+               data-fr="Avec 13 ans d’expérience sur l’outil IBM Planning Analytics (TM1), Kahina se distingue par sa pédagogie, ses capacités d’analyse et son sens de la transmission des savoirs. Experte en bases de données relationnelles et multidimensionnelles, elle maîtrise également les outils BI et EPM. Leader et manager d’équipe, elle pilote les projets avec efficacité et vision stratégique."
+               data-en="With 13 years of experience on IBM Planning Analytics (TM1), Kahina stands out for her pedagogy, analytical skills and ability to transfer knowledge. An expert in relational and multidimensional databases, she also masters BI and EPM tools. As a true leader and team manager, she drives projects with efficiency and strategic vision."
+               data-de="Mit 13 Jahren Erfahrung in IBM Planning Analytics (TM1) zeichnet sich Kahina durch ihre Didaktik, Analysefähigkeit und Wissensvermittlung aus. Als Expertin für relationale und multidimensionale Datenbanken beherrscht sie ebenso BI‑ und EPM‑Werkzeuge. Als echte Führungspersönlichkeit und Teamleiterin steuert sie Projekte effizient und mit strategischer Weitsicht.">
+              Avec 13 ans d’expérience sur l’outil IBM Planning Analytics (TM1), Kahina se distingue par sa pédagogie, ses capacités d’analyse et son sens de la transmission des savoirs. Experte en bases de données relationnelles et multidimensionnelles, elle maîtrise également les outils BI et EPM. Leader et manager d’équipe, elle pilote les projets avec efficacité et vision stratégique.
             </p>
             <div class="mt-4 flex justify-center gap-4">
               <a href="#" class="text-gray-500 hover:text-blue-600">🔗 LinkedIn</a>
@@ -365,10 +491,15 @@
           <img src="Adnane BAAHMED.png" alt="Adnane Baahmed" class="w-full h-80 object-contain bg-gray-100">
           <div class="p-6">
             <h3 class="text-xl font-semibold text-gray-900">Adnane Baahmed</h3>
-            <p class="text-blue-600 font-medium">Co-fondateur & Directeur Technique</p>
-            <p class="mt-3 text-gray-600 text-sm">
-              Expert en intelligence artificielle et développement de solutions technologiques,
-              Adnane pilote la conception et l’implémentation de systèmes intelligents et sécurisés.
+            <p class="text-blue-600 font-medium"
+               data-fr="Co‑fondateur & Directeur Technique"
+               data-en="Co‑founder & CTO"
+               data-de="Mitgründer & Technischer Leiter">Co‑fondateur & Directeur Technique</p>
+            <p class="mt-3 text-gray-600 text-sm"
+               data-fr="Adnane accompagne ses clients depuis 16 ans dans la mise en place et l’aide au choix de solutions BI/EPM, notamment sur BOARD et IBM Planning Analytics/TM1. Il a participé à de grands projets, techniques comme de transformation SI, en qualité de chef de projet technique ou d’architecte."
+               data-en="For 16 years, Adnane has been guiding clients in selecting and implementing BI/EPM solutions—especially BOARD and IBM Planning Analytics/TM1. He has contributed to large‑scale projects, both technical and IT‑transformation, acting as technical project manager or architect."
+               data-de="Seit 16 Jahren begleitet Adnane seine Kunden bei Auswahl und Implementierung von BI/EPM‑Lösungen – insbesondere BOARD und IBM Planning Analytics/TM1. Er war an großen, sowohl technischen als auch SI‑Transformationsprojekten beteiligt – als technischer Projektleiter oder Architekt.">
+              Adnane accompagne ses clients depuis 16 ans dans la mise en place et l’aide au choix de solutions BI/EPM, notamment sur BOARD et IBM Planning Analytics/TM1. Il a participé à de grands projets, techniques comme de transformation SI, en qualité de chef de projet technique ou d’architecte.
             </p>
             <div class="mt-4 flex justify-center gap-4">
               <a href="#" class="text-gray-500 hover:text-blue-600">🔗 LinkedIn</a>
@@ -381,35 +512,60 @@
     </div>
   </section>
 
-
   <!-- CONTACT -->
   <section id="contact" class="py-20">
     <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in">Contactez-nous</h2>
-      <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in">
+      <h2 class="text-4xl font-bold text-center mb-6 fade-in"
+          data-fr="Contactez‑nous" data-en="Contact Us" data-de="Kontaktieren Sie uns">Contactez‑nous</h2>
+      <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in"
+         data-fr="Parlons de votre projet et voyons comment nos solutions d’IA peuvent booster votre performance financière."
+         data-en="Let’s discuss your project and see how our AI solutions can boost your financial performance."
+         data-de="Sprechen wir über Ihr Projekt und wie unsere KI‑Lösungen Ihre finanzielle Performance steigern können.">
         Parlons de votre projet et voyons comment nos solutions d’IA peuvent booster votre performance financière.
       </p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
         <!-- Infos -->
         <div class="bg-blue-50 p-8 rounded-xl shadow fade-in">
-          <h3 class="text-2xl font-semibold mb-4">Parlons de votre projet</h3>
-          <p class="text-gray-700 mb-6">Nous répondons rapidement et proposons des pistes concrètes dès le premier échange.</p>
+          <h3 class="text-2xl font-semibold mb-4"
+              data-fr="Parlons de votre projet" data-en="Let’s talk about your project" data-de="Sprechen wir über Ihr Projekt">Parlons de votre projet</h3>
+          <p class="text-gray-700 mb-6"
+             data-fr="Nous répondons rapidement et proposons des pistes concrètes dès le premier échange."
+             data-en="We respond quickly and suggest concrete avenues from the very first exchange."
+             data-de="Wir reagieren schnell und schlagen bereits im ersten Gespräch konkrete Ansätze vor.">
+             Nous répondons rapidement et proposons des pistes concrètes dès le premier échange.
+          </p>
           <ul class="space-y-4 text-gray-700">
             <li class="flex items-center gap-3">
               <span class="text-blue-600 text-xl">📍</span>
-              <span><strong>Adresse :</strong> Rue de Chantepoulet 10, 1201 Genève, Suisse</span>
+              <span data-fr="<strong>Adresse :</strong> Rue de Chantepoulet 10, 1201 Genève, Suisse"
+                    data-en="<strong>Address:</strong> Rue de Chantepoulet 10, 1201 Geneva, Switzerland"
+                    data-de="<strong>Adresse:</strong> Rue de Chantepoulet 10, 1201 Genf, Schweiz">
+                <strong>Adresse :</strong> Rue de Chantepoulet 10, 1201 Genève, Suisse
+              </span>
             </li>
             <li class="flex items-center gap-3">
               <span class="text-blue-600 text-xl">✉️</span>
-              <span><strong>Email :</strong> contact@helveticai.ch</span>
+              <span data-fr="<strong>Email :</strong> contact@helveticai.ch"
+                    data-en="<strong>Email:</strong> contact@helveticai.ch"
+                    data-de="<strong>E‑Mail:</strong> contact@helveticai.ch">
+                <strong>Email :</strong> contact@helveticai.ch
+              </span>
             </li>
             <li class="flex items-center gap-3">
               <span class="text-blue-600 text-xl">📧</span>
-              <span><strong>Support :</strong> helviticaich@gmail.com</span>
+              <span data-fr="<strong>Support :</strong> helviticaich@gmail.com"
+                    data-en="<strong>Support:</strong> helviticaich@gmail.com"
+                    data-de="<strong>Support:</strong> helviticaich@gmail.com">
+                <strong>Support :</strong> helviticaich@gmail.com
+              </span>
             </li>
             <li class="flex items-center gap-3">
               <span class="text-blue-600 text-xl">📞</span>
-              <span><strong>Téléphone :</strong> +41 22 123 45 67</span>
+              <span data-fr="<strong>Téléphone :</strong> +41 22 123 45 67"
+                    data-en="<strong>Phone:</strong> +41 22 123 45 67"
+                    data-de="<strong>Telefon:</strong> +41 22 123 45 67">
+                <strong>Téléphone :</strong> +41 22 123 45 67
+              </span>
             </li>
           </ul>
         </div>
@@ -419,66 +575,74 @@
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_template" value="box">
           <input type="hidden" name="_subject" value="Nouveau message depuis Helvetic AI">
-          <!-- OPTIONNEL: remplace l'URL par ta page de remerciement -->
           <input type="hidden" name="_next" value="https://helviticai.github.io/helviticai/">
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input type="text" name="name" placeholder="Votre nom" required class="w-full p-3 border rounded-lg">
-            <input type="email" name="email" placeholder="Votre email" required class="w-full p-3 border rounded-lg">
+            <input type="text" name="name" required class="w-full p-3 border rounded-lg"
+                   placeholder="Votre nom" data-fr-placeholder="Votre nom" data-en-placeholder="Your name" data-de-placeholder="Ihr Name">
+            <input type="email" name="email" required class="w-full p-3 border rounded-lg"
+                   placeholder="Votre email" data-fr-placeholder="Votre email" data-en-placeholder="Your email" data-de-placeholder="Ihre E‑Mail">
           </div>
-          <input type="text" name="company" placeholder="Votre entreprise" class="w-full p-3 border rounded-lg">
-          <textarea name="message" placeholder="Votre message" rows="5" required class="w-full p-3 border rounded-lg"></textarea>
+          <input type="text" name="company" class="w-full p-3 border rounded-lg"
+                 placeholder="Votre entreprise" data-fr-placeholder="Votre entreprise" data-en-placeholder="Your company" data-de-placeholder="Ihr Unternehmen">
+          <textarea name="message" rows="5" required class="w-full p-3 border rounded-lg"
+                    placeholder="Votre message" data-fr-placeholder="Votre message" data-en-placeholder="Your message" data-de-placeholder="Ihre Nachricht"></textarea>
 
           <label class="flex items-center gap-2 text-sm text-gray-600">
             <input type="checkbox" required>
-            <span>J'accepte que mes données soient traitées conformément à la politique de confidentialité.</span>
+            <span data-fr="J'accepte que mes données soient traitées conformément à la politique de confidentialité."
+                  data-en="I agree that my data will be processed in accordance with the privacy policy."
+                  data-de="Ich stimme zu, dass meine Daten gemäß der Datenschutzrichtlinie verarbeitet werden.">
+              J'accepte que mes données soient traitées conformément à la politique de confidentialité.
+            </span>
           </label>
 
-          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition">
-            Envoyer
-          </button>
+          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition"
+                  data-fr="Envoyer" data-en="Send" data-de="Senden">Envoyer</button>
         </form>
       </div>
     </div>
   </section>
 
-  <!-- HELVETICBOT (bleu) -->
+  <!-- HELVETICBOT -->
   <button id="bot-button" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl" aria-label="Ouvrir HelveticBot">💬</button>
   <div id="bot-window" class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-2xl border overflow-hidden">
     <div class="bg-blue-700 text-white p-4 font-semibold">HelveticBot</div>
     <div id="bot-messages" class="p-4 h-72 overflow-y-auto text-sm text-gray-700">
-      <p class="text-gray-500">Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?</p>
+      <p class="text-gray-500"
+         data-fr="Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?"
+         data-en="Hi 👋 I'm HelveticBot. How can I help you?"
+         data-de="Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?">
+        Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?
+      </p>
     </div>
     <form id="bot-form" class="flex border-t">
-      <input type="text" id="bot-input" placeholder="Écrivez un message..." class="flex-1 p-2 text-sm outline-none">
+      <input type="text" id="bot-input" placeholder="Écrivez un message..." class="flex-1 p-2 text-sm outline-none"
+             data-fr-placeholder="Écrivez un message..." data-en-placeholder="Type a message..." data-de-placeholder="Nachricht eingeben...">
       <button type="submit" class="px-4 text-blue-700 font-bold">➤</button>
     </form>
   </div>
 
-  <!-- SCRIPTS (menu, accordéons, fade-in, bot) -->
+  <!-- SCRIPTS -->
   <script>
     // Menu mobile
     const mbBtn = document.getElementById('mobileMenuBtn');
     const mbPanel = document.getElementById('mobilePanel');
-    const mainMenu = document.getElementById('mainMenu');
-    mbBtn?.addEventListener('click', () => {
-      mbPanel.classList.toggle('hidden');
-    });
+    mbBtn?.addEventListener('click', () => { mbPanel.classList.toggle('hidden'); });
 
-    // IntersectionObserver pour fade-in
+    // Fade-in on scroll
     const faders = document.querySelectorAll('.fade-in');
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
     }, { threshold: 0.2 });
     faders.forEach(el => io.observe(el));
 
-    // Accordéons (Expertises & Méthodologie)
+    // Accordéons
     document.querySelectorAll('.accordion-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         const content = btn.parentElement.querySelector('.accordion-content');
         const icon = btn.querySelector('.accordion-icon');
 
-        // fermer les autres (comportement type "un seul ouvert")
         document.querySelectorAll('.accordion-content').forEach((c) => {
           if (c !== content) c.classList.remove('open');
         });
@@ -486,40 +650,60 @@
           if (i !== icon) i.classList.remove('rotate-180');
         });
 
-        // toggle courant
         content.classList.toggle('open');
         icon.classList.toggle('rotate-180');
       });
     });
 
-    // HelveticBot
+    // HelveticBot (demo)
     const botBtn = document.getElementById('bot-button');
     const botWin = document.getElementById('bot-window');
     const botForm = document.getElementById('bot-form');
     const botInput = document.getElementById('bot-input');
     const botMessages = document.getElementById('bot-messages');
-
-    botBtn.addEventListener('click', () => botWin.classList.toggle('hidden'));
-
-    botForm.addEventListener('submit', (e) => {
+    botBtn?.addEventListener('click', () => botWin.classList.toggle('hidden'));
+    botForm?.addEventListener('submit', (e) => {
       e.preventDefault();
       const msg = botInput.value.trim();
       if (!msg) return;
       botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
-      // Réponse simulée
       botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> Merci pour votre message, un conseiller vous contactera rapidement.</p>`;
       botInput.value = '';
       botMessages.scrollTop = botMessages.scrollHeight;
     });
-  </script>
-</body>
-  <script>
-    function setLanguage(lang) {
-      document.querySelectorAll('[data-fr]').forEach(el => {
-        el.innerHTML = el.getAttribute('data-' + lang);
+
+    // Multilingue
+    function applyPlaceholders(lang) {
+      document.querySelectorAll('[data-fr-placeholder]').forEach(el => {
+        const key = `data-${lang}-placeholder`;
+        const val = el.getAttribute(key);
+        if (val) el.setAttribute('placeholder', val);
       });
     }
-    setLanguage('fr');
+
+    function setLanguage(lang) {
+      // Texte
+      document.querySelectorAll('[data-fr]').forEach(el => {
+        const txt = el.getAttribute(`data-${lang}`);
+        if (txt !== null) el.innerHTML = txt;
+      });
+      // Placeholder des inputs
+      applyPlaceholders(lang);
+      // html lang
+      document.documentElement.setAttribute('lang', lang);
+      // store
+      try { localStorage.setItem('lang', lang); } catch(e){}
+    }
+
+    // Init language from storage or browser
+    (function initLang() {
+      let lang = 'fr';
+      try {
+        lang = localStorage.getItem('lang') || (navigator.language || 'fr').slice(0,2);
+        if (!['fr','en','de'].includes(lang)) lang = 'fr';
+      } catch(e){ lang = 'fr'; }
+      setLanguage(lang);
+    })();
   </script>
 </body>
 </html>
