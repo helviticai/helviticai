@@ -19,17 +19,34 @@
 <body class="bg-white text-gray-900">
 
   <!-- NAVBAR -->
-  <header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur border-b border-gray-100 z-50">
-    <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="#" class="flex items-center space-x-3">
-        <img src="logo.png" alt="Logo Helvetic AI" class="h-10 w-10 object-contain"/>
-        <span class="text-xl font-semibold">Helvetic AI</span>
-        <div class="flex items-center space-x-3">
-  <img src="fr.png" alt="Français" class="w-6 h-4 cursor-pointer" onclick="setLanguage('fr')">
-  <img src="en.png" alt="English" class="w-6 h-4 cursor-pointer" onclick="setLanguage('en')">
-  <img src="de.png" alt="Deutsch" class="w-6 h-4 cursor-pointer" onclick="setLanguage('de')">
-</div>
-      </a>
+<header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur border-b border-gray-100 z-50">
+  <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
+    
+    <!-- Logo -->
+    <a href="#" class="flex items-center space-x-3">
+      <img src="logo.png" alt="Logo Helvetic AI" class="h-10 w-10 object-contain"/>
+      <span class="text-xl font-semibold">Helvetic AI</span>
+    </a>
+
+    <!-- Liens de navigation -->
+    <div class="hidden md:flex space-x-8 text-gray-800 font-medium">
+      <a href="#mission" class="hover:text-blue-600">Mission</a>
+      <a href="#expertises" class="hover:text-blue-600">Expertises</a>
+      <a href="#methodologie" class="hover:text-blue-600">Méthodologie</a>
+      <a href="#identite" class="hover:text-blue-600">Identité</a>
+      <a href="#equipe" class="hover:text-blue-600">Équipe</a>
+      <a href="#contact" class="hover:text-blue-600">Contact</a>
+    </div>
+
+    <!-- Drapeaux langues -->
+    <div class="flex items-center space-x-3">
+      <img src="fr.png" alt="Français" class="w-6 h-4 cursor-pointer" onclick="setLanguage('fr')">
+      <img src="en.png" alt="English" class="w-6 h-4 cursor-pointer" onclick="setLanguage('en')">
+      <img src="de.png" alt="Deutsch" class="w-6 h-4 cursor-pointer" onclick="setLanguage('de')">
+    </div>
+  </nav>
+</header>
+
 
       <ul id="mainMenu" class="hidden md:flex items-center gap-8 font-medium">
         <li><a href="#mission" class="hover:text-blue-600"
