@@ -38,6 +38,42 @@
         <img src="logo.png" alt="Helvetic AI Logo" class="w-10 h-10">
         <span class="text-xl font-bold text-gray-800">Helvetic AI</span>
       </div>
+      <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'fade-in-up': 'fadeInUp 0.8s ease-out',
+            'float': 'float 3s ease-in-out infinite',
+            'glow': 'glow 2s ease-in-out infinite alternate',
+            'slide-in': 'slideIn 0.6s ease-out',
+            'bounce-slow': 'bounce 3s infinite',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            glow: {
+              '0%': { boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)' },
+              '100%': { boxShadow: '0 0 30px rgba(59, 130, 246, 0.8)' },
+            },
+            slideIn: {
+              '0%': { transform: 'translateX(-100%)' },
+              '100%': { transform: 'translateX(0)' },
+            }
+          },
+          backdropBlur: {
+            xs: '2px',
+          }
+        }
+      }
+    }
       <ul class="hidden md:flex space-x-8 font-medium">
         <li><a href="#mission" class="hover:text-blue-600">Mission</a></li>
         <li><a href="#expertises" class="hover:text-blue-600">Expertises</a></li>
@@ -180,9 +216,7 @@
       <h2 class="text-4xl font-bold mb-12">Notre Méthodologie</h2>
       <section id="methodologie" class="py-20 bg-white">
   <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-4xl font-bold text-center text-gray-900 mb-12">
-      Notre Méthodologie
-    </h2>
+    <h2 class="text-4xl font-bold text-center text-gray-900 mb-12"
 
     <div class="timeline relative border-l-4 border-blue-600 ml-8">
 
