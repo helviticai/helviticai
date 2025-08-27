@@ -9,6 +9,25 @@
     .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out; }
     .fade-in.show { opacity: 1; transform: translateY(0); }
   </style>
+  .timeline-item .circle {
+  min-width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #2563eb; /* Bleu */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: 20px; /* espace entre le cercle et le texte */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.timeline-item .content {
+  flex: 1;
+  margin-left: 10px; /* évite que le texte colle au cercle */
+}
 </head>
 <body class="bg-white text-gray-900">
 
@@ -105,34 +124,72 @@
   <section id="methodologie" class="py-20 bg-white">
     <div class="container mx-auto px-6 text-center">
       <h2 class="text-4xl font-bold mb-12">Notre Méthodologie</h2>
-      <div class="relative border-l-4 border-blue-600 max-w-3xl mx-auto text-left">
-        <div class="mb-12 ml-8 fade-in">
-          <div class="absolute -left-6 w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">01</div>
+      <section id="methodologie" class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-4xl font-bold text-center text-gray-900 mb-12">
+      Notre Méthodologie
+    </h2>
+
+    <div class="timeline relative border-l-4 border-blue-600 ml-8">
+
+      <!-- Étape 1 -->
+      <div class="timeline-item flex items-start mb-10">
+        <div class="circle">01</div>
+        <div class="content">
           <h3 class="text-xl font-semibold">Analyse des besoins</h3>
-          <p class="text-gray-600">Compréhension en profondeur de vos processus financiers et identification des opportunités.</p>
-        </div>
-        <div class="mb-12 ml-8 fade-in">
-          <div class="absolute -left-6 w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">02</div>
-          <h3 class="text-xl font-semibold">Conception de solution</h3>
-          <p class="text-gray-600">Création d’une solution IA sur mesure intégrée à votre environnement.</p>
-        </div>
-        <div class="mb-12 ml-8 fade-in">
-          <div class="absolute -left-6 w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">03</div>
-          <h3 class="text-xl font-semibold">Développement & intégration</h3>
-          <p class="text-gray-600">Mise en œuvre agile avec validations régulières.</p>
-        </div>
-        <div class="mb-12 ml-8 fade-in">
-          <div class="absolute -left-6 w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">04</div>
-          <h3 class="text-xl font-semibold">Implémentation & formation</h3>
-          <p class="text-gray-600">Déploiement progressif accompagné de formations.</p>
-        </div>
-        <div class="ml-8 fade-in">
-          <div class="absolute -left-6 w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">05</div>
-          <h3 class="text-xl font-semibold">Suivi & optimisation continue</h3>
-          <p class="text-gray-600">Accompagnement post-déploiement et amélioration continue.</p>
+          <p class="text-gray-600">
+            Compréhension en profondeur de vos processus financiers et identification des opportunités d'amélioration.
+          </p>
         </div>
       </div>
+
+      <!-- Étape 2 -->
+      <div class="timeline-item flex items-start mb-10">
+        <div class="circle">02</div>
+        <div class="content">
+          <h3 class="text-xl font-semibold">Conception de solution</h3>
+          <p class="text-gray-600">
+            Création d’une solution IA sur mesure intégrée à votre environnement.
+          </p>
+        </div>
+      </div>
+
+      <!-- Étape 3 -->
+      <div class="timeline-item flex items-start mb-10">
+        <div class="circle">03</div>
+        <div class="content">
+          <h3 class="text-xl font-semibold">Développement & intégration</h3>
+          <p class="text-gray-600">
+            Mise en œuvre agile avec validations régulières pour garantir l’alignement.
+          </p>
+        </div>
+      </div>
+
+      <!-- Étape 4 -->
+      <div class="timeline-item flex items-start mb-10">
+        <div class="circle">04</div>
+        <div class="content">
+          <h3 class="text-xl font-semibold">Implémentation & formation</h3>
+          <p class="text-gray-600">
+            Déploiement progressif accompagné de formations pour assurer l’adoption.
+          </p>
+        </div>
+      </div>
+
+      <!-- Étape 5 -->
+      <div class="timeline-item flex items-start">
+        <div class="circle">05</div>
+        <div class="content">
+          <h3 class="text-xl font-semibold">Suivi & optimisation continue</h3>
+          <p class="text-gray-600">
+            Accompagnement post-déploiement, optimisation et amélioration continue.
+          </p>
+        </div>
+      </div>
+
     </div>
+  </div>
+</section>
   </section>
 
   <!-- Identité Suisse -->
