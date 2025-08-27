@@ -1,80 +1,37 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Helvitic AI - L'IA au service de la performance financière</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Helvetic AI - L'IA au service de la performance financière</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out; }
+    /* Effet fade-in au scroll */
+    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
     .fade-in.show { opacity: 1; transform: translateY(0); }
-  </style>
-  .timeline-item .circle {
-  min-width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #2563eb; /* Bleu */
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 14px;
-  margin-right: 20px; /* espace entre le cercle et le texte */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
 
-.timeline-item .content {
-  flex: 1;
-  margin-left: 10px; /* évite que le texte colle au cercle */
-}
+    /* Accordéons : transition d'ouverture */
+    .accordion-content { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+    .accordion-content.open { max-height: 1000px; }
+
+    /* Amélioration focus */
+    .focus-ring:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+
+    /* Petites améliorations typographiques */
+    html { scroll-behavior: smooth; }
+  </style>
 </head>
 <body class="bg-white text-gray-900">
 
-  <!-- Navbar -->
-  <header class="fixed top-0 left-0 w-full bg-white shadow z-50">
-    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-      <div class="flex items-center space-x-3">
-        <img src="logo.png" alt="Helvetic AI Logo" class="w-10 h-10">
-        <span class="text-xl font-bold text-gray-800">Helvetic AI</span>
-      </div>
-      <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          animation: {
-            'fade-in-up': 'fadeInUp 0.8s ease-out',
-            'float': 'float 3s ease-in-out infinite',
-            'glow': 'glow 2s ease-in-out infinite alternate',
-            'slide-in': 'slideIn 0.6s ease-out',
-            'bounce-slow': 'bounce 3s infinite',
-          },
-          keyframes: {
-            fadeInUp: {
-              '0%': { opacity: '0', transform: 'translateY(30px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            },
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-10px)' },
-            },
-            glow: {
-              '0%': { boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)' },
-              '100%': { boxShadow: '0 0 30px rgba(59, 130, 246, 0.8)' },
-            },
-            slideIn: {
-              '0%': { transform: 'translateX(-100%)' },
-              '100%': { transform: 'translateX(0)' },
-            }
-          },
-          backdropBlur: {
-            xs: '2px',
-          }
-        }
-      }
-    }
-      <ul class="hidden md:flex space-x-8 font-medium">
+  <!-- NAVBAR sticky -->
+  <header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur border-b border-gray-100 z-50">
+    <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center space-x-3">
+        <img src="logo.png" alt="Logo Helvetic AI" class="h-10 w-10 object-contain"/>
+        <span class="text-xl font-semibold">Helvetic AI</span>
+      </a>
+      <button id="mobileMenuBtn" class="md:hidden text-gray-700 focus-ring" aria-label="Menu">☰</button>
+      <ul id="mainMenu" class="hidden md:flex items-center gap-8 font-medium">
         <li><a href="#mission" class="hover:text-blue-600">Mission</a></li>
         <li><a href="#expertises" class="hover:text-blue-600">Expertises</a></li>
         <li><a href="#methodologie" class="hover:text-blue-600">Méthodologie</a></li>
@@ -82,305 +39,425 @@
         <li><a href="#contact" class="hover:text-blue-600">Contact</a></li>
       </ul>
     </nav>
+    <!-- Menu mobile -->
+    <div id="mobilePanel" class="hidden md:hidden border-t border-gray-100">
+      <ul class="px-6 py-3 space-y-3 font-medium">
+        <li><a href="#mission" class="block py-1 hover:text-blue-600">Mission</a></li>
+        <li><a href="#expertises" class="block py-1 hover:text-blue-600">Expertises</a></li>
+        <li><a href="#methodologie" class="block py-1 hover:text-blue-600">Méthodologie</a></li>
+        <li><a href="#identite" class="block py-1 hover:text-blue-600">Identité</a></li>
+        <li><a href="#contact" class="block py-1 hover:text-blue-600">Contact</a></li>
+      </ul>
+    </div>
   </header>
 
-  <!-- Hero -->
-  <section class="bg-[#0A0F2C] text-white min-h-screen flex items-center pt-20">
-    <div class="container mx-auto flex flex-col md:flex-row items-center justify-between px-6">
-      <div class="md:w-1/2 space-y-6">
+  <!-- HERO -->
+  <section class="bg-[#0A0F2C] text-white min-h-[86vh] flex items-center pt-28">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-10">
+      <div class="md:w-1/2 space-y-6 fade-in">
         <h1 class="text-4xl md:text-5xl font-bold leading-tight">
-          L'intelligence artificielle <br>
-          <span class="text-blue-500">au service de la performance financière.</span>
+          L'intelligence artificielle <br/>
+          <span class="text-blue-400">au service de la performance financière.</span>
         </h1>
         <p class="text-lg text-gray-300">
           Des solutions innovantes pour optimiser vos processus financiers et améliorer votre prise de décision.
         </p>
-        <div class="flex space-x-4">
-          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">Découvrir nos solutions</a>
-          <a href="#contact" class="bg-gray-700 hover:bg-gray-800 text-white px-6 py-3 rounded-lg">Nous contacter</a>
+        <div class="flex gap-4">
+          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium">Découvrir nos solutions</a>
+          <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium">Nous contacter</a>
         </div>
       </div>
-      <div class="md:w-1/2 flex justify-center mt-10 md:mt-0">
-        <img src="illustration.png" alt="Illustration IA" class="w-96">
+      <div class="md:w-1/2 flex justify-center fade-in">
+        <img src="illustration.png" alt="Illustration IA" class="w-[520px] max-w-full h-auto object-contain"/>
       </div>
     </div>
   </section>
 
-  <!-- Mission -->
-  <section id="mission" class="py-20 bg-white text-gray-800">
-    <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold mb-8">Notre Mission</h2>
-      <div class="flex flex-col md:flex-row md:space-x-10">
-        <div class="md:w-2/3 text-left space-y-4">
-          <h3 class="text-2xl text-blue-500 font-semibold">Transformer la finance par l'IA</h3>
-          <p>Chez HelveticAI, nous accompagnons les directions financières dans leur transformation digitale grâce à l'intelligence artificielle.</p>
-          <p>Notre expertise unique combine une connaissance approfondie des enjeux financiers avec les technologies les plus avancées.</p>
-          <p>Nous concevons des solutions sur mesure qui garantissent sécurité, précision et fiabilité des données – des valeurs fondamentales de notre identité suisse.</p>
+  <!-- NOTRE MISSION -->
+  <section id="mission" class="py-20">
+    <div class="container mx-auto px-6">
+      <h2 class="text-4xl font-bold text-center mb-12 fade-in">Notre Mission</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="md:col-span-2 space-y-4 fade-in">
+          <h3 class="text-2xl text-blue-600 font-semibold">Transformer la finance par l'IA</h3>
+          <p>
+            Chez Helvetic AI, nous accompagnons les directions financières dans leur transformation digitale grâce à des technologies d'IA fiables et utiles.
+          </p>
+          <p>
+            Notre expertise combine la connaissance des enjeux EPM (Enterprise Performance Management) avec des méthodes d'implémentation éprouvées, pour des résultats mesurables.
+          </p>
+          <p>
+            Sécurité, précision et fiabilité des données guident nos choix — des valeurs au cœur de notre identité suisse.
+          </p>
         </div>
-        <div class="md:w-1/3 bg-blue-50 p-6 rounded-lg text-left shadow">
-          <h4 class="text-xl font-semibold mb-4">Nos valeurs</h4>
+        <div class="bg-blue-50 p-6 rounded-xl shadow fade-in">
+          <h4 class="text-xl font-semibold mb-3">Nos engagements</h4>
           <ul class="space-y-2 text-gray-700">
-            <li>• Innovation</li>
-            <li>• Précision</li>
-            <li>• Fiabilité</li>
-            <li>• Sécurité</li>
-            <li>• Excellence</li>
+            <li>• Innovation pragmatique</li>
+            <li>• Précision des analyses</li>
+            <li>• Fiabilité opérationnelle</li>
+            <li>• Sécurité & conformité</li>
+            <li>• Excellence de service</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="expertise" class="py-20 bg-gray-50">
-  <div class="max-w-6xl mx-auto px-6 text-center">
-    <h2 class="text-4xl font-bold text-gray-900 mb-6">Notre Expertise</h2>
-    <p class="text-gray-600 mb-12 max-w-3xl mx-auto">
-      Helvitic AI met à votre disposition une expertise unique en intelligence artificielle, 
-      finance et automatisation des processus pour transformer vos défis en opportunités.
-    </p>
+  <!-- EXPERTISES (accordéons avec flèches) -->
+  <section id="expertises" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6 max-w-5xl">
+      <h2 class="text-4xl font-bold text-center mb-6 fade-in">Nos Expertises</h2>
+      <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in">
+        Explorez nos domaines d’intervention et découvrez comment Helvetic AI peut accélérer votre performance financière.
+      </p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      
-      <!-- Expertise 1 -->
-      <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition duration-300">
-        <div class="flex justify-center mb-4">
-          <span class="text-blue-600 text-5xl">🤖</span>
+      <div class="space-y-4">
+        <!-- 1. Prévision & budgétisation -->
+        <div class="border rounded-2xl shadow-sm bg-white fade-in">
+          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
+            <span class="flex items-center gap-3">
+              <span class="text-blue-600 font-bold">➤</span>
+              Prévision & Budgétisation
+            </span>
+            <span class="accordion-icon transition-transform">▼</span>
+          </button>
+          <div class="accordion-content px-6 pb-6 text-gray-700">
+            <p class="mb-4">
+              Modèles prédictifs pour des prévisions fiables, scénarios dynamiques, rolling forecast et budgets plus précis.
+            </p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Prévisions mensuelles/hebdomadaires basées sur l’IA</li>
+              <li>Scénarios What-if & sensibilités</li>
+              <li>Alignement Budget ↔ Réel (variance & drivers)</li>
+            </ul>
+          </div>
         </div>
-        <h3 class="text-xl font-semibold mb-2">Intelligence Artificielle</h3>
-        <p class="text-gray-600">
-          Développement de modèles IA performants pour automatiser vos tâches, améliorer vos prévisions et stimuler l’innovation.
-        </p>
-      </div>
 
-      <!-- Expertise 2 -->
-      <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition duration-300">
-        <div class="flex justify-center mb-4">
-          <span class="text-blue-600 text-5xl">📊</span>
+        <!-- 2. Automatisation des processus -->
+        <div class="border rounded-2xl shadow-sm bg-white fade-in">
+          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
+            <span class="flex items-center gap-3">
+              <span class="text-blue-600 font-bold">➤</span>
+              Automatisation des processus
+            </span>
+            <span class="accordion-icon transition-transform">▼</span>
+          </button>
+          <div class="accordion-content px-6 pb-6 text-gray-700">
+            <p class="mb-4">
+              RPA & IA pour réduire les tâches manuelles, fiabiliser les données et accélérer vos clôtures.
+            </p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Réconciliation automatique, extraction intelligente</li>
+              <li>Workflows d’approbation avec traçabilité</li>
+              <li>Réduction des erreurs, productivité accrue</li>
+            </ul>
+          </div>
         </div>
-        <h3 class="text-xl font-semibold mb-2">Analyse & Data Science</h3>
-        <p class="text-gray-600">
-          Valorisation de vos données grâce à des analyses avancées et des tableaux de bord intelligents pour une meilleure prise de décision.
-        </p>
-      </div>
 
-      <!-- Expertise 3 -->
-      <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition duration-300">
-        <div class="flex justify-center mb-4">
-          <span class="text-blue-600 text-5xl">⚡</span>
+        <!-- 3. Aide à la décision -->
+        <div class="border rounded-2xl shadow-sm bg-white fade-in">
+          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
+            <span class="flex items-center gap-3">
+              <span class="text-blue-600 font-bold">➤</span>
+              Aide à la décision
+            </span>
+            <span class="accordion-icon transition-transform">▼</span>
+          </button>
+          <div class="accordion-content px-6 pb-6 text-gray-700">
+            <p class="mb-4">
+              Insights stratégiques issus de vos données (KPI, alerting, recommandations) pour décider vite et bien.
+            </p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Tableaux de bord & alertes intelligentes</li>
+              <li>Analyse des marges, cash, risques</li>
+              <li>Recommandations actionnables par l’IA</li>
+            </ul>
+          </div>
         </div>
-        <h3 class="text-xl font-semibold mb-2">Automatisation</h3>
-        <p class="text-gray-600">
-          Mise en place de solutions d’automatisation pour réduire vos coûts, optimiser vos processus et améliorer votre productivité.
-        </p>
-      </div>
 
-      <!-- Expertise 4 -->
-      <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition duration-300">
-        <div class="flex justify-center mb-4">
-          <span class="text-blue-600 text-5xl">💡</span>
+        <!-- 4. Solutions EPM -->
+        <div class="border rounded-2xl shadow-sm bg-white fade-in">
+          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
+            <span class="flex items-center gap-3">
+              <span class="text-blue-600 font-bold">➤</span>
+              Solutions EPM
+            </span>
+            <span class="accordion-icon transition-transform">▼</span>
+          </button>
+          <div class="accordion-content px-6 pb-6 text-gray-700">
+            <p class="mb-4">
+              Conception et intégration EPM sur mesure, parfaitement adaptées à votre écosystème et vos contraintes.
+            </p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Modélisation, référentiels, gouvernance des données</li>
+              <li>Connecteurs systèmes & sécurité renforcée</li>
+              <li>Accompagnement au changement et formation</li>
+            </ul>
+          </div>
         </div>
-        <h3 class="text-xl font-semibold mb-2">Conseil Stratégique</h3>
-        <p class="text-gray-600">
-          Accompagnement personnalisé pour aligner vos projets IA avec vos objectifs business et assurer leur succès à long terme.
-        </p>
       </div>
-
-      <!-- Expertise 5 -->
-      <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition duration-300">
-        <div class="flex justify-center mb-4">
-          <span class="text-blue-600 text-5xl">🔒</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Sécurité & Conformité</h3>
-        <p class="text-gray-600">
-          Solutions conformes aux normes suisses et européennes garantissant la sécurité et la confidentialité de vos données.
-        </p>
-      </div>
-
-      <!-- Expertise 6 -->
-      <div class="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition duration-300">
-        <div class="flex justify-center mb-4">
-          <span class="text-blue-600 text-5xl">🌍</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Solutions sur Mesure</h3>
-        <p class="text-gray-600">
-          Développement d’applications et d’outils IA personnalisés, parfaitement adaptés à vos besoins spécifiques.
-        </p>
-      </div>
-
     </div>
-  </div>
-</section>
-  <!-- Méthodologie -->
-  <section id="methodologie" class="py-20 bg-white">
-    <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold mb-12">Notre Méthodologie</h2>
-      <section id="methodologie" class="py-20 bg-white">
-  <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-4xl font-bold text-center text-gray-900 mb-12"
-
-    <div class="timeline relative border-l-4 border-blue-600 ml-8">
-
-      <!-- Étape 1 -->
-      <div class="timeline-item flex items-start mb-10">
-        <div class="circle">01</div>
-        <div class="content">
-          <h3 class="text-xl font-semibold">Analyse des besoins</h3>
-          <p class="text-gray-600">
-            Compréhension en profondeur de vos processus financiers et identification des opportunités d'amélioration.
-          </p>
-        </div>
-      </div>
-
-      <!-- Étape 2 -->
-      <div class="timeline-item flex items-start mb-10">
-        <div class="circle">02</div>
-        <div class="content">
-          <h3 class="text-xl font-semibold">Conception de solution</h3>
-          <p class="text-gray-600">
-            Création d’une solution IA sur mesure intégrée à votre environnement.
-          </p>
-        </div>
-      </div>
-
-      <!-- Étape 3 -->
-      <div class="timeline-item flex items-start mb-10">
-        <div class="circle">03</div>
-        <div class="content">
-          <h3 class="text-xl font-semibold">Développement & intégration</h3>
-          <p class="text-gray-600">
-            Mise en œuvre agile avec validations régulières pour garantir l’alignement.
-          </p>
-        </div>
-      </div>
-
-      <!-- Étape 4 -->
-      <div class="timeline-item flex items-start mb-10">
-        <div class="circle">04</div>
-        <div class="content">
-          <h3 class="text-xl font-semibold">Implémentation & formation</h3>
-          <p class="text-gray-600">
-            Déploiement progressif accompagné de formations pour assurer l’adoption.
-          </p>
-        </div>
-      </div>
-
-      <!-- Étape 5 -->
-      <div class="timeline-item flex items-start">
-        <div class="circle">05</div>
-        <div class="content">
-          <h3 class="text-xl font-semibold">Suivi & optimisation continue</h3>
-          <p class="text-gray-600">
-            Accompagnement post-déploiement, optimisation et amélioration continue.
-          </p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
   </section>
 
-  <!-- Identité Suisse -->
+  <!-- MÉTHODOLOGIE (accordéons avec flèches) -->
+  <section id="methodologie" class="py-20">
+    <div class="container mx-auto px-6 max-w-5xl">
+      <h2 class="text-4xl font-bold text-center mb-10 fade-in">Notre Méthodologie</h2>
+
+      <div class="space-y-4">
+        <!-- 01 -->
+        <div class="bg-white border rounded-2xl shadow-sm fade-in">
+          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
+            <span class="flex items-center gap-3">
+              <span class="bg-blue-600 text-white rounded-full w-9 h-9 text-sm flex items-center justify-center font-bold">01</span>
+              Analyse des besoins
+            </span>
+            <span class="accordion-icon transition-transform">▼</span>
+          </button>
+          <div class="accordion-content px-6 pb-6 text-gray-700">
+            <p class="mb-3">Compréhension approfondie de vos processus et objectifs pour cibler les vrais leviers de performance.</p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Cartographie des flux & données</li>
+              <li>Identification des quick-wins et priorités</li>
+              <li>Roadmap réaliste et mesurable</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 02 -->
+        <div class="bg-white border rounded-2xl shadow-sm fade-in">
+          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
+            <span class="flex items-center gap-3">
+              <span class="bg-blue-600 text-white rounded-full w-9 h-9 text-sm flex items-center justify-center font-bold">02</span>
+              Conception de solution
+            </span>
+            <span class="accordion-icon transition-transform">▼</span>
+          </button>
+          <div class="accordion-content px-6 pb-6 text-gray-700">
+            <p class="mb-3">Design sur mesure en respectant vos contraintes IT, sécurité et conformité.</p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Choix technologiques adaptés</li>
+              <li>Prototypage rapide & validation métier</li>
+              <li>Plan d’intégration et de tests</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 03 -->
+        <div class="bg-white border rounded-2xl shadow-sm fade-in">
+          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
+            <span class="flex items-center gap-3">
+              <span class="bg-blue-600 text-white rounded-full w-9 h-9 text-sm flex items-center justify-center font-bold">03</span>
+              Développement & intégration
+            </span>
+            <span class="accordion-icon transition-transform">▼</span>
+          </button>
+          <div class="accordion-content px-6 pb-6 text-gray-700">
+            <p class="mb-3">Méthodologie agile avec points de validation réguliers.</p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Sprints courts et démonstrations</li>
+              <li>Tests unitaires & d’intégration</li>
+              <li>Qualité et sécurité by design</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 04 -->
+        <div class="bg-white border rounded-2xl shadow-sm fade-in">
+          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
+            <span class="flex items-center gap-3">
+              <span class="bg-blue-600 text-white rounded-full w-9 h-9 text-sm flex items-center justify-center font-bold">04</span>
+              Implémentation & formation
+            </span>
+            <span class="accordion-icon transition-transform">▼</span>
+          </button>
+          <div class="accordion-content px-6 pb-6 text-gray-700">
+            <p class="mb-3">Déploiement progressif, formation des équipes et transfert de compétences.</p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Pilotes, montée en charge</li>
+              <li>Guides & sessions de formation</li>
+              <li>Support au démarrage</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 05 -->
+        <div class="bg-white border rounded-2xl shadow-sm fade-in">
+          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
+            <span class="flex items-center gap-3">
+              <span class="bg-blue-600 text-white rounded-full w-9 h-9 text-sm flex items-center justify-center font-bold">05</span>
+              Suivi & optimisation continue
+            </span>
+            <span class="accordion-icon transition-transform">▼</span>
+          </button>
+          <div class="accordion-content px-6 pb-6 text-gray-700">
+            <p class="mb-3">Accompagnement post-déploiement pour améliorer durablement la performance.</p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Monitoring & KPI</li>
+              <li>Améliorations continues</li>
+              <li>Évolutions fonctionnelles</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IDENTITÉ SUISSE -->
   <section id="identite" class="py-20 bg-[#0A0F2C] text-white">
     <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold mb-12">Notre Identité Suisse</h2>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div class="bg-white text-gray-900 p-6 rounded-lg shadow">
+      <h2 class="text-4xl font-bold mb-10 fade-in">Notre Identité Suisse</h2>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
           <h3 class="font-semibold text-xl mb-2">Fiabilité</h3>
-          <p>Des solutions respectant les plus hauts standards de qualité.</p>
+          <p>Des standards élevés et des résultats constants pour vos processus critiques.</p>
         </div>
-        <div class="bg-white text-gray-900 p-6 rounded-lg shadow">
+        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
           <h3 class="font-semibold text-xl mb-2">Précision</h3>
-          <p>Une rigueur suisse pour des analyses financières fiables.</p>
+          <p>Rigueur et contrôle pour des analyses financières de confiance.</p>
         </div>
-        <div class="bg-white text-gray-900 p-6 rounded-lg shadow">
+        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
           <h3 class="font-semibold text-xl mb-2">Sécurité</h3>
-          <p>Protection de vos données avec conformité stricte.</p>
+          <p>Protection avancée des données et conformité stricte.</p>
         </div>
-        <div class="bg-white text-gray-900 p-6 rounded-lg shadow">
+        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
           <h3 class="font-semibold text-xl mb-2">Innovation</h3>
-          <p>Alliance entre excellence suisse et innovation IA.</p>
+          <p>Technologies IA au service d’une performance durable.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact -->
-  <section id="contact" class="py-20 bg-white">
+  <!-- CONTACT -->
+  <section id="contact" class="py-20">
     <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold text-center mb-6">Contactez-nous</h2>
-      <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-        Intéressé par nos solutions d'IA pour optimiser votre performance financière ? Contactez-nous pour discuter de votre projet.
+      <h2 class="text-4xl font-bold text-center mb-6 fade-in">Contactez-nous</h2>
+      <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in">
+        Parlons de votre projet et voyons comment nos solutions d’IA peuvent booster votre performance financière.
       </p>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div class="bg-blue-50 p-8 rounded-xl shadow">
+        <!-- Infos -->
+        <div class="bg-blue-50 p-8 rounded-xl shadow fade-in">
           <h3 class="text-2xl font-semibold mb-4">Parlons de votre projet</h3>
-          <p class="text-gray-700 mb-6">Notre équipe est disponible pour échanger sur vos besoins.</p>
+          <p class="text-gray-700 mb-6">Nous répondons rapidement et proposons des pistes concrètes dès le premier échange.</p>
           <ul class="space-y-4 text-gray-700">
-            <li class="flex items-center space-x-3"><span class="text-blue-600 text-xl">📍</span><span><strong>Adresse :</strong> Rue de Chantepoulet 10, 1201 Genève, Suisse</span></li>
-            <li class="flex items-center space-x-3"><span class="text-blue-600 text-xl">✉️</span><span><strong>Email :</strong> contact@helveticai.ch</span></li>
-            <li class="flex items-center space-x-3"><span class="text-blue-600 text-xl">📧</span><span><strong>Support :</strong> helviticaich@gmail.com</span></li>
-            <li class="flex items-center space-x-3"><span class="text-blue-600 text-xl">📞</span><span><strong>Téléphone :</strong> +41 22 123 45 67</span></li>
+            <li class="flex items-center gap-3">
+              <span class="text-blue-600 text-xl">📍</span>
+              <span><strong>Adresse :</strong> Rue de Chantepoulet 10, 1201 Genève, Suisse</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="text-blue-600 text-xl">✉️</span>
+              <span><strong>Email :</strong> contact@helveticai.ch</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="text-blue-600 text-xl">📧</span>
+              <span><strong>Support :</strong> helviticaich@gmail.com</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="text-blue-600 text-xl">📞</span>
+              <span><strong>Téléphone :</strong> +41 22 123 45 67</span>
+            </li>
           </ul>
         </div>
-        <form action="https://formsubmit.co/helviticaich@gmail.com" method="POST" class="space-y-4 bg-gray-50 p-8 rounded-xl shadow">
+
+        <!-- Formulaire -->
+        <form action="https://formsubmit.co/helviticaich@gmail.com" method="POST" class="space-y-4 bg-gray-50 p-8 rounded-xl shadow fade-in">
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_template" value="box">
           <input type="hidden" name="_subject" value="Nouveau message depuis Helvetic AI">
-          <input type="hidden" name="_next" value="https://tonsite.com/merci.html">
+          <!-- OPTIONNEL: remplace l'URL par ta page de remerciement -->
+          <input type="hidden" name="_next" value="https://helviticai.github.io/helviticai/">
+
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input type="text" name="name" placeholder="Votre nom" required class="w-full p-3 border rounded-lg">
             <input type="email" name="email" placeholder="Votre email" required class="w-full p-3 border rounded-lg">
           </div>
           <input type="text" name="company" placeholder="Votre entreprise" class="w-full p-3 border rounded-lg">
           <textarea name="message" placeholder="Votre message" rows="5" required class="w-full p-3 border rounded-lg"></textarea>
-          <label class="flex items-center space-x-2 text-sm text-gray-600"><input type="checkbox" required><span>J'accepte la politique de confidentialité.</span></label>
-          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition">Envoyer</button>
+
+          <label class="flex items-center gap-2 text-sm text-gray-600">
+            <input type="checkbox" required>
+            <span>J'accepte que mes données soient traitées conformément à la politique de confidentialité.</span>
+          </label>
+
+          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition">
+            Envoyer
+          </button>
         </form>
       </div>
     </div>
   </section>
 
-  <!-- HelveticBot -->
-  <div id="bot-button" class="fixed bottom-6 right-6 bg-[#0A0F2C] text-white w-14 h-14 flex items-center justify-center rounded-full shadow-lg cursor-pointer">💬</div>
-  <div id="bot-window" class="hidden fixed bottom-20 right-6 w-80 h-96 bg-white shadow-lg rounded-xl border overflow-hidden">
-    <div class="bg-[#0A0F2C] text-white p-4 font-semibold">HelveticBot</div>
-    <div class="p-4 h-72 overflow-y-auto text-sm text-gray-700" id="bot-messages">
+  <!-- HELVETICBOT (bleu) -->
+  <button id="bot-button" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl" aria-label="Ouvrir HelveticBot">💬</button>
+  <div id="bot-window" class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-2xl border overflow-hidden">
+    <div class="bg-blue-700 text-white p-4 font-semibold">HelveticBot</div>
+    <div id="bot-messages" class="p-4 h-72 overflow-y-auto text-sm text-gray-700">
       <p class="text-gray-500">Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?</p>
     </div>
     <form id="bot-form" class="flex border-t">
-      <input type="text" id="bot-input" placeholder="Écrivez un message..." class="flex-1 p-2 text-sm">
-      <button type="submit" class="px-4 text-blue-600">➤</button>
+      <input type="text" id="bot-input" placeholder="Écrivez un message..." class="flex-1 p-2 text-sm outline-none">
+      <button type="submit" class="px-4 text-blue-700 font-bold">➤</button>
     </form>
   </div>
 
-  <!-- Script Fade-in + Bot -->
+  <!-- SCRIPTS (menu, accordéons, fade-in, bot) -->
   <script>
+    // Menu mobile
+    const mbBtn = document.getElementById('mobileMenuBtn');
+    const mbPanel = document.getElementById('mobilePanel');
+    const mainMenu = document.getElementById('mainMenu');
+    mbBtn?.addEventListener('click', () => {
+      mbPanel.classList.toggle('hidden');
+    });
+
+    // IntersectionObserver pour fade-in
     const faders = document.querySelectorAll('.fade-in');
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('show');
-      });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
     }, { threshold: 0.2 });
-    faders.forEach(f => obs.observe(f));
+    faders.forEach(el => io.observe(el));
 
-    const botBtn = document.getElementById("bot-button");
-    const botWin = document.getElementById("bot-window");
-    botBtn.addEventListener("click", () => botWin.classList.toggle("hidden"));
+    // Accordéons (Expertises & Méthodologie)
+    document.querySelectorAll('.accordion-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const content = btn.parentElement.querySelector('.accordion-content');
+        const icon = btn.querySelector('.accordion-icon');
 
-    const botForm = document.getElementById("bot-form");
-    const botInput = document.getElementById("bot-input");
-    const botMessages = document.getElementById("bot-messages");
-    botForm.addEventListener("submit", e => {
+        // fermer les autres (comportement type "un seul ouvert")
+        document.querySelectorAll('.accordion-content').forEach((c) => {
+          if (c !== content) c.classList.remove('open');
+        });
+        document.querySelectorAll('.accordion-icon').forEach((i) => {
+          if (i !== icon) i.classList.remove('rotate-180');
+        });
+
+        // toggle courant
+        content.classList.toggle('open');
+        icon.classList.toggle('rotate-180');
+      });
+    });
+
+    // HelveticBot
+    const botBtn = document.getElementById('bot-button');
+    const botWin = document.getElementById('bot-window');
+    const botForm = document.getElementById('bot-form');
+    const botInput = document.getElementById('bot-input');
+    const botMessages = document.getElementById('bot-messages');
+
+    botBtn.addEventListener('click', () => botWin.classList.toggle('hidden'));
+
+    botForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const msg = botInput.value.trim();
       if (!msg) return;
       botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
-      botMessages.innerHTML += `<p class="text-blue-600"><strong>Bot:</strong> Merci pour votre message, un conseiller vous contactera bientôt.</p>`;
-      botInput.value = "";
+      // Réponse simulée
+      botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> Merci pour votre message, un conseiller vous contactera rapidement.</p>`;
+      botInput.value = '';
       botMessages.scrollTop = botMessages.scrollHeight;
     });
   </script>
-
 </body>
 </html>
