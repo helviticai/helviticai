@@ -29,14 +29,20 @@
     </a>
 
     <!-- Liens de navigation -->
-    <div class="hidden md:flex space-x-8 text-gray-800 font-medium">
-      <a href="#mission" class="hover:text-blue-600">Mission</a>
-      <a href="#expertises" class="hover:text-blue-600">Expertises</a>
-      <a href="#methodologie" class="hover:text-blue-600">Méthodologie</a>
-      <a href="#identite" class="hover:text-blue-600">Identité</a>
-      <a href="#equipe" class="hover:text-blue-600">Équipe</a>
-      <a href="#contact" class="hover:text-blue-600">Contact</a>
-    </div>
+    <a href="#" class="flex items-center space-x-3">
+  <img src="logo.png" alt="Logo Helvetic AI" class="h-10 w-10 object-contain"/>
+  <span class="text-xl font-semibold">Helvetic AI</span>
+</a>
+
+<!-- Menu desktop -->
+<ul class="hidden md:flex items-center gap-8 font-medium ml-10">
+  <li><a href="#mission">Mission</a></li>
+  <li><a href="#expertises">Expertises</a></li>
+  <li><a href="#methodologie">Méthodologie</a></li>
+  <li><a href="#identite">Identité</a></li>
+  <li><a href="#equipe">Équipe</a></li>
+  <li><a href="#contact">Contact</a></li>
+</ul>
 
     <!-- Drapeaux langues -->
     <div class="flex gap-3 items-center absolute top-4 right-6">
@@ -88,11 +94,17 @@
                data-fr="Contact" data-en="Contact" data-de="Kontakt">Contact</a></li>
       </ul>
 
-      <div class="flex items-center space-x-2">
-        <button onclick="setLanguage('fr')" class="text-xl" aria-label="Français">🇫🇷</button>
-        <button onclick="setLanguage('en')" class="text-xl" aria-label="English">🇬🇧</button>
-        <button onclick="setLanguage('de')" class="text-xl" aria-label="Deutsch">🇩🇪</button>
-      </div>
+      <div class="flex items-center space-x-3 ml-4">
+  <button onclick="setLanguage('fr')" aria-label="Français" class="focus:outline-none">
+    <img src="fr.png" alt="Français" class="w-6 h-6 object-cover rounded-sm hover:scale-110 transition"/>
+  </button>
+  <button onclick="setLanguage('en')" aria-label="English" class="focus:outline-none">
+    <img src="en.png" alt="English" class="w-6 h-6 object-cover rounded-sm hover:scale-110 transition"/>
+  </button>
+  <button onclick="setLanguage('de')" aria-label="Deutsch" class="focus:outline-none">
+    <img src="de.png" alt="Deutsch" class="w-6 h-6 object-cover rounded-sm hover:scale-110 transition"/>
+  </button>
+</div>
 
       <button id="mobileMenuBtn" class="md:hidden text-gray-700 focus-ring" aria-label="Menu">☰</button>
     </nav>
