@@ -3,100 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Helvitic AI</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>HelviticAI - IA & Innovation</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Script Google reCAPTCHA -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
-<body class="bg-white text-gray-800">
+<body>
 
-  <!-- Hero -->
-  <section id="hero" class="relative bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 text-blue-900 text-center py-32 px-6 overflow-hidden">
-    <h1 class="text-5xl md:text-7xl font-bold mb-6">Helvitic AI</h1>
-    <p class="text-xl md:text-2xl mb-8 opacity-90">L'IA au service de votre entreprise</p>
-    <div class="flex justify-center gap-6">
-      <a href="#services" class="bg-blue-600 text-white px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl">Découvrir nos services</a>
-      <a href="#contact" class="border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-full font-bold hover:bg-blue-600 hover:text-white">Demander un devis</a>
+  <!-- ✅ Navbar avec logo -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
+    <div class="container">
+      <!-- Logo + Texte -->
+      <a class="navbar-brand d-flex align-items-center fw-bold" href="#home">
+        <img src="assets/logo.png" alt="HelviticAI Logo" width="40" height="40" class="me-2">
+        HelviticAI
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#about">À propos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#services">Solutions IA</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item">
+            <a class="nav-link btn btn-primary text-white px-3 ms-2" href="#contact-form">Consultation Gratuite</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ✅ Hero -->
+  <header id="home" class="bg-primary text-white text-center d-flex align-items-center" style="height:100vh;">
+    <div class="container">
+      <img src="assets/logo.png" alt="HelviticAI Logo" width="100" class="mb-3">
+      <h1 class="display-4 fw-bold">Bienvenue chez HelviticAI</h1>
+      <p class="lead">Nous aidons les entreprises à exploiter la puissance de l’Intelligence Artificielle.</p>
+      <a href="#services" class="btn btn-light btn-lg mt-3">Découvrir nos solutions</a>
+    </div>
+  </header>
+
+  <!-- ✅ Section À propos -->
+  <section id="about" class="py-5">
+    <div class="container text-center">
+      <h2 class="mb-4">À propos</h2>
+      <p class="lead">HelviticAI accompagne les entreprises dans l’intégration de solutions IA innovantes afin d’améliorer leurs performances et leur compétitivité.</p>
     </div>
   </section>
 
-  <!-- Services -->
-  <section id="services" class="py-20 px-6 max-w-7xl mx-auto">
-    <div class="text-center mb-16">
-      <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-4">Nos Services</h2>
-      <p class="text-xl text-gray-600">Découvrez comment notre expertise peut transformer votre entreprise</p>
-    </div>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-      <div class="bg-white p-8 rounded-2xl shadow-lg">
-        <div class="text-4xl mb-4">⚡</div>
-        <h3 class="text-2xl font-bold mb-4">Automatisation</h3>
-        <p>Optimisez vos processus avec des solutions intelligentes qui réduisent les tâches répétitives.</p>
-      </div>
-      <div class="bg-white p-8 rounded-2xl shadow-lg">
-        <div class="text-4xl mb-4">📊</div>
-        <h3 class="text-2xl font-bold mb-4">Analyse de données</h3>
-        <p>Exploitez vos données pour prendre de meilleures décisions stratégiques et opérationnelles.</p>
-      </div>
-      <div class="bg-white p-8 rounded-2xl shadow-lg">
-        <div class="text-4xl mb-4">🤖</div>
-        <h3 class="text-2xl font-bold mb-4">IA Personnalisée</h3>
-        <p>Des modèles d'intelligence artificielle adaptés spécifiquement à vos besoins métiers.</p>
-      </div>
-      <div class="bg-white p-8 rounded-2xl shadow-lg">
-        <div class="text-4xl mb-4">🌐</div>
-        <h3 class="text-2xl font-bold mb-4">Innovation digitale</h3>
-        <p>Accompagnement complet dans la transformation numérique de votre entreprise.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- À propos -->
-  <section id="apropos" class="py-20 px-6 bg-gradient-to-br from-blue-50 to-blue-100">
-    <div class="max-w-6xl mx-auto text-center mb-12">
-      <h2 class="text-4xl md:text-5xl font-bold mb-6">À propos de nous</h2>
-      <p class="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
-        Helvitic AI est une startup innovante spécialisée dans l'intelligence artificielle appliquée aux entreprises. 
-        Nous croyons fermement que l'IA doit être accessible, compréhensible et bénéfique pour tous. 
-        Notre équipe d'experts combine une expertise technique pointue avec une compréhension profonde 
-        des enjeux business pour livrer des solutions qui créent une valeur réelle et mesurable.
-      </p>
-    </div>
-
-    <!-- ✅ Nouveau design stats -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition">
-        <div class="text-3xl font-bold text-blue-600 mb-2">50+</div>
-        <div class="text-gray-600">Projets réalisés</div>
-      </div>
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition">
-        <div class="text-3xl font-bold text-purple-600 mb-2">24/7</div>
-        <div class="text-gray-600">Support client</div>
-      </div>
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition">
-        <div class="text-3xl font-bold text-green-600 mb-2">99%</div>
-        <div class="text-gray-600">Satisfaction client</div>
-      </div>
-      <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition">
-        <div class="text-3xl font-bold text-orange-600 mb-2">5+</div>
-        <div class="text-gray-600">Années d'expérience</div>
+  <!-- ✅ Section Services -->
+  <section id="services" class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-4">Nos Solutions IA</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+              <h5 class="card-title">Chatbots & Assistants</h5>
+              <p class="card-text">Automatisez votre relation client grâce à des chatbots intelligents et personnalisés.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+              <h5 class="card-title">Analyse de Données</h5>
+              <p class="card-text">Exploitez vos données pour prendre des décisions stratégiques basées sur l’IA.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+              <h5 class="card-title">Vision par Ordinateur</h5>
+              <p class="card-text">Des solutions d’IA capables de détecter, analyser et comprendre les images et vidéos.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact -->
-  <section id="contact" class="py-20 px-6 max-w-4xl mx-auto">
-    <div class="text-center mb-16">
-      <h2 class="text-4xl md:text-5xl font-bold mb-4">Parlons de votre projet</h2>
-      <p class="text-xl text-gray-600">Prêt à transformer votre entreprise avec l'IA ? Contactez-nous dès aujourd'hui.</p>
+  <!-- ✅ Section Contact -->
+  <section id="contact" class="py-5">
+    <div class="container text-center">
+      <h2 class="mb-4">Contact</h2>
+      <p class="lead">Vous avez une question ? Contactez-nous dès aujourd’hui et discutons de votre projet IA.</p>
+      <a href="#contact-form" class="btn btn-primary btn-lg">Réserver une consultation gratuite</a>
     </div>
-    <div class="bg-white p-8 rounded-2xl shadow-xl">
-      <form class="space-y-6">
-        <input type="text" placeholder="Nom complet" class="w-full p-4 border rounded-xl"/>
-        <input type="email" placeholder="Adresse email" class="w-full p-4 border rounded-xl"/>
-        <input type="text" placeholder="Entreprise" class="w-full p-4 border rounded-xl"/>
-        <textarea rows="6" placeholder="Décrivez votre projet..." class="w-full p-4 border rounded-xl"></textarea>
-        <button class="w-full bg-blue-600 text-white py-4 rounded-xl font-semibold hover:bg-blue-700">Envoyer le message</button>
+  </section>
+
+  <!-- ✅ Formulaire Consultation Gratuite -->
+  <section id="contact-form" class="bg-light py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Réserver une Consultation Gratuite</h2>
+
+      <form action="https://formsubmit.co/helviticaich@gmail.com" method="POST" 
+            class="mx-auto col-md-6 bg-white p-4 rounded shadow">
+
+        <!-- Champ Nom -->
+        <div class="mb-3">
+          <label for="nom" class="form-label">Nom :</label>
+          <input type="text" class="form-control" id="nom" name="nom" required>
+        </div>
+
+        <!-- Champ Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">E-mail :</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <!-- Champ Message -->
+        <div class="mb-3">
+          <label for="message" class="form-label">Message :</label>
+          <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+        </div>
+
+        <!-- RGPD -->
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" id="rgpd" required>
+          <label class="form-check-label" for="rgpd">
+            J’accepte la <a href="#">politique de confidentialité</a>.
+          </label>
+        </div>
+
+        <!-- ✅ reCAPTCHA -->
+        <div class="g-recaptcha mb-3" data-sitekey="VOTRE_SITE_KEY_ICI"></div>
+
+        <!-- Champs cachés FormSubmit -->
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" value="https://votre-site.com/#merci">
+
+        <!-- Bouton envoyer -->
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">📩 Envoyer ma demande</button>
+        </div>
       </form>
     </div>
   </section>
+
+  <!-- ✅ Section Merci -->
+  <section id="merci" class="py-5" style="display:none;">
+    <div class="container text-center">
+      <h2 class="text-success">✅ Merci pour votre message !</h2>
+      <p>Nous reviendrons vers vous très bientôt.</p>
+      <a href="#home" class="btn btn-primary mt-3">Retour à l’accueil</a>
+    </div>
+  </section>
+
+  <!-- ✅ Footer -->
+  <footer class="bg-dark text-white text-center py-3">
+    <p class="mb-0">&copy; 2025 HelviticAI - Tous droits réservés | <a href="#" class="text-white">Politique de confidentialité</a></p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Script Merci auto -->
+  <script>
+    if(window.location.hash === "#merci") {
+      document.querySelector("#merci").style.display = "block";
+      document.querySelector("#contact-form").style.display = "none";
+    }
+  </script>
 
 </body>
 </html>
