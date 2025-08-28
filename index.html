@@ -96,37 +96,62 @@
 </header>
 <!-- HERO -->
 <section class="bg-[#0A0F2C] text-white min-h-[68vh] flex items-center pt-28">
-<div class="container mx-auto px-6 flex flex-col items-start justify-center gap-8">
-<div class="space-y-6 fade-in max-w-3xl">
-<h1 class="text-4xl md:text-5xl font-bold leading-tight lang fr active">
-          L'intelligence artificielle <br/><span class="text-blue-400">au service de la performance financière.</span>
-</h1>
-<h1 class="text-4xl md:text-5xl font-bold leading-tight lang en">
-          Artificial intelligence <br/><span class="text-blue-400">serving financial performance.</span>
-</h1>
-<h1 class="text-4xl md:text-5xl font-bold leading-tight lang de">
-          Künstliche Intelligenz <br/><span class="text-blue-400">im Dienste der finanziellen Leistung.</span>
-</h1>
-<p class="text-lg text-gray-300 lang fr active">
-          Des solutions innovantes pour optimiser vos processus financiers et améliorer votre prise de décision.
-        </p>
-<p class="text-lg text-gray-300 lang en">
-          Innovative solutions to optimize your financial processes and enhance decision-making.
-        </p>
-<p class="text-lg text-gray-300 lang de">
-          Innovative Lösungen zur Optimierung Ihrer Finanzprozesse und Verbesserung der Entscheidungsfindung.
-        </p>
-<div class="flex gap-4">
-<a class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang fr active" href="#expertises">Découvrir nos solutions</a>
-<a class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang en" href="#expertises">Discover our solutions</a>
-<a class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang de" href="#expertises">Unsere Lösungen entdecken</a>
-<a class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang fr active" href="#contact">Nous contacter</a>
-<a class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang en" href="#contact">Contact us</a>
-<a class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang de" href="#contact">Kontakt aufnehmen</a>
-</div>
-</div>
-</div>
+  <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
+    
+    <!-- Texte -->
+    <div class="space-y-6 fade-in max-w-3xl md:w-1/2">
+      <h1 class="text-4xl md:text-5xl font-bold leading-tight lang fr active">
+        L'intelligence artificielle <br/><span class="text-blue-400">au service de la performance financière.</span>
+      </h1>
+      <h1 class="text-4xl md:text-5xl font-bold leading-tight lang en">
+        Artificial intelligence <br/><span class="text-blue-400">serving financial performance.</span>
+      </h1>
+      <h1 class="text-4xl md:text-5xl font-bold leading-tight lang de">
+        Künstliche Intelligenz <br/><span class="text-blue-400">im Dienste der finanziellen Leistung.</span>
+      </h1>
+
+      <p class="text-lg text-gray-300 lang fr active">
+        Des solutions innovantes pour optimiser vos processus financiers et améliorer votre prise de décision.
+      </p>
+      <p class="text-lg text-gray-300 lang en">
+        Innovative solutions to optimize your financial processes and enhance decision-making.
+      </p>
+      <p class="text-lg text-gray-300 lang de">
+        Innovative Lösungen zur Optimierung Ihrer Finanzprozesse und Verbesserung der Entscheidungsfindung.
+      </p>
+
+      <div class="flex gap-4">
+        <a class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang fr active" href="#expertises">Découvrir nos solutions</a>
+        <a class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang en" href="#expertises">Discover our solutions</a>
+        <a class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang de" href="#expertises">Unsere Lösungen entdecken</a>
+        <a class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang fr active" href="#contact">Nous contacter</a>
+        <a class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang en" href="#contact">Contact us</a>
+        <a class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang de" href="#contact">Kontakt aufnehmen</a>
+      </div>
+    </div>
+
+    <!-- Image Robot -->
+    <div class="md:w-1/2 flex justify-center mt-10 md:mt-0">
+      <img src="robot_logo.png" alt="Helvitic AI Robot" class="w-72 md:w-[420px] floating-robot">
+    </div>
+
+  </div>
 </section>
+
+<!-- Animation CSS -->
+<style>
+  .floating-robot {
+    animation: float 4s ease-in-out infinite;
+    transform-style: preserve-3d;
+  }
+
+  @keyframes float {
+    0%   { transform: translateY(0px) rotateY(0deg); }
+    50%  { transform: translateY(-20px) rotateY(10deg); }
+    100% { transform: translateY(0px) rotateY(0deg); }
+  }
+</style>
+
 <!-- MISSION -->
 <section class="py-20" id="mission">
 <div class="container mx-auto px-6">
