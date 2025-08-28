@@ -598,22 +598,45 @@
 </div>
 </div>
 </footer>
-<!-- HELVITICBOT (optionnel) -->
-<button aria-label="Open HelviticBot" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl" id="bot-button">💬</button>
-<div class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-2xl border overflow-hidden" id="bot-window">
-<div class="bg-blue-700 text-white p-4 font-semibold">HelviticBot</div>
-<div class="p-4 h-72 overflow-y-auto text-sm text-gray-700" id="bot-messages">
-<p class="text-gray-500 lang fr active">Bonjour 👋 Je suis HelviticBot. Comment puis-je vous aider ?</p>
-<p class="text-gray-500 lang en">Hello 👋 I’m HelviticBot. How can I help?</p>
-<p class="text-gray-500 lang de">Hallo 👋 Ich bin HelviticBot. Wie kann ich helfen?</p>
-</div>
-<form class="flex border-t" id="bot-form">
-<input class="flex-1 p-2 text-sm outline-none" id="bot-input" placeholder="Écrivez un message... / Write a message..." type="text"/>
-<button class="px-4 text-blue-700 font-bold" type="submit">➤</button>
-</form>
-</div>
-<!-- SCRIPTS -->
 <script>
+  const botBtn = document.getElementById('bot-button');
+  const botWin = document.getElementById('bot-window');
+  const botForm = document.getElementById('bot-form');
+  const botInput = document.getElementById('bot-input');
+  const botMessages = document.getElementById('bot-messages');
+
+  // Ouvrir/fermer la fenêtre du bot
+  botBtn.addEventListener('click', () => botWin.classList.toggle('hidden'));
+
+  // Quand l'utilisateur envoie un message
+  botForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = botInput.value.trim();
+    if (!msg) return;
+
+    // Afficher le message de l'utilisateur
+    botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
+    botInput.value = '';
+    botMessages.scrollTop = botMessages.scrollHeight;
+
+    // Réponse du bot depuis ton serveur Node.js
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg })
+      });
+
+      const data = await res.json();
+      botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> ${data.reply}</p>`;
+      botMessages.scrollTop = botMessages.scrollHeight;
+    } catch (err) {
+      botMessages.innerHTML += `<p class="text-red-600"><strong>Erreur:</strong> Impossible de contacter l'IA.</p>`;
+    }
+  });
+</script>
+</body>
+
     // Mobile menu
     const mbBtn = document.getElementById('mobileMenuBtn');
     const mbPanel = document.getElementById('mobilePanel');
@@ -661,23 +684,6 @@
       setTimeout(()=> statusEl?.classList.add('hidden'), 4000);
     });
 
-    // Bot (demo)
-    const botBtn = document.getElementById('bot-button');
-    const botWin = document.getElementById('bot-window');
-    const botForm = document.getElementById('bot-form');
-    const botInput = document.getElementById('bot-input');
-    const botMessages = document.getElementById('bot-messages');
-    botBtn.addEventListener('click', () => botWin.classList.toggle('hidden'));
-    botForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const msg = botInput.value.trim();
-      if (!msg) return;
-      botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
-      botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> Merci pour votre message, un conseiller vous contactera rapidement.</p>`;
-      botInput.value = '';
-      botMessages.scrollTop = botMessages.scrollHeight;
-    });
-  </script>
 </body>
 </html>
 
