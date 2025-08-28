@@ -683,6 +683,69 @@
       statusEl?.classList.remove('hidden');
       setTimeout(()=> statusEl?.classList.add('hidden'), 4000);
     });
+<!-- HelviticBot Button -->
+<button aria-label="Ouvrir HelviticBot" 
+        style="position:fixed; bottom:20px; right:20px; background:#4CAF50; color:white; 
+               width:60px; height:60px; border:none; border-radius:50%; 
+               box-shadow:0 4px 8px rgba(0,0,0,0.2); font-size:24px; cursor:pointer; z-index:9999;"
+        onclick="document.getElementById('bot-window').classList.toggle('hidden')">
+  💬
+</button>
+
+<!-- HelviticBot Chat Window -->
+<div id="bot-window" 
+     class="hidden" 
+     style="position:fixed; bottom:90px; right:20px; width:350px; height:450px; 
+            background:white; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.2); 
+            display:flex; flex-direction:column; overflow:hidden; z-index:9999;">
+
+  <div style="background:#4CAF50; color:white; padding:12px; font-weight:bold;">
+    💬 HelviticBot
+  </div>
+
+  <div id="bot-messages" style="flex:1; padding:10px; overflow-y:auto; font-size:14px; background:#fafafa;">
+    <p style="color:gray;">Bonjour 👋 Je suis HelviticBot. Comment puis-je vous aider ?</p>
+  </div>
+
+  <div style="display:flex; border-top:1px solid #ddd;">
+    <input id="bot-input" type="text" placeholder="Écrivez un message..." 
+           style="flex:1; border:none; padding:10px; outline:none;">
+    <button onclick="sendBotMessage()" 
+            style="background:#4CAF50; color:white; border:none; padding:10px 15px; cursor:pointer;">
+      ➤
+    </button>
+  </div>
+</div>
+
+<script>
+  const botMessages = document.getElementById("bot-messages");
+  const botInput = document.getElementById("bot-input");
+
+  async function sendBotMessage() {
+    const msg = botInput.value.trim();
+    if (!msg) return;
+    botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
+    botInput.value = "";
+    botMessages.scrollTop = botMessages.scrollHeight;
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg })
+      });
+      const data = await res.json();
+      botMessages.innerHTML += `<p style="color:#4CAF50"><strong>Bot:</strong> ${data.reply}</p>`;
+      botMessages.scrollTop = botMessages.scrollHeight;
+    } catch {
+      botMessages.innerHTML += `<p style="color:red;"><strong>Bot:</strong> ❌ Erreur serveur</p>`;
+    }
+  }
+
+  botInput?.addEventListener("keypress", e => {
+    if (e.key === "Enter") sendBotMessage();
+  });
+</script>
 
 </body>
 </html>
