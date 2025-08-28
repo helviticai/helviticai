@@ -1,13 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Helvetic AI — FR / EN / DE</title>
-  <meta name="description" content="Helvetic AI — IA au service de la performance financière. Site multilingue FR / EN / DE.">
-  <link rel="icon" href="logo.png" type="image/png">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Helvetic AI — FR / EN / DE</title>
+<meta content="Helvetic AI — IA au service de la performance financière. Site multilingue FR / EN / DE." name="description"/>
+<link href="logo.png" rel="icon" type="image/png"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
     html { scroll-behavior: smooth; }
     .fade-in { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
     .fade-in.show { opacity: 1; transform: translateY(0); }
@@ -18,595 +19,556 @@
     .lang.active { display:block; }
     .flag { width:28px; height:20px; border-radius:3px; cursor:pointer; }
   </style>
-</head>
+<style>
+.timeline-item span {
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+.timeline-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.timeline-item p {
+  margin: 0;
+}
+</style></head>
 <body class="bg-white text-gray-900">
-
-  <!-- NAVBAR -->
-  <header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur border-b border-gray-100 z-50">
-    <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="#" class="flex items-center space-x-3">
-        <img src="logo.png" alt="Logo Helvetic AI" class="h-10 w-10 object-contain"/>
-        <span class="text-xl font-semibold">Helvetic AI</span>
-      </a>
-
-      <!-- Desktop menu (multilingue) -->
-      <ul id="mainMenu" class="hidden md:flex items-center gap-8 font-medium ml-10">
-        <li>
-          <a href="#mission" class="hover:text-blue-600 lang fr active">Mission</a>
-          <a href="#mission" class="hover:text-blue-600 lang en">Mission</a>
-          <a href="#mission" class="hover:text-blue-600 lang de">Mission</a>
-        </li>
-        <li>
-          <a href="#expertises" class="hover:text-blue-600 lang fr active">Expertises</a>
-          <a href="#expertises" class="hover:text-blue-600 lang en">Expertise</a>
-          <a href="#expertises" class="hover:text-blue-600 lang de">Kompetenzen</a>
-        </li>
-        <li>
-          <a href="#methodologie" class="hover:text-blue-600 lang fr active">Méthodologie</a>
-          <a href="#methodologie" class="hover:text-blue-600 lang en">Methodology</a>
-          <a href="#methodologie" class="hover:text-blue-600 lang de">Methodik</a>
-        </li>
-        <li>
-          <a href="#identite" class="hover:text-blue-600 lang fr active">Identité</a>
-          <a href="#identite" class="hover:text-blue-600 lang en">Identity</a>
-          <a href="#identite" class="hover:text-blue-600 lang de">Identität</a>
-        </li>
-        <li>
-          <a href="#equipe" class="hover:text-blue-600 lang fr active">Équipe</a>
-          <a href="#equipe" class="hover:text-blue-600 lang en">Team</a>
-          <a href="#equipe" class="hover:text-blue-600 lang de">Team</a>
-        </li>
-        <li>
-          <a href="#contact" class="hover:text-blue-600 lang fr active">Contact</a>
-          <a href="#contact" class="hover:text-blue-600 lang en">Contact</a>
-          <a href="#contact" class="hover:text-blue-600 lang de">Kontakt</a>
-        </li>
-      </ul>
-
-      <!-- Lang flags -->
-      <div class="flex items-center space-x-3 ml-6">
-        <img src="https://flagcdn.com/w20/fr.png" alt="FR" class="flag" onclick="setLang('fr')" title="Français"/>
-        <img src="https://flagcdn.com/w20/gb.png" alt="EN" class="flag" onclick="setLang('en')" title="English"/>
-        <img src="https://flagcdn.com/w20/de.png" alt="DE" class="flag" onclick="setLang('de')" title="Deutsch"/>
-        <button id="mobileMenuBtn" class="md:hidden text-gray-700 focus-ring ml-2" aria-label="Menu">☰</button>
-      </div>
-    </nav>
-
-    <!-- Mobile panel -->
-    <div id="mobilePanel" class="hidden md:hidden border-t border-gray-100">
-      <ul class="px-6 py-3 space-y-3 font-medium">
-        <li><a href="#mission" class="block py-1 hover:text-blue-600">Mission</a></li>
-        <li><a href="#expertises" class="block py-1 hover:text-blue-600">Expertises</a></li>
-        <li><a href="#methodologie" class="block py-1 hover:text-blue-600">Méthodologie</a></li>
-        <li><a href="#identite" class="block py-1 hover:text-blue-600">Identité</a></li>
-        <li><a href="#equipe" class="block py-1 hover:text-blue-600">Équipe</a></li>
-        <li><a href="#contact" class="block py-1 hover:text-blue-600">Contact</a></li>
-      </ul>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <section class="bg-[#0A0F2C] text-white min-h-[68vh] flex items-center pt-28">
-    <div class="container mx-auto px-6 flex flex-col items-start justify-center gap-8">
-      <div class="space-y-6 fade-in max-w-3xl">
-        <h1 class="text-4xl md:text-5xl font-bold leading-tight lang fr active">
+<!-- NAVBAR -->
+<header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur border-b border-gray-100 z-50">
+<nav class="container mx-auto px-6 py-4 flex items-center justify-between">
+<a class="flex items-center space-x-3" href="#">
+<img alt="Logo Helvetic AI" class="h-10 w-10 object-contain" src="logo.png"/>
+<span class="text-xl font-semibold">Helvetic AI</span>
+</a>
+<!-- Desktop menu (multilingue) -->
+<ul class="hidden md:flex items-center gap-8 font-medium ml-10" id="mainMenu">
+<li>
+<a class="hover:text-blue-600 lang fr active" href="#mission">Mission</a>
+<a class="hover:text-blue-600 lang en" href="#mission">Mission</a>
+<a class="hover:text-blue-600 lang de" href="#mission">Mission</a>
+</li>
+<li>
+<a class="hover:text-blue-600 lang fr active" href="#expertises">Expertises</a>
+<a class="hover:text-blue-600 lang en" href="#expertises">Expertise</a>
+<a class="hover:text-blue-600 lang de" href="#expertises">Kompetenzen</a>
+</li>
+<li>
+<a class="hover:text-blue-600 lang fr active" href="#methodologie">Méthodologie</a>
+<a class="hover:text-blue-600 lang en" href="#methodologie">Methodology</a>
+<a class="hover:text-blue-600 lang de" href="#methodologie">Methodik</a>
+</li>
+<li>
+<a class="hover:text-blue-600 lang fr active" href="#identite">Identité</a>
+<a class="hover:text-blue-600 lang en" href="#identite">Identity</a>
+<a class="hover:text-blue-600 lang de" href="#identite">Identität</a>
+</li>
+<li>
+<a class="hover:text-blue-600 lang fr active" href="#equipe">Équipe</a>
+<a class="hover:text-blue-600 lang en" href="#equipe">Team</a>
+<a class="hover:text-blue-600 lang de" href="#equipe">Team</a>
+</li>
+<li>
+<a class="hover:text-blue-600 lang fr active" href="#contact">Contact</a>
+<a class="hover:text-blue-600 lang en" href="#contact">Contact</a>
+<a class="hover:text-blue-600 lang de" href="#contact">Kontakt</a>
+</li>
+</ul>
+<!-- Lang flags -->
+<div class="flex items-center space-x-3 ml-6">
+<img alt="FR" class="flag" onclick="setLang('fr')" src="https://flagcdn.com/w20/fr.png" title="Français"/>
+<img alt="EN" class="flag" onclick="setLang('en')" src="https://flagcdn.com/w20/gb.png" title="English"/>
+<img alt="DE" class="flag" onclick="setLang('de')" src="https://flagcdn.com/w20/de.png" title="Deutsch"/>
+<button aria-label="Menu" class="md:hidden text-gray-700 focus-ring ml-2" id="mobileMenuBtn">☰</button>
+</div>
+</nav>
+<!-- Mobile panel -->
+<div class="hidden md:hidden border-t border-gray-100" id="mobilePanel">
+<ul class="px-6 py-3 space-y-3 font-medium">
+<li><a class="block py-1 hover:text-blue-600" href="#mission">Mission</a></li>
+<li><a class="block py-1 hover:text-blue-600" href="#expertises">Expertises</a></li>
+<li><a class="block py-1 hover:text-blue-600" href="#methodologie">Méthodologie</a></li>
+<li><a class="block py-1 hover:text-blue-600" href="#identite">Identité</a></li>
+<li><a class="block py-1 hover:text-blue-600" href="#equipe">Équipe</a></li>
+<li><a class="block py-1 hover:text-blue-600" href="#contact">Contact</a></li>
+</ul>
+</div>
+</header>
+<!-- HERO -->
+<section class="bg-[#0A0F2C] text-white min-h-[68vh] flex items-center pt-28">
+<div class="container mx-auto px-6 flex flex-col items-start justify-center gap-8">
+<div class="space-y-6 fade-in max-w-3xl">
+<h1 class="text-4xl md:text-5xl font-bold leading-tight lang fr active">
           L'intelligence artificielle <br/><span class="text-blue-400">au service de la performance financière.</span>
-        </h1>
-        <h1 class="text-4xl md:text-5xl font-bold leading-tight lang en">
+</h1>
+<h1 class="text-4xl md:text-5xl font-bold leading-tight lang en">
           Artificial intelligence <br/><span class="text-blue-400">serving financial performance.</span>
-        </h1>
-        <h1 class="text-4xl md:text-5xl font-bold leading-tight lang de">
+</h1>
+<h1 class="text-4xl md:text-5xl font-bold leading-tight lang de">
           Künstliche Intelligenz <br/><span class="text-blue-400">im Dienste der finanziellen Leistung.</span>
-        </h1>
-
-        <p class="text-lg text-gray-300 lang fr active">
+</h1>
+<p class="text-lg text-gray-300 lang fr active">
           Des solutions innovantes pour optimiser vos processus financiers et améliorer votre prise de décision.
         </p>
-        <p class="text-lg text-gray-300 lang en">
+<p class="text-lg text-gray-300 lang en">
           Innovative solutions to optimize your financial processes and enhance decision-making.
         </p>
-        <p class="text-lg text-gray-300 lang de">
+<p class="text-lg text-gray-300 lang de">
           Innovative Lösungen zur Optimierung Ihrer Finanzprozesse und Verbesserung der Entscheidungsfindung.
         </p>
-        <div class="flex gap-4">
-          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang fr active">Découvrir nos solutions</a>
-          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang en">Discover our solutions</a>
-          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang de">Unsere Lösungen entdecken</a>
-
-          <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang fr active">Nous contacter</a>
-          <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang en">Contact us</a>
-          <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang de">Kontakt aufnehmen</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MISSION -->
-  <section id="mission" class="py-20">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold text-center mb-12 fade-in lang fr active">Notre Mission</h2>
-      <h2 class="text-4xl font-bold text-center mb-12 fade-in lang en">Our Mission</h2>
-      <h2 class="text-4xl font-bold text-center mb-12 fade-in lang de">Unsere Mission</h2>
-
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="md:col-span-2 space-y-4 fade-in">
-          <h3 class="text-2xl text-blue-600 font-semibold lang fr active">Transformer la finance par l'IA</h3>
-          <h3 class="text-2xl text-blue-600 font-semibold lang en">Transforming finance with AI</h3>
-          <h3 class="text-2xl text-blue-600 font-semibold lang de">Finanzen mit KI transformieren</h3>
-
-          <p class="lang fr active">Chez Helvetic AI, nous accompagnons les directions financières dans leur transformation digitale grâce à des technologies d'IA fiables et utiles.</p>
-          <p class="lang en">At Helvetic AI, we support finance leaders in their digital transformation with reliable, useful AI technologies.</p>
-          <p class="lang de">Bei Helvetic AI begleiten wir Finanzabteilungen bei der digitalen Transformation mit zuverlässigen, praxisnahen KI-Technologien.</p>
-
-          <p class="lang fr active">Notre expertise combine les enjeux EPM (Enterprise Performance Management) avec des méthodes d’implémentation éprouvées, pour des résultats mesurables.</p>
-          <p class="lang en">Our expertise blends EPM (Enterprise Performance Management) challenges with proven implementation methods for measurable results.</p>
-          <p class="lang de">Unsere Expertise verbindet EPM-Herausforderungen mit bewährten Implementierungsmethoden für messbare Ergebnisse.</p>
-
-          <p class="lang fr active">Sécurité, précision et fiabilité des données guident nos choix — des valeurs au cœur de notre identité suisse.</p>
-          <p class="lang en">Security, accuracy and data reliability guide our choices—values at the heart of our Swiss identity.</p>
-          <p class="lang de">Sicherheit, Genauigkeit und Datenzuverlässigkeit leiten unsere Entscheidungen—Werte, die unsere Schweizer Identität prägen.</p>
-        </div>
-        <div class="bg-blue-50 p-6 rounded-xl shadow fade-in">
-          <h4 class="text-xl font-semibold mb-3 lang fr active">Nos engagements</h4>
-          <h4 class="text-xl font-semibold mb-3 lang en">Our commitments</h4>
-          <h4 class="text-xl font-semibold mb-3 lang de">Unsere Verpflichtungen</h4>
-
-          <ul class="space-y-2 text-gray-700">
-            <li class="lang fr active">• Innovation pragmatique</li>
-            <li class="lang fr active">• Précision des analyses</li>
-            <li class="lang fr active">• Fiabilité opérationnelle</li>
-            <li class="lang fr active">• Sécurité & conformité</li>
-            <li class="lang fr active">• Excellence de service</li>
-
-            <li class="lang en">• Pragmatic innovation</li>
-            <li class="lang en">• Analytical precision</li>
-            <li class="lang en">• Operational reliability</li>
-            <li class="lang en">• Security & compliance</li>
-            <li class="lang en">• Service excellence</li>
-
-            <li class="lang de">• Pragmatistische Innovation</li>
-            <li class="lang de">• Analytische Präzision</li>
-            <li class="lang de">• Operative Zuverlässigkeit</li>
-            <li class="lang de">• Sicherheit & Compliance</li>
-            <li class="lang de">• Service-Exzellenz</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXPERTISES -->
-  <section id="expertises" class="py-20 bg-gray-50">
-    <div class="container mx-auto px-6 max-w-5xl">
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang fr active">Nos Expertises</h2>
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang en">Our Expertise</h2>
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang de">Unsere Kompetenzen</h2>
-
-      <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in lang fr active">
+<div class="flex gap-4">
+<a class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang fr active" href="#expertises">Découvrir nos solutions</a>
+<a class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang en" href="#expertises">Discover our solutions</a>
+<a class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang de" href="#expertises">Unsere Lösungen entdecken</a>
+<a class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang fr active" href="#contact">Nous contacter</a>
+<a class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang en" href="#contact">Contact us</a>
+<a class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang de" href="#contact">Kontakt aufnehmen</a>
+</div>
+</div>
+</div>
+</section>
+<!-- MISSION -->
+<section class="py-20" id="mission">
+<div class="container mx-auto px-6">
+<h2 class="text-4xl font-bold text-center mb-12 fade-in lang fr active">Notre Mission</h2>
+<h2 class="text-4xl font-bold text-center mb-12 fade-in lang en">Our Mission</h2>
+<h2 class="text-4xl font-bold text-center mb-12 fade-in lang de">Unsere Mission</h2>
+<div class="grid md:grid-cols-3 gap-8">
+<div class="md:col-span-2 space-y-4 fade-in">
+<h3 class="text-2xl text-blue-600 font-semibold lang fr active">Transformer la finance par l'IA</h3>
+<h3 class="text-2xl text-blue-600 font-semibold lang en">Transforming finance with AI</h3>
+<h3 class="text-2xl text-blue-600 font-semibold lang de">Finanzen mit KI transformieren</h3>
+<p class="lang fr active">Chez Helvetic AI, nous accompagnons les directions financières dans leur transformation digitale grâce à des technologies d'IA fiables et utiles.</p>
+<p class="lang en">At Helvetic AI, we support finance leaders in their digital transformation with reliable, useful AI technologies.</p>
+<p class="lang de">Bei Helvetic AI begleiten wir Finanzabteilungen bei der digitalen Transformation mit zuverlässigen, praxisnahen KI-Technologien.</p>
+<p class="lang fr active">Notre expertise combine les enjeux EPM (Enterprise Performance Management) avec des méthodes d’implémentation éprouvées, pour des résultats mesurables.</p>
+<p class="lang en">Our expertise blends EPM (Enterprise Performance Management) challenges with proven implementation methods for measurable results.</p>
+<p class="lang de">Unsere Expertise verbindet EPM-Herausforderungen mit bewährten Implementierungsmethoden für messbare Ergebnisse.</p>
+<p class="lang fr active">Sécurité, précision et fiabilité des données guident nos choix — des valeurs au cœur de notre identité suisse.</p>
+<p class="lang en">Security, accuracy and data reliability guide our choices—values at the heart of our Swiss identity.</p>
+<p class="lang de">Sicherheit, Genauigkeit und Datenzuverlässigkeit leiten unsere Entscheidungen—Werte, die unsere Schweizer Identität prägen.</p>
+</div>
+<div class="bg-blue-50 p-6 rounded-xl shadow fade-in">
+<h4 class="text-xl font-semibold mb-3 lang fr active">Nos engagements</h4>
+<h4 class="text-xl font-semibold mb-3 lang en">Our commitments</h4>
+<h4 class="text-xl font-semibold mb-3 lang de">Unsere Verpflichtungen</h4>
+<ul class="space-y-2 text-gray-700">
+<li class="lang fr active">• Innovation pragmatique</li>
+<li class="lang fr active">• Précision des analyses</li>
+<li class="lang fr active">• Fiabilité opérationnelle</li>
+<li class="lang fr active">• Sécurité &amp; conformité</li>
+<li class="lang fr active">• Excellence de service</li>
+<li class="lang en">• Pragmatic innovation</li>
+<li class="lang en">• Analytical precision</li>
+<li class="lang en">• Operational reliability</li>
+<li class="lang en">• Security &amp; compliance</li>
+<li class="lang en">• Service excellence</li>
+<li class="lang de">• Pragmatistische Innovation</li>
+<li class="lang de">• Analytische Präzision</li>
+<li class="lang de">• Operative Zuverlässigkeit</li>
+<li class="lang de">• Sicherheit &amp; Compliance</li>
+<li class="lang de">• Service-Exzellenz</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- EXPERTISES -->
+<section class="py-20 bg-gray-50" id="expertises">
+<div class="container mx-auto px-6 max-w-5xl">
+<h2 class="text-4xl font-bold text-center mb-6 fade-in lang fr active">Nos Expertises</h2>
+<h2 class="text-4xl font-bold text-center mb-6 fade-in lang en">Our Expertise</h2>
+<h2 class="text-4xl font-bold text-center mb-6 fade-in lang de">Unsere Kompetenzen</h2>
+<p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in lang fr active">
         Explorez nos domaines d’intervention et découvrez comment Helvetic AI peut accélérer votre performance financière.
       </p>
-      <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in lang en">
+<p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in lang en">
         Explore our areas of intervention and see how Helvetic AI can accelerate your financial performance.
       </p>
-      <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in lang de">
+<p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in lang de">
         Entdecken Sie unsere Einsatzfelder und wie Helvetic AI Ihre finanzielle Performance beschleunigen kann.
       </p>
-
-      <div class="space-y-4">
-        <!-- 1. Forecasting & Budgeting -->
-        <div class="border rounded-2xl shadow-sm bg-white fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="text-blue-600 font-bold">➤</span>
-              <span class="lang fr active">Prévision & Budgétisation</span>
-              <span class="lang en">Forecasting & Budgeting</span>
-              <span class="lang de">Prognose & Budgetierung</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4 lang fr active">Modèles prédictifs, scénarios dynamiques, rolling forecast et budgets plus précis.</p>
-            <p class="mb-4 lang en">Predictive models, dynamic scenarios, rolling forecasts and more accurate budgets.</p>
-            <p class="mb-4 lang de">Prädiktive Modelle, dynamische Szenarien, Rolling Forecasts und präzisere Budgets.</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li class="lang fr active">Prévisions mensuelles/hebdomadaires basées sur l’IA</li>
-              <li class="lang fr active">Scénarios What-if & sensibilités</li>
-              <li class="lang fr active">Alignement Budget ↔ Réel (variance & drivers)</li>
-
-              <li class="lang en">AI-based monthly/weekly forecasts</li>
-              <li class="lang en">What-if scenarios & sensitivities</li>
-              <li class="lang en">Budget ↔ Actual alignment (variance & drivers)</li>
-
-              <li class="lang de">KI-gestützte Monats-/Wochenprognosen</li>
-              <li class="lang de">What-if-Szenarien & Sensitivitäten</li>
-              <li class="lang de">Budget-/Ist-Abgleich (Varianz & Treiber)</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 2. Automation -->
-        <div class="border rounded-2xl shadow-sm bg-white fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="text-blue-600 font-bold">➤</span>
-              <span class="lang fr active">Automatisation des processus</span>
-              <span class="lang en">Process Automation</span>
-              <span class="lang de">Prozessautomatisierung</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4 lang fr active">RPA & IA pour réduire les tâches manuelles, fiabiliser les données et accélérer vos clôtures.</p>
-            <p class="mb-4 lang en">RPA & AI to reduce manual work, improve data reliability and speed up closing.</p>
-            <p class="mb-4 lang de">RPA & KI zur Reduzierung manueller Aufgaben, für verlässliche Daten und schnellere Abschlüsse.</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li class="lang fr active">Réconciliation automatique, extraction intelligente</li>
-              <li class="lang fr active">Workflows d’approbation avec traçabilité</li>
-              <li class="lang fr active">Réduction des erreurs, productivité accrue</li>
-
-              <li class="lang en">Automated reconciliation, intelligent extraction</li>
-              <li class="lang en">Approval workflows with full traceability</li>
-              <li class="lang en">Error reduction, higher productivity</li>
-
-              <li class="lang de">Automatische Abstimmung, intelligente Extraktion</li>
-              <li class="lang de">Genehmigungs-Workflows mit Nachverfolgbarkeit</li>
-              <li class="lang de">Weniger Fehler, mehr Produktivität</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 3. Decision Support -->
-        <div class="border rounded-2xl shadow-sm bg-white fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="text-blue-600 font-bold">➤</span>
-              <span class="lang fr active">Aide à la décision</span>
-              <span class="lang en">Decision Support</span>
-              <span class="lang de">Entscheidungsunterstützung</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4 lang fr active">Insights stratégiques (KPI, alerting, recommandations) pour décider vite et bien.</p>
-            <p class="mb-4 lang en">Strategic insights (KPIs, alerts, recommendations) to decide faster and better.</p>
-            <p class="mb-4 lang de">Strategische Einblicke (KPIs, Alerts, Empfehlungen) für schnellere, bessere Entscheidungen.</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li class="lang fr active">Tableaux de bord & alertes intelligentes</li>
-              <li class="lang fr active">Analyse des marges, cash, risques</li>
-              <li class="lang fr active">Recommandations actionnables par l’IA</li>
-
-              <li class="lang en">Dashboards & smart alerts</li>
-              <li class="lang en">Margin, cash and risk analysis</li>
-              <li class="lang en">AI-driven, actionable recommendations</li>
-
-              <li class="lang de">Dashboards & intelligente Alerts</li>
-              <li class="lang de">Analyse von Marge, Cash & Risiken</li>
-              <li class="lang de">Umsetzbare, KI-gestützte Empfehlungen</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 4. EPM -->
-        <div class="border rounded-2xl shadow-sm bg-white fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="text-blue-600 font-bold">➤</span>
-              <span class="lang fr active">Solutions EPM</span>
-              <span class="lang en">EPM Solutions</span>
-              <span class="lang de">EPM-Lösungen</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4 lang fr active">Conception et intégration EPM sur mesure, adaptées à votre écosystème.</p>
-            <p class="mb-4 lang en">Tailored EPM design and integration, adapted to your ecosystem.</p>
-            <p class="mb-4 lang de">Maßgeschneiderte EPM-Konzeption und Integration, passend zu Ihrem Ökosystem.</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li class="lang fr active">Modélisation, référentiels, gouvernance des données</li>
-              <li class="lang fr active">Connecteurs systèmes & sécurité renforcée</li>
-              <li class="lang fr active">Conduite du changement et formation</li>
-
-              <li class="lang en">Modeling, master data, data governance</li>
-              <li class="lang en">System connectors & strengthened security</li>
-              <li class="lang en">Change management and training</li>
-
-              <li class="lang de">Modellierung, Stammdaten, Data Governance</li>
-              <li class="lang de">System-Connectoren & erhöhte Sicherheit</li>
-              <li class="lang de">Change Management und Schulung</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MÉTHODOLOGIE (timeline multilingue) -->
-  <section id="methodologie" class="py-20 bg-gray-50">
-    <div class="container mx-auto px-6 max-w-5xl">
-      <h2 class="text-4xl font-bold text-center mb-16 fade-in lang fr active">Notre Méthodologie</h2>
-      <h2 class="text-4xl font-bold text-center mb-16 fade-in lang en">Our Methodology</h2>
-      <h2 class="text-4xl font-bold text-center mb-16 fade-in lang de">Unsere Methodik</h2>
-
-      <div class="relative border-l-4 border-blue-600 pl-8 space-y-12">
-
-        <!-- 01 -->
-        <div class="relative">
-          <span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">01</span>
-          <h3 class="text-xl font-semibold lang fr active">Analyse des besoins</h3>
-          <h3 class="text-xl font-semibold lang en">Needs analysis</h3>
-          <h3 class="text-xl font-semibold lang de">Bedarfsanalyse</h3>
-          <p class="text-gray-700 mt-2 lang fr active">Compréhension approfondie de vos processus et objectifs pour cibler les vrais leviers de performance.</p>
-          <p class="text-gray-700 mt-2 lang en">In-depth understanding of your processes and goals to target real performance drivers.</p>
-          <p class="text-gray-700 mt-2 lang de">Umfassendes Verständnis Ihrer Prozesse und Ziele, um die echten Leistungshebel zu identifizieren.</p>
-        </div>
-
-        <!-- 02 -->
-        <div class="relative">
-          <span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">02</span>
-          <h3 class="text-xl font-semibold lang fr active">Conception de la solution</h3>
-          <h3 class="text-xl font-semibold lang en">Solution design</h3>
-          <h3 class="text-xl font-semibold lang de">Lösungskonzeption</h3>
-          <p class="text-gray-700 mt-2 lang fr active">Conception d’une solution sur mesure alignée sur vos besoins stratégiques et opérationnels.</p>
-          <p class="text-gray-700 mt-2 lang en">Design of a tailor-made solution aligned with your strategic and operational needs.</p>
-          <p class="text-gray-700 mt-2 lang de">Entwurf einer maßgeschneiderten Lösung, abgestimmt auf Ihre strategischen und operativen Anforderungen.</p>
-        </div>
-
-        <!-- 03 -->
-        <div class="relative">
-          <span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">03</span>
-          <h3 class="text-xl font-semibold lang fr active">Développement & intégration</h3>
-          <h3 class="text-xl font-semibold lang en">Development & integration</h3>
-          <h3 class="text-xl font-semibold lang de">Entwicklung & Integration</h3>
-          <p class="text-gray-700 mt-2 lang fr active">Développement agile, intégration fluide dans vos systèmes existants, sécurisation et tests.</p>
-          <p class="text-gray-700 mt-2 lang en">Agile development, seamless integration with your existing systems, security and testing.</p>
-          <p class="text-gray-700 mt-2 lang de">Agile Entwicklung, nahtlose Integration in Ihre bestehenden Systeme, Sicherheit und Tests.</p>
-        </div>
-
-        <!-- 04 -->
-        <div class="relative">
-          <span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">04</span>
-          <h3 class="text-xl font-semibold lang fr active">Formation & transfert de compétences</h3>
-          <h3 class="text-xl font-semibold lang en">Training & knowledge transfer</h3>
-          <h3 class="text-xl font-semibold lang de">Schulung & Wissenstransfer</h3>
-          <p class="text-gray-700 mt-2 lang fr active">Accompagnement pédagogique et transfert de compétences pour rendre vos équipes autonomes.</p>
-          <p class="text-gray-700 mt-2 lang en">Training and knowledge transfer to empower your teams and ensure autonomy.</p>
-          <p class="text-gray-700 mt-2 lang de">Schulung und Wissenstransfer, um Ihre Teams zu befähigen und Selbstständigkeit zu gewährleisten.</p>
-        </div>
-
-        <!-- 05 -->
-        <div class="relative">
-          <span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">05</span>
-          <h3 class="text-xl font-semibold lang fr active">Support & amélioration continue</h3>
-          <h3 class="text-xl font-semibold lang en">Support & continuous improvement</h3>
-          <h3 class="text-xl font-semibold lang de">Support & kontinuierliche Verbesserung</h3>
-          <p class="text-gray-700 mt-2 lang fr active">Un support durable avec une amélioration continue pour garantir la performance à long terme.</p>
-          <p class="text-gray-700 mt-2 lang en">Long-term support with continuous improvement to ensure sustained performance.</p>
-          <p class="text-gray-700 mt-2 lang de">Langfristiger Support mit kontinuierlicher Verbesserung zur Sicherstellung nachhaltiger Performance.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- IDENTITE -->
-  <section id="identite" class="py-20 bg-[#0A0F2C] text-white">
-    <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold mb-10 fade-in lang fr active">Notre Identité Suisse</h2>
-      <h2 class="text-4xl font-bold mb-10 fade-in lang en">Our Swiss Identity</h2>
-      <h2 class="text-4xl font-bold mb-10 fade-in lang de">Unsere Schweizer Identität</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2 lang fr active">Fiabilité</h3>
-          <h3 class="font-semibold text-xl mb-2 lang en">Reliability</h3>
-          <h3 class="font-semibold text-xl mb-2 lang de">Zuverlässigkeit</h3>
-          <p class="lang fr active">Des standards élevés et des résultats constants pour vos processus critiques.</p>
-          <p class="lang en">High standards and consistent results for your critical processes.</p>
-          <p class="lang de">Hohe Standards und konstante Ergebnisse für Ihre kritischen Prozesse.</p>
-        </div>
-        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2 lang fr active">Précision</h3>
-          <h3 class="font-semibold text-xl mb-2 lang en">Precision</h3>
-          <h3 class="font-semibold text-xl mb-2 lang de">Präzision</h3>
-          <p class="lang fr active">Rigueur et contrôle pour des analyses financières de confiance.</p>
-          <p class="lang en">Rigour and control for trustworthy financial analysis.</p>
-          <p class="lang de">Strenge und Kontrolle für verlässliche Finanzanalysen.</p>
-        </div>
-        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2 lang fr active">Sécurité</h3>
-          <h3 class="font-semibold text-xl mb-2 lang en">Security</h3>
-          <h3 class="font-semibold text-xl mb-2 lang de">Sicherheit</h3>
-          <p class="lang fr active">Protection avancée des données et conformité stricte.</p>
-          <p class="lang en">Advanced data protection and strict compliance.</p>
-          <p class="lang de">Erweiterter Datenschutz und strikte Compliance.</p>
-        </div>
-        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2 lang fr active">Innovation</h3>
-          <h3 class="font-semibold text-xl mb-2 lang en">Innovation</h3>
-          <h3 class="font-semibold text-xl mb-2 lang de">Innovation</h3>
-          <p class="lang fr active">Des technologies IA au service d’une performance durable.</p>
-          <p class="lang en">AI technologies serving sustainable performance.</p>
-          <p class="lang de">KI-Technologien für nachhaltige Performance.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EQUIPE -->
-  <section id="equipe" class="py-20 bg-gray-50">
-    <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold mb-12 fade-in lang fr active">Équipe Fondatrice</h2>
-      <h2 class="text-4xl font-bold mb-12 fade-in lang en">Founding Team</h2>
-      <h2 class="text-4xl font-bold mb-12 fade-in lang de">Gründungsteam</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-        <!-- Kahina -->
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in transform hover:-translate-y-2 transition duration-300">
-          <img src="Kahina AOUDIA.png" alt="Kahina Aoudia" class="w-full h-80 object-contain bg-gray-100">
-          <div class="p-6">
-            <h3 class="text-xl font-semibold text-gray-900">Kahina Aoudia</h3>
-            <p class="text-blue-600 font-medium lang fr active">Co-fondatrice & Directrice Stratégie</p>
-            <p class="text-blue-600 font-medium lang en">Co-founder & Strategy Director</p>
-            <p class="text-blue-600 font-medium lang de">Mitgründerin & Strategie-Direktorin</p>
-            <p class="mt-3 text-gray-600 text-sm lang fr active">
+<div class="space-y-4">
+<!-- 1. Forecasting & Budgeting -->
+<div class="border rounded-2xl shadow-sm bg-white fade-in">
+<button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
+<span class="flex items-center gap-3">
+<span class="text-blue-600 font-bold">➤</span>
+<span class="lang fr active">Prévision &amp; Budgétisation</span>
+<span class="lang en">Forecasting &amp; Budgeting</span>
+<span class="lang de">Prognose &amp; Budgetierung</span>
+</span>
+<span class="accordion-icon transition-transform">▼</span>
+</button>
+<div class="accordion-content px-6 pb-6 text-gray-700">
+<p class="mb-4 lang fr active">Modèles prédictifs, scénarios dynamiques, rolling forecast et budgets plus précis.</p>
+<p class="mb-4 lang en">Predictive models, dynamic scenarios, rolling forecasts and more accurate budgets.</p>
+<p class="mb-4 lang de">Prädiktive Modelle, dynamische Szenarien, Rolling Forecasts und präzisere Budgets.</p>
+<ul class="list-disc pl-5 space-y-1">
+<li class="lang fr active">Prévisions mensuelles/hebdomadaires basées sur l’IA</li>
+<li class="lang fr active">Scénarios What-if &amp; sensibilités</li>
+<li class="lang fr active">Alignement Budget ↔ Réel (variance &amp; drivers)</li>
+<li class="lang en">AI-based monthly/weekly forecasts</li>
+<li class="lang en">What-if scenarios &amp; sensitivities</li>
+<li class="lang en">Budget ↔ Actual alignment (variance &amp; drivers)</li>
+<li class="lang de">KI-gestützte Monats-/Wochenprognosen</li>
+<li class="lang de">What-if-Szenarien &amp; Sensitivitäten</li>
+<li class="lang de">Budget-/Ist-Abgleich (Varianz &amp; Treiber)</li>
+</ul>
+</div>
+</div>
+<!-- 2. Automation -->
+<div class="border rounded-2xl shadow-sm bg-white fade-in">
+<button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
+<span class="flex items-center gap-3">
+<span class="text-blue-600 font-bold">➤</span>
+<span class="lang fr active">Automatisation des processus</span>
+<span class="lang en">Process Automation</span>
+<span class="lang de">Prozessautomatisierung</span>
+</span>
+<span class="accordion-icon transition-transform">▼</span>
+</button>
+<div class="accordion-content px-6 pb-6 text-gray-700">
+<p class="mb-4 lang fr active">RPA &amp; IA pour réduire les tâches manuelles, fiabiliser les données et accélérer vos clôtures.</p>
+<p class="mb-4 lang en">RPA &amp; AI to reduce manual work, improve data reliability and speed up closing.</p>
+<p class="mb-4 lang de">RPA &amp; KI zur Reduzierung manueller Aufgaben, für verlässliche Daten und schnellere Abschlüsse.</p>
+<ul class="list-disc pl-5 space-y-1">
+<li class="lang fr active">Réconciliation automatique, extraction intelligente</li>
+<li class="lang fr active">Workflows d’approbation avec traçabilité</li>
+<li class="lang fr active">Réduction des erreurs, productivité accrue</li>
+<li class="lang en">Automated reconciliation, intelligent extraction</li>
+<li class="lang en">Approval workflows with full traceability</li>
+<li class="lang en">Error reduction, higher productivity</li>
+<li class="lang de">Automatische Abstimmung, intelligente Extraktion</li>
+<li class="lang de">Genehmigungs-Workflows mit Nachverfolgbarkeit</li>
+<li class="lang de">Weniger Fehler, mehr Produktivität</li>
+</ul>
+</div>
+</div>
+<!-- 3. Decision Support -->
+<div class="border rounded-2xl shadow-sm bg-white fade-in">
+<button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
+<span class="flex items-center gap-3">
+<span class="text-blue-600 font-bold">➤</span>
+<span class="lang fr active">Aide à la décision</span>
+<span class="lang en">Decision Support</span>
+<span class="lang de">Entscheidungsunterstützung</span>
+</span>
+<span class="accordion-icon transition-transform">▼</span>
+</button>
+<div class="accordion-content px-6 pb-6 text-gray-700">
+<p class="mb-4 lang fr active">Insights stratégiques (KPI, alerting, recommandations) pour décider vite et bien.</p>
+<p class="mb-4 lang en">Strategic insights (KPIs, alerts, recommendations) to decide faster and better.</p>
+<p class="mb-4 lang de">Strategische Einblicke (KPIs, Alerts, Empfehlungen) für schnellere, bessere Entscheidungen.</p>
+<ul class="list-disc pl-5 space-y-1">
+<li class="lang fr active">Tableaux de bord &amp; alertes intelligentes</li>
+<li class="lang fr active">Analyse des marges, cash, risques</li>
+<li class="lang fr active">Recommandations actionnables par l’IA</li>
+<li class="lang en">Dashboards &amp; smart alerts</li>
+<li class="lang en">Margin, cash and risk analysis</li>
+<li class="lang en">AI-driven, actionable recommendations</li>
+<li class="lang de">Dashboards &amp; intelligente Alerts</li>
+<li class="lang de">Analyse von Marge, Cash &amp; Risiken</li>
+<li class="lang de">Umsetzbare, KI-gestützte Empfehlungen</li>
+</ul>
+</div>
+</div>
+<!-- 4. EPM -->
+<div class="border rounded-2xl shadow-sm bg-white fade-in">
+<button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
+<span class="flex items-center gap-3">
+<span class="text-blue-600 font-bold">➤</span>
+<span class="lang fr active">Solutions EPM</span>
+<span class="lang en">EPM Solutions</span>
+<span class="lang de">EPM-Lösungen</span>
+</span>
+<span class="accordion-icon transition-transform">▼</span>
+</button>
+<div class="accordion-content px-6 pb-6 text-gray-700">
+<p class="mb-4 lang fr active">Conception et intégration EPM sur mesure, adaptées à votre écosystème.</p>
+<p class="mb-4 lang en">Tailored EPM design and integration, adapted to your ecosystem.</p>
+<p class="mb-4 lang de">Maßgeschneiderte EPM-Konzeption und Integration, passend zu Ihrem Ökosystem.</p>
+<ul class="list-disc pl-5 space-y-1">
+<li class="lang fr active">Modélisation, référentiels, gouvernance des données</li>
+<li class="lang fr active">Connecteurs systèmes &amp; sécurité renforcée</li>
+<li class="lang fr active">Conduite du changement et formation</li>
+<li class="lang en">Modeling, master data, data governance</li>
+<li class="lang en">System connectors &amp; strengthened security</li>
+<li class="lang en">Change management and training</li>
+<li class="lang de">Modellierung, Stammdaten, Data Governance</li>
+<li class="lang de">System-Connectoren &amp; erhöhte Sicherheit</li>
+<li class="lang de">Change Management und Schulung</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- MÉTHODOLOGIE (timeline multilingue) -->
+<section class="py-20 bg-gray-50" id="methodologie">
+<div class="container mx-auto px-6 max-w-5xl">
+<h2 class="text-4xl font-bold text-center mb-16 fade-in lang fr active">Notre Méthodologie</h2>
+<h2 class="text-4xl font-bold text-center mb-16 fade-in lang en">Our Methodology</h2>
+<h2 class="text-4xl font-bold text-center mb-16 fade-in lang de">Unsere Methodik</h2>
+<div class="relative border-l-4 border-blue-600 pl-8 space-y-12">
+<!-- 01 -->
+<div class="relative">
+<span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">01</span>
+<h3 class="text-xl font-semibold lang fr active">Analyse des besoins</h3>
+<h3 class="text-xl font-semibold lang en">Needs analysis</h3>
+<h3 class="text-xl font-semibold lang de">Bedarfsanalyse</h3>
+<p class="text-gray-700 mt-2 lang fr active">Compréhension approfondie de vos processus et objectifs pour cibler les vrais leviers de performance.</p>
+<p class="text-gray-700 mt-2 lang en">In-depth understanding of your processes and goals to target real performance drivers.</p>
+<p class="text-gray-700 mt-2 lang de">Umfassendes Verständnis Ihrer Prozesse und Ziele, um die echten Leistungshebel zu identifizieren.</p>
+</div>
+<!-- 02 -->
+<div class="relative">
+<span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">02</span>
+<h3 class="text-xl font-semibold lang fr active">Conception de la solution</h3>
+<h3 class="text-xl font-semibold lang en">Solution design</h3>
+<h3 class="text-xl font-semibold lang de">Lösungskonzeption</h3>
+<p class="text-gray-700 mt-2 lang fr active">Conception d’une solution sur mesure alignée sur vos besoins stratégiques et opérationnels.</p>
+<p class="text-gray-700 mt-2 lang en">Design of a tailor-made solution aligned with your strategic and operational needs.</p>
+<p class="text-gray-700 mt-2 lang de">Entwurf einer maßgeschneiderten Lösung, abgestimmt auf Ihre strategischen und operativen Anforderungen.</p>
+</div>
+<!-- 03 -->
+<div class="relative">
+<span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">03</span>
+<h3 class="text-xl font-semibold lang fr active">Développement &amp; intégration</h3>
+<h3 class="text-xl font-semibold lang en">Development &amp; integration</h3>
+<h3 class="text-xl font-semibold lang de">Entwicklung &amp; Integration</h3>
+<p class="text-gray-700 mt-2 lang fr active">Développement agile, intégration fluide dans vos systèmes existants, sécurisation et tests.</p>
+<p class="text-gray-700 mt-2 lang en">Agile development, seamless integration with your existing systems, security and testing.</p>
+<p class="text-gray-700 mt-2 lang de">Agile Entwicklung, nahtlose Integration in Ihre bestehenden Systeme, Sicherheit und Tests.</p>
+</div>
+<!-- 04 -->
+<div class="relative">
+<span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">04</span>
+<h3 class="text-xl font-semibold lang fr active">Formation &amp; transfert de compétences</h3>
+<h3 class="text-xl font-semibold lang en">Training &amp; knowledge transfer</h3>
+<h3 class="text-xl font-semibold lang de">Schulung &amp; Wissenstransfer</h3>
+<p class="text-gray-700 mt-2 lang fr active">Accompagnement pédagogique et transfert de compétences pour rendre vos équipes autonomes.</p>
+<p class="text-gray-700 mt-2 lang en">Training and knowledge transfer to empower your teams and ensure autonomy.</p>
+<p class="text-gray-700 mt-2 lang de">Schulung und Wissenstransfer, um Ihre Teams zu befähigen und Selbstständigkeit zu gewährleisten.</p>
+</div>
+<!-- 05 -->
+<div class="relative">
+<span class="absolute -left-[34px] flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">05</span>
+<h3 class="text-xl font-semibold lang fr active">Support &amp; amélioration continue</h3>
+<h3 class="text-xl font-semibold lang en">Support &amp; continuous improvement</h3>
+<h3 class="text-xl font-semibold lang de">Support &amp; kontinuierliche Verbesserung</h3>
+<p class="text-gray-700 mt-2 lang fr active">Un support durable avec une amélioration continue pour garantir la performance à long terme.</p>
+<p class="text-gray-700 mt-2 lang en">Long-term support with continuous improvement to ensure sustained performance.</p>
+<p class="text-gray-700 mt-2 lang de">Langfristiger Support mit kontinuierlicher Verbesserung zur Sicherstellung nachhaltiger Performance.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- IDENTITE -->
+<section class="py-20 bg-[#0A0F2C] text-white" id="identite">
+<div class="container mx-auto px-6 text-center">
+<h2 class="text-4xl font-bold mb-10 fade-in lang fr active">Notre Identité Suisse</h2>
+<h2 class="text-4xl font-bold mb-10 fade-in lang en">Our Swiss Identity</h2>
+<h2 class="text-4xl font-bold mb-10 fade-in lang de">Unsere Schweizer Identität</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
+<h3 class="font-semibold text-xl mb-2 lang fr active">Fiabilité</h3>
+<h3 class="font-semibold text-xl mb-2 lang en">Reliability</h3>
+<h3 class="font-semibold text-xl mb-2 lang de">Zuverlässigkeit</h3>
+<p class="lang fr active">Des standards élevés et des résultats constants pour vos processus critiques.</p>
+<p class="lang en">High standards and consistent results for your critical processes.</p>
+<p class="lang de">Hohe Standards und konstante Ergebnisse für Ihre kritischen Prozesse.</p>
+</div>
+<div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
+<h3 class="font-semibold text-xl mb-2 lang fr active">Précision</h3>
+<h3 class="font-semibold text-xl mb-2 lang en">Precision</h3>
+<h3 class="font-semibold text-xl mb-2 lang de">Präzision</h3>
+<p class="lang fr active">Rigueur et contrôle pour des analyses financières de confiance.</p>
+<p class="lang en">Rigour and control for trustworthy financial analysis.</p>
+<p class="lang de">Strenge und Kontrolle für verlässliche Finanzanalysen.</p>
+</div>
+<div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
+<h3 class="font-semibold text-xl mb-2 lang fr active">Sécurité</h3>
+<h3 class="font-semibold text-xl mb-2 lang en">Security</h3>
+<h3 class="font-semibold text-xl mb-2 lang de">Sicherheit</h3>
+<p class="lang fr active">Protection avancée des données et conformité stricte.</p>
+<p class="lang en">Advanced data protection and strict compliance.</p>
+<p class="lang de">Erweiterter Datenschutz und strikte Compliance.</p>
+</div>
+<div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
+<h3 class="font-semibold text-xl mb-2 lang fr active">Innovation</h3>
+<h3 class="font-semibold text-xl mb-2 lang en">Innovation</h3>
+<h3 class="font-semibold text-xl mb-2 lang de">Innovation</h3>
+<p class="lang fr active">Des technologies IA au service d’une performance durable.</p>
+<p class="lang en">AI technologies serving sustainable performance.</p>
+<p class="lang de">KI-Technologien für nachhaltige Performance.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- EQUIPE -->
+<section class="py-20 bg-gray-50" id="equipe">
+<div class="container mx-auto px-6 text-center">
+<h2 class="text-4xl font-bold mb-12 fade-in lang fr active">Équipe Fondatrice</h2>
+<h2 class="text-4xl font-bold mb-12 fade-in lang en">Founding Team</h2>
+<h2 class="text-4xl font-bold mb-12 fade-in lang de">Gründungsteam</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+<!-- Kahina -->
+<div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in transform hover:-translate-y-2 transition duration-300">
+<img alt="Kahina Aoudia" class="w-full h-80 object-contain bg-gray-100" src="Kahina AOUDIA.png"/>
+<div class="p-6">
+<h3 class="text-xl font-semibold text-gray-900">Kahina Aoudia</h3>
+<p class="text-blue-600 font-medium lang fr active">Co-fondatrice &amp; Directrice Stratégie</p>
+<p class="text-blue-600 font-medium lang en">Co-founder &amp; Strategy Director</p>
+<p class="text-blue-600 font-medium lang de">Mitgründerin &amp; Strategie-Direktorin</p>
+<p class="mt-3 text-gray-600 text-sm lang fr active">
               Avec 13 ans d’expérience sur l’outil IBM PA, Kahina se distingue par sa pédagogie, ses capacités d’analyse et son sens de la transmission des savoirs.
               Experte des bases relationnelles et multidimensionnelles, elle maîtrise également les outils BI et EPM.
               En véritable leader et manager d’équipe, elle pilote les projets avec efficacité et vision stratégique.
             </p>
-            <p class="mt-3 text-gray-600 text-sm lang en">
+<p class="mt-3 text-gray-600 text-sm lang en">
               With 13 years of experience on IBM PA, Kahina stands out for her pedagogy, analytical skills and talent for knowledge transfer.
               An expert in relational and multidimensional databases, she also masters BI and EPM tools.
               A true leader and team manager, she runs projects efficiently with strategic vision.
             </p>
-            <p class="mt-3 text-gray-600 text-sm lang de">
+<p class="mt-3 text-gray-600 text-sm lang de">
               Mit 13 Jahren Erfahrung mit IBM PA zeichnet sich Kahina durch Pädagogik, Analysefähigkeit und Wissensweitergabe aus.
               Als Expertin für relationale und multidimensionale Datenbanken beherrscht sie auch BI- und EPM-Werkzeuge.
               Als echte Führungskraft leitet sie Projekte effizient und mit strategischer Weitsicht.
             </p>
-            <div class="mt-4 flex justify-center gap-4">
-              <a href="#" class="text-gray-500 hover:text-blue-600">🔗 LinkedIn</a>
-              <a href="mailto:kahina@helveticai.ch" class="text-gray-500 hover:text-blue-600">✉️ Email</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Adnane -->
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in transform hover:-translate-y-2 transition duration-300">
-          <img src="Adnane BAAHMED.png" alt="Adnane Baahmed" class="w-full h-80 object-contain bg-gray-100">
-          <div class="p-6">
-            <h3 class="text-xl font-semibold text-gray-900">Adnane Baahmed</h3>
-            <p class="text-blue-600 font-medium lang fr active">Co-fondateur & Directeur Technique</p>
-            <p class="text-blue-600 font-medium lang en">Co-founder & Technical Director</p>
-            <p class="text-blue-600 font-medium lang de">Mitgründer & Technischer Direktor</p>
-            <p class="mt-3 text-gray-600 text-sm lang fr active">
+<div class="mt-4 flex justify-center gap-4">
+<a class="text-gray-500 hover:text-blue-600" href="#">🔗 LinkedIn</a>
+<a class="text-gray-500 hover:text-blue-600" href="mailto:kahina@helveticai.ch">✉️ Email</a>
+</div>
+</div>
+</div>
+<!-- Adnane -->
+<div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in transform hover:-translate-y-2 transition duration-300">
+<img alt="Adnane Baahmed" class="w-full h-80 object-contain bg-gray-100" src="Adnane BAAHMED.png"/>
+<div class="p-6">
+<h3 class="text-xl font-semibold text-gray-900">Adnane Baahmed</h3>
+<p class="text-blue-600 font-medium lang fr active">Co-fondateur &amp; Directeur Technique</p>
+<p class="text-blue-600 font-medium lang en">Co-founder &amp; Technical Director</p>
+<p class="text-blue-600 font-medium lang de">Mitgründer &amp; Technischer Direktor</p>
+<p class="mt-3 text-gray-600 text-sm lang fr active">
               Adnane accompagne ses clients depuis 16 ans dans la mise en place et l’aide au choix de solutions BI/EPM, notamment BOARD et IBM PA/TM1.
               Il a participé à de grands projets techniques et de transformation SI en tant que chef de projet technique ou architecte.
             </p>
-            <p class="mt-3 text-gray-600 text-sm lang en">
+<p class="mt-3 text-gray-600 text-sm lang en">
               For 16 years, Adnane has supported clients in selecting and implementing BI/EPM solutions, notably BOARD and IBM PA/TM1.
               He has contributed to major technical and IT-transformation projects as a technical project manager or architect.
             </p>
-            <p class="mt-3 text-gray-600 text-sm lang de">
+<p class="mt-3 text-gray-600 text-sm lang de">
               Seit 16 Jahren unterstützt Adnane Kunden bei Auswahl und Implementierung von BI/EPM-Lösungen, insbesondere BOARD und IBM PA/TM1.
               Er war an großen technischen und IT-Transformationsprojekten als technischer Projektleiter oder Architekt beteiligt.
             </p>
-            <div class="mt-4 flex justify-center gap-4">
-              <a href="#" class="text-gray-500 hover:text-blue-600">🔗 LinkedIn</a>
-              <a href="mailto:adnane@helveticai.ch" class="text-gray-500 hover:text-blue-600">✉️ Email</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="py-20">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang fr active">Contactez-nous</h2>
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang en">Contact Us</h2>
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang de">Kontaktieren Sie uns</h2>
-
-      <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in lang fr active">
+<div class="mt-4 flex justify-center gap-4">
+<a class="text-gray-500 hover:text-blue-600" href="#">🔗 LinkedIn</a>
+<a class="text-gray-500 hover:text-blue-600" href="mailto:adnane@helveticai.ch">✉️ Email</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CONTACT -->
+<section class="py-20" id="contact">
+<div class="container mx-auto px-6">
+<h2 class="text-4xl font-bold text-center mb-6 fade-in lang fr active">Contactez-nous</h2>
+<h2 class="text-4xl font-bold text-center mb-6 fade-in lang en">Contact Us</h2>
+<h2 class="text-4xl font-bold text-center mb-6 fade-in lang de">Kontaktieren Sie uns</h2>
+<p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in lang fr active">
         Parlons de votre projet et voyons comment nos solutions d’IA peuvent booster votre performance financière.
       </p>
-      <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in lang en">
+<p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in lang en">
         Let’s discuss your project and how our AI solutions can boost your financial performance.
       </p>
-      <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in lang de">
+<p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in lang de">
         Sprechen wir über Ihr Projekt und wie unsere KI-Lösungen Ihre finanzielle Performance steigern können.
       </p>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <!-- Infos -->
-        <div class="bg-blue-50 p-8 rounded-xl shadow fade-in">
-          <h3 class="text-2xl font-semibold mb-4 lang fr active">Parlons de votre projet</h3>
-          <h3 class="text-2xl font-semibold mb-4 lang en">Let’s talk about your project</h3>
-          <h3 class="text-2xl font-semibold mb-4 lang de">Sprechen wir über Ihr Projekt</h3>
-          <p class="text-gray-700 mb-6 lang fr active">Nous répondons rapidement et proposons des pistes concrètes dès le premier échange.</p>
-          <p class="text-gray-700 mb-6 lang en">We respond quickly and propose concrete next steps from the first conversation.</p>
-          <p class="text-gray-700 mb-6 lang de">Wir reagieren schnell und schlagen schon im ersten Gespräch konkrete Schritte vor.</p>
-          <ul class="space-y-4 text-gray-700">
-            <li class="flex items-center gap-3">
-              <span class="text-blue-600 text-xl">📍</span>
-              <span class="lang fr active"><strong>Adresse :</strong> Rue de Chantepoulet 10, 1201 Genève, Suisse</span>
-              <span class="lang en"><strong>Address:</strong> Rue de Chantepoulet 10, 1201 Geneva, Switzerland</span>
-              <span class="lang de"><strong>Adresse:</strong> Rue de Chantepoulet 10, 1201 Genf, Schweiz</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <span class="text-blue-600 text-xl">✉️</span>
-              <span><strong>Email :</strong> contact@helveticai.ch</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <span class="text-blue-600 text-xl">📧</span>
-              <span><strong>Support :</strong> helviticaich@gmail.com</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <span class="text-blue-600 text-xl">📞</span>
-              <span><strong>+41 22 123 45 67</strong></span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Form (non-fonctionnel pour l’instant) -->
-        <form id="contact-form" class="space-y-4 bg-gray-50 p-8 rounded-xl shadow fade-in" novalidate>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input type="text" name="name" placeholder="Votre nom / Your name" required class="w-full p-3 border rounded-lg">
-            <input type="email" name="email" placeholder="Votre email / Your email" required class="w-full p-3 border rounded-lg">
-          </div>
-          <input type="text" name="company" placeholder="Entreprise / Company" class="w-full p-3 border rounded-lg">
-          <textarea name="message" placeholder="Votre message / Your message" rows="5" required class="w-full p-3 border rounded-lg"></textarea>
-
-          <label class="flex items-center gap-2 text-sm text-gray-600">
-            <input type="checkbox" required>
-            <span class="lang fr active">J'accepte que mes données soient traitées conformément à la politique de confidentialité.</span>
-            <span class="lang en">I agree that my data will be processed in accordance with the privacy policy.</span>
-            <span class="lang de">Ich stimme der Verarbeitung meiner Daten gemäß der Datenschutzrichtlinie zu.</span>
-          </label>
-
-          <div class="space-y-2">
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition lang fr active">Envoyer</button>
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition lang en">Send</button>
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition lang de">Senden</button>
-          </div>
-
-          <p id="form-status" class="text-center text-sm text-green-700 hidden mt-2">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+<!-- Infos -->
+<div class="bg-blue-50 p-8 rounded-xl shadow fade-in">
+<h3 class="text-2xl font-semibold mb-4 lang fr active">Parlons de votre projet</h3>
+<h3 class="text-2xl font-semibold mb-4 lang en">Let’s talk about your project</h3>
+<h3 class="text-2xl font-semibold mb-4 lang de">Sprechen wir über Ihr Projekt</h3>
+<p class="text-gray-700 mb-6 lang fr active">Nous répondons rapidement et proposons des pistes concrètes dès le premier échange.</p>
+<p class="text-gray-700 mb-6 lang en">We respond quickly and propose concrete next steps from the first conversation.</p>
+<p class="text-gray-700 mb-6 lang de">Wir reagieren schnell und schlagen schon im ersten Gespräch konkrete Schritte vor.</p>
+<ul class="space-y-4 text-gray-700">
+<li class="flex items-center gap-3">
+<span class="text-blue-600 text-xl">📍</span>
+<span class="lang fr active"><strong>Adresse :</strong> Rue de Chantepoulet 10, 1201 Genève, Suisse</span>
+<span class="lang en"><strong>Address:</strong> Rue de Chantepoulet 10, 1201 Geneva, Switzerland</span>
+<span class="lang de"><strong>Adresse:</strong> Rue de Chantepoulet 10, 1201 Genf, Schweiz</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="text-blue-600 text-xl">✉️</span>
+<span><strong>Email :</strong> contact@helveticai.ch</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="text-blue-600 text-xl">📧</span>
+<span><strong>Support :</strong> helviticaich@gmail.com</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="text-blue-600 text-xl">📞</span>
+<span><strong>+41 22 123 45 67</strong></span>
+</li>
+</ul>
+</div>
+<!-- Form (non-fonctionnel pour l’instant) -->
+<form class="space-y-4 bg-gray-50 p-8 rounded-xl shadow fade-in" id="contact-form" novalidate="">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<input class="w-full p-3 border rounded-lg" name="name" placeholder="Votre nom / Your name" required="" type="text"/>
+<input class="w-full p-3 border rounded-lg" name="email" placeholder="Votre email / Your email" required="" type="email"/>
+</div>
+<input class="w-full p-3 border rounded-lg" name="company" placeholder="Entreprise / Company" type="text"/>
+<textarea class="w-full p-3 border rounded-lg" name="message" placeholder="Votre message / Your message" required="" rows="5"></textarea>
+<label class="flex items-center gap-2 text-sm text-gray-600">
+<input required="" type="checkbox"/>
+<span class="lang fr active">J'accepte que mes données soient traitées conformément à la politique de confidentialité.</span>
+<span class="lang en">I agree that my data will be processed in accordance with the privacy policy.</span>
+<span class="lang de">Ich stimme der Verarbeitung meiner Daten gemäß der Datenschutzrichtlinie zu.</span>
+</label>
+<div class="space-y-2">
+<button class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition lang fr active" type="submit">Envoyer</button>
+<button class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition lang en" type="submit">Send</button>
+<button class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition lang de" type="submit">Senden</button>
+</div>
+<p class="text-center text-sm text-green-700 hidden mt-2" id="form-status">
             ✓ Message non envoyé (mode démo). Intégration à venir.
           </p>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="border-t py-8">
-    <div class="container mx-auto px-6 text-sm text-gray-600 flex flex-col md:flex-row items-center justify-between gap-3">
-      <div>© <span id="year"></span> Helvetic AI</div>
-      <div class="flex gap-4">
-        <a href="#" class="hover:text-blue-600 lang fr active">Politique de confidentialité</a>
-        <a href="#" class="hover:text-blue-600 lang en">Privacy Policy</a>
-        <a href="#" class="hover:text-blue-600 lang de">Datenschutzerklärung</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- HELVETICBOT (optionnel) -->
-  <button id="bot-button" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl" aria-label="Open HelveticBot">💬</button>
-  <div id="bot-window" class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-2xl border overflow-hidden">
-    <div class="bg-blue-700 text-white p-4 font-semibold">HelveticBot</div>
-    <div id="bot-messages" class="p-4 h-72 overflow-y-auto text-sm text-gray-700">
-      <p class="text-gray-500 lang fr active">Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?</p>
-      <p class="text-gray-500 lang en">Hello 👋 I’m HelveticBot. How can I help?</p>
-      <p class="text-gray-500 lang de">Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?</p>
-    </div>
-    <form id="bot-form" class="flex border-t">
-      <input type="text" id="bot-input" placeholder="Écrivez un message... / Write a message..." class="flex-1 p-2 text-sm outline-none">
-      <button type="submit" class="px-4 text-blue-700 font-bold">➤</button>
-    </form>
-  </div>
-
-  <!-- SCRIPTS -->
-  <script>
+</form>
+</div>
+</div>
+</section>
+<!-- FOOTER -->
+<footer class="border-t py-8">
+<div class="container mx-auto px-6 text-sm text-gray-600 flex flex-col md:flex-row items-center justify-between gap-3">
+<div>© <span id="year"></span> Helvetic AI</div>
+<div class="flex gap-4">
+<a class="hover:text-blue-600 lang fr active" href="#">Politique de confidentialité</a>
+<a class="hover:text-blue-600 lang en" href="#">Privacy Policy</a>
+<a class="hover:text-blue-600 lang de" href="#">Datenschutzerklärung</a>
+</div>
+</div>
+</footer>
+<!-- HELVETICBOT (optionnel) -->
+<button aria-label="Open HelveticBot" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl" id="bot-button">💬</button>
+<div class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-2xl border overflow-hidden" id="bot-window">
+<div class="bg-blue-700 text-white p-4 font-semibold">HelveticBot</div>
+<div class="p-4 h-72 overflow-y-auto text-sm text-gray-700" id="bot-messages">
+<p class="text-gray-500 lang fr active">Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?</p>
+<p class="text-gray-500 lang en">Hello 👋 I’m HelveticBot. How can I help?</p>
+<p class="text-gray-500 lang de">Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?</p>
+</div>
+<form class="flex border-t" id="bot-form">
+<input class="flex-1 p-2 text-sm outline-none" id="bot-input" placeholder="Écrivez un message... / Write a message..." type="text"/>
+<button class="px-4 text-blue-700 font-bold" type="submit">➤</button>
+</form>
+</div>
+<!-- SCRIPTS -->
+<script>
     // Mobile menu
     const mbBtn = document.getElementById('mobileMenuBtn');
     const mbPanel = document.getElementById('mobilePanel');
@@ -673,6 +635,5 @@
   </script>
 </body>
 </html>
-
 
 
