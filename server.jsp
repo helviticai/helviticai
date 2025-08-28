@@ -6,11 +6,11 @@ import fetch from "node-fetch";
 
 dotenv.config();
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(express.static("public")); // sert ton index.html + css/js
+app.use(express.static(".")); // sert index.html, css, js
 
 // Endpoint API pour ton chatbot
 app.post("/api/chat", async (req, res) => {
@@ -46,3 +46,4 @@ app.post("/api/chat", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Serveur en ligne sur http://localhost:${PORT}`);
 });
+
