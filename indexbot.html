@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>HelviticBot</title>
+</head>
+<body>
+  <div id="chat"></div>
+  <input id="msg" placeholder="Écrivez un message...">
+  <button onclick="sendMsg()">Envoyer</button>
+
+  <script>
+    async function sendMsg() {
+      const msg = document.getElementById("msg").value;
+      document.getElementById("chat").innerHTML += "<p><b>Vous:</b> " + msg + "</p>";
+
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg })
+      });
+
+      const data = await res.json();
+      document.getElementById("chat").innerHTML += "<p><b>Bot:</b> " + data.reply + "</p>";
+    }
+  </script>
+</body>
+</html>
