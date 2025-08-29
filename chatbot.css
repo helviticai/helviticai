@@ -1,22 +1,26 @@
-/* Bouton flottant */
-.chatbot-button {
+/* Bouton flottant 💬 */
+.bot-button {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 50%;
   width: 55px;
   height: 55px;
-  font-size: 1.5rem;
+  border-radius: 50%;
+  background: #2563eb;
+  color: white;
+  font-size: 22px;
+  border: none;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+  z-index: 1001;
+}
+.bot-button:hover {
+  transform: scale(1.1);
 }
 
-/* Fenêtre du chatbot */
-.chatbot-window {
+/* Fenêtre chatbot */
+#bot-window {
   position: fixed;
   bottom: 90px;
   right: 20px;
@@ -24,63 +28,72 @@
   height: 420px;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   z-index: 1000;
 }
 
-/* En-tête */
-.chatbot-header {
+/* Header */
+.bot-header {
   background: #2563eb;
   color: white;
-  padding: 12px;
+  padding: 10px;
   font-weight: bold;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Messages */
-.chatbot-messages {
+/* Bouton X */
+.bot-close {
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+.bot-close:hover {
+  color: #f87171;
+}
+
+/* Zone messages */
+.bot-messages {
   flex: 1;
   padding: 10px;
   overflow-y: auto;
-  font-size: 0.9rem;
+  font-size: 14px;
 }
-
 .bot-msg {
   background: #e5e7eb;
-  padding: 8px;
-  margin: 6px 0;
+  padding: 8px 10px;
   border-radius: 8px;
+  margin-bottom: 6px;
 }
-
 .user-msg {
   background: #2563eb;
   color: white;
-  padding: 8px;
-  margin: 6px 0;
+  padding: 8px 10px;
   border-radius: 8px;
+  margin-bottom: 6px;
   text-align: right;
 }
 
 /* Formulaire */
-.chatbot-form {
+.bot-form {
   display: flex;
   border-top: 1px solid #ddd;
 }
-
-.chatbot-input {
+.bot-form input {
   flex: 1;
-  padding: 8px;
   border: none;
-  outline: none;
+  padding: 10px;
+  font-size: 14px;
 }
-
-.chatbot-submit {
+.bot-form button {
   background: #2563eb;
   color: white;
   border: none;
-  padding: 0 16px;
+  padding: 0 15px;
   cursor: pointer;
 }
