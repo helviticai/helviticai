@@ -1,12 +1,10 @@
-<!DOCTYPE html>
+     <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chatbot Helvetic AI</title>
-
+  <title>Chatbot Fix</title>
   <style>
-    /* === Bouton flottant === */
     #bot-button {
       position: fixed;
       bottom: 20px;
@@ -19,171 +17,99 @@
       height: 60px;
       font-size: 24px;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      transition: transform 0.2s ease-in-out;
       z-index: 10000;
     }
-    #bot-button:hover {
-      transform: scale(1.1);
-    }
-
-    /* === Fenêtre du chatbot === */
     #bot-window {
       position: fixed;
       bottom: 90px;
       right: 20px;
       width: 350px;
       height: 450px;
-      background: #fff;
+      background: white;
       border-radius: 12px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
       display: none;
       flex-direction: column;
       overflow: hidden;
       z-index: 10001;
     }
-
-    /* === Header === */
     .bot-header {
       background: #2563eb;
       color: white;
-      padding: 12px;
-      font-weight: bold;
+      padding: 10px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
     }
-    .bot-close {
-      cursor: pointer;
-      font-size: 18px;
-    }
-
-    /* === Zone des messages === */
     #bot-messages {
       flex: 1;
       padding: 10px;
       overflow-y: auto;
-      font-size: 14px;
       background: #f9fafb;
     }
-    .bot-msg {
-      background: #e0e7ff;
-      padding: 8px 12px;
-      margin: 6px 0;
-      border-radius: 8px;
-      color: #1e3a8a;
-      max-width: 80%;
-    }
-    .user-msg {
-      background: #2563eb;
-      color: white;
-      padding: 8px 12px;
-      margin: 6px 0;
-      border-radius: 8px;
-      text-align: right;
-      align-self: flex-end;
-      max-width: 80%;
-    }
-
-    /* === Formulaire === */
     .bot-form {
       display: flex;
       border-top: 1px solid #ddd;
-      padding: 8px;
       background: white;
+      padding: 8px;
+      position: relative;
+      z-index: 20000; /* 🔥 priorité max pour input */
     }
     #bot-input {
       flex: 1;
-      border: none;
       padding: 10px;
-      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
       outline: none;
     }
     .bot-form button {
       background: #2563eb;
       color: white;
       border: none;
-      padding: 0 16px;
-      cursor: pointer;
+      padding: 0 12px;
+      margin-left: 5px;
       border-radius: 6px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <!-- Bouton flottant -->
-  <button id="bot-button">💬</button>
+<button id="bot-button">💬</button>
 
-  <!-- Fenêtre chatbot -->
-  <div id="bot-window">
-    <div class="bot-header">
-      Helvetic AI Chatbot
-      <span id="bot-close" class="bot-close">×</span>
-    </div>
-    <div id="bot-messages">
-      <p class="bot-msg">👋 Bonjour, je suis HelveticBot. Comment puis-je vous aider ?</p>
-    </div>
-    <form id="bot-form" class="bot-form">
-      <input id="bot-input" type="text" placeholder="Écrivez votre message..." autocomplete="off"/>
-      <button type="submit">➤</button>
-    </form>
+<div id="bot-window">
+  <div class="bot-header">
+    HelveticBot
+    <span id="bot-close" style="cursor:pointer">×</span>
   </div>
+  <div id="bot-messages">
+    <p>👋 Bonjour ! Je suis HelveticBot.</p>
+  </div>
+  <form id="bot-form" class="bot-form">
+    <input id="bot-input" type="text" placeholder="Écrivez ici..." autocomplete="off"/>
+    <button type="submit">➤</button>
+  </form>
+</div>
 
-  <script>
-    // === Réponses multilingues ===
-    const responses = {
-      fr: {
-        greeting: "Bonjour! Comment puis-je vous aider ?",
-        services: "Nous offrons des solutions IA pour la gestion financière, l’optimisation et la formation.",
-        contact: "Vous pouvez nous contacter via notre formulaire ou par email : helviticaich@gmail.com.",
-        goodbye: "Merci pour votre visite ! À bientôt 👋",
-        unknown: "Désolé, je n'ai pas compris. Pouvez-vous préciser ?"
-      },
-      en: {
-        greeting: "Hello! How can I help?",
-        services: "We provide AI solutions for financial management, optimization, and training.",
-        contact: "You can reach us via the form or email: helviticaich@gmail.com.",
-        goodbye: "Thank you for visiting! See you soon 👋",
-        unknown: "Sorry, I didn't understand. Could you clarify?"
-      },
-      de: {
-        greeting: "Hallo! Wie kann ich Ihnen helfen?",
-        services: "Wir bieten KI-Lösungen für Finanzmanagement, Optimierung und Schulungen.",
-        contact: "Sie erreichen uns über das Formular oder per E-Mail: helviticaich@gmail.com.",
-        goodbye: "Danke für Ihren Besuch! Bis bald 👋",
-        unknown: "Entschuldigung, das habe ich nicht verstanden. Können Sie das bitte präzisieren?"
-      }
-    };
+<script>
+  const botBtn = document.getElementById("bot-button");
+  const botWin = document.getElementById("bot-window");
+  const botClose = document.getElementById("bot-close");
+  const botForm = document.getElementById("bot-form");
+  const botInput = document.getElementById("bot-input");
+  const botMessages = document.getElementById("bot-messages");
 
-    let currentLang = "fr"; // langue par défaut
+  botBtn.addEventListener("click", () => {
+    botWin.style.display = botWin.style.display === "flex" ? "none" : "flex";
+  });
+  botClose.addEventListener("click", () => botWin.style.display = "none");
 
-    // Sélecteurs
-    const botBtn = document.getElementById("bot-button");
-    const botWin = document.getElementById("bot-window");
-    const botClose = document.getElementById("bot-close");
-    const botForm = document.getElementById("bot-form");
-    const botInput = document.getElementById("bot-input");
-    const botMessages = document.getElementById("bot-messages");
+  botForm.addEventListener("submit", e => {
+    e.preventDefault();
+    const msg = botInput.value.trim();
+    if (!msg) return;
+    botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
+    botInput.value = "";
+  });
+</script>
 
-    // Ouvrir / fermer chatbot
-    botBtn.addEventListener("click", () => {
-      botWin.style.display = botWin.style.display === "flex" ? "none" : "flex";
-    });
-    botClose.addEventListener("click", () => {
-      botWin.style.display = "none";
-    });
-
-    // Ajouter un message
-    function addMessage(sender, text) {
-      const p = document.createElement("p");
-      p.classList.add(sender === "bot" ? "bot-msg" : "user-msg");
-      p.innerHTML = text;
-      botMessages.appendChild(p);
-      botMessages.scrollTop = botMessages.scrollHeight;
-    }
-
-    // Gestion des réponses
-    botForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const msg = botInput.value.trim().toLowerCase();
-      if (!m
+</body>
+</html>
