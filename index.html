@@ -702,83 +702,509 @@
       botMessages.scrollTop = botMessages.scrollHeight;
     });
   </script>
-  <!-- Chatbot Bulle -->
-<div id="chatbot-container" class="fixed bottom-5 right-5 z-50">
-  <!-- Bulle flottante -->
-  <button id="chatbot-toggle" class="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center shadow-lg hover:scale-110 transition">
-    💬
-  </button>
+  <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helvitic AI - Chatbot Avancé</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+        }
+        .pulse-glow { animation: pulse-glow 2s infinite; }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .slide-up { animation: slideUp 0.3s ease-out; }
+        
+        @keyframes typing {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        .typing-indicator { animation: typing 1s infinite; }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .message-user {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+        
+        .message-bot {
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border: 1px solid #d1d5db;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: #f1f5f9; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Chatbot Container -->
+    <div id="chatbot-container" class="fixed bottom-5 right-5 z-50">
+        <!-- Notification Badge -->
+        <div id="notification-badge" class="absolute -top-2 -left-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold hidden">
+            <span id="notification-count">1</span>
+        </div>
+        
+        <!-- Toggle Button -->
+        <button id="chatbot-toggle" class="w-16 h-16 rounded-full gradient-bg flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300 pulse-glow">
+            <span id="toggle-icon" class="text-2xl">🤖</span>
+        </button>
 
-  <!-- Fenêtre du chatbot -->
-  <div id="chatbot-window" class="hidden w-96 h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col">
-    <!-- En-tête -->
-    <div class="bg-blue-600 text-white flex justify-between items-center p-3 rounded-t-2xl">
-      <span class="font-bold">Helvitic AI - Démo</span>
-      <button id="chatbot-close" class="text-white text-xl font-bold">×</button>
+        <!-- Chat Window -->
+        <div id="chatbot-window" class="hidden absolute bottom-20 right-0 w-96 h-[600px] glass-effect rounded-3xl shadow-2xl flex flex-col border border-white/20">
+            <!-- Header -->
+            <div class="gradient-bg text-white flex justify-between items-center p-4 rounded-t-3xl">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                        <span class="text-lg">🚀</span>
+                    </div>
+                    <div>
+                        <div class="font-bold">Helvitic AI</div>
+                        <div class="text-xs opacity-80" id="status">En ligne</div>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button id="clear-chat" class="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors" title="Effacer la conversation">
+                        🗑️
+                    </button>
+                    <button id="chatbot-close" class="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors">
+                        ✕
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages Container -->
+            <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin">
+                <div class="flex items-start space-x-2 slide-up">
+                    <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                        AI
+                    </div>
+                    <div class="message-bot px-4 py-2 rounded-2xl rounded-tl-sm max-w-72 text-sm">
+                        👋 Bonjour ! Je suis votre assistant virtuel Helvitic AI. Comment puis-je vous aider aujourd'hui ?
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div id="typing-indicator" class="hidden px-4 pb-2">
+                <div class="flex items-center space-x-2 text-gray-500 text-sm">
+                    <div class="w-6 h-6 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white text-xs">
+                        AI
+                    </div>
+                    <span>Assistant écrit</span>
+                    <span class="typing-indicator">...</span>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div id="quick-actions" class="px-4 pb-2">
+                <div class="flex space-x-2 overflow-x-auto scrollbar-thin">
+                    <button class="quick-action-btn flex-shrink-0 bg-blue-100 hover:bg-blue-200 px-3 py-1 rounded-full text-xs transition-colors" data-action="services">
+                        🚀 Services
+                    </button>
+                    <button class="quick-action-btn flex-shrink-0 bg-green-100 hover:bg-green-200 px-3 py-1 rounded-full text-xs transition-colors" data-action="demo">
+                        ✨ Démo
+                    </button>
+                    <button class="quick-action-btn flex-shrink-0 bg-purple-100 hover:bg-purple-200 px-3 py-1 rounded-full text-xs transition-colors" data-action="contact">
+                        📞 Contact
+                    </button>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="border-t border-gray-200 p-4">
+                <div class="flex items-center space-x-3">
+                    <div class="flex-1 relative">
+                        <input 
+                            type="text" 
+                            id="user-input" 
+                            placeholder="Tapez votre message..." 
+                            class="w-full px-4 py-3 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                            maxlength="500"
+                        >
+                        <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400" id="char-count">
+                            0/500
+                        </div>
+                    </div>
+                    <button id="send-btn" class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform disabled:opacity-50">
+                        <span id="send-icon">📤</span>
+                    </button>
+                </div>
+                
+                <!-- Suggestions -->
+                <div id="suggestions" class="mt-2 space-y-1"></div>
+            </div>
+
+            <!-- Footer -->
+            <div class="px-4 pb-3 text-center">
+                <div class="text-xs text-gray-500">
+                    Alimenté par <span class="font-semibold text-blue-600">Helvitic AI</span>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Messages -->
-    <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-2 text-sm">
-      <div class="text-gray-600">👋 Bonjour ! Sélectionnez une question ci-dessous :</div>
-    </div>
+    <script>
+        // Base de connaissances enrichie
+        const knowledgeBase = {
+            services: {
+                keywords: ["service", "proposez", "offrez", "faites", "solutions", "produits"],
+                responses: [
+                    "🚀 **Nos services principaux :**\n• Automatisation intelligente\n• Analyse de données avancée\n• IA personnalisée\n• Conseil en transformation digitale\n• Formation et accompagnement",
+                    "💼 Nous proposons des solutions complètes d'IA : automatisation, analyse prédictive, chatbots, vision par ordinateur et bien plus encore !",
+                    "⚡ Découvrez nos services : développement sur mesure, intégration d'IA, optimisation de processus et support technique complet."
+                ]
+            },
+            contact: {
+                keywords: ["contact", "joindre", "appeler", "email", "téléphone", "rendez-vous"],
+                responses: [
+                    "📩 **Contactez-nous :**\n• Email: contact@helvitic.ai\n• Site: www.helvitic.ai\n• Réponse sous 24h garantie !",
+                    "☎️ Plusieurs moyens de nous contacter : email, formulaire en ligne ou demande de rappel. Nous répondons rapidement !",
+                    "📞 Notre équipe est disponible du lundi au vendredi. Contactez-nous via notre site web pour un premier échange gratuit."
+                ]
+            },
+            demo: {
+                keywords: ["démo", "test", "essai", "gratuit", "exemple", "voir"],
+                responses: [
+                    "✨ **Démo gratuite disponible !**\n• Générateur de prompts interactif\n• Exemples de solutions IA\n• Consultation personnalisée",
+                    "🎁 Testez gratuitement notre générateur de prompts et découvrez le potentiel de l'IA pour votre entreprise !",
+                    "🆓 Démo gratuite de 30 minutes incluant : présentation personnalisée, Q&R et recommandations spécifiques."
+                ]
+            },
+            pricing: {
+                keywords: ["prix", "tarif", "coût", "budget", "devis"],
+                responses: [
+                    "💰 **Tarification flexible :**\n• Audit gratuit initial\n• Devis personnalisé\n• Options de paiement adaptées\n• ROI garanti",
+                    "📊 Nos tarifs s'adaptent à votre budget et vos objectifs. Demandez un devis personnalisé pour une estimation précise.",
+                    "💼 Pricing transparent basé sur vos besoins spécifiques. Consultation gratuite pour établir un devis détaillé."
+                ]
+            },
+            company: {
+                keywords: ["helvitic", "entreprise", "équipe", "qui", "société"],
+                responses: [
+                    "🏢 **Helvitic AI** - Votre partenaire en transformation digitale. Experts en IA depuis 2020, nous accompagnons les entreprises vers l'excellence technologique.",
+                    "👥 Notre équipe pluridisciplinaire combine expertise technique et vision business pour créer des solutions IA sur mesure.",
+                    "🚀 Helvitic AI : innovation, proximité client et excellence technologique pour accélérer votre transformation digitale."
+                ]
+            },
+            automation: {
+                keywords: ["automatisation", "automatique", "tâches", "processus", "workflow"],
+                responses: [
+                    "⚡ **Automatisation intelligente :**\n• Emails et communications\n• Gestion CRM/ERP\n• Traitement de documents\n• Workflows personnalisés",
+                    "🤖 Nous automatisons vos tâches répétitives pour libérer du temps pour l'innovation et la croissance.",
+                    "📈 Automatisation sur mesure : de 30% à 80% de gain de productivité selon les processus optimisés."
+                ]
+            },
+            ai_consulting: {
+                keywords: ["conseil", "consulting", "stratégie", "accompagnement"],
+                responses: [
+                    "📊 **Conseil en IA stratégique :**\n• Audit de maturité digitale\n• Roadmap personnalisée\n• Accompagnement dans la transformation\n• Formation des équipes",
+                    "🎯 Notre approche conseil : analyse de vos besoins, recommandations stratégiques et accompagnement dans l'implémentation.",
+                    "💡 Conseil expert pour identifier les opportunités IA les plus rentables pour votre secteur d'activité."
+                ]
+            }
+        };
 
-    <!-- Questions -->
-    <div class="border-t p-2 space-y-2 overflow-y-auto max-h-40"></div>
-  </div>
-</div>
+        // Réponses par défaut avec personnalité
+        const defaultResponses = [
+            "🤔 Intéressant ! Pouvez-vous me donner plus de détails pour que je puisse mieux vous aider ?",
+            "💡 Je pense pouvoir vous aider ! Reformulez votre question pour que je comprenne mieux vos besoins.",
+            "🎯 Cette question mérite une réponse personnalisée. Contactez-nous directement pour un échange approfondi !",
+            "✨ Excellente question ! Je vous invite à découvrir nos solutions sur notre site web ou à nous contacter.",
+            "🚀 Pour une réponse complète et personnalisée, je recommande une consultation gratuite avec notre équipe."
+        ];
 
-<script>
-  // Les 20 questions/réponses
-  const qaList = [
-    {q: "Quels sont vos services ?", r: "🚀 Nous proposons l’automatisation, l’analyse de données, l’IA personnalisée et l’innovation digitale."},
-    {q: "Comment puis-je vous contacter ?", r: "📩 Vous pouvez nous écrire via la page Contact ou à contact@helvitic.ai"},
-    {q: "Qu’est-ce que Helvitic AI ?", r: "🤖 Helvitic AI aide les entreprises à tirer parti de l’intelligence artificielle pour innover et se transformer."},
-    {q: "Avez-vous une démo ?", r: "✅ Oui, nous proposons un générateur de prompts et une démo gratuite."},
-    {q: "Quels sont vos tarifs ?", r: "💼 Nos tarifs dépendent de vos besoins spécifiques. Contactez-nous pour un devis personnalisé."},
-    {q: "Proposez-vous du conseil en IA ?", r: "📊 Oui, nous offrons du conseil stratégique et opérationnel pour intégrer l’IA efficacement."},
-    {q: "Pouvez-vous automatiser des tâches administratives ?", r: "✅ Absolument, nous automatisons emails, formulaires, gestion CRM/ERP et plus encore."},
-    {q: "Faites-vous du développement sur mesure ?", r: "⚙️ Oui, nous créons des solutions IA sur mesure adaptées à chaque entreprise."},
-    {q: "Accompagnez-vous les PME ?", r: "🏢 Bien sûr ! Nos solutions sont conçues pour startups, PME et grandes entreprises."},
-    {q: "Quels outils utilisez-vous ?", r: "🛠️ Nous utilisons des modèles d’IA modernes, des solutions cloud sécurisées et des frameworks adaptés."},
-    {q: "Puis-je tester gratuitement vos services ?", r: "🎁 Oui, nous proposons une démo gratuite avec notre générateur de prompts."},
-    {q: "Proposez-vous un support technique ?", r: "☎️ Oui, nous assurons un support continu pour nos clients (email, chat et visio)."},
-    {q: "Intervenez-vous à l’international ?", r: "🌍 Oui, nous travaillons avec des entreprises en Europe, Afrique et au-delà."},
-    {q: "Quels sont vos délais moyens ?", r: "⏳ Selon le projet : de quelques jours pour un prototype à quelques semaines pour une solution complète."},
-    {q: "Faites-vous de la formation en IA ?", r: "📚 Oui, nous proposons des ateliers et formations personnalisées."},
-    {q: "Vos solutions sont-elles sécurisées ?", r: "🔒 Oui, nous respectons les normes de sécurité et RGPD pour protéger vos données."},
-    {q: "Acceptez-vous les projets innovants ?", r: "🚀 Bien sûr ! Nous aimons relever des défis technologiques."},
-    {q: "Quelle est votre valeur ajoutée ?", r: "✨ Nous allions expertise technique et compréhension métier pour maximiser vos résultats."},
-    {q: "Puis-je avoir un devis personnalisé ?", r: "📑 Oui, contactez-nous et nous établirons un devis précis selon vos besoins."},
-    {q: "Pourquoi choisir Helvitic AI ?", r: "⭐ Parce que nous combinons innovation, proximité client et excellence technologique."}
-  ];
+        // Suggestions contextuelles
+        const suggestions = [
+            "Quels sont vos services ?",
+            "Comment vous contacter ?",
+            "Avez-vous une démo gratuite ?",
+            "Quels sont vos tarifs ?",
+            "Proposez-vous du conseil en IA ?",
+            "Pouvez-vous automatiser mes tâches ?"
+        ];
 
-  const toggleBtn = document.getElementById("chatbot-toggle");
-  const chatWindow = document.getElementById("chatbot-window");
-  const closeBtn = document.getElementById("chatbot-close");
-  const messagesDiv = document.getElementById("chatbot-messages");
-  const questionsDiv = chatWindow.querySelector("div.border-t");
+        // Variables globales
+        let conversationHistory = [];
+        let isTyping = false;
+        let suggestionIndex = 0;
 
-  // Toggle ouvrir/fermer
-  toggleBtn.addEventListener("click", () => {
-    chatWindow.classList.toggle("hidden");
-  });
-  closeBtn.addEventListener("click", () => {
-    chatWindow.classList.add("hidden");
-  });
+        // Éléments DOM
+        const toggleBtn = document.getElementById("chatbot-toggle");
+        const chatWindow = document.getElementById("chatbot-window");
+        const closeBtn = document.getElementById("chatbot-close");
+        const clearBtn = document.getElementById("clear-chat");
+        const messagesDiv = document.getElementById("chatbot-messages");
+        const userInput = document.getElementById("user-input");
+        const sendBtn = document.getElementById("send-btn");
+        const typingIndicator = document.getElementById("typing-indicator");
+        const charCount = document.getElementById("char-count");
+        const suggestionsDiv = document.getElementById("suggestions");
+        const notificationBadge = document.getElementById("notification-badge");
 
-  // Génération dynamique des questions
-  qaList.forEach(item => {
-    const btn = document.createElement("button");
-    btn.innerText = item.q;
-    btn.className = "w-full text-left px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm";
-    btn.onclick = () => {
-      messagesDiv.innerHTML += `<div class="text-right"><span class="bg-blue-100 px-3 py-1 rounded-lg">${item.q}</span></div>`;
-      messagesDiv.innerHTML += `<div class="text-left"><span class="bg-gray-100 px-3 py-1 rounded-lg">${item.r}</span></div>`;
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    };
-    questionsDiv.appendChild(btn);
-  });
-</script>
+        // Initialisation
+        function init() {
+            setupEventListeners();
+            showSuggestions();
+            // Afficher une notification après 5 secondes si pas d'interaction
+            setTimeout(showNotification, 5000);
+        }
+
+        // Configuration des écouteurs d'événements
+        function setupEventListeners() {
+            toggleBtn.addEventListener("click", toggleChat);
+            closeBtn.addEventListener("click", closeChat);
+            clearBtn.addEventListener("click", clearConversation);
+            sendBtn.addEventListener("click", sendMessage);
+            userInput.addEventListener("keypress", handleKeyPress);
+            userInput.addEventListener("input", updateCharCount);
+            
+            // Quick actions
+            document.querySelectorAll(".quick-action-btn").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    const action = e.target.dataset.action;
+                    handleQuickAction(action);
+                });
+            });
+        }
+
+        // Toggle chat
+        function toggleChat() {
+            const isHidden = chatWindow.classList.contains("hidden");
+            if (isHidden) {
+                chatWindow.classList.remove("hidden");
+                chatWindow.classList.add("slide-up");
+                userInput.focus();
+                hideNotification();
+            } else {
+                closeChat();
+            }
+        }
+
+        // Fermer chat
+        function closeChat() {
+            chatWindow.classList.add("hidden");
+        }
+
+        // Effacer conversation
+        function clearConversation() {
+            conversationHistory = [];
+            messagesDiv.innerHTML = `
+                <div class="flex items-start space-x-2 slide-up">
+                    <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                        AI
+                    </div>
+                    <div class="message-bot px-4 py-2 rounded-2xl rounded-tl-sm max-w-72 text-sm">
+                        👋 Conversation effacée ! Comment puis-je vous aider ?
+                    </div>
+                </div>
+            `;
+            showSuggestions();
+        }
+
+        // Gestion des touches
+        function handleKeyPress(e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        }
+
+        // Mise à jour compteur caractères
+        function updateCharCount() {
+            const count = userInput.value.length;
+            charCount.textContent = `${count}/500`;
+            charCount.style.color = count > 450 ? "#ef4444" : "#9ca3af";
+        }
+
+        // Actions rapides
+        function handleQuickAction(action) {
+            const actionQuestions = {
+                services: "Quels sont vos services ?",
+                demo: "Avez-vous une démo gratuite ?",
+                contact: "Comment puis-je vous contacter ?"
+            };
+            
+            userInput.value = actionQuestions[action] || "";
+            sendMessage();
+        }
+
+        // Envoyer message
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message || isTyping) return;
+
+            // Ajouter message utilisateur
+            addUserMessage(message);
+            userInput.value = "";
+            updateCharCount();
+            hideSuggestions();
+
+            // Simuler frappe
+            showTypingIndicator();
+            
+            // Délai réaliste pour la réponse
+            setTimeout(() => {
+                const response = generateResponse(message);
+                hideTypingIndicator();
+                addBotMessage(response);
+                updateSuggestions();
+            }, 1000 + Math.random() * 2000);
+
+            conversationHistory.push({user: message, timestamp: Date.now()});
+        }
+
+        // Ajouter message utilisateur
+        function addUserMessage(message) {
+            const messageEl = document.createElement("div");
+            messageEl.className = "flex justify-end slide-up";
+            messageEl.innerHTML = `
+                <div class="message-user px-4 py-2 rounded-2xl rounded-tr-sm max-w-72 text-sm">
+                    ${escapeHtml(message)}
+                </div>
+            `;
+            messagesDiv.appendChild(messageEl);
+            scrollToBottom();
+        }
+
+        // Ajouter message bot
+        function addBotMessage(message) {
+            const messageEl = document.createElement("div");
+            messageEl.className = "flex items-start space-x-2 slide-up";
+            messageEl.innerHTML = `
+                <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                    AI
+                </div>
+                <div class="message-bot px-4 py-2 rounded-2xl rounded-tl-sm max-w-72 text-sm">
+                    ${formatMessage(message)}
+                </div>
+            `;
+            messagesDiv.appendChild(messageEl);
+            scrollToBottom();
+        }
+
+        // Génération de réponse intelligente
+        function generateResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Recherche dans la base de connaissances
+            for (const [category, data] of Object.entries(knowledgeBase)) {
+                for (const keyword of data.keywords) {
+                    if (lowerMessage.includes(keyword)) {
+                        const responses = data.responses;
+                        return responses[Math.floor(Math.random() * responses.length)];
+                    }
+                }
+            }
+
+            // Réponses contextuelles
+            if (lowerMessage.includes("merci") || lowerMessage.includes("remercie")) {
+                return "😊 Avec plaisir ! N'hésitez pas si vous avez d'autres questions.";
+            }
+            
+            if (lowerMessage.includes("au revoir") || lowerMessage.includes("bye")) {
+                return "👋 Au revoir ! N'hésitez pas à revenir quand vous voulez. Bonne journée !";
+            }
+
+            // Réponse par défaut
+            return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+        }
+
+        // Formattage des messages
+        function formatMessage(message) {
+            return message
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>')
+                .replace(/•/g, '<span style="color: #3b82f6;">•</span>');
+        }
+
+        // Échapper HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Afficher indicateur de frappe
+        function showTypingIndicator() {
+            isTyping = true;
+            typingIndicator.classList.remove("hidden");
+            scrollToBottom();
+        }
+
+        // Masquer indicateur de frappe
+        function hideTypingIndicator() {
+            isTyping = false;
+            typingIndicator.classList.add("hidden");
+        }
+
+        // Défiler vers le bas
+        function scrollToBottom() {
+            setTimeout(() => {
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }, 100);
+        }
+
+        // Afficher suggestions
+        function showSuggestions() {
+            suggestionsDiv.innerHTML = "";
+            const currentSuggestions = suggestions.slice(suggestionIndex, suggestionIndex + 3);
+            
+            currentSuggestions.forEach(suggestion => {
+                const btn = document.createElement("button");
+                btn.className = "w-full text-left px-3 py-2 bg-gray-50 hover:bg-blue-50 rounded-lg text-xs transition-colors border border-gray-200";
+                btn.textContent = suggestion;
+                btn.onclick = () => {
+                    userInput.value = suggestion;
+                    sendMessage();
+                };
+                suggestionsDiv.appendChild(btn);
+            });
+        }
+
+        // Masquer suggestions
+        function hideSuggestions() {
+            suggestionsDiv.innerHTML = "";
+        }
+
+        // Mettre à jour suggestions
+        function updateSuggestions() {
+            suggestionIndex = (suggestionIndex + 3) % suggestions.length;
+            showSuggestions();
+        }
+
+        // Afficher notification
+        function showNotification() {
+            if (chatWindow.classList.contains("hidden")) {
+                notificationBadge.classList.remove("hidden");
+            }
+        }
+
+        // Masquer notification
+        function hideNotification() {
+            notificationBadge.classList.add("hidden");
+        }
+
+        // Initialiser l'application
+        init();
+    </script>
+</body>
+</html>
 
 </body>
 </html>
