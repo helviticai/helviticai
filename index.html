@@ -572,9 +572,31 @@
       </div>
     </div>
   </section>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Helvetic AI — FR / EN / DE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
+    .fade-in.show { opacity: 1; transform: translateY(0); }
+    .accordion-content { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+    .accordion-content.open { max-height: 1000px; }
+    .focus-ring:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+    .lang { display:none; }
+    .lang.active { display:block; }
+    .flag { width:28px; height:20px; border-radius:3px; cursor:pointer; }
+  </style>
+</head>
+<body class="bg-white text-gray-900">
 
-  <!-- HELVETICBOT -->
+  <!-- BOT BUTTON -->
   <button id="bot-button" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl" aria-label="Open HelveticBot">💬</button>
+
+  <!-- BOT WINDOW -->
   <div id="bot-window" class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-2xl border overflow-hidden">
     <div class="bg-blue-700 text-white p-4 font-semibold">HelveticBot</div>
     <div id="bot-messages" class="p-4 h-72 overflow-y-auto text-sm text-gray-700">
@@ -588,90 +610,73 @@
     </form>
   </div>
 
-  <!-- SCRIPTS -->
+  <!-- LANGUAGES FOR BOT -->
   <script>
-    // Steps for methodology (repeated structure for translation convenience)
-  </script>
-  <script>
-    // Build methodology steps dynamically to keep code short
-    (function(){
-      const steps = [
-        {
-          num:'01',
-          fr:{t:'Analyse des besoins', p:['Compréhension approfondie de vos processus et objectifs pour cibler les vrais leviers de performance.'], li:['Cartographie des flux & données','Identification des quick‑wins et priorités','Roadmap réaliste et mesurable']},
-          en:{t:'Needs analysis', p:['Deep understanding of your processes and objectives to target true performance levers.'], li:['Flow & data mapping','Identification of quick wins and priorities','Realistic, measurable roadmap']},
-          de:{t:'Bedarfsanalyse', p:['Tiefes Verständnis Ihrer Prozesse und Ziele, um echte Performance‑Hebel zu identifizieren.'], li:['Prozess‑ & Datenlandkarte','Identifikation von Quick‑Wins und Prioritäten','Realistische, messbare Roadmap']},
-        },
-        {
-          num:'02',
-          fr:{t:'Conception de solution', p:['Design sur mesure en respectant vos contraintes IT, sécurité et conformité.'], li:['Choix technologiques adaptés','Prototypage rapide & validation métier','Plan d’intégration et de tests']},
-          en:{t:'Solution design', p:['Tailor‑made design respecting your IT, security and compliance constraints.'], li:['Fit‑for‑purpose technology choices','Rapid prototyping & business validation','Integration and test plan']},
-          de:{t:'Lösungskonzeption', p:['Maßgeschneidertes Design unter Berücksichtigung von IT‑, Sicherheits‑ und Compliance‑Vorgaben.'], li:['Passende Technologieauswahl','Schnelles Prototyping & Fachvalidierung','Integrations‑ und Testplan']},
-        },
-        {
-          num:'03',
-          fr:{t:'Développement & intégration', p:['Méthodologie agile avec points de validation réguliers.'], li:['Sprints courts et démonstrations','Tests unitaires & d’intégration','Qualité et sécurité by design']},
-          en:{t:'Development & integration', p:['Agile methodology with regular validation points.'], li:['Short sprints and demos','Unit & integration tests','Quality and security by design']},
-          de:{t:'Entwicklung & Integration', p:['Agile Methode mit regelmäßigen Validierungspunkten.'], li:['Kurze Sprints und Demos','Unit‑ und Integrationstests','Qualität und Sicherheit by Design']},
-        },
-        {
-          num:'04',
-          fr:{t:'Implémentation & formation', p:['Déploiement progressif, formation des équipes et transfert de compétences.'], li:['Pilotes, montée en charge','Guides & sessions de formation','Support au démarrage']},
-          en:{t:'Implementation & training', p:['Progressive rollout, team training and knowledge transfer.'], li:['Pilots, scale‑up','Guides & training sessions','Go‑live support']},
-          de:{t:'Implementierung & Schulung', p:['Schrittweiser Rollout, Teamschulung und Wissenstransfer.'], li:['Piloten, Skalierung','Guides & Trainings','Go‑Live‑Support']},
-        },
-        {
-          num:'05',
-          fr:{t:'Suivi & optimisation continue', p:['Accompagnement post‑déploiement pour améliorer durablement la performance.'], li:['Monitoring & KPI','Améliorations continues','Évolutions fonctionnelles']},
-          en:{t:'Follow‑up & continuous improvement', p:['Post‑deployment support to sustainably improve performance.'], li:['Monitoring & KPIs','Continuous improvements','Functional enhancements']},
-          de:{t:'Monitoring & kontinuierliche Optimierung', p:['Begleitung nach dem Rollout zur nachhaltigen Performance‑Steigerung.'], li:['Monitoring & KPIs','Kontinuierliche Verbesserungen','Funktionale Erweiterungen']},
-        }
-      ];
+    const botResponses = {
+      fr: {
+        welcome: "Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?",
+        reply: "Merci pour votre message, un conseiller vous contactera rapidement."
+      },
+      en: {
+        welcome: "Hello 👋 I’m HelveticBot. How can I help?",
+        reply: "Thank you for your message, an advisor will contact you shortly."
+      },
+      de: {
+        welcome: "Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?",
+        reply: "Vielen Dank für Ihre Nachricht, ein Berater wird Sie bald kontaktieren."
+      }
+    };
 
-      const container = document.currentScript.previousElementSibling.previousElementSibling; // the section content wrapper where we placed %s
-      let html = '';
-      steps.forEach(s => {
-        html += `
-        <div class="bg-white border rounded-2xl shadow-sm fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="bg-blue-600 text-white rounded-full w-9 h-9 text-sm flex items-center justify-center font-bold">${s.num}</span>
-              <span class="lang fr active">${s.fr.t}</span>
-              <span class="lang en">${s.en.t}</span>
-              <span class="lang de">${s.de.t}</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-3 lang fr active">${s.fr.p[0]}</p>
-            <p class="mb-3 lang en">${s.en.p[0]}</p>
-            <p class="mb-3 lang de">${s.de.p[0]}</p>
-            <ul class="list-disc pl-5 space-y-1">
-              ${s.fr.li.map(li=>`<li class="lang fr active">${li}</li>`).join('')}
-              ${s.en.li.map(li=>`<li class="lang en">${li}</li>`).join('')}
-              ${s.de.li.map(li=>`<li class="lang de">${li}</li>`).join('')}
-            </ul>
-          </div>
-        </div>`;
-      });
-      container.innerHTML = container.innerHTML.replace('%s', html);
-    })();
+    let currentLang = localStorage.getItem("helveticai_lang") || "fr";
+
+    function applyLang(lang){
+      localStorage.setItem('helveticai_lang', lang);
+      currentLang = lang;
+      document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.'+lang).forEach(el => el.classList.add('active'));
+
+      const botMessages = document.getElementById('bot-messages');
+      botMessages.innerHTML = `<p class="text-gray-500">${botResponses[lang].welcome}</p>`;
+    }
+    window.setLang = applyLang;
+    applyLang(currentLang);
+
+    const botBtn = document.getElementById('bot-button');
+    const botWin = document.getElementById('bot-window');
+    const botForm = document.getElementById('bot-form');
+    const botInput = document.getElementById('bot-input');
+    const botMessages = document.getElementById('bot-messages');
+
+    botBtn.addEventListener('click', () => {
+      botWin.classList.toggle('hidden');
+      if (!botWin.classList.contains("hidden")) {
+        botMessages.innerHTML = `<p class="text-gray-500">${botResponses[currentLang].welcome}</p>`;
+      }
+    });
+
+    botForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const msg = botInput.value.trim();
+      if (!msg) return;
+      botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
+      botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> ${botResponses[currentLang].reply}</p>`;
+      botInput.value = '';
+      botMessages.scrollTop = botMessages.scrollHeight;
+    });
   </script>
 
+  <!-- SCRIPTS FOR MENU AND ACCORDION EFFECT -->
   <script>
-    // Menu mobile
     const mbBtn = document.getElementById('mobileMenuBtn');
     const mbPanel = document.getElementById('mobilePanel');
     mbBtn?.addEventListener('click', () => { mbPanel.classList.toggle('hidden'); });
 
-    // Fade-in on scroll
     const faders = document.querySelectorAll('.fade-in');
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
     }, { threshold: 0.2 });
     faders.forEach(el => io.observe(el));
 
-    // Accordions
     document.addEventListener('click', (e) => {
       const btn = e.target.closest('.accordion-btn');
       if (!btn) return;
@@ -682,95 +687,9 @@
       content.classList.toggle('open');
       icon.classList.toggle('rotate-180');
     });
-
-    // Language switch
-    function applyLang(lang){
-      localStorage.setItem('helveticai_lang', lang);
-      document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.'+lang).forEach(el => el.classList.add('active'));
-    }
-    function setLang(lang){ applyLang(lang); }
-    window.setLang = setLang;
-    applyLang(localStorage.getItem('helveticai_lang') || 'fr');
-
-    // Bot
-    const botBtn = document.getElementById('bot-button');
-    const botWin = document.getElementById('bot-window');
-    const botForm = document.getElementById('bot-form');
-    const botInput = document.getElementById('bot-input');
-    const botMessages = document.getElementById('bot-messages');
-    botBtn.addEventListener('click', () => botWin.classList.toggle('hidden'));
-    botForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const msg = botInput.value.trim();
-      if (!msg) return;
-      botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
-      botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> Merci pour votre message, un conseiller vous contactera rapidement.</p>`;
-      botInput.value = '';
-      botMessages.scrollTop = botMessages.scrollHeight;
-    });
   </script>
-   <script>
-  // --- Langues Bot ---
-  const botResponses = {
-    fr: {
-      welcome: "Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?",
-      reply: "Merci pour votre message, un conseiller vous contactera rapidement."
-    },
-    en: {
-      welcome: "Hello 👋 I’m HelveticBot. How can I help?",
-      reply: "Thank you for your message, an advisor will contact you shortly."
-    },
-    de: {
-      welcome: "Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?",
-      reply: "Vielen Dank für Ihre Nachricht, ein Berater wird Sie bald kontaktieren."
-    }
-  };
-
-  let currentLang = localStorage.getItem("helveticai_lang") || "fr";
-
-  function applyLang(lang){
-    localStorage.setItem('helveticai_lang', lang);
-    currentLang = lang;
-    document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.'+lang).forEach(el => el.classList.add('active'));
-
-    // Mettre à jour le message d'accueil du bot
-    const botMessages = document.getElementById('bot-messages');
-    botMessages.innerHTML = `<p class="text-gray-500">${botResponses[lang].welcome}</p>`;
-  }
-  window.setLang = applyLang;
-
-  // Init avec la langue sauvegardée
-  applyLang(currentLang);
-
-  // --- Bot ---
-  const botBtn = document.getElementById('bot-button');
-  const botWin = document.getElementById('bot-window');
-  const botForm = document.getElementById('bot-form');
-  const botInput = document.getElementById('bot-input');
-  const botMessages = document.getElementById('bot-messages');
-
-  botBtn.addEventListener('click', () => {
-    botWin.classList.toggle('hidden');
-    // Réafficher message de bienvenue dans la bonne langue
-    if (!botWin.classList.contains("hidden")) {
-      botMessages.innerHTML = `<p class="text-gray-500">${botResponses[currentLang].welcome}</p>`;
-    }
-  });
-
-  botForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const msg = botInput.value.trim();
-    if (!msg) return;
-
-    botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
-    botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> ${botResponses[currentLang].reply}</p>`;
-
-    botInput.value = '';
-    botMessages.scrollTop = botMessages.scrollHeight;
-  });
-</script>
+</body>
+</html>
 
 </body>
 </html>
