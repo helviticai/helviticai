@@ -614,25 +614,12 @@
 
    </body>
    <!-- === CHATBOT === -->
-  <button id="bot-button" class="bot-button">💬</button>
-
-  <div id="bot-window" class="hidden">
-    <div class="bot-header">
-      Helvetic AI Chatbot
-      <span id="bot-close" class="bot-close">×</span>
-    </div>
-    <div id="bot-messages" class="bot-messages">
-      <p class="bot-msg">👋 Bonjour, je suis HelveticBot. Comment puis-je vous aider ?</p>
-    </div>
-    <form id="bot-form" class="bot-form">
-      <input id="bot-input" type="text" placeholder="Écrivez votre message..." autocomplete="off"/>
-      <button type="submit">➤</button>
-    </form>
-  </div>
-   
-  <!-- === FIN CHATBOT === -->
-
+  <!-- Lien vers chatbot externe -->
+<iframe src="chatbot.html" 
+        style="border: none; position: fixed; bottom: 20px; right: 20px; width: 350px; height: 480px; z-index: 9999;">
+</iframe>
   <script src="chatbot.js" defer></script>
 
 </html>
+<body>
 
