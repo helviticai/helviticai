@@ -573,20 +573,83 @@
     </div>
   </section>
 
-  <!-- HELVETICBOT -->
-  <button id="bot-button" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl" aria-label="Open HelveticBot">💬</button>
-  <div id="bot-window" class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-2xl border overflow-hidden">
-    <div class="bg-blue-700 text-white p-4 font-semibold">HelveticBot</div>
-    <div id="bot-messages" class="p-4 h-72 overflow-y-auto text-sm text-gray-700">
-      <p class="text-gray-500 lang fr active">Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?</p>
-      <p class="text-gray-500 lang en">Hello 👋 I’m HelveticBot. How can I help?</p>
-      <p class="text-gray-500 lang de">Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?</p>
-    </div>
-    <form id="bot-form" class="flex border-t">
-      <input type="text" id="bot-input" placeholder="Écrivez un message... / Write a message..." class="flex-1 p-2 text-sm outline-none">
-      <button type="submit" class="px-4 text-blue-700 font-bold">➤</button>
-    </form>
-  </div>
+ // Chatbot simulated interaction logic
+const responses = {
+  fr: {
+    greeting: "Bonjour! Comment puis-je vous aider ?",
+    services: "Nous offrons des solutions IA pour la gestion financière.",
+    about: "Helvetic AI transforme les processus financiers grâce à l'IA.",
+    contact: "Contactez-nous via notre formulaire sur le site."
+  },
+  en: {
+    greeting: "Hello! How can I help?",
+    services: "We provide AI solutions for financial management.",
+    about: "Helvetic AI transforms financial processes using AI.",
+    contact: "Contact us via our form on the site."
+  },
+  de: {
+    greeting: "Hallo! Wie kann ich Ihnen helfen?",
+    services: "Wir bieten KI-Lösungen für das Finanzmanagement.",
+    about: "Helvetic AI transformiert Finanzprozesse mit KI.",
+    contact: "Kontaktieren Sie uns über unser Formular auf der Website."
+  }
+};
+
+let currentLang = 'fr'; // Default language
+
+// Toggle chatbot window
+function toggleChatbot() {
+  const chatbotWindow = document.getElementById('chatbotWindow');
+  chatbotWindow.style.display = chatbotWindow.style.display === 'block' ? 'none' : 'block';
+  showMessage('greeting');
+}
+
+// Handle user input
+function handleInput(event) {
+  if (event.key === 'Enter') {
+    const userInput = event.target.value.toLowerCase().trim();
+    event.target.value = ''; // Clear input field
+
+    if (userInput.includes('services')) {
+      showMessage('services');
+    } else if (userInput.includes('about')) {
+      showMessage('about');
+    } else if (userInput.includes('contact')) {
+      showMessage('contact');
+    } else {
+      showMessage('greeting');
+    }
+  }
+}
+
+// Show response from chatbot
+function showMessage(type) {
+  const message = responses[currentLang][type];
+  const messageContainer = document.getElementById('chatbotMessages');
+  const newMessage = document.createElement('div');
+  newMessage.classList.add(type === 'greeting' ? 'message-bot' : 'message-user'); // Different styles for bot and user messages
+  newMessage.textContent = message;
+  messageContainer.appendChild(newMessage);
+  messageContainer.scrollTop = messageContainer.scrollHeight; // Auto scroll
+}
+
+// Set the language dynamically based on page language
+function applyLang(lang) {
+  currentLang = lang; // Change language dynamically
+  document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.' + lang).forEach(el => el.classList.add('active'));
+}
+
+function setLang(lang) {
+  applyLang(lang);
+  localStorage.setItem('helveticai_lang', lang);
+}
+
+// Initialize language based on local storage or default to French
+document.addEventListener('DOMContentLoaded', () => {
+  const storedLang = localStorage.getItem('helveticai_lang') || 'fr';
+  setLang(storedLang);
+});
 
   <!-- SCRIPTS -->
   <script>
