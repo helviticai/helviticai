@@ -577,119 +577,183 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Helvetic AI — FR / EN / DE</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    html { scroll-behavior: smooth; }
-    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
-    .fade-in.show { opacity: 1; transform: translateY(0); }
-    .accordion-content { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
-    .accordion-content.open { max-height: 1000px; }
-    .focus-ring:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
-    .lang { display:none; }
-    .lang.active { display:block; }
-    .flag { width:28px; height:20px; border-radius:3px; cursor:pointer; }
-  </style>
-</head>
-<body class="bg-white text-gray-900">
+ <!-- ================= HELVETICBOT ================= -->
+<button id="bot-button" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl" aria-label="Open HelveticBot">💬</button>
 
-  <!-- BOT BUTTON -->
-  <button id="bot-button" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl" aria-label="Open HelveticBot">💬</button>
-
-  <!-- BOT WINDOW -->
-  <div id="bot-window" class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-2xl border overflow-hidden">
-    <div class="bg-blue-700 text-white p-4 font-semibold">HelveticBot</div>
-    <div id="bot-messages" class="p-4 h-72 overflow-y-auto text-sm text-gray-700">
-      <p class="text-gray-500 lang fr active">Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?</p>
-      <p class="text-gray-500 lang en">Hello 👋 I’m HelveticBot. How can I help?</p>
-      <p class="text-gray-500 lang de">Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?</p>
+<div id="bot-window" class="hidden fixed bottom-24 right-6 w-80 h-[480px] bg-white shadow-xl rounded-2xl border overflow-hidden flex flex-col">
+  <!-- Header -->
+  <div class="bg-blue-700 text-white p-3 flex justify-between items-center">
+    <span class="font-semibold">HelveticBot</span>
+    <div id="lang-select" class="space-x-2 text-lg">
+      <button onclick="setLang('fr')">🇫🇷</button>
+      <button onclick="setLang('en')">🇬🇧</button>
+      <button onclick="setLang('de')">🇩🇪</button>
     </div>
-    <form id="bot-form" class="flex border-t">
-      <input type="text" id="bot-input" placeholder="Écrivez un message... / Write a message..." class="flex-1 p-2 text-sm outline-none">
-      <button type="submit" class="px-4 text-blue-700 font-bold">➤</button>
-    </form>
   </div>
 
-  <!-- LANGUAGES FOR BOT -->
-  <script>
-    const botResponses = {
-      fr: {
-        welcome: "Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?",
-        reply: "Merci pour votre message, un conseiller vous contactera rapidement."
+  <!-- Messages -->
+  <div id="bot-messages" class="p-4 flex-1 overflow-y-auto text-sm text-gray-700 space-y-2">
+    <p class="text-gray-500">👋 Bonjour, je suis HelveticBot. Sélectionnez votre langue pour commencer.</p>
+  </div>
+
+  <!-- Input -->
+  <form id="bot-form" class="flex border-t">
+    <input type="text" id="bot-input" placeholder="Écrivez un message..." class="flex-1 p-2 text-sm outline-none">
+    <button type="submit" class="px-4 text-blue-700 font-bold">➤</button>
+  </form>
+</div>
+
+<script>
+  // ================= CONFIG MULTILINGUE =================
+  const knowledgeBase = {
+    fr: {
+      welcome: "👋 Bonjour ! Je suis HelveticBot. Posez-moi vos questions.",
+      categories: {
+        services: {
+          keywords: ["service","offre","solution"],
+          responses: [
+            "🚀 Nous proposons : automatisation, IA personnalisée, analyse de données, innovation digitale.",
+            "💡 Nos services couvrent conseil en IA, intégrations CRM/ERP et solutions sur mesure."
+          ]
+        },
+        demo: {
+          keywords: ["démo","essai","test","gratuit"],
+          responses: [
+            "✨ Oui ! Nous offrons une démo gratuite de 30 minutes avec présentation personnalisée.",
+            "🎁 Testez gratuitement notre générateur de prompts interactif."
+          ]
+        },
+        pricing: {
+          keywords: ["prix","tarif","coût","budget"],
+          responses: [
+            "💰 Nos tarifs sont flexibles : audit gratuit, devis personnalisé et ROI garanti.",
+            "📊 Nous adaptons nos prix selon vos besoins et objectifs."
+          ]
+        }
       },
-      en: {
-        welcome: "Hello 👋 I’m HelveticBot. How can I help?",
-        reply: "Thank you for your message, an advisor will contact you shortly."
+      default: [
+        "🤔 Pouvez-vous préciser votre demande ?",
+        "💡 Je pense pouvoir vous aider, pouvez-vous reformuler ?"
+      ]
+    },
+    en: {
+      welcome: "👋 Hello! I’m HelveticBot. Ask me anything.",
+      categories: {
+        services: {
+          keywords: ["service","offer","solution"],
+          responses: [
+            "🚀 We provide: automation, custom AI, data analysis, digital innovation.",
+            "💡 Our services cover AI consulting, CRM/ERP integrations and tailored solutions."
+          ]
+        },
+        demo: {
+          keywords: ["demo","trial","test","free"],
+          responses: [
+            "✨ Yes! We offer a free 30-minute demo with personalized presentation.",
+            "🎁 Try our interactive prompt generator for free."
+          ]
+        },
+        pricing: {
+          keywords: ["price","cost","budget","rate"],
+          responses: [
+            "💰 Flexible pricing: free audit, personalized quote, guaranteed ROI.",
+            "📊 We adapt our pricing to your needs and goals."
+          ]
+        }
       },
-      de: {
-        welcome: "Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?",
-        reply: "Vielen Dank für Ihre Nachricht, ein Berater wird Sie bald kontaktieren."
-      }
-    };
-
-    let currentLang = localStorage.getItem("helveticai_lang") || "fr";
-
-    function applyLang(lang){
-      localStorage.setItem('helveticai_lang', lang);
-      currentLang = lang;
-      document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.'+lang).forEach(el => el.classList.add('active'));
-
-      const botMessages = document.getElementById('bot-messages');
-      botMessages.innerHTML = `<p class="text-gray-500">${botResponses[lang].welcome}</p>`;
+      default: [
+        "🤔 Could you clarify your request?",
+        "💡 I think I can help, could you rephrase?"
+      ]
+    },
+    de: {
+      welcome: "👋 Hallo! Ich bin HelveticBot. Stellen Sie mir Ihre Fragen.",
+      categories: {
+        services: {
+          keywords: ["service","angebot","lösung"],
+          responses: [
+            "🚀 Wir bieten: Automatisierung, maßgeschneiderte KI, Datenanalyse, digitale Innovation.",
+            "💡 Unsere Services umfassen KI-Beratung, CRM/ERP-Integrationen und individuelle Lösungen."
+          ]
+        },
+        demo: {
+          keywords: ["demo","test","probe","kostenlos"],
+          responses: [
+            "✨ Ja! Wir bieten eine kostenlose 30-minütige Demo mit individueller Präsentation.",
+            "🎁 Testen Sie kostenlos unseren interaktiven Prompt-Generator."
+          ]
+        },
+        pricing: {
+          keywords: ["preis","kosten","budget","tarif"],
+          responses: [
+            "💰 Flexible Preise: kostenloses Audit, individuelles Angebot, garantierter ROI.",
+            "📊 Unsere Preise passen wir an Ihre Bedürfnisse und Ziele an."
+          ]
+        }
+      },
+      default: [
+        "🤔 Können Sie Ihre Anfrage präzisieren?",
+        "💡 Ich denke, ich kann helfen – könnten Sie es umformulieren?"
+      ]
     }
-    window.setLang = applyLang;
-    applyLang(currentLang);
+  };
 
-    const botBtn = document.getElementById('bot-button');
-    const botWin = document.getElementById('bot-window');
-    const botForm = document.getElementById('bot-form');
-    const botInput = document.getElementById('bot-input');
-    const botMessages = document.getElementById('bot-messages');
+  let currentLang = localStorage.getItem("helvetic_lang") || "fr";
 
-    botBtn.addEventListener('click', () => {
-      botWin.classList.toggle('hidden');
-      if (!botWin.classList.contains("hidden")) {
-        botMessages.innerHTML = `<p class="text-gray-500">${botResponses[currentLang].welcome}</p>`;
+  function setLang(lang){
+    currentLang = lang;
+    localStorage.setItem("helvetic_lang", lang);
+    document.getElementById("bot-messages").innerHTML =
+      `<p class="text-gray-500">${knowledgeBase[lang].welcome}</p>`;
+  }
+
+  // ================= BOT LOGIQUE =================
+  const botBtn = document.getElementById("bot-button");
+  const botWin = document.getElementById("bot-window");
+  const botForm = document.getElementById("bot-form");
+  const botInput = document.getElementById("bot-input");
+  const botMessages = document.getElementById("bot-messages");
+
+  botBtn.addEventListener("click", () => {
+    botWin.classList.toggle("hidden");
+    if(!botWin.classList.contains("hidden")){
+      setLang(currentLang);
+    }
+  });
+
+  botForm.addEventListener("submit", e => {
+    e.preventDefault();
+    const msg = botInput.value.trim();
+    if(!msg) return;
+    botMessages.innerHTML += `<p><strong>👤:</strong> ${msg}</p>`;
+
+    // Chercher une réponse
+    const lower = msg.toLowerCase();
+    let reply = null;
+    const cat = knowledgeBase[currentLang].categories;
+    for(const key in cat){
+      if(cat[key].keywords.some(k => lower.includes(k))){
+        reply = cat[key].responses[Math.floor(Math.random()*cat[key].responses.length)];
+        break;
       }
-    });
+    }
+    if(!reply){
+      const def = knowledgeBase[currentLang].default;
+      reply = def[Math.floor(Math.random()*def.length)];
+    }
 
-    botForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const msg = botInput.value.trim();
-      if (!msg) return;
-      botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
-      botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> ${botResponses[currentLang].reply}</p>`;
-      botInput.value = '';
+    setTimeout(()=>{
+      botMessages.innerHTML += `<p class="text-blue-700"><strong>🤖:</strong> ${reply}</p>`;
       botMessages.scrollTop = botMessages.scrollHeight;
-    });
-  </script>
+    }, 800);
 
-  <!-- SCRIPTS FOR MENU AND ACCORDION EFFECT -->
-  <script>
-    const mbBtn = document.getElementById('mobileMenuBtn');
-    const mbPanel = document.getElementById('mobilePanel');
-    mbBtn?.addEventListener('click', () => { mbPanel.classList.toggle('hidden'); });
+    botInput.value = "";
+  });
 
-    const faders = document.querySelectorAll('.fade-in');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
-    }, { threshold: 0.2 });
-    faders.forEach(el => io.observe(el));
-
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('.accordion-btn');
-      if (!btn) return;
-      const content = btn.parentElement.querySelector('.accordion-content');
-      const icon = btn.querySelector('.accordion-icon');
-      document.querySelectorAll('.accordion-content').forEach(c => { if (c !== content) c.classList.remove('open'); });
-      document.querySelectorAll('.accordion-icon').forEach(i => { if (i !== icon) i.classList.remove('rotate-180'); });
-      content.classList.toggle('open');
-      icon.classList.toggle('rotate-180');
-    });
-  </script>
-</body>
-</html>
+  // Init
+  setLang(currentLang);
+</script>
+<!-- ================= END HELVETICBOT ================= -->
 
 </body>
 </html>
