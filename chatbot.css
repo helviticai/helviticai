@@ -101,3 +101,19 @@
   padding: 0 16px;
   cursor: pointer;
 }
+
+/* Forcer la zone de saisie à rester accessible */
+#bot-input {
+  position: relative;
+  z-index: 10000; /* toujours au-dessus */
+  background: #fff;
+  pointer-events: auto; /* assure qu'on peut cliquer */
+}
+
+/* S'assurer que la zone du formulaire reste en bas */
+.bot-form {
+  position: relative;
+  z-index: 9999;
+  flex-shrink: 0;
+  background: #fff;
+}
