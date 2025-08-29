@@ -22,30 +22,44 @@ const responses = {
 
 let currentLang = localStorage.getItem("helveticai_lang") || "fr";
 
+// Éléments du bot
 const botBtn = document.getElementById("bot-button");
 const botWin = document.getElementById("bot-window");
 const botForm = document.getElementById("bot-form");
 const botInput = document.getElementById("bot-input");
 const botMessages = document.getElementById("bot-messages");
 
+// Ouverture/fermeture
 if (botBtn && botWin) {
   botBtn.addEventListener("click", () => botWin.classList.toggle("hidden"));
 }
 
-if (botForm) {
+// Soumission de message
+if (botForm && botMessages && botInput) {
   botForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const msg = botInput.value.trim();
     if (!msg) return;
-    botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
 
+    // Message utilisateur
+    botMessages.innerHTML += `<p class="user-msg"><strong>Vous:</strong> ${msg}</p>`;
+
+    // Réponse simple en fonction de mots-clés
+    const m = msg.toLowerCase();
     let reply = responses[currentLang].greeting;
-    if (msg.toLowerCase().includes("service")) reply = responses[currentLang].services;
-    if (msg.toLowerCase().includes("about")) reply = responses[currentLang].about;
-    if (msg.toLowerCase().includes("contact")) reply = responses[currentLang].contact;
+    if (m.includes("service") || m.includes("services")) reply = responses[currentLang].services;
+    else if (m.includes("about") || m.includes("qui") || m.includes("about us")) reply = responses[currentLang].about;
+    else if (m.includes("contact") || m.includes("email") || m.includes("mail")) reply = responses[currentLang].contact;
 
-    botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> ${reply}</p>`;
+    botMessages.innerHTML += `<p class="bot-msg"><strong>Bot:</strong> ${reply}</p>`;
     botInput.value = "";
     botMessages.scrollTop = botMessages.scrollHeight;
   });
 }
+
+// Suivre les changements de langue (si l’utilisateur clique un drapeau)
+window.addEventListener("storage", (e) => {
+  if (e.key === "helveticai_lang") {
+    currentLang = e.newValue || "fr";
+  }
+});
