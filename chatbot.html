@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Helvetic AI - Chatbot (Démo)</title>
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React + ReactDOM -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body class="bg-gray-100">
+  <div id="root"></div>
+
+  <script type="text/javascript">
+    const e = React.createElement;
+
+    // Fonction simulée pour remplacer l'appel API Claude
+    async function callClaudeDemo(prompt) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve("🤖 Claude (démo) : merci pour votre message → \"" + prompt + "\"");
+        }, 1000); // 1s de délai simulé
+      });
+    }
+
+    function EnterprisePromptGenerator() {
+      const [messages, setMessages] = React.useState([]);
+      const [input, setInput] = React.useState("");
+
+      const handleSend = async (e) => {
+        e.preventDefault();
+        if (!input.trim()) return;
+
+        const userMsg = { role: "user", text: input };
+        setMessages(prev => [...prev, userMsg]);
+        setInput("");
+
+        const reply = await callClaudeDemo(input);
+        setMessages(prev => [...prev, { role: "bot", text: reply }]);
+      };
+
+      return e("div", { className: "flex flex-col h-screen" },
+        e("div", { className: "flex-1 p-4 overflow-y-auto bg-white" },
+          messages.map((m, i) =>
+            e("p", {
+              key: i,
+              className: m.role === "user" ? "text-blue-600 mb-2" : "text-gray-700 mb-2"
+            }, (m.role === "user" ? "Vous: " : "Bot: ") + m.text)
+          )
+        ),
+        e("form", { onSubmit: handleSend, className: "flex border-t bg-gray-50" },
+          e("input", {
+            value: input,
+            onChange: (ev) => setInput(ev.target.value),
+            placeholder: "Écrivez un message...",
+            className: "flex-1 p-2 outline-none text-sm"
+          }),
+          e("button", {
+            type: "submit",
+            className: "px-4 text-blue-700 font-bold"
+          }, "➤")
+        )
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(e(EnterprisePromptGenerator));
+  </script>
+</body>
+</html>
