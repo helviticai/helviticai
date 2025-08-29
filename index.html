@@ -702,60 +702,83 @@
       botMessages.scrollTop = botMessages.scrollHeight;
     });
   </script>
-  <!-- ================= CHATBOT DEMO ================= -->
-<div id="chatbot-container"></div>
+  <!-- Chatbot Bulle -->
+<div id="chatbot-container" class="fixed bottom-5 right-5 z-50">
+  <!-- Bulle flottante -->
+  <button id="chatbot-toggle" class="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center shadow-lg hover:scale-110 transition">
+    💬
+  </button>
+
+  <!-- Fenêtre du chatbot -->
+  <div id="chatbot-window" class="hidden w-96 h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col">
+    <!-- En-tête -->
+    <div class="bg-blue-600 text-white flex justify-between items-center p-3 rounded-t-2xl">
+      <span class="font-bold">Helvitic AI - Démo</span>
+      <button id="chatbot-close" class="text-white text-xl font-bold">×</button>
+    </div>
+
+    <!-- Messages -->
+    <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-2 text-sm">
+      <div class="text-gray-600">👋 Bonjour ! Sélectionnez une question ci-dessous :</div>
+    </div>
+
+    <!-- Questions -->
+    <div class="border-t p-2 space-y-2 overflow-y-auto max-h-40"></div>
+  </div>
+</div>
 
 <script>
-  const questionsReponses = {
-    "Quels sont vos services ?" : "Nous proposons l’automatisation, l’analyse de données, l’IA personnalisée et le conseil en transformation digitale.",
-    "Comment puis-je vous contacter ?" : "Vous pouvez nous écrire via la page Contact ou par email : contact@helvitic-ai.com",
-    "Qu’est-ce que Helvitic AI ?" : "Helvitic AI est une startup spécialisée dans l’intelligence artificielle au service des entreprises.",
-    "Avez-vous une démo ?" : "Oui, nous proposons une démonstration gratuite pour découvrir nos solutions.",
-    "Quels sont vos tarifs ?" : "Nos tarifs dépendent du projet. Nous proposons des offres adaptées aux PME et grandes entreprises.",
-    "Proposez-vous du conseil en IA ?" : "Oui, nous accompagnons les entreprises dans leurs projets d’IA et de transformation digitale.",
-    "Pouvez-vous automatiser des tâches administratives ?" : "Oui, nous créons des solutions qui réduisent le travail manuel et accélèrent vos workflows.",
-    "Faites-vous du développement sur mesure ?" : "Absolument ! Chaque solution est adaptée aux besoins spécifiques de votre entreprise.",
-    "Accompagnez-vous les PME ?" : "Oui, nous travaillons avec des PME et des grandes entreprises."
-  };
+  // Les 20 questions/réponses
+  const qaList = [
+    {q: "Quels sont vos services ?", r: "🚀 Nous proposons l’automatisation, l’analyse de données, l’IA personnalisée et l’innovation digitale."},
+    {q: "Comment puis-je vous contacter ?", r: "📩 Vous pouvez nous écrire via la page Contact ou à contact@helvitic.ai"},
+    {q: "Qu’est-ce que Helvitic AI ?", r: "🤖 Helvitic AI aide les entreprises à tirer parti de l’intelligence artificielle pour innover et se transformer."},
+    {q: "Avez-vous une démo ?", r: "✅ Oui, nous proposons un générateur de prompts et une démo gratuite."},
+    {q: "Quels sont vos tarifs ?", r: "💼 Nos tarifs dépendent de vos besoins spécifiques. Contactez-nous pour un devis personnalisé."},
+    {q: "Proposez-vous du conseil en IA ?", r: "📊 Oui, nous offrons du conseil stratégique et opérationnel pour intégrer l’IA efficacement."},
+    {q: "Pouvez-vous automatiser des tâches administratives ?", r: "✅ Absolument, nous automatisons emails, formulaires, gestion CRM/ERP et plus encore."},
+    {q: "Faites-vous du développement sur mesure ?", r: "⚙️ Oui, nous créons des solutions IA sur mesure adaptées à chaque entreprise."},
+    {q: "Accompagnez-vous les PME ?", r: "🏢 Bien sûr ! Nos solutions sont conçues pour startups, PME et grandes entreprises."},
+    {q: "Quels outils utilisez-vous ?", r: "🛠️ Nous utilisons des modèles d’IA modernes, des solutions cloud sécurisées et des frameworks adaptés."},
+    {q: "Puis-je tester gratuitement vos services ?", r: "🎁 Oui, nous proposons une démo gratuite avec notre générateur de prompts."},
+    {q: "Proposez-vous un support technique ?", r: "☎️ Oui, nous assurons un support continu pour nos clients (email, chat et visio)."},
+    {q: "Intervenez-vous à l’international ?", r: "🌍 Oui, nous travaillons avec des entreprises en Europe, Afrique et au-delà."},
+    {q: "Quels sont vos délais moyens ?", r: "⏳ Selon le projet : de quelques jours pour un prototype à quelques semaines pour une solution complète."},
+    {q: "Faites-vous de la formation en IA ?", r: "📚 Oui, nous proposons des ateliers et formations personnalisées."},
+    {q: "Vos solutions sont-elles sécurisées ?", r: "🔒 Oui, nous respectons les normes de sécurité et RGPD pour protéger vos données."},
+    {q: "Acceptez-vous les projets innovants ?", r: "🚀 Bien sûr ! Nous aimons relever des défis technologiques."},
+    {q: "Quelle est votre valeur ajoutée ?", r: "✨ Nous allions expertise technique et compréhension métier pour maximiser vos résultats."},
+    {q: "Puis-je avoir un devis personnalisé ?", r: "📑 Oui, contactez-nous et nous établirons un devis précis selon vos besoins."},
+    {q: "Pourquoi choisir Helvitic AI ?", r: "⭐ Parce que nous combinons innovation, proximité client et excellence technologique."}
+  ];
 
-  function createChatbot() {
-    const container = document.getElementById("chatbot-container");
-    container.innerHTML = `
-      <div id="chatbot" style="
-        position: fixed; bottom: 20px; right: 20px; width: 350px;
-        background: #fff; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        overflow: hidden; font-family: sans-serif; z-index: 1000;
-      ">
-        <div style="background: #2563eb; color: white; padding: 12px; font-weight: bold;">
-          🤖 Helvitic AI - Démo
-        </div>
-        <div id="chatbot-messages" style="padding: 15px; max-height: 300px; overflow-y: auto;">
-          <p><strong>Bot :</strong> Sélectionnez une question ci-dessous 👇</p>
-        </div>
-        <div id="chatbot-questions" style="padding: 10px; border-top: 1px solid #eee; max-height: 200px; overflow-y: auto;"></div>
-      </div>
-    `;
+  const toggleBtn = document.getElementById("chatbot-toggle");
+  const chatWindow = document.getElementById("chatbot-window");
+  const closeBtn = document.getElementById("chatbot-close");
+  const messagesDiv = document.getElementById("chatbot-messages");
+  const questionsDiv = chatWindow.querySelector("div.border-t");
 
-    const questionsDiv = document.getElementById("chatbot-questions");
-    Object.keys(questionsReponses).forEach(q => {
-      const btn = document.createElement("button");
-      btn.innerText = q;
-      btn.style = "display:block;width:100%;text-align:left;margin:5px 0;padding:8px;border:none;border-radius:8px;background:#f3f4f6;cursor:pointer;";
-      btn.onclick = () => addMessage(q, questionsReponses[q]);
-      questionsDiv.appendChild(btn);
-    });
-  }
+  // Toggle ouvrir/fermer
+  toggleBtn.addEventListener("click", () => {
+    chatWindow.classList.toggle("hidden");
+  });
+  closeBtn.addEventListener("click", () => {
+    chatWindow.classList.add("hidden");
+  });
 
-  function addMessage(question, reponse) {
-    const messagesDiv = document.getElementById("chatbot-messages");
-    messagesDiv.innerHTML += `<p><strong>Vous :</strong> ${question}</p>`;
-    messagesDiv.innerHTML += `<p><strong>Bot :</strong> ${reponse}</p>`;
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-  }
-
-  createChatbot();
+  // Génération dynamique des questions
+  qaList.forEach(item => {
+    const btn = document.createElement("button");
+    btn.innerText = item.q;
+    btn.className = "w-full text-left px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm";
+    btn.onclick = () => {
+      messagesDiv.innerHTML += `<div class="text-right"><span class="bg-blue-100 px-3 py-1 rounded-lg">${item.q}</span></div>`;
+      messagesDiv.innerHTML += `<div class="text-left"><span class="bg-gray-100 px-3 py-1 rounded-lg">${item.r}</span></div>`;
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    };
+    questionsDiv.appendChild(btn);
+  });
 </script>
-<!-- =============================================== -->
 
 </body>
 </html>
