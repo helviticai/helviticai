@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot Helvitic AI - Démo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .chatbot-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #2563eb;
+      color: white;
+      border-radius: 9999px;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    .chatbot-window {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 350px;
+      max-height: 500px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chatbot-header {
+      background: #2563eb;
+      color: white;
+      padding: 12px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .chatbot-messages {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      background: #f9fafb;
+    }
+    .chatbot-input {
+      border-top: 1px solid #e5e7eb;
+      padding: 8px;
+      background: #fff;
+    }
+    .bubble-user {
+      background: #2563eb;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 16px;
+      margin: 4px 0;
+      max-width: 80%;
+      align-self: flex-end;
+    }
+    .bubble-bot {
+      background: #e5e7eb;
+      color: #111827;
+      padding: 8px 12px;
+      border-radius: 16px;
+      margin: 4px 0;
+      max-width: 80%;
+      align-self: flex-start;
+    }
+    .question-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 8px;
+      margin: 4px 0;
+      background: #f3f4f6;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .question-btn:hover {
+      background: #e0e7ff;
+    }
+  </style>
+</head>
+<body class="font-sans">
+
+  <!-- Bouton flottant -->
+  <div class="chatbot-toggle" onclick="toggleChatbot()">💬</div>
+
+  <!-- Fenêtre du chatbot -->
+  <div id="chatbot" class="chatbot-window">
+    <div class="chatbot-header">🤖 Helvitic AI - Démo</div>
+    <div id="chatbot-messages" class="chatbot-messages flex flex-col"></div>
+    <div class="chatbot-input p-2 text-sm text-gray-600">
+      Sélectionnez une question ci-dessous 👇
+      <div id="questions" class="mt-2 space-y-1"></div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {q: "Quels sont vos services ?", r: "Nous proposons l’automatisation, l’analyse de données, l’IA personnalisée et l’innovation digitale 🚀."},
+      {q: "Comment puis-je vous contacter ?", r: "Vous pouvez nous écrire via la page Contact ou à contact@helvitic.ai 📩."},
+      {q: "Qu’est-ce que Helvitic AI ?", r: "Helvitic AI aide les entreprises à tirer parti de l’intelligence artificielle pour innover et se transformer."},
+      {q: "Avez-vous une démo ?", r: "Oui, nous proposons un générateur de prompts directement sur notre site 🌐."},
+      {q: "Quels sont vos tarifs ?", r: "Nos tarifs dépendent de vos besoins spécifiques. Contactez-nous pour un devis personnalisé 💼."},
+      {q: "Proposez-vous du conseil en IA ?", r: "Oui, nous offrons du conseil stratégique et opérationnel pour intégrer l’IA efficacement."},
+      {q: "Pouvez-vous automatiser des tâches administratives ?", r: "Absolument ✅ nous automatisons les emails, formulaires, gestion CRM/ERP et plus encore."},
+      {q: "Faites-vous du développement sur mesure ?", r: "Oui, nous créons des solutions IA sur mesure adaptées à votre entreprise."},
+      {q: "Accompagnez-vous les PME ?", r: "Bien sûr ! Nos solutions sont conçues pour les startups, PME et grandes entreprises."},
+      {q: "Quels outils utilisez-vous ?", r: "Nous utilisons des modèles d’IA modernes, des solutions cloud sécurisées et des frameworks adaptés."},
+      {q: "Puis-je tester gratuitement vos services ?", r: "Oui, nous proposons une démo gratuite avec notre générateur de prompts 💡."},
+      {q: "Proposez-vous un support technique ?", r: "Oui, nous assurons un support continu pour nos clients (email, chat et visio)."},
+      {q: "Intervenez-vous à l’international ?", r: "Oui 🌍 nous travaillons avec des entreprises en Europe, Afrique et au-delà."},
+      {q: "Quels sont vos délais moyens ?", r: "Selon le projet : de quelques jours pour un prototype à quelques semaines pour une solution complète."},
+      {q: "Faites-vous de la formation en IA ?", r: "Oui, nous proposons des ateliers et formations personnalisées pour vos équipes."},
+      {q: "Vos solutions sont-elles sécurisées ?", r: "Oui 🔒 nous respectons les normes de sécurité et RGPD pour protéger vos données."},
+      {q: "Acceptez-vous les projets innovants ?", r: "Bien sûr ! Nous aimons relever des défis technologiques 🚀."},
+      {q: "Quelle est votre valeur ajoutée ?", r: "Nous allions expertise technique et compréhension métier pour maximiser vos résultats."},
+      {q: "Puis-je avoir un devis personnalisé ?", r: "Oui, contactez-nous et nous établirons un devis précis selon vos besoins."},
+      {q: "Pourquoi choisir Helvitic AI ?", r: "Parce que nous combinons innovation, proximité client et excellence technologique ✨."}
+    ];
+
+    function toggleChatbot() {
+      const bot = document.getElementById("chatbot");
+      bot.style.display = (bot.style.display === "flex") ? "none" : "flex";
+    }
+
+    function addMessage(text, type) {
+      const container = document.getElementById("chatbot-messages");
+      const bubble = document.createElement("div");
+      bubble.className = (type === "user") ? "bubble-user" : "bubble-bot";
+      bubble.innerText = text;
+      container.appendChild(bubble);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function handleQuestion(q, r) {
+      addMessage(q, "user");
+      setTimeout(() => addMessage(r, "bot"), 500);
+    }
+
+    // Charger les boutons de questions
+    const qContainer = document.getElementById("questions");
+    questions.forEach(item => {
+      const btn = document.createElement("button");
+      btn.className = "question-btn";
+      btn.innerText = item.q;
+      btn.onclick = () => handleQuestion(item.q, item.r);
+      qContainer.appendChild(btn);
+    });
+  </script>
+</body>
+</html>
