@@ -101,6 +101,56 @@
   padding: 0 16px;
   cursor: pointer;
 }
+/* Le container du chatbot */
+#bot-window {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* force le champ à rester en bas */
+  width: 350px;
+  height: 450px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  overflow: hidden;
+}
+
+/* Zone des messages scrollable */
+#bot-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+/* Zone du formulaire toujours visible */
+.bot-form {
+  display: flex;
+  padding: 10px;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  flex-shrink: 0; /* empêche d'être compressé */
+}
+
+#bot-input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.bot-form button {
+  background: #1976d2;
+  border: none;
+  color: white;
+  padding: 0 15px;
+  margin-left: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 
 /* Forcer la zone de saisie à rester accessible */
 #bot-input {
