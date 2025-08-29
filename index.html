@@ -1361,6 +1361,20 @@
     function setLang(lang){ applyLang(lang); }
     window.setLang = setLang;
     applyLang(localStorage.getItem('helveticai_lang') || 'fr');
+    <!-- Bouton flottant pour ouvrir le bot -->
+<button id="bot-button" class="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-lg pulse-glow">
+  💬
+</button>
+
+<!-- Fenêtre du chatbot -->
+<div id="bot-window" class="hidden fixed bottom-20 right-6 w-80 bg-white rounded-xl shadow-lg glass-effect p-4">
+  <div id="bot-messages" class="h-64 overflow-y-auto scrollbar-thin mb-3 text-sm"></div>
+  <form id="bot-form" class="flex gap-2">
+    <input id="bot-input" type="text" placeholder="Écrivez ici..." class="flex-1 border rounded-lg px-3 py-2 text-sm"/>
+    <button type="submit" class="bg-blue-600 text-white px-3 rounded-lg">Envoyer</button>
+  </form>
+</div>
+
 
    
 <script src="path/to/chatbot.js"></script>
