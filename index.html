@@ -573,292 +573,783 @@
     </div>
   </section>
 
-  <!-- HELVETICBOT -->
-  <button id="bot-button" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl" aria-label="Open HelveticBot">💬</button>
-  <div id="bot-window" class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-2xl border overflow-hidden">
-    <div class="bg-blue-700 text-white p-4 font-semibold">HelveticBot</div>
-    <div id="bot-messages" class="p-4 h-72 overflow-y-auto text-sm text-gray-700">
-      <p class="text-gray-500 lang fr active">Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?</p>
-      <p class="text-gray-500 lang en">Hello 👋 I’m HelveticBot. How can I help?</p>
-      <p class="text-gray-500 lang de">Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?</p>
-    </div>
-    <form id="bot-form" class="flex border-t">
-      <input type="text" id="bot-input" placeholder="Écrivez un message... / Write a message..." class="flex-1 p-2 text-sm outline-none">
-      <button type="submit" class="px-4 text-blue-700 font-bold">➤</button>
-    </form>
-  </div>
-
-  <!-- SCRIPTS -->
-  <script>
-    // Steps for methodology (repeated structure for translation convenience)
-  </script>
-  <script>
-    // Build methodology steps dynamically to keep code short
-    (function(){
-      const steps = [
-        {
-          num:'01',
-          fr:{t:'Analyse des besoins', p:['Compréhension approfondie de vos processus et objectifs pour cibler les vrais leviers de performance.'], li:['Cartographie des flux & données','Identification des quick‑wins et priorités','Roadmap réaliste et mesurable']},
-          en:{t:'Needs analysis', p:['Deep understanding of your processes and objectives to target true performance levers.'], li:['Flow & data mapping','Identification of quick wins and priorities','Realistic, measurable roadmap']},
-          de:{t:'Bedarfsanalyse', p:['Tiefes Verständnis Ihrer Prozesse und Ziele, um echte Performance‑Hebel zu identifizieren.'], li:['Prozess‑ & Datenlandkarte','Identifikation von Quick‑Wins und Prioritäten','Realistische, messbare Roadmap']},
-        },
-        {
-          num:'02',
-          fr:{t:'Conception de solution', p:['Design sur mesure en respectant vos contraintes IT, sécurité et conformité.'], li:['Choix technologiques adaptés','Prototypage rapide & validation métier','Plan d’intégration et de tests']},
-          en:{t:'Solution design', p:['Tailor‑made design respecting your IT, security and compliance constraints.'], li:['Fit‑for‑purpose technology choices','Rapid prototyping & business validation','Integration and test plan']},
-          de:{t:'Lösungskonzeption', p:['Maßgeschneidertes Design unter Berücksichtigung von IT‑, Sicherheits‑ und Compliance‑Vorgaben.'], li:['Passende Technologieauswahl','Schnelles Prototyping & Fachvalidierung','Integrations‑ und Testplan']},
-        },
-        {
-          num:'03',
-          fr:{t:'Développement & intégration', p:['Méthodologie agile avec points de validation réguliers.'], li:['Sprints courts et démonstrations','Tests unitaires & d’intégration','Qualité et sécurité by design']},
-          en:{t:'Development & integration', p:['Agile methodology with regular validation points.'], li:['Short sprints and demos','Unit & integration tests','Quality and security by design']},
-          de:{t:'Entwicklung & Integration', p:['Agile Methode mit regelmäßigen Validierungspunkten.'], li:['Kurze Sprints und Demos','Unit‑ und Integrationstests','Qualität und Sicherheit by Design']},
-        },
-        {
-          num:'04',
-          fr:{t:'Implémentation & formation', p:['Déploiement progressif, formation des équipes et transfert de compétences.'], li:['Pilotes, montée en charge','Guides & sessions de formation','Support au démarrage']},
-          en:{t:'Implementation & training', p:['Progressive rollout, team training and knowledge transfer.'], li:['Pilots, scale‑up','Guides & training sessions','Go‑live support']},
-          de:{t:'Implementierung & Schulung', p:['Schrittweiser Rollout, Teamschulung und Wissenstransfer.'], li:['Piloten, Skalierung','Guides & Trainings','Go‑Live‑Support']},
-        },
-        {
-          num:'05',
-          fr:{t:'Suivi & optimisation continue', p:['Accompagnement post‑déploiement pour améliorer durablement la performance.'], li:['Monitoring & KPI','Améliorations continues','Évolutions fonctionnelles']},
-          en:{t:'Follow‑up & continuous improvement', p:['Post‑deployment support to sustainably improve performance.'], li:['Monitoring & KPIs','Continuous improvements','Functional enhancements']},
-          de:{t:'Monitoring & kontinuierliche Optimierung', p:['Begleitung nach dem Rollout zur nachhaltigen Performance‑Steigerung.'], li:['Monitoring & KPIs','Kontinuierliche Verbesserungen','Funktionale Erweiterungen']},
+  <title>Helvitic AI - Chatbot Avancé</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
         }
-      ];
+        .pulse-glow { animation: pulse-glow 2s infinite; }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .slide-up { animation: slideUp 0.3s ease-out; }
+        
+        @keyframes typing {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        .typing-indicator { animation: typing 1s infinite; }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .message-user {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+        
+        .message-bot {
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border: 1px solid #d1d5db;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: #f1f5f9; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
+        
+        .language-btn {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .language-btn:hover {
+            transform: scale(1.05);
+            border-color: #3b82f6;
+        }
+        .language-btn.selected {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Chatbot Container -->
+    <div id="chatbot-container" class="fixed bottom-5 right-5 z-50">
+        <!-- Notification Badge -->
+        <div id="notification-badge" class="absolute -top-2 -left-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold hidden">
+            <span id="notification-count">1</span>
+        </div>
+        
+        <!-- Toggle Button -->
+        <button id="chatbot-toggle" class="w-16 h-16 rounded-full gradient-bg flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300 pulse-glow">
+            <span id="toggle-icon" class="text-2xl">🤖</span>
+        </button>
 
-      const container = document.currentScript.previousElementSibling.previousElementSibling; // the section content wrapper where we placed %s
-      let html = '';
-      steps.forEach(s => {
-        html += `
-        <div class="bg-white border rounded-2xl shadow-sm fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="bg-blue-600 text-white rounded-full w-9 h-9 text-sm flex items-center justify-center font-bold">${s.num}</span>
-              <span class="lang fr active">${s.fr.t}</span>
-              <span class="lang en">${s.en.t}</span>
-              <span class="lang de">${s.de.t}</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-3 lang fr active">${s.fr.p[0]}</p>
-            <p class="mb-3 lang en">${s.en.p[0]}</p>
-            <p class="mb-3 lang de">${s.de.p[0]}</p>
-            <ul class="list-disc pl-5 space-y-1">
-              ${s.fr.li.map(li=>`<li class="lang fr active">${li}</li>`).join('')}
-              ${s.en.li.map(li=>`<li class="lang en">${li}</li>`).join('')}
-              ${s.de.li.map(li=>`<li class="lang de">${li}</li>`).join('')}
-            </ul>
-          </div>
-        </div>`;
-      });
-      container.innerHTML = container.innerHTML.replace('%s', html);
-    })();
-  </script>
+        <!-- Chat Window -->
+        <div id="chatbot-window" class="hidden absolute bottom-20 right-0 w-96 h-[600px] glass-effect rounded-3xl shadow-2xl flex flex-col border border-white/20">
+            <!-- Header -->
+            <div class="gradient-bg text-white flex justify-between items-center p-4 rounded-t-3xl">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                        <span class="text-lg">🚀</span>
+                    </div>
+                    <div>
+                        <div class="font-bold">Helvitic AI</div>
+                        <div class="text-xs opacity-80" id="status">En ligne</div>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button id="language-selector" class="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors" title="Changer de langue">
+                        🌍
+                    </button>
+                    <button id="clear-chat" class="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors" title="Effacer la conversation">
+                        🗑️
+                    </button>
+                    <button id="chatbot-close" class="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors">
+                        ✕
+                    </button>
+                </div>
+            </div>
 
-  <script>
-    // Menu mobile
-    const mbBtn = document.getElementById('mobileMenuBtn');
-    const mbPanel = document.getElementById('mobilePanel');
-    mbBtn?.addEventListener('click', () => { mbPanel.classList.toggle('hidden'); });
+            <!-- Language Selection Modal -->
+            <div id="language-modal" class="absolute inset-0 bg-black/50 rounded-3xl flex items-center justify-center z-10">
+                <div class="bg-white p-6 rounded-2xl shadow-xl max-w-sm w-full mx-4">
+                    <h3 class="text-lg font-bold text-center mb-4">Choose your language / Choisissez votre langue / Wählen Sie Ihre Sprache</h3>
+                    <div class="space-y-3">
+                        <button class="language-btn w-full p-3 bg-gray-100 rounded-xl flex items-center space-x-3 hover:bg-gray-200" data-lang="fr">
+                            <span class="text-2xl">🇫🇷</span>
+                            <div class="text-left">
+                                <div class="font-semibold">Français</div>
+                                <div class="text-sm text-gray-600">Langue française</div>
+                            </div>
+                        </button>
+                        <button class="language-btn w-full p-3 bg-gray-100 rounded-xl flex items-center space-x-3 hover:bg-gray-200" data-lang="en">
+                            <span class="text-2xl">🇬🇧</span>
+                            <div class="text-left">
+                                <div class="font-semibold">English</div>
+                                <div class="text-sm text-gray-600">English language</div>
+                            </div>
+                        </button>
+                        <button class="language-btn w-full p-3 bg-gray-100 rounded-xl flex items-center space-x-3 hover:bg-gray-200" data-lang="de">
+                            <span class="text-2xl">🇩🇪</span>
+                            <div class="text-left">
+                                <div class="font-semibold">Deutsch</div>
+                                <div class="text-sm text-gray-600">Deutsche Sprache</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-    // Fade-in on scroll
-    const faders = document.querySelectorAll('.fade-in');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
-    }, { threshold: 0.2 });
-    faders.forEach(el => io.observe(el));
+            <!-- Messages Container -->
+            <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin">
+                <!-- Messages will be populated by JavaScript -->
+            </div>
 
-    // Accordions
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('.accordion-btn');
-      if (!btn) return;
-      const content = btn.parentElement.querySelector('.accordion-content');
-      const icon = btn.querySelector('.accordion-icon');
-      document.querySelectorAll('.accordion-content').forEach(c => { if (c !== content) c.classList.remove('open'); });
-      document.querySelectorAll('.accordion-icon').forEach(i => { if (i !== icon) i.classList.remove('rotate-180'); });
-      content.classList.toggle('open');
-      icon.classList.toggle('rotate-180');
-    });
+            <!-- Typing Indicator -->
+            <div id="typing-indicator" class="hidden px-4 pb-2">
+                <div class="flex items-center space-x-2 text-gray-500 text-sm">
+                    <div class="w-6 h-6 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white text-xs">
+                        AI
+                    </div>
+                    <span id="typing-text">Assistant écrit</span>
+                    <span class="typing-indicator">...</span>
+                </div>
+            </div>
 
-    // Language switch
-    function applyLang(lang){
-      localStorage.setItem('helveticai_lang', lang);
-      document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.'+lang).forEach(el => el.classList.add('active'));
-    }
-    function setLang(lang){ applyLang(lang); }
-    window.setLang = setLang;
-    applyLang(localStorage.getItem('helveticai_lang') || 'fr');
+            <!-- Quick Actions -->
+            <div id="quick-actions" class="px-4 pb-2">
+                <div class="flex space-x-2 overflow-x-auto scrollbar-thin">
+                    <button class="quick-action-btn flex-shrink-0 bg-blue-100 hover:bg-blue-200 px-3 py-1 rounded-full text-xs transition-colors" data-action="services">
+                        🚀 Services
+                    </button>
+                    <button class="quick-action-btn flex-shrink-0 bg-green-100 hover:bg-green-200 px-3 py-1 rounded-full text-xs transition-colors" data-action="demo">
+                        ✨ Démo
+                    </button>
+                    <button class="quick-action-btn flex-shrink-0 bg-purple-100 hover:bg-purple-200 px-3 py-1 rounded-full text-xs transition-colors" data-action="contact">
+                        📞 Contact
+                    </button>
+                </div>
+            </div>
 
-    // Bot
-    const botBtn = document.getElementById('bot-button');
-    const botWin = document.getElementById('bot-window');
-    const botForm = document.getElementById('bot-form');
-    const botInput = document.getElementById('bot-input');
-    const botMessages = document.getElementById('bot-messages');
-    botBtn.addEventListener('click', () => botWin.classList.toggle('hidden'));
-    botForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const msg = botInput.value.trim();
-      if (!msg) return;
-      botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
-      botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> Merci pour votre message, un conseiller vous contactera rapidement.</p>`;
-      botInput.value = '';
-      botMessages.scrollTop = botMessages.scrollHeight;
-    });
-  </script>
-   <script>
-  // --- Langues Bot ---
-  const botResponses = {
-    fr: {
-      welcome: "Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?",
-      reply: "Merci pour votre message, un conseiller vous contactera rapidement."
-    },
-    en: {
-      welcome: "Hello 👋 I’m HelveticBot. How can I help?",
-      reply: "Thank you for your message, an advisor will contact you shortly."
-    },
-    de: {
-      welcome: "Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?",
-      reply: "Vielen Dank für Ihre Nachricht, ein Berater wird Sie bald kontaktieren."
-    }
-  };
+            <!-- Input Area -->
+            <div class="border-t border-gray-200 p-4">
+                <div class="flex items-center space-x-3">
+                    <div class="flex-1 relative">
+                        <input 
+                            type="text" 
+                            id="user-input" 
+                            placeholder="Tapez votre message..." 
+                            class="w-full px-4 py-3 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                            maxlength="500"
+                        >
+                        <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400" id="char-count">
+                            0/500
+                        </div>
+                    </div>
+                    <button id="send-btn" class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform disabled:opacity-50">
+                        <span id="send-icon">📤</span>
+                    </button>
+                </div>
+                
+                <!-- Suggestions -->
+                <div id="suggestions" class="mt-2 space-y-1"></div>
+            </div>
 
-  let currentLang = localStorage.getItem("helveticai_lang") || "fr";
-
-  function applyLang(lang){
-    localStorage.setItem('helveticai_lang', lang);
-    currentLang = lang;
-    document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.'+lang).forEach(el => el.classList.add('active'));
-
-    // Mettre à jour le message d'accueil du bot
-    const botMessages = document.getElementById('bot-messages');
-    botMessages.innerHTML = `<p class="text-gray-500">${botResponses[lang].welcome}</p>`;
-  }
-  window.setLang = applyLang;
-
-  // Init avec la langue sauvegardée
-  applyLang(currentLang);
-
-  // --- Bot ---
-  const botBtn = document.getElementById('bot-button');
-  const botWin = document.getElementById('bot-window');
-  const botForm = document.getElementById('bot-form');
-  const botInput = document.getElementById('bot-input');
-  const botMessages = document.getElementById('bot-messages');
-
-  botBtn.addEventListener('click', () => {
-    botWin.classList.toggle('hidden');
-    // Réafficher message de bienvenue dans la bonne langue
-    if (!botWin.classList.contains("hidden")) {
-      botMessages.innerHTML = `<p class="text-gray-500">${botResponses[currentLang].welcome}</p>`;
-    }
-  });
-
-  botForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const msg = botInput.value.trim();
-    if (!msg) return;
-
-    botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
-    botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> ${botResponses[currentLang].reply}</p>`;
-
-    botInput.value = '';
-    botMessages.scrollTop = botMessages.scrollHeight;
-  });
-</script>
-
-
-<!-- HELVETICBOT -->
-<button id="bot-button" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl">💬</button>
-
-<div id="bot-window" class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-2xl border overflow-hidden">
-  <div class="bg-blue-700 text-white p-4 font-semibold">HelveticBot</div>
-  <div id="bot-messages" class="p-4 h-72 overflow-y-auto text-sm text-gray-700"></div>
-  <form id="bot-form" class="flex border-t hidden">
-    <input type="text" id="bot-input" placeholder="Écrivez un message..." class="flex-1 p-2 text-sm outline-none">
-    <button type="submit" class="px-4 text-blue-700 font-bold">➤</button>
-  </form>
-</div>
-
-<script>
-const botResponses = {
-  fr: {
-    welcome: "Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?",
-    reply: "Merci pour votre message, un conseiller vous contactera rapidement."
-  },
-  en: {
-    welcome: "Hello 👋 I’m HelveticBot. How can I help?",
-    reply: "Thank you for your message, an advisor will contact you shortly."
-  },
-  de: {
-    welcome: "Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?",
-    reply: "Vielen Dank für Ihre Nachricht, ein Berater wird Sie bald kontaktieren."
-  }
-};
-
-let currentLang = localStorage.getItem("helveticai_lang") || null;
-
-const botBtn = document.getElementById("bot-button");
-const botWin = document.getElementById("bot-window");
-const botMessages = document.getElementById("bot-messages");
-const botForm = document.getElementById("bot-form");
-const botInput = document.getElementById("bot-input");
-
-botBtn.addEventListener("click", () => {
-  botWin.classList.toggle("hidden");
-  if (!botWin.classList.contains("hidden")) {
-    if (!currentLang) {
-      showLangMenu();
-    } else {
-      startBot(currentLang);
-    }
-  }
-});
-
-function showLangMenu() {
-  botMessages.innerHTML = `
-    <p class="text-center mb-4">🌍 Choisissez votre langue / Select your language / Wählen Sie Ihre Sprache</p>
-    <div class="flex justify-around">
-      <button onclick="setLang('fr')" class="text-2xl">🇫🇷</button>
-      <button onclick="setLang('en')" class="text-2xl">🇬🇧</button>
-      <button onclick="setLang('de')" class="text-2xl">🇩🇪</button>
+            <!-- Footer -->
+            <div class="px-4 pb-3 text-center">
+                <div class="text-xs text-gray-500">
+                    <span id="powered-by">Alimenté par</span> <span class="font-semibold text-blue-600">Helvitic AI</span>
+                </div>
+            </div>
+        </div>
     </div>
-  `;
-  botForm.classList.add("hidden");
-}
 
-function setLang(lang) {
-  currentLang = lang;
-  localStorage.setItem("helveticai_lang", lang);
-  startBot(lang);
-}
+    <script>
+        // Configuration multilingue
+        const languages = {
+            fr: {
+                name: "Français",
+                flag: "🇫🇷",
+                welcome: "👋 Bonjour ! Je suis votre assistant virtuel Helvitic AI. Comment puis-je vous aider aujourd'hui ?",
+                typing: "Assistant écrit",
+                placeholder: "Tapez votre message...",
+                poweredBy: "Alimenté par",
+                status: "En ligne",
+                clearTitle: "Effacer la conversation",
+                langTitle: "Changer de langue",
+                clearConfirm: "🧹 Conversation effacée ! Comment puis-je vous aider ?",
+                quickActions: {
+                    services: "🚀 Services",
+                    demo: "✨ Démo", 
+                    contact: "📞 Contact"
+                }
+            },
+            en: {
+                name: "English",
+                flag: "🇬🇧", 
+                welcome: "👋 Hello! I'm your virtual assistant Helvitic AI. How can I help you today?",
+                typing: "Assistant is typing",
+                placeholder: "Type your message...",
+                poweredBy: "Powered by",
+                status: "Online",
+                clearTitle: "Clear conversation",
+                langTitle: "Change language",
+                clearConfirm: "🧹 Conversation cleared! How can I help you?",
+                quickActions: {
+                    services: "🚀 Services",
+                    demo: "✨ Demo",
+                    contact: "📞 Contact"
+                }
+            },
+            de: {
+                name: "Deutsch",
+                flag: "🇩🇪",
+                welcome: "👋 Hallo! Ich bin Ihr virtueller Assistent Helvitic AI. Wie kann ich Ihnen heute helfen?",
+                typing: "Assistent schreibt",
+                placeholder: "Geben Sie Ihre Nachricht ein...",
+                poweredBy: "Betrieben von",
+                status: "Online",
+                clearTitle: "Unterhaltung löschen",
+                langTitle: "Sprache ändern",
+                clearConfirm: "🧹 Unterhaltung gelöscht! Wie kann ich Ihnen helfen?",
+                quickActions: {
+                    services: "🚀 Services",
+                    demo: "✨ Demo",
+                    contact: "📞 Kontakt"
+                }
+            }
+        };
 
-function startBot(lang) {
-  botMessages.innerHTML = `<p class="text-gray-500">${botResponses[lang].welcome}</p>`;
-  botForm.classList.remove("hidden");
-  botInput.placeholder = {
-    fr: "Écrivez un message...",
-    en: "Write a message...",
-    de: "Nachricht schreiben..."
-  }[lang];
-}
+        // Base de connaissances multilingue
+        const knowledgeBase = {
+            fr: {
+                services: {
+                    keywords: ["service", "proposez", "offrez", "faites", "solutions", "produits"],
+                    responses: [
+                        "🚀 **Nos services principaux :**\n• Automatisation intelligente\n• Analyse de données avancée\n• IA personnalisée\n• Conseil en transformation digitale\n• Formation et accompagnement",
+                        "💼 Nous proposons des solutions complètes d'IA : automatisation, analyse prédictive, chatbots, vision par ordinateur et bien plus encore !",
+                        "⚡ Découvrez nos services : développement sur mesure, intégration d'IA, optimisation de processus et support technique complet."
+                    ]
+                },
+                contact: {
+                    keywords: ["contact", "joindre", "appeler", "email", "téléphone", "rendez-vous"],
+                    responses: [
+                        "📩 **Contactez-nous :**\n• Email: contact@helvitic.ai\n• Site: www.helvitic.ai\n• Réponse sous 24h garantie !",
+                        "☎️ Plusieurs moyens de nous contacter : email, formulaire en ligne ou demande de rappel. Nous répondons rapidement !",
+                        "📞 Notre équipe est disponible du lundi au vendredi. Contactez-nous via notre site web pour un premier échange gratuit."
+                    ]
+                },
+                demo: {
+                    keywords: ["démo", "test", "essai", "gratuit", "exemple", "voir"],
+                    responses: [
+                        "✨ **Démo gratuite disponible !**\n• Générateur de prompts interactif\n• Exemples de solutions IA\n• Consultation personnalisée",
+                        "🎁 Testez gratuitement notre générateur de prompts et découvrez le potentiel de l'IA pour votre entreprise !",
+                        "🆓 Démo gratuite de 30 minutes incluant : présentation personnalisée, Q&R et recommandations spécifiques."
+                    ]
+                },
+                defaultResponses: [
+                    "🤔 Intéressant ! Pouvez-vous me donner plus de détails pour que je puisse mieux vous aider ?",
+                    "💡 Je pense pouvoir vous aider ! Reformulez votre question pour que je comprenne mieux vos besoins.",
+                    "🎯 Cette question mérite une réponse personnalisée. Contactez-nous directement pour un échange approfondi !"
+                ],
+                suggestions: [
+                    "Quels sont vos services ?",
+                    "Comment vous contacter ?",
+                    "Avez-vous une démo gratuite ?",
+                    "Quels sont vos tarifs ?",
+                    "Proposez-vous du conseil en IA ?",
+                    "Pouvez-vous automatiser mes tâches ?"
+                ]
+            },
+            en: {
+                services: {
+                    keywords: ["service", "offer", "provide", "do", "solutions", "products"],
+                    responses: [
+                        "🚀 **Our main services:**\n• Intelligent automation\n• Advanced data analysis\n• Custom AI\n• Digital transformation consulting\n• Training and support",
+                        "💼 We offer complete AI solutions: automation, predictive analysis, chatbots, computer vision and much more!",
+                        "⚡ Discover our services: custom development, AI integration, process optimization and complete technical support."
+                    ]
+                },
+                contact: {
+                    keywords: ["contact", "reach", "call", "email", "phone", "appointment"],
+                    responses: [
+                        "📩 **Contact us:**\n• Email: contact@helvitic.ai\n• Website: www.helvitic.ai\n• 24h response guaranteed!",
+                        "☎️ Several ways to contact us: email, online form or callback request. We respond quickly!",
+                        "📞 Our team is available Monday to Friday. Contact us via our website for a free initial consultation."
+                    ]
+                },
+                demo: {
+                    keywords: ["demo", "test", "trial", "free", "example", "see"],
+                    responses: [
+                        "✨ **Free demo available!**\n• Interactive prompt generator\n• AI solution examples\n• Personalized consultation",
+                        "🎁 Test our prompt generator for free and discover AI's potential for your business!",
+                        "🆓 Free 30-minute demo including: personalized presentation, Q&A and specific recommendations."
+                    ]
+                },
+                defaultResponses: [
+                    "🤔 Interesting! Can you give me more details so I can better help you?",
+                    "💡 I think I can help you! Please rephrase your question so I can better understand your needs.",
+                    "🎯 This question deserves a personalized answer. Contact us directly for an in-depth discussion!"
+                ],
+                suggestions: [
+                    "What are your services?",
+                    "How to contact you?",
+                    "Do you have a free demo?",
+                    "What are your rates?",
+                    "Do you offer AI consulting?",
+                    "Can you automate my tasks?"
+                ]
+            },
+            de: {
+                services: {
+                    keywords: ["service", "anbieten", "bieten", "machen", "lösungen", "produkte"],
+                    responses: [
+                        "🚀 **Unsere Hauptdienstleistungen:**\n• Intelligente Automatisierung\n• Erweiterte Datenanalyse\n• Personalisierte KI\n• Beratung zur digitalen Transformation\n• Schulung und Begleitung",
+                        "💼 Wir bieten komplette KI-Lösungen: Automatisierung, prädiktive Analyse, Chatbots, Computer Vision und vieles mehr!",
+                        "⚡ Entdecken Sie unsere Services: maßgeschneiderte Entwicklung, KI-Integration, Prozessoptimierung und umfassender technischer Support."
+                    ]
+                },
+                contact: {
+                    keywords: ["kontakt", "erreichen", "anrufen", "email", "telefon", "termin"],
+                    responses: [
+                        "📩 **Kontaktieren Sie uns:**\n• Email: contact@helvitic.ai\n• Website: www.helvitic.ai\n• 24h Antwort garantiert!",
+                        "☎️ Mehrere Wege uns zu kontaktieren: E-Mail, Online-Formular oder Rückrufwunsch. Wir antworten schnell!",
+                        "📞 Unser Team ist Montag bis Freitag verfügbar. Kontaktieren Sie uns über unsere Website für eine kostenlose Erstberatung."
+                    ]
+                },
+                demo: {
+                    keywords: ["demo", "test", "probe", "kostenlos", "beispiel", "sehen"],
+                    responses: [
+                        "✨ **Kostenlose Demo verfügbar!**\n• Interaktiver Prompt-Generator\n• KI-Lösungsbeispiele\n• Personalisierte Beratung",
+                        "🎁 Testen Sie unseren Prompt-Generator kostenlos und entdecken Sie das KI-Potenzial für Ihr Unternehmen!",
+                        "🆓 Kostenlose 30-minütige Demo mit: personalisierter Präsentation, Q&A und spezifischen Empfehlungen."
+                    ]
+                },
+                defaultResponses: [
+                    "🤔 Interessant! Können Sie mir mehr Details geben, damit ich Ihnen besser helfen kann?",
+                    "💡 Ich denke, ich kann Ihnen helfen! Formulieren Sie Ihre Frage um, damit ich Ihre Bedürfnisse besser verstehe.",
+                    "🎯 Diese Frage verdient eine personalisierte Antwort. Kontaktieren Sie uns direkt für ein ausführliches Gespräch!"
+                ],
+                suggestions: [
+                    "Was sind Ihre Services?",
+                    "Wie kann ich Sie kontaktieren?",
+                    "Haben Sie eine kostenlose Demo?",
+                    "Was sind Ihre Preise?",
+                    "Bieten Sie KI-Beratung an?",
+                    "Können Sie meine Aufgaben automatisieren?"
+                ]
+            }
+        };
 
-botForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const msg = botInput.value.trim();
-  if (!msg) return;
+        // Variables globales
+        let currentLanguage = null;
+        let conversationHistory = [];
+        let isTyping = false;
+        let suggestionIndex = 0;
 
-  botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
-  botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> ${botResponses[currentLang].reply}</p>`;
-  botInput.value = "";
-  botMessages.scrollTop = botMessages.scrollHeight;
-});
-</script>
+        // Éléments DOM
+        const toggleBtn = document.getElementById("chatbot-toggle");
+        const chatWindow = document.getElementById("chatbot-window");
+        const closeBtn = document.getElementById("chatbot-close");
+        const clearBtn = document.getElementById("clear-chat");
+        const messagesDiv = document.getElementById("chatbot-messages");
+        const userInput = document.getElementById("user-input");
+        const sendBtn = document.getElementById("send-btn");
+        const typingIndicator = document.getElementById("typing-indicator");
+        const charCount = document.getElementById("char-count");
+        const suggestionsDiv = document.getElementById("suggestions");
+        const notificationBadge = document.getElementById("notification-badge");
+        const languageModal = document.getElementById("language-modal");
+        const languageSelector = document.getElementById("language-selector");
+
+        // Initialisation
+        function init() {
+            setupEventListeners();
+            // Ne pas masquer le modal de langue au début
+        }
+
+        // Configuration des écouteurs d'événements
+        function setupEventListeners() {
+            toggleBtn.addEventListener("click", toggleChat);
+            closeBtn.addEventListener("click", closeChat);
+            clearBtn.addEventListener("click", clearConversation);
+            sendBtn.addEventListener("click", sendMessage);
+            userInput.addEventListener("keypress", handleKeyPress);
+            userInput.addEventListener("input", updateCharCount);
+            languageSelector.addEventListener("click", showLanguageModal);
+            
+            // Language selection
+            document.querySelectorAll(".language-btn").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    const lang = e.currentTarget.dataset.lang;
+                    selectLanguage(lang);
+                });
+            });
+            
+            // Quick actions
+            document.querySelectorAll(".quick-action-btn").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    const action = e.target.dataset.action;
+                    handleQuickAction(action);
+                });
+            });
+        }
+
+        // Sélectionner langue
+        function selectLanguage(lang) {
+            currentLanguage = lang;
+            languageModal.classList.add("hidden");
+            
+            // Mettre à jour l'interface
+            updateInterface();
+            
+            // Afficher le message de bienvenue
+            showWelcomeMessage();
+            
+            // Afficher les suggestions
+            showSuggestions();
+        }
+
+        // Mettre à jour l'interface selon la langue
+        function updateInterface() {
+            const config = languages[currentLanguage];
+            
+            document.getElementById("status").textContent = config.status;
+            document.getElementById("typing-text").textContent = config.typing;
+            document.getElementById("user-input").placeholder = config.placeholder;
+            document.getElementById("powered-by").textContent = config.poweredBy;
+            document.getElementById("clear-chat").title = config.clearTitle;
+            document.getElementById("language-selector").title = config.langTitle;
+            
+            // Mettre à jour les boutons d'action rapide
+            const quickBtns = document.querySelectorAll(".quick-action-btn");
+            quickBtns[0].innerHTML = config.quickActions.services;
+            quickBtns[1].innerHTML = config.quickActions.demo;
+            quickBtns[2].innerHTML = config.quickActions.contact;
+        }
+
+        // Afficher message de bienvenue
+        function showWelcomeMessage() {
+            messagesDiv.innerHTML = "";
+            const config = languages[currentLanguage];
+            
+            const messageEl = document.createElement("div");
+            messageEl.className = "flex items-start space-x-2 slide-up";
+            messageEl.innerHTML = `
+                <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                    AI
+                </div>
+                <div class="message-bot px-4 py-2 rounded-2xl rounded-tl-sm max-w-72 text-sm">
+                    ${formatMessage(message)}
+                </div>
+            `;
+            messagesDiv.appendChild(messageEl);
+            scrollToBottom();
+        }
+
+        // Génération de réponse intelligente multilingue
+        function generateResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            const langData = knowledgeBase[currentLanguage];
+            
+            // Recherche dans la base de connaissances
+            for (const [category, data] of Object.entries(langData)) {
+                if (category === 'defaultResponses' || category === 'suggestions') continue;
+                
+                for (const keyword of data.keywords) {
+                    if (lowerMessage.includes(keyword)) {
+                        const responses = data.responses;
+                        return responses[Math.floor(Math.random() * responses.length)];
+                    }
+                }
+            }
+
+            // Réponses contextuelles multilingues
+            const contextualResponses = {
+                fr: {
+                    thanks: ["merci", "remercie"],
+                    response: "😊 Avec plaisir ! N'hésitez pas si vous avez d'autres questions."
+                },
+                en: {
+                    thanks: ["thank", "thanks"],
+                    response: "😊 You're welcome! Don't hesitate if you have other questions."
+                },
+                de: {
+                    thanks: ["danke", "dank"],
+                    response: "😊 Gern geschehen! Zögern Sie nicht, wenn Sie weitere Fragen haben."
+                }
+            };
+
+            const goodbyeResponses = {
+                fr: {
+                    keywords: ["au revoir", "bye", "salut", "à bientôt"],
+                    response: "👋 Au revoir ! N'hésitez pas à revenir quand vous voulez. Bonne journée !"
+                },
+                en: {
+                    keywords: ["goodbye", "bye", "see you", "farewell"],
+                    response: "👋 Goodbye! Don't hesitate to come back anytime. Have a great day!"
+                },
+                de: {
+                    keywords: ["auf wiedersehen", "bye", "tschüss", "bis bald"],
+                    response: "👋 Auf Wiedersehen! Zögern Sie nicht, jederzeit zurückzukommen. Haben Sie einen schönen Tag!"
+                }
+            };
+
+            // Vérifier les remerciements
+            const thanks = contextualResponses[currentLanguage];
+            for (const keyword of thanks.thanks) {
+                if (lowerMessage.includes(keyword)) {
+                    return thanks.response;
+                }
+            }
+
+            // Vérifier les au revoir
+            const goodbye = goodbyeResponses[currentLanguage];
+            for (const keyword of goodbye.keywords) {
+                if (lowerMessage.includes(keyword)) {
+                    return goodbye.response;
+                }
+            }
+
+            // Réponse par défaut
+            const defaultResponses = langData.defaultResponses;
+            return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+        }
+
+        // Formattage des messages
+        function formatMessage(message) {
+            return message
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>')
+                .replace(/•/g, '<span style="color: #3b82f6;">•</span>');
+        }
+
+        // Échapper HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Afficher indicateur de frappe
+        function showTypingIndicator() {
+            isTyping = true;
+            typingIndicator.classList.remove("hidden");
+            scrollToBottom();
+        }
+
+        // Masquer indicateur de frappe
+        function hideTypingIndicator() {
+            isTyping = false;
+            typingIndicator.classList.add("hidden");
+        }
+
+        // Défiler vers le bas
+        function scrollToBottom() {
+            setTimeout(() => {
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }, 100);
+        }
+
+        // Afficher suggestions
+        function showSuggestions() {
+            if (!currentLanguage) return;
+            
+            suggestionsDiv.innerHTML = "";
+            const suggestions = knowledgeBase[currentLanguage].suggestions;
+            const currentSuggestions = suggestions.slice(suggestionIndex, suggestionIndex + 3);
+            
+            currentSuggestions.forEach(suggestion => {
+                const btn = document.createElement("button");
+                btn.className = "w-full text-left px-3 py-2 bg-gray-50 hover:bg-blue-50 rounded-lg text-xs transition-colors border border-gray-200";
+                btn.textContent = suggestion;
+                btn.onclick = () => {
+                    userInput.value = suggestion;
+                    sendMessage();
+                };
+                suggestionsDiv.appendChild(btn);
+            });
+        }
+
+        // Masquer suggestions
+        function hideSuggestions() {
+            suggestionsDiv.innerHTML = "";
+        }
+
+        // Mettre à jour suggestions
+        function updateSuggestions() {
+            if (!currentLanguage) return;
+            
+            const suggestions = knowledgeBase[currentLanguage].suggestions;
+            suggestionIndex = (suggestionIndex + 3) % suggestions.length;
+            showSuggestions();
+        }
+
+        // Afficher notification
+        function showNotification() {
+            if (chatWindow.classList.contains("hidden")) {
+                notificationBadge.classList.remove("hidden");
+            }
+        }
+
+        // Masquer notification
+        function hideNotification() {
+            notificationBadge.classList.add("hidden");
+        }
+
+        // Initialiser l'application
+        init();
+
+    </script>
+</body>
+</html> text-sm">
+                    ${config.welcome}
+                </div>
+            `;
+            messagesDiv.appendChild(messageEl);
+        }
+
+        // Afficher modal de langue
+        function showLanguageModal() {
+            languageModal.classList.remove("hidden");
+        }
+
+        // Toggle chat
+        function toggleChat() {
+            const isHidden = chatWindow.classList.contains("hidden");
+            if (isHidden) {
+                chatWindow.classList.remove("hidden");
+                chatWindow.classList.add("slide-up");
+                
+                if (!currentLanguage) {
+                    languageModal.classList.remove("hidden");
+                } else {
+                    userInput.focus();
+                }
+                
+                hideNotification();
+            } else {
+                closeChat();
+            }
+        }
+
+        // Fermer chat
+        function closeChat() {
+            chatWindow.classList.add("hidden");
+        }
+
+        // Effacer conversation
+        function clearConversation() {
+            if (!currentLanguage) return;
+            
+            conversationHistory = [];
+            const config = languages[currentLanguage];
+            
+            messagesDiv.innerHTML = `
+                <div class="flex items-start space-x-2 slide-up">
+                    <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                        AI
+                    </div>
+                    <div class="message-bot px-4 py-2 rounded-2xl rounded-tl-sm max-w-72 text-sm">
+                        ${config.clearConfirm}
+                    </div>
+                </div>
+            `;
+            showSuggestions();
+        }
+
+        // Gestion des touches
+        function handleKeyPress(e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        }
+
+        // Mise à jour compteur caractères
+        function updateCharCount() {
+            const count = userInput.value.length;
+            charCount.textContent = `${count}/500`;
+            charCount.style.color = count > 450 ? "#ef4444" : "#9ca3af";
+        }
+
+        // Actions rapides
+        function handleQuickAction(action) {
+            if (!currentLanguage) return;
+            
+            const config = languages[currentLanguage];
+            const actionQuestions = {
+                fr: {
+                    services: "Quels sont vos services ?",
+                    demo: "Avez-vous une démo gratuite ?",
+                    contact: "Comment puis-je vous contacter ?"
+                },
+                en: {
+                    services: "What are your services?",
+                    demo: "Do you have a free demo?",
+                    contact: "How can I contact you?"
+                },
+                de: {
+                    services: "Was sind Ihre Services?",
+                    demo: "Haben Sie eine kostenlose Demo?",
+                    contact: "Wie kann ich Sie kontaktieren?"
+                }
+            };
+            
+            userInput.value = actionQuestions[currentLanguage][action] || "";
+            sendMessage();
+        }
+
+        // Envoyer message
+        async function sendMessage() {
+            if (!currentLanguage) return;
+            
+            const message = userInput.value.trim();
+            if (!message || isTyping) return;
+
+            // Ajouter message utilisateur
+            addUserMessage(message);
+            userInput.value = "";
+            updateCharCount();
+            hideSuggestions();
+
+            // Simuler frappe
+            showTypingIndicator();
+            
+            // Délai réaliste pour la réponse
+            setTimeout(() => {
+                const response = generateResponse(message);
+                hideTypingIndicator();
+                addBotMessage(response);
+                updateSuggestions();
+            }, 1000 + Math.random() * 2000);
+
+            conversationHistory.push({user: message, timestamp: Date.now()});
+        }
+
+        // Ajouter message utilisateur
+        function addUserMessage(message) {
+            const messageEl = document.createElement("div");
+            messageEl.className = "flex justify-end slide-up";
+            messageEl.innerHTML = `
+                <div class="message-user px-4 py-2 rounded-2xl rounded-tr-sm max-w-72 text-sm">
+                    ${escapeHtml(message)}
+                </div>
+            `;
+            messagesDiv.appendChild(messageEl);
+            scrollToBottom();
+        }
+
+        // Ajouter message bot
+        function addBotMessage(message) {
+            const messageEl = document.createElement("div");
+            messageEl.className = "flex items-start space-x-2 slide-up";
+            messageEl.innerHTML = `
+                <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                    AI
+                </div>
+                <div class="message-bot px-4 py-2 rounded-2xl rounded-tl-sm max-w-72
 </body>
 </html>
 
