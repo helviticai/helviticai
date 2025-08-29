@@ -1,0 +1,129 @@
+/* === Bouton flottant === */
+#bot-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: #2563eb; /* Bleu moderne */
+  color: white;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  z-index: 1000;
+}
+
+#bot-button:hover {
+  background-color: #1e40af; /* Bleu foncé au survol */
+  transform: scale(1.1);
+}
+
+/* === Fenêtre du chatbot === */
+#bot-window {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 350px;
+  height: 500px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.hidden {
+  display: none;
+}
+
+/* === En-tête === */
+.bot-header {
+  background-color: #2563eb;
+  color: white;
+  padding: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bot-close {
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* === Zone messages === */
+#bot-messages {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  background: #f9fafb;
+}
+
+.bot-msg {
+  background: #e5e7eb;
+  color: #111827;
+  padding: 8px 12px;
+  border-radius: 12px;
+  margin: 6px 0;
+  max-width: 80%;
+}
+
+.user-msg {
+  background: #2563eb;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 12px;
+  margin: 6px 0;
+  max-width: 80%;
+  align-self: flex-end;
+}
+
+/* === Formulaire input === */
+.bot-form {
+  display: flex;
+  border-top: 1px solid #e5e7eb;
+}
+
+#bot-input {
+  flex: 1;
+  border: none;
+  padding: 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+.bot-form button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0 20px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.bot-form button:hover {
+  background: #1e40af;
+}
+
+/* === Animation === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
