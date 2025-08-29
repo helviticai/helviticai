@@ -1268,20 +1268,7 @@
     </div>
   </section>
 
-  <!-- HELVETICBOT -->
-  <button id="bot-button" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl" aria-label="Open HelveticBot">💬</button>
-  <div id="bot-window" class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-2xl border overflow-hidden">
-    <div class="bg-blue-700 text-white p-4 font-semibold">HelveticBot</div>
-    <div id="bot-messages" class="p-4 h-72 overflow-y-auto text-sm text-gray-700">
-      <p class="text-gray-500 lang fr active">Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?</p>
-      <p class="text-gray-500 lang en">Hello 👋 I’m HelveticBot. How can I help?</p>
-      <p class="text-gray-500 lang de">Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?</p>
-    </div>
-    <form id="bot-form" class="flex border-t">
-      <input type="text" id="bot-input" placeholder="Écrivez un message... / Write a message..." class="flex-1 p-2 text-sm outline-none">
-      <button type="submit" class="px-4 text-blue-700 font-bold">➤</button>
-    </form>
-  </div>
+  
 
   <!-- SCRIPTS -->
   <script>
@@ -1388,25 +1375,9 @@
     window.setLang = setLang;
     applyLang(localStorage.getItem('helveticai_lang') || 'fr');
 
-    // Bot
-    const botBtn = document.getElementById('bot-button');
-    const botWin = document.getElementById('bot-window');
-    const botForm = document.getElementById('bot-form');
-    const botInput = document.getElementById('bot-input');
-    const botMessages = document.getElementById('bot-messages');
-    botBtn.addEventListener('click', () => botWin.classList.toggle('hidden'));
-    botForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const msg = botInput.value.trim();
-      if (!msg) return;
-      botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
-      botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> Merci pour votre message, un conseiller vous contactera rapidement.</p>`;
-      botInput.value = '';
-      botMessages.scrollTop = botMessages.scrollHeight;
-    });
-  </script>
-</body>
-</html>
+   
+<script src="path/to/chatbot.js"></script>
+
 
 </body>
 </html>
