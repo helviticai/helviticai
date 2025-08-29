@@ -1,4 +1,4 @@
-// Réponses prédéfinies (20 questions/réponses par langue)
+// ================== Réponses prédéfinies ==================
 const responses = {
   fr: {
     greeting: "Bonjour! Comment puis-je vous aider ?",
@@ -76,21 +76,28 @@ const responses = {
   }
 };
 
+// ================== Langue courante ==================
 let currentLang = localStorage.getItem("helveticai_lang") || "fr";
 
-// Récupération des éléments
+// ================== Éléments ==================
 const botBtn = document.getElementById("bot-button");
 const botWin = document.getElementById("bot-window");
+const botClose = document.getElementById("bot-close");
 const botForm = document.getElementById("bot-form");
 const botInput = document.getElementById("bot-input");
 const botMessages = document.getElementById("bot-messages");
 
-// Ouvrir/fermer la fenêtre
+// Ouvrir/fermer avec la boule 💬
 if (botBtn && botWin) {
   botBtn.addEventListener("click", () => botWin.classList.toggle("hidden"));
 }
 
-// Gestion des messages utilisateur
+// Fermer avec le X
+if (botClose && botWin) {
+  botClose.addEventListener("click", () => botWin.classList.add("hidden"));
+}
+
+// Gestion messages
 if (botForm) {
   botForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -100,7 +107,7 @@ if (botForm) {
     // Message utilisateur
     botMessages.innerHTML += `<p class="user-msg"><strong>Vous:</strong> ${msg}</p>`;
 
-    // Chercher une réponse correspondante
+    // Réponse du bot
     let reply = responses[currentLang].unknown;
     for (let key in responses[currentLang]) {
       if (responses[currentLang][key].keywords) {
@@ -113,7 +120,7 @@ if (botForm) {
 
     botMessages.innerHTML += `<p class="bot-msg"><strong>Bot:</strong> ${reply}</p>`;
 
-    // Nettoyer champ et scroller
+    // Scroll bas
     botInput.value = "";
     botMessages.scrollTop = botMessages.scrollHeight;
   });
