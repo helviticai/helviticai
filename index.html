@@ -635,6 +635,26 @@
 <!-- Script du chatbot séparé -->
 <link rel="stylesheet" href="chatbot.css">
 <script src="chatbot.js"></script>
-</body>
+
+  const botBtn = document.getElementById("bot-button");
+const botWin = document.getElementById("bot-window");
+const botClose = document.getElementById("bot-close");
+
+console.log("BotBtn trouvé ?", botBtn);
+
+if (botBtn && botWin) {
+  botBtn.addEventListener("click", () => {
+    botWin.classList.toggle("hidden");
+    console.log("Clic détecté !");
+  });
+}
+
+if (botClose && botWin) {
+  botClose.addEventListener("click", () => {
+    botWin.classList.add("hidden");
+  });
+}
+
 
 </html>
+</body>
