@@ -1,488 +1,488 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Helvetic AI — FR / EN / DE</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helvitic AI - L'IA au service de votre entreprise</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'fade-in-up': 'fadeInUp 0.8s ease-out',
+            'float': 'float 3s ease-in-out infinite',
+            'glow': 'glow 2s ease-in-out infinite alternate',
+            'slide-in': 'slideIn 0.6s ease-out',
+            'bounce-slow': 'bounce 3s infinite',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            glow: {
+              '0%': { boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)' },
+              '100%': { boxShadow: '0 0 30px rgba(59, 130, 246, 0.8)' },
+            },
+            slideIn: {
+              '0%': { transform: 'translateX(-100%)' },
+              '100%': { transform: 'translateX(0)' },
+            }
+          },
+          backdropBlur: {
+            xs: '2px',
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    html { scroll-behavior: smooth; }
-    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
-    .fade-in.show { opacity: 1; transform: translateY(0); }
-    .accordion-content { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
-    .accordion-content.open { max-height: 1000px; }
-    .focus-ring:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
-    .lang { display:none; }
-    .lang.active { display:block; }
-    .flag { width:28px; height:20px; border-radius:3px; cursor:pointer; }
+    .gradient-text {
+      background: linear-gradient(135deg, #1e40af, #2563eb, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .glass-effect {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .service-card {
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .service-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+    }
+    
+    .animated-bg {
+      background: linear-gradient(-45deg, #bfdbfe, #93c5fd, #60a5fa, #3b82f6);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .floating-shapes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+    
+    .shape {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .shape:nth-child(1) {
+      width: 80px;
+      height: 80px;
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+    
+    .shape:nth-child(2) {
+      width: 120px;
+      height: 120px;
+      top: 60%;
+      right: 15%;
+      animation-delay: 2s;
+    }
+    
+    .shape:nth-child(3) {
+      width: 60px;
+      height: 60px;
+      top: 40%;
+      left: 70%;
+      animation-delay: 4s;
+    }
+
+    .mobile-menu {
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .mobile-menu.open {
+      transform: translateX(0);
+    }
   </style>
 </head>
-<body class="bg-white text-gray-900">
+<body class="bg-gray-50 text-gray-800 font-sans overflow-x-hidden">
 
-  <!-- NAVBAR -->
-  <header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur border-b border-gray-100 z-50">
-    <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="#" class="flex items-center space-x-3">
-        <img src="logo.png" alt="Logo Helvetic AI" class="h-10 w-10 object-contain"/>
-        <span class="text-xl font-semibold">Helvetic AI</span>
-      </a>
-
-      <!-- Desktop menu (multilingue) -->
-      <ul id="mainMenu" class="hidden md:flex items-center gap-8 font-medium ml-10">
-        <li>
-          <a href="#mission" class="hover:text-blue-600 lang fr active">Mission</a>
-          <a href="#mission" class="hover:text-blue-600 lang en">Mission</a>
-          <a href="#mission" class="hover:text-blue-600 lang de">Mission</a>
-        </li>
-        <li>
-          <a href="#expertises" class="hover:text-blue-600 lang fr active">Expertises</a>
-          <a href="#expertises" class="hover:text-blue-600 lang en">Expertise</a>
-          <a href="#expertises" class="hover:text-blue-600 lang de">Kompetenzen</a>
-        </li>
-        <li>
-          <a href="#methodologie" class="hover:text-blue-600 lang fr active">Méthodologie</a>
-          <a href="#methodologie" class="hover:text-blue-600 lang en">Methodology</a>
-          <a href="#methodologie" class="hover:text-blue-600 lang de">Methodik</a>
-        </li>
-        <li>
-          <a href="#identite" class="hover:text-blue-600 lang fr active">Identité</a>
-          <a href="#identite" class="hover:text-blue-600 lang en">Identity</a>
-          <a href="#identite" class="hover:text-blue-600 lang de">Identität</a>
-        </li>
-        <li>
-          <a href="#equipe" class="hover:text-blue-600 lang fr active">Équipe</a>
-          <a href="#equipe" class="hover:text-blue-600 lang en">Team</a>
-          <a href="#equipe" class="hover:text-blue-600 lang de">Team</a>
-        </li>
-        <li>
-          <a href="#contact" class="hover:text-blue-600 lang fr active">Contact</a>
-          <a href="#contact" class="hover:text-blue-600 lang en">Contact</a>
-          <a href="#contact" class="hover:text-blue-600 lang de">Kontakt</a>
-        </li>
-      </ul>
-
-      <!-- Lang flags -->
-      <div class="flex items-center space-x-3 ml-6">
-        <img src="https://flagcdn.com/w20/fr.png" alt="FR" class="flag" onclick="setLang('fr')" title="Français"/>
-        <img src="https://flagcdn.com/w20/gb.png" alt="EN" class="flag" onclick="setLang('en')" title="English"/>
-        <img src="https://flagcdn.com/w20/de.png" alt="DE" class="flag" onclick="setLang('de')" title="Deutsch"/>
-        <button id="mobileMenuBtn" class="md:hidden text-gray-700 focus-ring ml-2" aria-label="Menu">☰</button>
+  <!-- Header avec effet de verre -->
+  <header class="glass-effect sticky top-0 z-50 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3 animate-slide-in">
+        <!-- Logo SVG Helvitic AI -->
+        <svg width="40" height="40" viewBox="0 0 100 100" class="hover:scale-110 transition-transform duration-300">
+          <!-- Fond du robot -->
+          <defs>
+            <linearGradient id="robotGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1" />
+              <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+            </linearGradient>
+            <linearGradient id="brainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#0099cc;stop-opacity:1" />
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+              <feMerge> 
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          
+          <!-- Corps du robot -->
+          <ellipse cx="50" cy="70" rx="18" ry="25" fill="url(#robotGradient)" opacity="0.9"/>
+          
+          <!-- TÃªte du robot -->
+          <ellipse cx="50" cy="35" rx="15" ry="18" fill="url(#robotGradient)"/>
+          
+          <!-- VisiÃ¨re du robot -->
+          <ellipse cx="50" cy="32" rx="12" ry="8" fill="#1e293b" opacity="0.8"/>
+          <ellipse cx="50" cy="32" rx="10" ry="6" fill="#00d4ff" opacity="0.3"/>
+          
+          <!-- Å’il du robot -->
+          <circle cx="50" cy="32" r="3" fill="#00d4ff" filter="url(#glow)">
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          
+          <!-- Bras du robot -->
+          <ellipse cx="35" cy="55" rx="5" ry="12" fill="url(#robotGradient)" transform="rotate(-20 35 55)"/>
+          <ellipse cx="65" cy="55" rx="5" ry="12" fill="url(#robotGradient)" transform="rotate(20 65 55)"/>
+          
+          <!-- Mains du robot -->
+          <circle cx="32" cy="65" r="4" fill="url(#robotGradient)"/>
+          <circle cx="68" cy="65" r="4" fill="url(#robotGradient)"/>
+          
+          <!-- Cerveau stylisÃ© (simplifiÃ©) -->
+          <g transform="translate(15, 8) scale(0.4)">
+            <!-- Contour du cerveau -->
+            <path d="M20 30 C15 25, 15 15, 25 15 C30 10, 40 10, 45 15 C50 10, 60 10, 65 15 C75 15, 75 25, 70 30 C75 35, 75 45, 65 45 C60 50, 40 50, 35 45 C25 45, 15 35, 20 30 Z" 
+                  fill="none" stroke="url(#brainGradient)" stroke-width="2" filter="url(#glow)">
+              <animate attributeName="stroke-opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite"/>
+            </path>
+            
+            <!-- Lignes du cerveau -->
+            <path d="M25 25 Q35 20, 45 25 Q55 30, 65 25" fill="none" stroke="url(#brainGradient)" stroke-width="1.5" opacity="0.6"/>
+            <path d="M25 35 Q35 30, 45 35 Q55 40, 65 35" fill="none" stroke="url(#brainGradient)" stroke-width="1.5" opacity="0.6"/>
+            <path d="M45 20 L45 40" fill="none" stroke="url(#brainGradient)" stroke-width="1" opacity="0.4"/>
+          </g>
+          
+          <!-- Particules flottantes -->
+          <circle cx="20" cy="20" r="1" fill="#00d4ff" opacity="0.6">
+            <animate attributeName="cy" values="20;15;20" dur="4s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="80" cy="25" r="1.5" fill="#3b82f6" opacity="0.4">
+            <animate attributeName="cy" values="25;20;25" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="25" cy="80" r="1" fill="#60a5fa" opacity="0.5">
+            <animate attributeName="cy" values="80;75;80" dur="3.5s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+        
+        <h1 class="text-2xl font-bold gradient-text">Helvitic AI</h1>
       </div>
-    </nav>
-
-    <!-- Mobile panel -->
-    <div id="mobilePanel" class="hidden md:hidden border-t border-gray-100">
-      <ul class="px-6 py-3 space-y-3 font-medium">
-        <li><a href="#mission" class="block py-1 hover:text-blue-600">Mission</a></li>
-        <li><a href="#expertises" class="block py-1 hover:text-blue-600">Expertises</a></li>
-        <li><a href="#methodologie" class="block py-1 hover:text-blue-600">Méthodologie</a></li>
-        <li><a href="#identite" class="block py-1 hover:text-blue-600">Identité</a></li>
-        <li><a href="#equipe" class="block py-1 hover:text-blue-600">Équipe</a></li>
-        <li><a href="#contact" class="block py-1 hover:text-blue-600">Contact</a></li>
-      </ul>
+      
+      <!-- Navigation desktop -->
+      <nav class="hidden md:block">
+        <ul class="flex gap-8 text-gray-700 font-medium">
+          <li><a href="#hero" class="hover:text-blue-600 transition-colors duration-300 relative group">
+            Accueil
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+          </a></li>
+          <li><a href="#services" class="hover:text-blue-600 transition-colors duration-300 relative group">
+            Services
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+          </a></li>
+          <li><a href="#apropos" class="hover:text-blue-600 transition-colors duration-300 relative group">
+            Ã€ propos
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+          </a></li>
+          <li><a href="#contact" class="hover:text-blue-600 transition-colors duration-300 relative group">
+            Contact
+            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+          </a></li>
+        </ul>
+      </nav>
+      
+      <div class="flex items-center gap-4">
+        <a href="#contact" class="hidden md:block bg-blue-600 text-white px-6 py-2 rounded-full hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl">
+          Nous contacter
+        </a>
+        
+        <!-- Menu hamburger mobile -->
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Menu mobile -->
+    <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 md:hidden">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-8">
+          <h2 class="text-xl font-bold gradient-text">Menu</h2>
+          <button id="close-menu-btn" class="p-2 rounded-lg hover:bg-gray-100">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <nav>
+          <ul class="space-y-4">
+            <li><a href="#hero" class="block py-3 px-4 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Accueil</a></li>
+            <li><a href="#services" class="block py-3 px-4 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Services</a></li>
+            <li><a href="#apropos" class="block py-3 px-4 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Ã€ propos</a></li>
+            <li><a href="#contact" class="block py-3 px-4 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-colors">Contact</a></li>
+          </ul>
+        </nav>
+        <a href="#contact" class="block mt-8 bg-blue-600 text-white px-6 py-3 rounded-full text-center hover:scale-105 transition-transform">
+          Nous contacter
+        </a>
+      </div>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="bg-[#0A0F2C] text-white min-h-[86vh] flex items-center pt-28">
-    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-10">
-      <div class="md:w-1/2 space-y-6 fade-in">
-        <h1 class="text-4xl md:text-5xl font-bold leading-tight lang fr active">
-          L'intelligence artificielle <br/><span class="text-blue-400">au service de la performance financière.</span>
-        </h1>
-        <h1 class="text-4xl md:text-5xl font-bold leading-tight lang en">
-          Artificial intelligence <br/><span class="text-blue-400">serving financial performance.</span>
-        </h1>
-        <h1 class="text-4xl md:text-5xl font-bold leading-tight lang de">
-          Künstliche Intelligenz <br/><span class="text-blue-400">im Dienste der finanziellen Leistung.</span>
-        </h1>
-
-        <p class="text-lg text-gray-300 lang fr active">
-          Des solutions innovantes pour optimiser vos processus financiers et améliorer votre prise de décision.
-        </p>
-        <p class="text-lg text-gray-300 lang en">
-          Innovative solutions to optimize your financial processes and enhance decision-making.
-        </p>
-        <p class="text-lg text-gray-300 lang de">
-          Innovative Lösungen zur Optimierung Ihrer Finanzprozesse und Verbesserung der Entscheidungsfindung.
-        </p>
-        <div class="flex gap-4">
-          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang fr active">Découvrir nos solutions</a>
-          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang en">Discover our solutions</a>
-          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang de">Unsere Lösungen entdecken</a>
-
-          <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang fr active">Nous contacter</a>
-          <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang en">Contact us</a>
-          <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang de">Kontakt aufnehmen</a>
-        </div>
-      </div>
+  <!-- Hero Section avec animation de fond -->
+  <section id="hero" class="relative bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300 text-blue-900 text-center py-32 px-6 overflow-hidden">
+    <div class="floating-shapes">
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
     </div>
-  </section>
-
-  <!-- MISSION -->
-  <section id="mission" class="py-20">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold text-center mb-12 fade-in lang fr active">Notre Mission</h2>
-      <h2 class="text-4xl font-bold text-center mb-12 fade-in lang en">Our Mission</h2>
-      <h2 class="text-4xl font-bold text-center mb-12 fade-in lang de">Unsere Mission</h2>
-
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="md:col-span-2 space-y-4 fade-in">
-          <h3 class="text-2xl text-blue-600 font-semibold lang fr active">Transformer la finance par l'IA</h3>
-          <h3 class="text-2xl text-blue-600 font-semibold lang en">Transforming finance with AI</h3>
-          <h3 class="text-2xl text-blue-600 font-semibold lang de">Finanzen mit KI transformieren</h3>
-
-          <p class="lang fr active">Chez Helvetic AI, nous accompagnons les directions financières dans leur transformation digitale grâce à des technologies d'IA fiables et utiles.</p>
-          <p class="lang en">At Helvetic AI, we support finance leaders in their digital transformation with reliable, useful AI technologies.</p>
-          <p class="lang de">Bei Helvetic AI begleiten wir Finanzabteilungen bei der digitalen Transformation mit zuverlässigen, praxisnahen KI‑Technologien.</p>
-
-          <p class="lang fr active">Notre expertise combine les enjeux EPM (Enterprise Performance Management) avec des méthodes d’implémentation éprouvées, pour des résultats mesurables.</p>
-          <p class="lang en">Our expertise blends EPM (Enterprise Performance Management) challenges with proven implementation methods for measurable results.</p>
-          <p class="lang de">Unsere Expertise verbindet EPM‑Herausforderungen mit bewährten Implementierungsmethoden für messbare Ergebnisse.</p>
-
-          <p class="lang fr active">Sécurité, précision et fiabilité des données guident nos choix — des valeurs au cœur de notre identité suisse.</p>
-          <p class="lang en">Security, accuracy and data reliability guide our choices—values at the heart of our Swiss identity.</p>
-          <p class="lang de">Sicherheit, Genauigkeit und Datenzuverlässigkeit leiten unsere Entscheidungen—Werte, die unsere Schweizer Identität prägen.</p>
-        </div>
-        <div class="bg-blue-50 p-6 rounded-xl shadow fade-in">
-          <h4 class="text-xl font-semibold mb-3 lang fr active">Nos engagements</h4>
-          <h4 class="text-xl font-semibold mb-3 lang en">Our commitments</h4>
-          <h4 class="text-xl font-semibold mb-3 lang de">Unsere Verpflichtungen</h4>
-
-          <ul class="space-y-2 text-gray-700">
-            <li class="lang fr active">• Innovation pragmatique</li>
-            <li class="lang fr active">• Précision des analyses</li>
-            <li class="lang fr active">• Fiabilité opérationnelle</li>
-            <li class="lang fr active">• Sécurité & conformité</li>
-            <li class="lang fr active">• Excellence de service</li>
-
-            <li class="lang en">• Pragmatic innovation</li>
-            <li class="lang en">• Analytical precision</li>
-            <li class="lang en">• Operational reliability</li>
-            <li class="lang en">• Security & compliance</li>
-            <li class="lang en">• Service excellence</li>
-
-            <li class="lang de">• Pragmatistische Innovation</li>
-            <li class="lang de">• Analytische Präzision</li>
-            <li class="lang de">• Operative Zuverlässigkeit</li>
-            <li class="lang de">• Sicherheit & Compliance</li>
-            <li class="lang de">• Service-Exzellenz</li>
-          </ul>
-        </div>
+    
+    <div class="relative z-10">
+      <!-- Logo principal dans le hero -->
+      <div class="flex justify-center mb-8 animate-fade-in-up">
+        <svg width="120" height="120" viewBox="0 0 100 100" class="hover:scale-110 transition-transform duration-500">
+          <!-- Fond du robot -->
+          <defs>
+            <linearGradient id="heroRobotGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1" />
+              <stop offset="50%" style="stop-color:#3b82f6;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+            </linearGradient>
+            <linearGradient id="heroBrainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#0099cc;stop-opacity:1" />
+            </linearGradient>
+            <filter id="heroGlow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge> 
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          
+          <!-- Corps du robot -->
+          <ellipse cx="50" cy="70" rx="18" ry="25" fill="url(#heroRobotGradient)" opacity="0.9"/>
+          
+          <!-- TÃªte du robot -->
+          <ellipse cx="50" cy="35" rx="15" ry="18" fill="url(#heroRobotGradient)"/>
+          
+          <!-- VisiÃ¨re du robot -->
+          <ellipse cx="50" cy="32" rx="12" ry="8" fill="#1e293b" opacity="0.8"/>
+          <ellipse cx="50" cy="32" rx="10" ry="6" fill="#00d4ff" opacity="0.3"/>
+          
+          <!-- Å’il du robot -->
+          <circle cx="50" cy="32" r="4" fill="#00d4ff" filter="url(#heroGlow)">
+            <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          
+          <!-- Bras du robot -->
+          <ellipse cx="35" cy="55" rx="5" ry="12" fill="url(#heroRobotGradient)" transform="rotate(-20 35 55)"/>
+          <ellipse cx="65" cy="55" rx="5" ry="12" fill="url(#heroRobotGradient)" transform="rotate(20 65 55)"/>
+          
+          <!-- Mains du robot -->
+          <circle cx="32" cy="65" r="4" fill="url(#heroRobotGradient)"/>
+          <circle cx="68" cy="65" r="4" fill="url(#heroRobotGradient)"/>
+          
+          <!-- Cerveau stylisÃ© -->
+          <g transform="translate(15, 8) scale(0.5)">
+            <path d="M20 30 C15 25, 15 15, 25 15 C30 10, 40 10, 45 15 C50 10, 60 10, 65 15 C75 15, 75 25, 70 30 C75 35, 75 45, 65 45 C60 50, 40 50, 35 45 C25 45, 15 35, 20 30 Z" 
+                  fill="none" stroke="url(#heroBrainGradient)" stroke-width="2.5" filter="url(#heroGlow)">
+              <animate attributeName="stroke-opacity" values="0.3;0.9;0.3" dur="3s" repeatCount="indefinite"/>
+            </path>
+            
+            <path d="M25 25 Q35 20, 45 25 Q55 30, 65 25" fill="none" stroke="url(#heroBrainGradient)" stroke-width="2" opacity="0.7"/>
+            <path d="M25 35 Q35 30, 45 35 Q55 40, 65 35" fill="none" stroke="url(#heroBrainGradient)" stroke-width="2" opacity="0.7"/>
+            <path d="M45 20 L45 40" fill="none" stroke="url(#heroBrainGradient)" stroke-width="1.5" opacity="0.5"/>
+          </g>
+          
+          <!-- Particules flottantes animÃ©es -->
+          <circle cx="20" cy="20" r="1.5" fill="#00d4ff" opacity="0.8">
+            <animate attributeName="cy" values="20;10;20" dur="4s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.3;0.8;0.3" dur="4s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="80" cy="25" r="2" fill="#3b82f6" opacity="0.6">
+            <animate attributeName="cy" values="25;15;25" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.2;0.6;0.2" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="25" cy="80" r="1.5" fill="#60a5fa" opacity="0.7">
+            <animate attributeName="cy" values="80;70;80" dur="3.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.5s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="75" cy="75" r="1" fill="#00d4ff" opacity="0.5">
+            <animate attributeName="cy" values="75;70;75" dur="5s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
       </div>
-    </div>
-  </section>
-
-  <!-- EXPERTISES -->
-  <section id="expertises" class="py-20 bg-gray-50">
-    <div class="container mx-auto px-6 max-w-5xl">
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang fr active">Nos Expertises</h2>
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang en">Our Expertise</h2>
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang de">Unsere Kompetenzen</h2>
-
-      <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in lang fr active">
-        Explorez nos domaines d’intervention et découvrez comment Helvetic AI peut accélérer votre performance financière.
+      
+      <h2 class="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
+        L'IA au service de <br>
+        <span class="text-blue-600">votre entreprise</span>
+      </h2>
+      <p class="text-xl md:text-2xl mb-8 opacity-90 animate-fade-in-up text-blue-800" style="animation-delay: 0.2s">
+        Automatisation, analyse de donnÃ©es et innovation digitale.
       </p>
-      <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in lang en">
-        Explore our areas of intervention and see how Helvetic AI can accelerate your financial performance.
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up" style="animation-delay: 0.4s">
+        <button onclick="smoothScroll('services')" 
+          class="bg-blue-600 text-white px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+          DÃ©couvrir nos services
+        </button>
+        <button onclick="smoothScroll('contact')" 
+          class="border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-full font-bold hover:bg-blue-600 hover:text-white transition-all duration-300">
+          Demander un devis
+        </button>
+      </div>
+    </div>
+    
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-slow">
+      <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Services avec cards amÃ©liorÃ©es -->
+  <section id="services" class="py-20 px-6 max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-4">Nos Services</h2>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        DÃ©couvrez comment notre expertise en intelligence artificielle peut transformer votre entreprise
       </p>
-      <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in lang de">
-        Entdecken Sie unsere Einsatzfelder und wie Helvetic AI Ihre finanzielle Performance beschleunigen kann.
-      </p>
-
-      <div class="space-y-4">
-        <!-- 1. Forecasting & Budgeting -->
-        <div class="border rounded-2xl shadow-sm bg-white fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="text-blue-600 font-bold">➤</span>
-              <span class="lang fr active">Prévision & Budgétisation</span>
-              <span class="lang en">Forecasting & Budgeting</span>
-              <span class="lang de">Prognose & Budgetierung</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4 lang fr active">Modèles prédictifs, scénarios dynamiques, rolling forecast et budgets plus précis.</p>
-            <p class="mb-4 lang en">Predictive models, dynamic scenarios, rolling forecasts and more accurate budgets.</p>
-            <p class="mb-4 lang de">Prädiktive Modelle, dynamische Szenarien, Rolling Forecasts und präzisere Budgets.</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li class="lang fr active">Prévisions mensuelles/hebdomadaires basées sur l’IA</li>
-              <li class="lang fr active">Scénarios What‑if & sensibilités</li>
-              <li class="lang fr active">Alignement Budget ↔ Réel (variance & drivers)</li>
-
-              <li class="lang en">AI‑based monthly/weekly forecasts</li>
-              <li class="lang en">What‑if scenarios & sensitivities</li>
-              <li class="lang en">Budget ↔ Actual alignment (variance & drivers)</li>
-
-              <li class="lang de">KI‑gestützte Monats-/Wochenprognosen</li>
-              <li class="lang de">What‑if‑Szenarien & Sensitivitäten</li>
-              <li class="lang de">Budget‑/Ist‑Abgleich (Varianz & Treiber)</li>
-            </ul>
-          </div>
+    </div>
+    
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="service-card p-8 rounded-2xl shadow-lg bg-white group">
+        <div class="text-4xl mb-4 group-hover:animate-bounce">âš¡</div>
+        <h3 class="text-2xl font-bold mb-4 text-gray-800">Automatisation</h3>
+        <p class="text-gray-600 leading-relaxed">
+          Optimisez vos processus avec des solutions intelligentes qui rÃ©duisent les tÃ¢ches rÃ©pÃ©titives.
+        </p>
+        <div class="mt-6 text-blue-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+          En savoir plus â†’
         </div>
-
-        <!-- 2. Automation -->
-        <div class="border rounded-2xl shadow-sm bg-white fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="text-blue-600 font-bold">➤</span>
-              <span class="lang fr active">Automatisation des processus</span>
-              <span class="lang en">Process Automation</span>
-              <span class="lang de">Prozessautomatisierung</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4 lang fr active">RPA & IA pour réduire les tâches manuelles, fiabiliser les données et accélérer vos clôtures.</p>
-            <p class="mb-4 lang en">RPA & AI to reduce manual work, improve data reliability and speed up closing.</p>
-            <p class="mb-4 lang de">RPA & KI zur Reduzierung manueller Aufgaben, für verlässliche Daten und schnellere Abschlüsse.</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li class="lang fr active">Réconciliation automatique, extraction intelligente</li>
-              <li class="lang fr active">Workflows d’approbation avec traçabilité</li>
-              <li class="lang fr active">Réduction des erreurs, productivité accrue</li>
-
-              <li class="lang en">Automated reconciliation, intelligent extraction</li>
-              <li class="lang en">Approval workflows with full traceability</li>
-              <li class="lang en">Error reduction, higher productivity</li>
-
-              <li class="lang de">Automatische Abstimmung, intelligente Extraktion</li>
-              <li class="lang de">Genehmigungs‑Workflows mit Nachverfolgbarkeit</li>
-              <li class="lang de">Weniger Fehler, mehr Produktivität</li>
-            </ul>
-          </div>
+      </div>
+      
+      <div class="service-card p-8 rounded-2xl shadow-lg bg-white group" style="animation-delay: 0.1s">
+        <div class="text-4xl mb-4 group-hover:animate-bounce">ðŸ“Š</div>
+        <h3 class="text-2xl font-bold mb-4 text-gray-800">Analyse de donnÃ©es</h3>
+        <p class="text-gray-600 leading-relaxed">
+          Exploitez vos donnÃ©es pour prendre de meilleures dÃ©cisions stratÃ©giques et operationnelles.
+        </p>
+        <div class="mt-6 text-blue-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+          En savoir plus â†’
         </div>
-
-        <!-- 3. Decision Support -->
-        <div class="border rounded-2xl shadow-sm bg-white fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="text-blue-600 font-bold">➤</span>
-              <span class="lang fr active">Aide à la décision</span>
-              <span class="lang en">Decision Support</span>
-              <span class="lang de">Entscheidungsunterstützung</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4 lang fr active">Insights stratégiques (KPI, alerting, recommandations) pour décider vite et bien.</p>
-            <p class="mb-4 lang en">Strategic insights (KPIs, alerts, recommendations) to decide faster and better.</p>
-            <p class="mb-4 lang de">Strategische Einblicke (KPIs, Alerts, Empfehlungen) für schnellere, bessere Entscheidungen.</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li class="lang fr active">Tableaux de bord & alertes intelligentes</li>
-              <li class="lang fr active">Analyse des marges, cash, risques</li>
-              <li class="lang fr active">Recommandations actionnables par l’IA</li>
-
-              <li class="lang en">Dashboards & smart alerts</li>
-              <li class="lang en">Margin, cash and risk analysis</li>
-              <li class="lang en">AI‑driven, actionable recommendations</li>
-
-              <li class="lang de">Dashboards & intelligente Alerts</li>
-              <li class="lang de">Analyse von Marge, Cash & Risiken</li>
-              <li class="lang de">Umsetzbare, KI‑gestützte Empfehlungen</li>
-            </ul>
-          </div>
+      </div>
+      
+      <div class="service-card p-8 rounded-2xl shadow-lg bg-white group" style="animation-delay: 0.2s">
+        <div class="text-4xl mb-4 group-hover:animate-bounce">ðŸ¤–</div>
+        <h3 class="text-2xl font-bold mb-4 text-gray-800">IA PersonnalisÃ©e</h3>
+        <p class="text-gray-600 leading-relaxed">
+          Des modÃ¨les d'intelligence artificielle adaptÃ©s spÃ©cifiquement Ã  vos besoins mÃ©tiers.
+        </p>
+        <div class="mt-6 text-blue-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+          En savoir plus â†’
         </div>
-
-        <!-- 4. EPM -->
-        <div class="border rounded-2xl shadow-sm bg-white fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="text-blue-600 font-bold">➤</span>
-              <span class="lang fr active">Solutions EPM</span>
-              <span class="lang en">EPM Solutions</span>
-              <span class="lang de">EPM‑Lösungen</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4 lang fr active">Conception et intégration EPM sur mesure, adaptées à votre écosystème.</p>
-            <p class="mb-4 lang en">Tailored EPM design and integration, adapted to your ecosystem.</p>
-            <p class="mb-4 lang de">Maßgeschneiderte EPM‑Konzeption und Integration, passend zu Ihrem Ökosystem.</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li class="lang fr active">Modélisation, référentiels, gouvernance des données</li>
-              <li class="lang fr active">Connecteurs systèmes & sécurité renforcée</li>
-              <li class="lang fr active">Conduite du changement et formation</li>
-
-              <li class="lang en">Modeling, master data, data governance</li>
-              <li class="lang en">System connectors & strengthened security</li>
-              <li class="lang en">Change management and training</li>
-
-              <li class="lang de">Modellierung, Stammdaten, Data Governance</li>
-              <li class="lang de">System‑Connectoren & erhöhte Sicherheit</li>
-              <li class="lang de">Change Management und Schulung</li>
-            </ul>
-          </div>
+      </div>
+      
+      <div class="service-card p-8 rounded-2xl shadow-lg bg-white group" style="animation-delay: 0.3s">
+        <div class="text-4xl mb-4 group-hover:animate-bounce">ðŸŒ</div>
+        <h3 class="text-2xl font-bold mb-4 text-gray-800">Innovation digitale</h3>
+        <p class="text-gray-600 leading-relaxed">
+          Accompagnement complet dans la transformation numÃ©rique de votre entreprise.
+        </p>
+        <div class="mt-6 text-blue-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+          En savoir plus â†’
         </div>
       </div>
     </div>
   </section>
 
- <!-- MÉTHODOLOGIE (timeline visuelle) -->
-<section id="methodologie" class="py-20 bg-gray-50">
-  <div class="container mx-auto px-6 max-w-6xl">
-    <!-- TITRES -->
-    <h2 class="text-4xl font-bold text-center mb-16 fade-in lang fr active">Notre Méthodologie</h2>
-    <h2 class="text-4xl font-bold text-center mb-16 fade-in lang en">Our Methodology</h2>
-    <h2 class="text-4xl font-bold text-center mb-16 fade-in lang de">Unsere Methodik</h2>
-
-    <!-- Timeline -->
-    <div class="relative">
-      <!-- Ligne centrale -->
-      <div class="absolute top-6 left-0 right-0 h-1 bg-blue-200"></div>
-
-      <!-- Étapes -->
-      <div class="grid grid-cols-5 gap-6 text-center relative z-10">
-        <!-- Step 1 -->
-        <div class="fade-in">
-          <div class="bg-blue-600 text-white w-12 h-12 mx-auto rounded-full flex items-center justify-center font-bold text-lg shadow-lg">01</div>
-          <p class="mt-4 lang fr active font-medium">Analyse des besoins</p>
-          <p class="mt-4 lang en font-medium">Needs analysis</p>
-          <p class="mt-4 lang de font-medium">Bedarfsanalyse</p>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="fade-in">
-          <div class="bg-blue-600 text-white w-12 h-12 mx-auto rounded-full flex items-center justify-center font-bold text-lg shadow-lg">02</div>
-          <p class="mt-4 lang fr active font-medium">Conception de la solution</p>
-          <p class="mt-4 lang en font-medium">Solution design</p>
-          <p class="mt-4 lang de font-medium">Lösungskonzeption</p>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="fade-in">
-          <div class="bg-blue-600 text-white w-12 h-12 mx-auto rounded-full flex items-center justify-center font-bold text-lg shadow-lg">03</div>
-          <p class="mt-4 lang fr active font-medium">Développement & intégration</p>
-          <p class="mt-4 lang en font-medium">Development & integration</p>
-          <p class="mt-4 lang de font-medium">Entwicklung & Integration</p>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="fade-in">
-          <div class="bg-blue-600 text-white w-12 h-12 mx-auto rounded-full flex items-center justify-center font-bold text-lg shadow-lg">04</div>
-          <p class="mt-4 lang fr active font-medium">Formation & transfert</p>
-          <p class="mt-4 lang en font-medium">Training & knowledge transfer</p>
-          <p class="mt-4 lang de font-medium">Schulung & Wissenstransfer</p>
-        </div>
-
-        <!-- Step 5 -->
-        <div class="fade-in">
-          <div class="bg-blue-600 text-white w-12 h-12 mx-auto rounded-full flex items-center justify-center font-bold text-lg shadow-lg">05</div>
-          <p class="mt-4 lang fr active font-medium">Support & amélioration continue</p>
-          <p class="mt-4 lang en font-medium">Support & continuous improvement</p>
-          <p class="mt-4 lang de font-medium">Support & kontinuierliche Verbesserung</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-  <!-- IDENTITE -->
-  <section id="identite" class="py-20 bg-[#0A0F2C] text-white">
-    <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold mb-10 fade-in lang fr active">Notre Identité Suisse</h2>
-      <h2 class="text-4xl font-bold mb-10 fade-in lang en">Our Swiss Identity</h2>
-      <h2 class="text-4xl font-bold mb-10 fade-in lang de">Unsere Schweizer Identität</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2 lang fr active">Fiabilité</h3>
-          <h3 class="font-semibold text-xl mb-2 lang en">Reliability</h3>
-          <h3 class="font-semibold text-xl mb-2 lang de">Zuverlässigkeit</h3>
-          <p class="lang fr active">Des standards élevés et des résultats constants pour vos processus critiques.</p>
-          <p class="lang en">High standards and consistent results for your critical processes.</p>
-          <p class="lang de">Hohe Standards und konstante Ergebnisse für Ihre kritischen Prozesse.</p>
-        </div>
-        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2 lang fr active">Précision</h3>
-          <h3 class="font-semibold text-xl mb-2 lang en">Precision</h3>
-          <h3 class="font-semibold text-xl mb-2 lang de">Präzision</h3>
-          <p class="lang fr active">Rigueur et contrôle pour des analyses financières de confiance.</p>
-          <p class="lang en">Rigour and control for trustworthy financial analysis.</p>
-          <p class="lang de">Strenge und Kontrolle für verlässliche Finanzanalysen.</p>
-        </div>
-        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2 lang fr active">Sécurité</h3>
-          <h3 class="font-semibold text-xl mb-2 lang en">Security</h3>
-          <h3 class="font-semibold text-xl mb-2 lang de">Sicherheit</h3>
-          <p class="lang fr active">Protection avancée des données et conformité stricte.</p>
-          <p class="lang en">Advanced data protection and strict compliance.</p>
-          <p class="lang de">Erweiterter Datenschutz und strikte Compliance.</p>
-        </div>
-        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2 lang fr active">Innovation</h3>
-          <h3 class="font-semibold text-xl mb-2 lang en">Innovation</h3>
-          <h3 class="font-semibold text-xl mb-2 lang de">Innovation</h3>
-          <p class="lang fr active">Des technologies IA au service d’une performance durable.</p>
-          <p class="lang en">AI technologies serving sustainable performance.</p>
-          <p class="lang de">KI‑Technologien für nachhaltige Performance.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EQUIPE -->
-  <section id="equipe" class="py-20 bg-gray-50">
-    <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold mb-12 fade-in lang fr active">Équipe Fondatrice</h2>
-      <h2 class="text-4xl font-bold mb-12 fade-in lang en">Founding Team</h2>
-      <h2 class="text-4xl font-bold mb-12 fade-in lang de">Gründungsteam</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-        <!-- Kahina -->
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in transform hover:-translate-y-2 transition duration-300">
-          <img src="Kahina AOUDIA.png" alt="Kahina Aoudia" class="w-full h-80 object-contain bg-gray-100">
-          <div class="p-6">
-            <h3 class="text-xl font-semibold text-gray-900">Kahina Aoudia</h3>
-            <p class="text-blue-600 font-medium lang fr active">Co‑fondatrice & Directrice Stratégie</p>
-            <p class="text-blue-600 font-medium lang en">Co‑founder & Strategy Director</p>
-            <p class="text-blue-600 font-medium lang de">Mitgründerin & Strategie‑Direktorin</p>
-            <p class="mt-3 text-gray-600 text-sm lang fr active">
-              Avec 13 ans d’expérience sur l’outil IBM PA, Kahina se distingue par sa pédagogie, ses capacités d’analyse et son sens de la transmission des savoirs.
-              Experte des bases relationnelles et multidimensionnelles, elle maîtrise également les outils BI et EPM.
-              En véritable leader et manager d’équipe, elle pilote les projets avec efficacité et vision stratégique.
+  <!-- Ã€ propos amÃ©liorÃ©e -->
+  <section id="apropos" class="py-20 px-6 bg-gradient-to-br from-blue-50 to-blue-100">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-8">Ã€ propos de nous</h2>
+          <div class="space-y-6 text-lg text-gray-700 leading-relaxed">
+            <p>
+              <strong class="text-blue-600">Helvitic AI</strong> est une startup innovante spÃ©cialisÃ©e dans l'intelligence artificielle appliquÃ©e aux entreprises. Nous croyons fermement que l'IA doit Ãªtre accessible, comprÃ©hensible et bÃ©nÃ©fique pour tous.
             </p>
-            <p class="mt-3 text-gray-600 text-sm lang en">
-              With 13 years of experience on IBM PA, Kahina stands out for her pedagogy, analytical skills and talent for knowledge transfer.
-              An expert in relational and multidimensional databases, she also masters BI and EPM tools.
-              A true leader and team manager, she runs projects efficiently with strategic vision.
+            <p>
+              Notre Ã©quipe d'experts combine une expertise technique pointue avec une comprÃ©hension profonde des enjeux business pour livrer des solutions qui crÃ©ent une valeur rÃ©elle et mesurable.
             </p>
-            <p class="mt-3 text-gray-600 text-sm lang de">
-              Mit 13 Jahren Erfahrung mit IBM PA zeichnet sich Kahina durch Pädagogik, Analysefähigkeit und Wissensweitergabe aus.
-              Als Expertin für relationale und multidimensionale Datenbanken beherrscht sie auch BI‑ und EPM‑Werkzeuge.
-              Als echte Führungskraft leitet sie Projekte effizient und mit strategischer Weitsicht.
-            </p>
-            <div class="mt-4 flex justify-center gap-4">
-              <a href="#" class="text-gray-500 hover:text-blue-600">🔗 LinkedIn</a>
-              <a href="mailto:kahina@helveticai.ch" class="text-gray-500 hover:text-blue-600">✉️ Email</a>
+            <div class="flex items-center gap-4 mt-8">
+              <div class="flex -space-x-4">
+                <div class="w-12 h-12 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center text-white font-bold">A</div>
+                <div class="w-12 h-12 bg-purple-500 rounded-full border-2 border-white flex items-center justify-center text-white font-bold">B</div>
+                <div class="w-12 h-12 bg-green-500 rounded-full border-2 border-white flex items-center justify-center text-white font-bold">C</div>
+              </div>
+              <div class="text-sm text-gray-600">
+                <div class="font-semibold">Notre Ã©quipe d'experts</div>
+                <div>PassionnÃ©s par l'IA et l'innovation</div>
+              </div>
             </div>
           </div>
         </div>
-
-        <!-- Adnane -->
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in transform hover:-translate-y-2 transition duration-300">
-          <img src="Adnane BAAHMED.png" alt="Adnane Baahmed" class="w-full h-80 object-contain bg-gray-100">
-          <div class="p-6">
-            <h3 class="text-xl font-semibold text-gray-900">Adnane Baahmed</h3>
-            <p class="text-blue-600 font-medium lang fr active">Co‑fondateur & Directeur Technique</p>
-            <p class="text-blue-600 font-medium lang en">Co‑founder & Technical Director</p>
-            <p class="text-blue-600 font-medium lang de">Mitgründer & Technischer Direktor</p>
-            <p class="mt-3 text-gray-600 text-sm lang fr active">
-              Adnane accompagne ses clients depuis 16 ans dans la mise en place et l’aide au choix de solutions BI/EPM, notamment BOARD et IBM PA/TM1.
-              Il a participé à de grands projets techniques et de transformation SI en tant que chef de projet technique ou architecte.
-            </p>
-            <p class="mt-3 text-gray-600 text-sm lang en">
-              For 16 years, Adnane has supported clients in selecting and implementing BI/EPM solutions, notably BOARD and IBM PA/TM1.
-              He has contributed to major technical and IT‑transformation projects as a technical project manager or architect.
-            </p>
-            <p class="mt-3 text-gray-600 text-sm lang de">
-              Seit 16 Jahren unterstützt Adnane Kunden bei Auswahl und Implementierung von BI/EPM‑Lösungen, insbesondere BOARD und IBM PA/TM1.
-              Er war an großen technischen und IT‑Transformationsprojekten als technischer Projektleiter oder Architekt beteiligt.
-            </p>
-            <div class="mt-4 flex justify-center gap-4">
-              <a href="#" class="text-gray-500 hover:text-blue-600">🔗 LinkedIn</a>
-              <a href="mailto:adnane@helveticai.ch" class="text-gray-500 hover:text-blue-600">✉️ Email</a>
+        
+        <div class="lg:text-center">
+          <div class="grid grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+              <div class="text-3xl font-bold text-blue-600 mb-2">50+</div>
+              <div class="text-gray-600">Projets rÃ©alisÃ©s</div>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+              <div class="text-3xl font-bold text-purple-600 mb-2">24/7</div>
+              <div class="text-gray-600">Support client</div>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+              <div class="text-3xl font-bold text-green-600 mb-2">99%</div>
+              <div class="text-gray-600">Satisfaction client</div>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+              <div class="text-3xl font-bold text-orange-600 mb-2">5+</div>
+              <div class="text-gray-600">AnnÃ©es d'expÃ©rience</div>
             </div>
           </div>
         </div>
@@ -490,377 +490,376 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact" class="py-20">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang fr active">Contactez‑nous</h2>
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang en">Contact Us</h2>
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang de">Kontaktieren Sie uns</h2>
-
-      <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in lang fr active">
-        Parlons de votre projet et voyons comment nos solutions d’IA peuvent booster votre performance financière.
+  <!-- Contact Section amÃ©liorÃ©e -->
+  <section id="contact" class="py-20 px-6 max-w-4xl mx-auto">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-4">Parlons de votre projet</h2>
+      <p class="text-xl text-gray-600">
+        PrÃªt Ã  transformer votre entreprise avec l'IA ? Contactez-nous dÃ¨s aujourd'hui.
       </p>
-      <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in lang en">
-        Let’s discuss your project and how our AI solutions can boost your financial performance.
-      </p>
-      <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in lang de">
-        Sprechen wir über Ihr Projekt und wie unsere KI‑Lösungen Ihre finanzielle Performance steigern können.
-      </p>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <!-- Infos -->
-        <div class="bg-blue-50 p-8 rounded-xl shadow fade-in">
-          <h3 class="text-2xl font-semibold mb-4 lang fr active">Parlons de votre projet</h3>
-          <h3 class="text-2xl font-semibold mb-4 lang en">Let’s talk about your project</h3>
-          <h3 class="text-2xl font-semibold mb-4 lang de">Sprechen wir über Ihr Projekt</h3>
-          <p class="text-gray-700 mb-6 lang fr active">Nous répondons rapidement et proposons des pistes concrètes dès le premier échange.</p>
-          <p class="text-gray-700 mb-6 lang en">We respond quickly and propose concrete next steps from the first conversation.</p>
-          <p class="text-gray-700 mb-6 lang de">Wir reagieren schnell und schlagen schon im ersten Gespräch konkrete Schritte vor.</p>
-          <ul class="space-y-4 text-gray-700">
-            <li class="flex items-center gap-3">
-              <span class="text-blue-600 text-xl">📍</span>
-              <span class="lang fr active"><strong>Adresse :</strong> Rue de Chantepoulet 10, 1201 Genève, Suisse</span>
-              <span class="lang en"><strong>Address:</strong> Rue de Chantepoulet 10, 1201 Geneva, Switzerland</span>
-              <span class="lang de"><strong>Adresse:</strong> Rue de Chantepoulet 10, 1201 Genf, Schweiz</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <span class="text-blue-600 text-xl">✉️</span>
-              <span><strong>Email :</strong> contact@helveticai.ch</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <span class="text-blue-600 text-xl">📧</span>
-              <span><strong>Support :</strong> helviticaich@gmail.com</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <span class="text-blue-600 text-xl">📞</span>
-              <span><strong>+41 22 123 45 67</strong></span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Form -->
-        <form action="https://formsubmit.co/helviticaich@gmail.com" method="POST" class="space-y-4 bg-gray-50 p-8 rounded-xl shadow fade-in">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_template" value="box">
-          <input type="hidden" name="_subject" value="Nouveau message depuis Helvetic AI">
-          <input type="hidden" name="_next" value="https://helviticai.github.io/helviticai/">
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input type="text" name="name" placeholder="Votre nom / Your name" required class="w-full p-3 border rounded-lg">
-            <input type="email" name="email" placeholder="Votre email / Your email" required class="w-full p-3 border rounded-lg">
+    </div>
+    
+    <div class="grid lg:grid-cols-2 gap-12">
+      <!-- Formulaire -->
+      <div class="bg-white p-8 rounded-2xl shadow-xl">
+        <form class="space-y-6" onsubmit="handleSubmit(event)">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Nom complet</label>
+            <input type="text" required 
+              class="w-full p-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
           </div>
-          <input type="text" name="company" placeholder="Entreprise / Company" class="w-full p-3 border rounded-lg">
-          <textarea name="message" placeholder="Votre message / Your message" rows="5" required class="w-full p-3 border rounded-lg"></textarea>
-
-          <label class="flex items-center gap-2 text-sm text-gray-600">
-            <input type="checkbox" required>
-            <span class="lang fr active">J'accepte que mes données soient traitées conformément à la politique de confidentialité.</span>
-            <span class="lang en">I agree that my data will be processed in accordance with the privacy policy.</span>
-            <span class="lang de">Ich stimme der Verarbeitung meiner Daten gemäß der Datenschutzrichtlinie zu.</span>
-          </label>
-
-          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition lang fr active">
-            Envoyer
-          </button>
-          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition lang en">
-            Send
-          </button>
-          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition lang de">
-            Senden
+          
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Adresse email</label>
+            <input type="email" required 
+              class="w-full p-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Entreprise</label>
+            <input type="text" 
+              class="w-full p-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Message</label>
+            <textarea rows="6" required 
+              class="w-full p-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none" 
+              placeholder="DÃ©crivez votre projet et vos besoins..."></textarea>
+          </div>
+          
+          <button type="submit" 
+            class="w-full bg-blue-600 text-white py-4 rounded-xl font-semibold hover:bg-blue-700 hover:scale-105 transition-all duration-300 shadow-lg">
+            Envoyer le message
           </button>
         </form>
       </div>
+      
+      <!-- Informations de contact -->
+      <div class="space-y-8">
+        <div class="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-2xl">
+          <h3 class="text-2xl font-bold text-gray-800 mb-6">Autres moyens de nous contacter</h3>
+          
+          <div class="space-y-6">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-800">Email</div>
+                <a href="mailto:contact@helvitic.ai" class="text-blue-600 hover:underline">contact@helvitic.ai</a>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-800">TÃ©lÃ©phone</div>
+                <a href="tel:+41123456789" class="text-green-600 hover:underline">+41 12 345 67 89</a>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-semibold text-gray-800">Adresse</div>
+                <div class="text-gray-600">GenÃ¨ve, Suisse</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-gradient-to-br from-blue-50 to-sky-100 p-8 rounded-2xl">
+          <h4 class="text-xl font-bold text-gray-800 mb-4">ðŸš€ Consultation gratuite</h4>
+          <p class="text-gray-600 mb-4">
+            Profitez d'une consultation gratuite de 30 minutes pour discuter de votre projet et dÃ©couvrir comment l'IA peut transformer votre entreprise.
+          </p>
+          <button onclick="smoothScroll('hero')" class="text-blue-600 font-semibold hover:underline">
+            RÃ©server maintenant â†’
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- HELVETICBOT -->
-  <button id="bot-button" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl" aria-label="Open HelveticBot">💬</button>
-  <div id="bot-window" class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-2xl border overflow-hidden">
-    <div class="bg-blue-700 text-white p-4 font-semibold">HelveticBot</div>
-    <div id="bot-messages" class="p-4 h-72 overflow-y-auto text-sm text-gray-700">
-      <p class="text-gray-500 lang fr active">Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?</p>
-      <p class="text-gray-500 lang en">Hello 👋 I’m HelveticBot. How can I help?</p>
-      <p class="text-gray-500 lang de">Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?</p>
-    </div>
-    <form id="bot-form" class="flex border-t">
-      <input type="text" id="bot-input" placeholder="Écrivez un message... / Write a message..." class="flex-1 p-2 text-sm outline-none">
-      <button type="submit" class="px-4 text-blue-700 font-bold">➤</button>
-    </form>
-  </div>
-
-  <!-- SCRIPTS -->
-  <script>
-    // Steps for methodology (repeated structure for translation convenience)
-  </script>
-  <script>
-    // Build methodology steps dynamically to keep code short
-    (function(){
-      const steps = [
-        {
-          num:'01',
-          fr:{t:'Analyse des besoins', p:['Compréhension approfondie de vos processus et objectifs pour cibler les vrais leviers de performance.'], li:['Cartographie des flux & données','Identification des quick‑wins et priorités','Roadmap réaliste et mesurable']},
-          en:{t:'Needs analysis', p:['Deep understanding of your processes and objectives to target true performance levers.'], li:['Flow & data mapping','Identification of quick wins and priorities','Realistic, measurable roadmap']},
-          de:{t:'Bedarfsanalyse', p:['Tiefes Verständnis Ihrer Prozesse und Ziele, um echte Performance‑Hebel zu identifizieren.'], li:['Prozess‑ & Datenlandkarte','Identifikation von Quick‑Wins und Prioritäten','Realistische, messbare Roadmap']},
-        },
-        {
-          num:'02',
-          fr:{t:'Conception de solution', p:['Design sur mesure en respectant vos contraintes IT, sécurité et conformité.'], li:['Choix technologiques adaptés','Prototypage rapide & validation métier','Plan d’intégration et de tests']},
-          en:{t:'Solution design', p:['Tailor‑made design respecting your IT, security and compliance constraints.'], li:['Fit‑for‑purpose technology choices','Rapid prototyping & business validation','Integration and test plan']},
-          de:{t:'Lösungskonzeption', p:['Maßgeschneidertes Design unter Berücksichtigung von IT‑, Sicherheits‑ und Compliance‑Vorgaben.'], li:['Passende Technologieauswahl','Schnelles Prototyping & Fachvalidierung','Integrations‑ und Testplan']},
-        },
-        {
-          num:'03',
-          fr:{t:'Développement & intégration', p:['Méthodologie agile avec points de validation réguliers.'], li:['Sprints courts et démonstrations','Tests unitaires & d’intégration','Qualité et sécurité by design']},
-          en:{t:'Development & integration', p:['Agile methodology with regular validation points.'], li:['Short sprints and demos','Unit & integration tests','Quality and security by design']},
-          de:{t:'Entwicklung & Integration', p:['Agile Methode mit regelmäßigen Validierungspunkten.'], li:['Kurze Sprints und Demos','Unit‑ und Integrationstests','Qualität und Sicherheit by Design']},
-        },
-        {
-          num:'04',
-          fr:{t:'Implémentation & formation', p:['Déploiement progressif, formation des équipes et transfert de compétences.'], li:['Pilotes, montée en charge','Guides & sessions de formation','Support au démarrage']},
-          en:{t:'Implementation & training', p:['Progressive rollout, team training and knowledge transfer.'], li:['Pilots, scale‑up','Guides & training sessions','Go‑live support']},
-          de:{t:'Implementierung & Schulung', p:['Schrittweiser Rollout, Teamschulung und Wissenstransfer.'], li:['Piloten, Skalierung','Guides & Trainings','Go‑Live‑Support']},
-        },
-        {
-          num:'05',
-          fr:{t:'Suivi & optimisation continue', p:['Accompagnement post‑déploiement pour améliorer durablement la performance.'], li:['Monitoring & KPI','Améliorations continues','Évolutions fonctionnelles']},
-          en:{t:'Follow‑up & continuous improvement', p:['Post‑deployment support to sustainably improve performance.'], li:['Monitoring & KPIs','Continuous improvements','Functional enhancements']},
-          de:{t:'Monitoring & kontinuierliche Optimierung', p:['Begleitung nach dem Rollout zur nachhaltigen Performance‑Steigerung.'], li:['Monitoring & KPIs','Kontinuierliche Verbesserungen','Funktionale Erweiterungen']},
-        }
-      ];
-
-      const container = document.currentScript.previousElementSibling.previousElementSibling; // the section content wrapper where we placed %s
-      let html = '';
-      steps.forEach(s => {
-        html += `
-        <div class="bg-white border rounded-2xl shadow-sm fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="bg-blue-600 text-white rounded-full w-9 h-9 text-sm flex items-center justify-center font-bold">${s.num}</span>
-              <span class="lang fr active">${s.fr.t}</span>
-              <span class="lang en">${s.en.t}</span>
-              <span class="lang de">${s.de.t}</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-3 lang fr active">${s.fr.p[0]}</p>
-            <p class="mb-3 lang en">${s.en.p[0]}</p>
-            <p class="mb-3 lang de">${s.de.p[0]}</p>
-            <ul class="list-disc pl-5 space-y-1">
-              ${s.fr.li.map(li=>`<li class="lang fr active">${li}</li>`).join('')}
-              ${s.en.li.map(li=>`<li class="lang en">${li}</li>`).join('')}
-              ${s.de.li.map(li=>`<li class="lang de">${li}</li>`).join('')}
-            </ul>
+  <!-- Footer amÃ©liorÃ© -->
+  <footer class="bg-gray-900 text-white">
+    <div class="max-w-7xl mx-auto px-6 py-16">
+      <div class="grid md:grid-cols-4 gap-8 mb-12">
+        <div>
+          <h3 class="text-2xl font-bold gradient-text mb-4">Helvitic AI</h3>
+          <p class="text-gray-400 mb-6">
+            Transformez votre entreprise avec l'intelligence artificielle. Solutions sur mesure et accompagnement expert.
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+              <span class="sr-only">LinkedIn</span>
+              ðŸ’¼
+            </a>
+            <a href="#" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+              <span class="sr-only">Twitter</span>
+              ðŸ¦
+            </a>
+            <a href="#" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+              <span class="sr-only">GitHub</span>
+              ðŸ’»
+            </a>
           </div>
-        </div>`;
-      });
-      container.innerHTML = container.innerHTML.replace('%s', html);
-    })();
-  </script>
-
-  <script>
-    // Menu mobile
-    const mbBtn = document.getElementById('mobileMenuBtn');
-    const mbPanel = document.getElementById('mobilePanel');
-    mbBtn?.addEventListener('click', () => { mbPanel.classList.toggle('hidden'); });
-
-    // Fade-in on scroll
-    const faders = document.querySelectorAll('.fade-in');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
-    }, { threshold: 0.2 });
-    faders.forEach(el => io.observe(el));
-
-    // Accordions
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('.accordion-btn');
-      if (!btn) return;
-      const content = btn.parentElement.querySelector('.accordion-content');
-      const icon = btn.querySelector('.accordion-icon');
-      document.querySelectorAll('.accordion-content').forEach(c => { if (c !== content) c.classList.remove('open'); });
-      document.querySelectorAll('.accordion-icon').forEach(i => { if (i !== icon) i.classList.remove('rotate-180'); });
-      content.classList.toggle('open');
-      icon.classList.toggle('rotate-180');
-    });
-
-    // Language switch
-    function applyLang(lang){
-      localStorage.setItem('helveticai_lang', lang);
-      document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.'+lang).forEach(el => el.classList.add('active'));
-    }
-    function setLang(lang){ applyLang(lang); }
-    window.setLang = setLang;
-    applyLang(localStorage.getItem('helveticai_lang') || 'fr');
-
-    // Bot
-    const botBtn = document.getElementById('bot-button');
-    const botWin = document.getElementById('bot-window');
-    const botForm = document.getElementById('bot-form');
-    const botInput = document.getElementById('bot-input');
-    const botMessages = document.getElementById('bot-messages');
-    botBtn.addEventListener('click', () => botWin.classList.toggle('hidden'));
-    botForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const msg = botInput.value.trim();
-      if (!msg) return;
-      botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
-      botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> Merci pour votre message, un conseiller vous contactera rapidement.</p>`;
-      botInput.value = '';
-      botMessages.scrollTop = botMessages.scrollHeight;
-    });
-  </script>
-   <script>
-  // --- Langues Bot ---
-  const botResponses = {
-    fr: {
-      welcome: "Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?",
-      reply: "Merci pour votre message, un conseiller vous contactera rapidement."
-    },
-    en: {
-      welcome: "Hello 👋 I’m HelveticBot. How can I help?",
-      reply: "Thank you for your message, an advisor will contact you shortly."
-    },
-    de: {
-      welcome: "Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?",
-      reply: "Vielen Dank für Ihre Nachricht, ein Berater wird Sie bald kontaktieren."
-    }
-  };
-
-  let currentLang = localStorage.getItem("helveticai_lang") || "fr";
-
-  function applyLang(lang){
-    localStorage.setItem('helveticai_lang', lang);
-    currentLang = lang;
-    document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.'+lang).forEach(el => el.classList.add('active'));
-
-    // Mettre à jour le message d'accueil du bot
-    const botMessages = document.getElementById('bot-messages');
-    botMessages.innerHTML = `<p class="text-gray-500">${botResponses[lang].welcome}</p>`;
-  }
-  window.setLang = applyLang;
-
-  // Init avec la langue sauvegardée
-  applyLang(currentLang);
-
-  // --- Bot ---
-  const botBtn = document.getElementById('bot-button');
-  const botWin = document.getElementById('bot-window');
-  const botForm = document.getElementById('bot-form');
-  const botInput = document.getElementById('bot-input');
-  const botMessages = document.getElementById('bot-messages');
-
-  botBtn.addEventListener('click', () => {
-    botWin.classList.toggle('hidden');
-    // Réafficher message de bienvenue dans la bonne langue
-    if (!botWin.classList.contains("hidden")) {
-      botMessages.innerHTML = `<p class="text-gray-500">${botResponses[currentLang].welcome}</p>`;
-    }
-  });
-
-  botForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const msg = botInput.value.trim();
-    if (!msg) return;
-
-    botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
-    botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> ${botResponses[currentLang].reply}</p>`;
-
-    botInput.value = '';
-    botMessages.scrollTop = botMessages.scrollHeight;
-  });
-</script>
-
-
-<!-- HELVETICBOT -->
-<button id="bot-button" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl">💬</button>
-
-<div id="bot-window" class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-2xl border overflow-hidden">
-  <div class="bg-blue-700 text-white p-4 font-semibold">HelveticBot</div>
-  <div id="bot-messages" class="p-4 h-72 overflow-y-auto text-sm text-gray-700"></div>
-  <form id="bot-form" class="flex border-t hidden">
-    <input type="text" id="bot-input" placeholder="Écrivez un message..." class="flex-1 p-2 text-sm outline-none">
-    <button type="submit" class="px-4 text-blue-700 font-bold">➤</button>
-  </form>
-</div>
-
-<script>
-const botResponses = {
-  fr: {
-    welcome: "Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?",
-    reply: "Merci pour votre message, un conseiller vous contactera rapidement."
-  },
-  en: {
-    welcome: "Hello 👋 I’m HelveticBot. How can I help?",
-    reply: "Thank you for your message, an advisor will contact you shortly."
-  },
-  de: {
-    welcome: "Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?",
-    reply: "Vielen Dank für Ihre Nachricht, ein Berater wird Sie bald kontaktieren."
-  }
-};
-
-let currentLang = localStorage.getItem("helveticai_lang") || null;
-
-const botBtn = document.getElementById("bot-button");
-const botWin = document.getElementById("bot-window");
-const botMessages = document.getElementById("bot-messages");
-const botForm = document.getElementById("bot-form");
-const botInput = document.getElementById("bot-input");
-
-botBtn.addEventListener("click", () => {
-  botWin.classList.toggle("hidden");
-  if (!botWin.classList.contains("hidden")) {
-    if (!currentLang) {
-      showLangMenu();
-    } else {
-      startBot(currentLang);
-    }
-  }
-});
-
-function showLangMenu() {
-  botMessages.innerHTML = `
-    <p class="text-center mb-4">🌍 Choisissez votre langue / Select your language / Wählen Sie Ihre Sprache</p>
-    <div class="flex justify-around">
-      <button onclick="setLang('fr')" class="text-2xl">🇫🇷</button>
-      <button onclick="setLang('en')" class="text-2xl">🇬🇧</button>
-      <button onclick="setLang('de')" class="text-2xl">🇩🇪</button>
+        </div>
+        
+        <div>
+          <h4 class="font-semibold mb-4">Services</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-white transition-colors">Automatisation</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Analyse de donnÃ©es</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">IA PersonnalisÃ©e</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Innovation digitale</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-semibold mb-4">Entreprise</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#apropos" class="hover:text-white transition-colors">Ã€ propos</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Ã‰quipe</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">CarriÃ¨res</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-semibold mb-4">Support</h4>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Documentation</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">Support technique</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 pt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <p class="text-gray-400 text-sm">
+            &copy; 2025 Helvitic AI - Tous droits rÃ©servÃ©s
+          </p>
+          
+          <div class="flex flex-wrap gap-6 text-sm text-gray-400 mt-4 md:mt-0">
+            <a href="#" class="hover:text-white transition-colors">Mentions lÃ©gales</a>
+            <a href="#" class="hover:text-white transition-colors">Politique de confidentialitÃ©</a>
+            <a href="#" class="hover:text-white transition-colors">CGU</a>
+            <a href="#" class="hover:text-white transition-colors">Cookies</a>
+          </div>
+        </div>
+        
+        <!-- Easter egg -->
+        <div class="text-center mt-8 text-xs text-gray-600">
+          Made with â¤ï¸ and AI magic
+        </div>
+      </div>
     </div>
-  `;
-  botForm.classList.add("hidden");
-}
+  </footer>
 
-function setLang(lang) {
-  currentLang = lang;
-  localStorage.setItem("helveticai_lang", lang);
-  startBot(lang);
-}
+  <!-- Scripts -->
+  <script>
+    // Navigation fluide
+    function smoothScroll(elementId) {
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }
+    }
 
-function startBot(lang) {
-  botMessages.innerHTML = `<p class="text-gray-500">${botResponses[lang].welcome}</p>`;
-  botForm.classList.remove("hidden");
-  botInput.placeholder = {
-    fr: "Écrivez un message...",
-    en: "Write a message...",
-    de: "Nachricht schreiben..."
-  }[lang];
-}
+    // Menu mobile
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeMenuBtn = document.getElementById('close-menu-btn');
 
-botForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const msg = botInput.value.trim();
-  if (!msg) return;
+    function toggleMobileMenu() {
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    }
 
-  botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
-  botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> ${botResponses[currentLang].reply}</p>`;
-  botInput.value = "";
-  botMessages.scrollTop = botMessages.scrollHeight;
-});
-</script>
+    mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+    closeMenuBtn.addEventListener('click', toggleMobileMenu);
+
+    // Fermer le menu mobile quand on clique sur un lien
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Fermer le menu mobile si on clique Ã  cÃ´tÃ©
+    mobileMenu.addEventListener('click', (e) => {
+      if (e.target === mobileMenu) {
+        toggleMobileMenu();
+      }
+    });
+
+    // Animation des Ã©lÃ©ments au scroll
+    function animateOnScroll() {
+      const elements = document.querySelectorAll('.service-card, .stats-card');
+      elements.forEach((element, index) => {
+        const elementTop = element.getBoundingClientRect().top;
+        const elementVisible = 150;
+        
+        if (elementTop < window.innerHeight - elementVisible) {
+          element.style.animation = `fade-in-up 0.8s ease-out ${index * 0.1}s both`;
+        }
+      });
+    }
+
+    // Header transparent au scroll
+    function handleHeaderScroll() {
+      const header = document.querySelector('header');
+      const scrolled = window.scrollY > 50;
+      
+      if (scrolled) {
+        header.style.background = 'rgba(255, 255, 255, 0.95)';
+        header.style.backdropFilter = 'blur(10px)';
+      } else {
+        header.style.background = 'rgba(255, 255, 255, 0.1)';
+        header.style.backdropFilter = 'blur(10px)';
+      }
+    }
+
+    // Gestion du formulaire
+    function handleSubmit(e) {
+      e.preventDefault();
+      
+      // Animation du bouton
+      const button = e.target.querySelector('button[type="submit"]');
+      const originalText = button.textContent;
+      
+      button.textContent = 'Envoi en cours...';
+      button.disabled = true;
+      button.style.opacity = '0.7';
+      
+      // Simulation d'envoi
+      setTimeout(() => {
+        button.textContent = 'Message envoyÃ© âœ“';
+        button.style.background = 'linear-gradient(to right, #10b981, #059669)';
+        
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.disabled = false;
+          button.style.opacity = '1';
+          button.style.background = 'linear-gradient(to right, #2563eb, #7c3aed)';
+          e.target.reset();
+        }, 2000);
+      }, 1500);
+    }
+
+    // Effet de parallax lÃ©ger
+    function parallaxEffect() {
+      const scrolled = window.pageYOffset;
+      const parallaxElements = document.querySelectorAll('.floating-shapes');
+      
+      parallaxElements.forEach(element => {
+        const speed = 0.5;
+        element.style.transform = `translateY(${scrolled * speed}px)`;
+      });
+    }
+
+    // Event listeners
+    window.addEventListener('scroll', () => {
+      animateOnScroll();
+      handleHeaderScroll();
+      parallaxEffect();
+    });
+
+    // Animation d'entrÃ©e
+    window.addEventListener('load', () => {
+      document.body.style.opacity = '1';
+      animateOnScroll();
+    });
+
+    // Gestion du redimensionnement
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Animation des compteurs
+    function animateCounters() {
+      const counters = document.querySelectorAll('[data-count]');
+      counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-count'));
+        const increment = target / 100;
+        let current = 0;
+        
+        const timer = setInterval(() => {
+          current += increment;
+          counter.textContent = Math.floor(current);
+          
+          if (current >= target) {
+            counter.textContent = target;
+            clearInterval(timer);
+          }
+        }, 20);
+      });
+    }
+
+    // Initialisation des animations au chargement
+    document.addEventListener('DOMContentLoaded', () => {
+      // Animation des Ã©lÃ©ments visibles
+      setTimeout(animateOnScroll, 100);
+      
+      // Easter egg : Konami Code
+      let konamiCode = [];
+      const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+      
+      document.addEventListener('keydown', (e) => {
+        konamiCode.push(e.keyCode);
+        konamiCode = konamiCode.slice(-10);
+        
+        if (konamiCode.join(',') === konamiSequence.join(',')) {
+          document.body.style.animation = 'rainbow 2s infinite';
+          setTimeout(() => {
+            document.body.style.animation = '';
+          }, 5000);
+        }
+      });
+    });
+
+    // Style pour l'easter egg
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes rainbow {
+        0% { filter: hue-rotate(0deg); }
+        100% { filter: hue-rotate(360deg); }
+      }
+      
+      body {
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Activation de l'opacitÃ© aprÃ¨s le chargement
+    window.addEventListener('load', () => {
+      document.body.style.opacity = '1';
+    });
+  </script>
+
 </body>
-</html>
-
-
-
+</html> 
