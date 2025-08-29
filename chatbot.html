@@ -16,8 +16,8 @@
     .slide-up { animation: slideUp 0.3s ease-out; }
     .gradient-bg { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); }
     .glass-effect { backdrop-filter: blur(10px); background: rgba(255,255,255,0.9); }
-    .message-user { background: linear-gradient(135deg,#3b82f6,#1d4ed8); color:white; }
-    .message-bot { background: #f3f4f6; border:1px solid #d1d5db; }
+    .message-user { background: linear-gradient(135deg,#3b82f6,#1d4ed8); color:white; align-self:flex-end; }
+    .message-bot { background: #f3f4f6; border:1px solid #d1d5db; align-self:flex-start; }
     .scrollbar-thin::-webkit-scrollbar { width:4px; }
     .scrollbar-thin::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:2px; }
   </style>
@@ -36,16 +36,20 @@
     <!-- Header -->
     <div class="gradient-bg text-white flex justify-between items-center p-4 rounded-t-3xl">
       <span class="font-bold">Helvitic AI</span>
-      <button id="chatbot-close" class="text-lg">✕</button>
+      <div class="flex space-x-2">
+        <button id="lang-btn" class="bg-white/20 px-2 py-1 rounded text-sm">🌍</button>
+        <button id="chatbot-close" class="text-lg">✕</button>
+      </div>
     </div>
 
     <!-- Messages -->
-    <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin"></div>
+    <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin flex flex-col"></div>
 
     <!-- Formulaire -->
     <form id="bot-form" class="border-t border-gray-200 p-3 flex">
-      <input id="bot-input" type="text" placeholder="Écrivez ici..." class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-      <button class="ml-2 px-4 bg-blue-600 text-white rounded-lg">Envoyer</button>
+      <input id="bot-input" type="text" placeholder="Écrivez ici..." 
+             class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <button type="submit" class="ml-2 px-4 bg-blue-600 text-white rounded-lg">Envoyer</button>
     </form>
   </div>
 </div>
@@ -88,6 +92,7 @@ const botClose = document.getElementById("chatbot-close");
 const botForm = document.getElementById("bot-form");
 const botInput = document.getElementById("bot-input");
 const botMessages = document.getElementById("chatbot-messages");
+const langBtn = document.getElementById("lang-btn");
 
 // === Ouvrir / fermer ===
 botBtn.addEventListener("click", () => {
@@ -98,10 +103,18 @@ botBtn.addEventListener("click", () => {
 });
 botClose.addEventListener("click", () => botWin.classList.add("hidden"));
 
+// === Switch langue ===
+langBtn.addEventListener("click", () => {
+  currentLang = currentLang === "fr" ? "en" : currentLang === "en" ? "de" : "fr";
+  showWelcomeMessage();
+});
+
 // === Affichage messages ===
 function addMessage(sender, text) {
   const div = document.createElement("div");
-  div.className = sender === "bot" ? "message-bot px-3 py-2 rounded-lg" : "message-user px-3 py-2 rounded-lg text-right";
+  div.className = sender === "bot" 
+    ? "message-bot px-3 py-2 rounded-lg max-w-[80%]" 
+    : "message-user px-3 py-2 rounded-lg max-w-[80%] ml-auto text-right";
   div.innerHTML = `<strong>${sender==="bot"?"Bot":"Vous"}:</strong> ${text}`;
   botMessages.appendChild(div);
   botMessages.scrollTop = botMessages.scrollHeight;
@@ -116,9 +129,10 @@ function showWelcomeMessage() {
 // === Réponses ===
 botForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const msg = botInput.value.trim().toLowerCase();
+  const rawMsg = botInput.value.trim();
+  const msg = rawMsg.toLowerCase();
   if (!msg) return;
-  addMessage("user", msg);
+  addMessage("user", rawMsg);
   botInput.value = "";
 
   let reply = responses[currentLang].unknown;
