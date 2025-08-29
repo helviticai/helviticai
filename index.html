@@ -576,27 +576,11 @@
     </div>
   </section>
 
- <!-- HELVETICBOT -->
-<button id="bot-button" 
-  class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl" 
-  aria-label="Open HelveticBot">
-  💬
-</button>
+<a href="chatbot.html" target="_blank" 
+   class="bg-blue-600 text-white px-6 py-3 rounded-full shadow hover:scale-105 transition">
+   Ouvrir le Chatbot 🤖
+</a>
 
-<div id="bot-window" 
-  class="hidden fixed bottom-24 right-6 w-96 h-[600px] bg-white shadow-xl rounded-2xl border overflow-hidden">
-  <!-- On charge directement le chatbot React compilé -->
-  <iframe src="chatbot.html" class="w-full h-full border-0"></iframe>
-</div>
-
-<script>
-  const botBtn = document.getElementById("bot-button");
-  const botWindow = document.getElementById("bot-window");
-
-  botBtn.onclick = () => {
-    botWindow.classList.toggle("hidden");
-  };
-</script>
 
 
   <!-- SCRIPTS -->
