@@ -13,6 +13,7 @@
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   transition: transform 0.2s ease-in-out;
+  z-index: 10001;
 }
 
 #bot-button:hover {
@@ -24,15 +25,16 @@
   position: fixed;
   bottom: 90px;
   right: 20px;
-  width: 320px;
-  height: 420px;
+  width: 350px;
+  height: 450px;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* champ toujours en bas */
   overflow: hidden;
-  z-index: 9999;
+  z-index: 10000;
 }
 
 /* Masqué par défaut */
@@ -51,14 +53,13 @@
   align-items: center;
 }
 
-/* Bouton de fermeture */
 .bot-close {
   cursor: pointer;
   font-size: 18px;
 }
 
 /* === Messages === */
-.bot-messages {
+#bot-messages {
   flex: 1;
   padding: 10px;
   overflow-y: auto;
@@ -84,53 +85,12 @@
 /* === Formulaire === */
 .bot-form {
   display: flex;
-  border-top: 1px solid #ddd;
-}
-
-.bot-form input {
-  flex: 1;
-  border: none;
-  padding: 10px;
-  font-size: 14px;
-}
-
-.bot-form button {
-  background: #2563eb;
-  color: white;
-  border: none;
-  padding: 0 16px;
-  cursor: pointer;
-}
-/* Le container du chatbot */
-#bot-window {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* force le champ à rester en bas */
-  width: 350px;
-  height: 450px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  overflow: hidden;
-}
-
-/* Zone des messages scrollable */
-#bot-messages {
-  flex: 1;
-  padding: 10px;
-  overflow-y: auto;
-}
-
-/* Zone du formulaire toujours visible */
-.bot-form {
-  display: flex;
   padding: 10px;
   background: #fff;
   border-top: 1px solid #ddd;
-  flex-shrink: 0; /* empêche d'être compressé */
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10001; /* au-dessus */
 }
 
 #bot-input {
@@ -139,6 +99,9 @@
   border: none;
   outline: none;
   font-size: 14px;
+  background: #fff;
+  z-index: 10001;
+  pointer-events: auto;
 }
 
 .bot-form button {
@@ -149,21 +112,4 @@
   margin-left: 5px;
   border-radius: 5px;
   cursor: pointer;
-}
-
-
-/* Forcer la zone de saisie à rester accessible */
-#bot-input {
-  position: relative;
-  z-index: 10000; /* toujours au-dessus */
-  background: #fff;
-  pointer-events: auto; /* assure qu'on peut cliquer */
-}
-
-/* S'assurer que la zone du formulaire reste en bas */
-.bot-form {
-  position: relative;
-  z-index: 9999;
-  flex-shrink: 0;
-  background: #fff;
 }
