@@ -1,5 +1,4 @@
-
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8"/>
@@ -574,9 +573,20 @@
     </div>
   </section>
 
-
-
-
+  <!-- HELVETICBOT -->
+  <button id="bot-button" class="fixed bottom-6 right-6 bg-blue-700 hover:bg-blue-800 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-xl" aria-label="Open HelveticBot">💬</button>
+  <div id="bot-window" class="hidden fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-2xl border overflow-hidden">
+    <div class="bg-blue-700 text-white p-4 font-semibold">HelveticBot</div>
+    <div id="bot-messages" class="p-4 h-72 overflow-y-auto text-sm text-gray-700">
+      <p class="text-gray-500 lang fr active">Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?</p>
+      <p class="text-gray-500 lang en">Hello 👋 I’m HelveticBot. How can I help?</p>
+      <p class="text-gray-500 lang de">Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?</p>
+    </div>
+    <form id="bot-form" class="flex border-t">
+      <input type="text" id="bot-input" placeholder="Écrivez un message... / Write a message..." class="flex-1 p-2 text-sm outline-none">
+      <button type="submit" class="px-4 text-blue-700 font-bold">➤</button>
+    </form>
+  </div>
 
   <!-- SCRIPTS -->
   <script>
@@ -700,173 +710,68 @@
       botMessages.scrollTop = botMessages.scrollHeight;
     });
   </script>
-  <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HelviticBot</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background: #f5f6fa;
+   <script>
+  // --- Langues Bot ---
+  const botResponses = {
+    fr: {
+      welcome: "Bonjour 👋 Je suis HelveticBot. Comment puis-je vous aider ?",
+      reply: "Merci pour votre message, un conseiller vous contactera rapidement."
+    },
+    en: {
+      welcome: "Hello 👋 I’m HelveticBot. How can I help?",
+      reply: "Thank you for your message, an advisor will contact you shortly."
+    },
+    de: {
+      welcome: "Hallo 👋 Ich bin HelveticBot. Wie kann ich helfen?",
+      reply: "Vielen Dank für Ihre Nachricht, ein Berater wird Sie bald kontaktieren."
     }
-    .chat-container {
-      width: 400px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-    .header {
-      background: #4CAF50;
-      color: white;
-      padding: 15px;
-      font-size: 18px;
-      font-weight: bold;
-      border-radius: 12px 12px 0 0;
-    }
-    #chatbox {
-      flex: 1;
-      padding: 15px;
-      overflow-y: auto;
-      background: #fafafa;
-    }
-    .message {
-      margin: 8px 0;
-      padding: 10px 15px;
-      border-radius: 15px;
-      max-width: 75%;
-      word-wrap: break-word;
-      clear: both;
-    }
-    .user {
-      background: #d1e7ff;
-      margin-left: auto;
-      text-align: right;
-    }
-    .bot {
-      background: #e0f7e9;
-      margin-right: auto;
-      text-align: left;
-    }
-    .input-area {
-      display: flex;
-      border-top: 1px solid #ddd;
-      padding: 10px;
-    }
-    .input-area input {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 20px 0 0 20px;
-      outline: none;
-    }
-    .input-area button {
-      background: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      border-radius: 0 20px 20px 0;
-    }
-    .input-area button:hover {
-      background: #45a049;
-    }
-  </style>
-</head>
-<body>
-  <!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HelviticBot</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f5f6fa; display: flex; justify-content: center; align-items: center; height: 100vh; }
-    .chat-container { width: 400px; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1); background: white; }
-    .chat-header { background: #4CAF50; color: white; padding: 10px; font-size: 18px; font-weight: bold; }
-    .chat-messages { height: 400px; overflow-y: auto; padding: 10px; background: #f9f9f9; }
-    .message { margin: 10px 0; padding: 10px; border-radius: 10px; max-width: 80%; }
-    .user-message { background: #cce5ff; align-self: flex-end; }
-    .bot-message { background: #e2f7e2; align-self: flex-start; }
-    .chat-input { display: flex; border-top: 1px solid #ddd; }
-    .chat-input input { flex: 1; padding: 10px; border: none; outline: none; }
-    .chat-input button { padding: 10px 20px; border: none; background: #4CAF50; color: white; cursor: pointer; }
-    .chat-input button:hover { background: #45a049; }
-  </style>
-</head>
-<body>
-  <div class="chat-container">
-    <div class="chat-header">💬 HelviticBot</div>
-    <div class="chat-messages" id="chat-messages"></div>
-    <div class="chat-input">
-      <input type="text" id="user-input" placeholder="Écrivez un message..." />
-      <button onclick="sendMessage()">Envoyer</button>
-    </div>
-  </div>
+  };
 
-  <script>
-    async function sendMessage() {
-      const input = document.getElementById("user-input");
-      const message = input.value.trim();
-      if (!message) return;
+  let currentLang = localStorage.getItem("helveticai_lang") || "fr";
 
-      // Affiche le message utilisateur
-      const messagesDiv = document.getElementById("chat-messages");
-      const userMessage = document.createElement("div");
-      userMessage.className = "message user-message";
-      userMessage.innerText = message;
-      messagesDiv.appendChild(userMessage);
-      input.value = "";
+  function applyLang(lang){
+    localStorage.setItem('helveticai_lang', lang);
+    currentLang = lang;
+    document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.'+lang).forEach(el => el.classList.add('active'));
 
-      // Scroll vers le bas
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    // Mettre à jour le message d'accueil du bot
+    const botMessages = document.getElementById('bot-messages');
+    botMessages.innerHTML = `<p class="text-gray-500">${botResponses[lang].welcome}</p>`;
+  }
+  window.setLang = applyLang;
 
-      try {
-        // Envoi au backend Render
-        const response = await fetch("https://helviticai.onrender.com/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message }),
-        });
+  // Init avec la langue sauvegardée
+  applyLang(currentLang);
 
-        const data = await response.json();
-        const botMessage = document.createElement("div");
-        botMessage.className = "message bot-message";
+  // --- Bot ---
+  const botBtn = document.getElementById('bot-button');
+  const botWin = document.getElementById('bot-window');
+  const botForm = document.getElementById('bot-form');
+  const botInput = document.getElementById('bot-input');
+  const botMessages = document.getElementById('bot-messages');
 
-        if (data.choices && data.choices[0].message) {
-          botMessage.innerText = data.choices[0].message.content;
-        } else if (data.error) {
-          botMessage.innerText = "❌ Erreur API : " + data.error.message;
-        } else {
-          botMessage.innerText = "⚠️ Réponse inattendue du serveur.";
-        }
-
-        messagesDiv.appendChild(botMessage);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-      } catch (error) {
-        console.error(error);
-        const errorMessage = document.createElement("div");
-        errorMessage.className = "message bot-message";
-        errorMessage.innerText = "⚠️ Erreur de connexion au serveur.";
-        messagesDiv.appendChild(errorMessage);
-      }
+  botBtn.addEventListener('click', () => {
+    botWin.classList.toggle('hidden');
+    // Réafficher message de bienvenue dans la bonne langue
+    if (!botWin.classList.contains("hidden")) {
+      botMessages.innerHTML = `<p class="text-gray-500">${botResponses[currentLang].welcome}</p>`;
     }
-  </script>
+  });
+
+  botForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const msg = botInput.value.trim();
+    if (!msg) return;
+
+    botMessages.innerHTML += `<p><strong>Vous:</strong> ${msg}</p>`;
+    botMessages.innerHTML += `<p class="text-blue-700"><strong>Bot:</strong> ${botResponses[currentLang].reply}</p>`;
+
+    botInput.value = '';
+    botMessages.scrollTop = botMessages.scrollHeight;
+  });
+</script>
+
 </body>
 </html>
 
-     
