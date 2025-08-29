@@ -1,4 +1,4 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8"/>
@@ -17,9 +17,9 @@
     .lang.active { display:block; }
     .flag { width:28px; height:20px; border-radius:3px; cursor:pointer; }
   </style>
-<!-- Feuille de style principale -->
+  <!-- Feuilles de style du site (facultatives si vous n'en avez pas) -->
   <link rel="stylesheet" href="style.css">
-   <link rel="stylesheet" href="chatbot.css">
+  <link rel="stylesheet" href="chatbot.css">
 </head>
 <body class="bg-white text-gray-900">
 
@@ -526,9 +526,8 @@
             </li>
           </ul>
         </div>
-      </section>
 
-         <!-- Form -->
+        <!-- Form -->
         <form action="https://formsubmit.co/helviticaich@gmail.com" method="POST" class="space-y-4 bg-gray-50 p-8 rounded-xl shadow fade-in">
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_template" value="box">
@@ -562,10 +561,6 @@
       </div>
     </div>
   </section>
-
-
-
-
 
   <!-- SCRIPTS du site -->
   <script>
@@ -603,13 +598,11 @@
     window.setLang = setLang;
     applyLang(localStorage.getItem('helveticai_lang') || 'fr');
   </script>
-  <!-- === CHATBOT === -->
-  <iframe src="chatbot.html"
-          style="border: none; position: fixed; bottom: 20px; right: 20px; 
-                 width: 350px; height: 480px; z-index: 9999;">
-  </iframe>
 
-  <script src="chatbot.js" defer></script>
+  <!-- === CHATBOT (iframe) — doit être AVANT </body> === -->
+  <iframe src="chatbot.html"
+          style="border:none; position:fixed; bottom:20px; right:20px; width:350px; height:480px; z-index:9999;"
+          title="Assistant Helvetic AI"></iframe>
+
 </body>
 </html>
-
