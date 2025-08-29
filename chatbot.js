@@ -1,4 +1,3 @@
-
 // Réponses multilingues avec 20 questions
 const responses = {
   fr: {
@@ -33,13 +32,24 @@ const botForm = document.getElementById("bot-form");
 const botInput = document.getElementById("bot-input");
 const botMessages = document.getElementById("bot-messages");
 
+// Ouvrir / fermer chatbot
 if (botBtn && botWin) {
-  botBtn.addEventListener("click", () => botWin.classList.toggle("hidden"));
+  botBtn.addEventListener("click", () => {
+    const wasHidden = botWin.classList.contains("hidden");
+    botWin.classList.toggle("hidden");
+    // Message de bienvenue uniquement à l’ouverture
+    if (wasHidden) {
+      botMessages.innerHTML += `<p class="bot-msg"><strong>Bot:</strong> ${responses[currentLang].greeting}</p>`;
+      botMessages.scrollTop = botMessages.scrollHeight;
+    }
+  });
 }
+
 if (botClose && botWin) {
   botClose.addEventListener("click", () => botWin.classList.add("hidden"));
 }
 
+// Interaction
 if (botForm) {
   botForm.addEventListener("submit", (e) => {
     e.preventDefault();
