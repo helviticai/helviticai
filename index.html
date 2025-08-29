@@ -562,20 +562,28 @@
     </div>
   </section>
 
-  <!-- Bouton flottant du chatbot -->
-  <button id="bot-button" class="chatbot-button" aria-label="Ouvrir le chatbot">💬</button>
+ <!-- Bouton flottant 💬 -->
+<button id="bot-button" class="bot-button">💬</button>
 
-  <!-- Fenêtre du chatbot -->
-  <div id="bot-window" class="chatbot-window hidden" aria-live="polite">
-    <div class="chatbot-header">HelveticBot</div>
-    <div id="bot-messages" class="chatbot-messages">
-      <p class="bot-msg">👋 Bonjour, je suis HelveticBot. Comment puis-je vous aider ?</p>
-    </div>
-    <form id="bot-form" class="chatbot-form">
-      <input id="bot-input" type="text" placeholder="Écrivez votre message..." class="chatbot-input" aria-label="Votre message"/>
-      <button type="submit" class="chatbot-submit" aria-label="Envoyer">➤</button>
-    </form>
+<!-- Fenêtre du chatbot -->
+<div id="bot-window" class="hidden">
+  <div class="bot-header">
+    HelveticBot
+    <span id="bot-close" class="bot-close">×</span>
   </div>
+  <div id="bot-messages" class="bot-messages">
+    <p class="bot-msg">👋 Bonjour, je suis HelveticBot. Comment puis-je vous aider ?</p>
+  </div>
+  <form id="bot-form" class="bot-form">
+    <input id="bot-input" type="text" placeholder="Écrivez votre message..." />
+    <button type="submit">➤</button>
+  </form>
+</div>
+
+<!-- Scripts -->
+<link rel="stylesheet" href="chatbot.css">
+<script src="chatbot.js"></script>
+
 
   <!-- SCRIPTS du site -->
   <script>
