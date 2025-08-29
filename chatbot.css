@@ -1,5 +1,4 @@
-
-/* Chatbot Pro Style */
+/* === Bouton flottant === */
 .bot-button {
   position: fixed;
   bottom: 20px;
@@ -20,7 +19,7 @@
   transform: scale(1.1);
 }
 
-/* Fenêtre */
+/* === Fenêtre du chatbot === */
 #bot-window {
   position: fixed;
   bottom: 90px;
@@ -36,7 +35,12 @@
   z-index: 10000;
 }
 
-/* Header */
+/* Masquer fenêtre */
+.hidden {
+  display: none !important;
+}
+
+/* === Header (logo + X) === */
 .bot-header {
   background: #2563eb;
   color: white;
@@ -47,19 +51,16 @@
   align-items: center;
 }
 .bot-header img {
-  height: 28px;
-  margin-right: 8px;
+  height: 24px;
+  vertical-align: middle;
+  margin-right: 6px;
 }
 .bot-close {
   cursor: pointer;
   font-size: 20px;
-  font-weight: bold;
-}
-.bot-close:hover {
-  color: #f87171;
 }
 
-/* Messages */
+/* === Zone messages === */
 .bot-messages {
   flex: 1;
   padding: 10px;
@@ -67,39 +68,8 @@
   font-size: 14px;
   background: #f9fafb;
 }
-.bot-msg, .user-msg {
-  margin: 6px 0;
-  padding: 10px 14px;
-  border-radius: 12px;
-  max-width: 80%;
-  line-height: 1.4;
-}
 .bot-msg {
-  background: #e0f2fe;
-  color: #1e40af;
-  align-self: flex-start;
-}
-.user-msg {
-  background: #2563eb;
-  color: white;
-  align-self: flex-end;
-}
-
-/* Form */
-.bot-form {
-  display: flex;
-  border-top: 1px solid #ddd;
-}
-.bot-form input {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  outline: none;
-}
-.bot-form button {
-  background: #2563eb;
-  color: white;
-  border: none;
-  padding: 0 16px;
-  cursor: pointer;
-}
+  background: #e5e7eb;
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin: 6px 0;
