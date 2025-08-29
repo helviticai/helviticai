@@ -710,160 +710,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Helvitic AI - Chatbot Multilingue</title>
-    <style>
-        /* Styles pour le chatbot */
-        .chatbot-container {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            z-index: 1000;
-        }
-        .chatbot-icon {
-            width: 50px;
-            height: 50px;
-            background-color: #3b82f6;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        .chatbot-window {
-            position: absolute;
-            bottom: 60px;
-            right: 0;
-            width: 300px;
-            height: 400px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            display: none;
-        }
-        .language-selector {
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            background-color: #f3f4f6;
-            padding: 5px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            visibility: hidden;
-        }
-        .language-selector button {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 20px;
-        }
-    </style>
+    <title>HelviticBot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #f5f6fa;
+    }
+    .chat-container {
+      width: 400px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .header {
+      background: #4CAF50;
+      color: white;
+      padding: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 12px 12px 0 0;
+    }
+    #chatbox {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #fafafa;
+    }
+    .message {
+      margin: 8px 0;
+      padding: 10px 15px;
+      border-radius: 15px;
+      max-width: 75%;
+      word-wrap: break-word;
+      clear: both;
+    }
+    .user {
+      background: #d1e7ff;
+      margin-left: auto;
+      text-align: right;
+    }
+    .bot {
+      background: #e0f7e9;
+      margin-right: auto;
+      text-align: left;
+    }
+    .input-area {
+      display: flex;
+      border-top: 1px solid #ddd;
+      padding: 10px;
+    }
+    .input-area input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 20px 0 0 20px;
+      outline: none;
+    }
+    .input-area button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 0 20px 20px 0;
+    }
+    .input-area button:hover {
+      background: #45a049;
+    }
+  </style>
 </head>
 <body>
-
-    <!-- Conteneur du chatbot -->
-    <div class="chatbot-container">
-        <div id="chatbot-icon" class="chatbot-icon">
-            🤖
-        </div>
-        <!-- Sélecteur de langue -->
-        <div id="language-selector" class="language-selector">
-            <button onclick="selectLanguage('fr')">🇫🇷</button>
-            <button onclick="selectLanguage('en')">🇬🇧</button>
-            <button onclick="selectLanguage('de')">🇩🇪</button>
-        </div>
-        <!-- Fenêtre du chatbot -->
-        <div id="chatbot-window" class="chatbot-window">
-            <!-- Header -->
-            <div class="chat-header">
-                <span>Helvitic AI</span>
-                <button onclick="closeChat()">❌</button>
-            </div>
-            <!-- Messages -->
-            <div id="chatbot-messages">
-                <p>👋 Bonjour, comment puis-je vous aider ?</p>
-            </div>
-            <!-- Zone de saisie -->
-            <input type="text" id="user-input" placeholder="Écrivez ici..." onkeydown="sendMessage(event)" />
-        </div>
+  <!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HelviticBot</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f6fa; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    .chat-container { width: 400px; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1); background: white; }
+    .chat-header { background: #4CAF50; color: white; padding: 10px; font-size: 18px; font-weight: bold; }
+    .chat-messages { height: 400px; overflow-y: auto; padding: 10px; background: #f9f9f9; }
+    .message { margin: 10px 0; padding: 10px; border-radius: 10px; max-width: 80%; }
+    .user-message { background: #cce5ff; align-self: flex-end; }
+    .bot-message { background: #e2f7e2; align-self: flex-start; }
+    .chat-input { display: flex; border-top: 1px solid #ddd; }
+    .chat-input input { flex: 1; padding: 10px; border: none; outline: none; }
+    .chat-input button { padding: 10px 20px; border: none; background: #4CAF50; color: white; cursor: pointer; }
+    .chat-input button:hover { background: #45a049; }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">💬 HelviticBot</div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input">
+      <input type="text" id="user-input" placeholder="Écrivez un message..." />
+      <button onclick="sendMessage()">Envoyer</button>
     </div>
+  </div>
 
-    <script>
-        let currentLanguage = 'fr'; // Langue par défaut
-        let isChatOpen = false;
+  <script>
+    async function sendMessage() {
+      const input = document.getElementById("user-input");
+      const message = input.value.trim();
+      if (!message) return;
 
-        // Afficher/masquer la fenêtre du chatbot
-        document.getElementById("chatbot-icon").onclick = function() {
-            const chatbotWindow = document.getElementById("chatbot-window");
-            const languageSelector = document.getElementById("language-selector");
-            
-            if (isChatOpen) {
-                chatbotWindow.style.display = 'none';
-                languageSelector.style.visibility = 'hidden';
-            } else {
-                chatbotWindow.style.display = 'block';
-                languageSelector.style.visibility = 'visible';
-            }
-            isChatOpen = !isChatOpen;
+      // Affiche le message utilisateur
+      const messagesDiv = document.getElementById("chat-messages");
+      const userMessage = document.createElement("div");
+      userMessage.className = "message user-message";
+      userMessage.innerText = message;
+      messagesDiv.appendChild(userMessage);
+      input.value = "";
+
+      // Scroll vers le bas
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+      try {
+        // Envoi au backend Render
+        const response = await fetch("https://helviticai.onrender.com/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message }),
+        });
+
+        const data = await response.json();
+        const botMessage = document.createElement("div");
+        botMessage.className = "message bot-message";
+
+        if (data.choices && data.choices[0].message) {
+          botMessage.innerText = data.choices[0].message.content;
+        } else if (data.error) {
+          botMessage.innerText = "❌ Erreur API : " + data.error.message;
+        } else {
+          botMessage.innerText = "⚠️ Réponse inattendue du serveur.";
         }
 
-        // Sélectionner la langue
-        function selectLanguage(language) {
-            currentLanguage = language;
-            const languageSelector = document.getElementById("language-selector");
-            languageSelector.style.visibility = 'hidden';
-            updateChatLanguage();
-        }
-
-        // Mettre à jour les messages du chatbot en fonction de la langue
-        function updateChatLanguage() {
-            const messagesDiv = document.getElementById("chatbot-messages");
-            if (currentLanguage === 'fr') {
-                messagesDiv.innerHTML = '<p>👋 Bonjour, comment puis-je vous aider ?</p>';
-            } else if (currentLanguage === 'en') {
-                messagesDiv.innerHTML = '<p>👋 Hello, how can I assist you?</p>';
-            } else if (currentLanguage === 'de') {
-                messagesDiv.innerHTML = '<p>👋 Hallo, wie kann ich Ihnen helfen?</p>';
-            }
-        }
-
-        // Fonction d'envoi de message
-        function sendMessage(event) {
-            if (event.key === "Enter") {
-                const userInput = document.getElementById("user-input").value;
-                const messagesDiv = document.getElementById("chatbot-messages");
-                const newMessage = document.createElement("p");
-                newMessage.textContent = userInput;
-                messagesDiv.appendChild(newMessage);
-                document.getElementById("user-input").value = '';
-                
-                // Répondre avec un message en fonction de la langue
-                setTimeout(() => {
-                    const responseMessage = document.createElement("p");
-                    if (currentLanguage === 'fr') {
-                        responseMessage.textContent = '🤖 Voici une réponse en français.';
-                    } else if (currentLanguage === 'en') {
-                        responseMessage.textContent = '🤖 Here is a response in English.';
-                    } else if (currentLanguage === 'de') {
-                        responseMessage.textContent = '🤖 Hier ist eine Antwort auf Deutsch.';
-                    }
-                    messagesDiv.appendChild(responseMessage);
-                }, 1000);
-            }
-        }
-
-        // Fermer le chat
-        function closeChat() {
-            const chatbotWindow = document.getElementById("chatbot-window");
-            chatbotWindow.style.display = 'none';
-        }
-    </script>
-
+        messagesDiv.appendChild(botMessage);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      } catch (error) {
+        console.error(error);
+        const errorMessage = document.createElement("div");
+        errorMessage.className = "message bot-message";
+        errorMessage.innerText = "⚠️ Erreur de connexion au serveur.";
+        messagesDiv.appendChild(errorMessage);
+      }
+    }
+  </script>
 </body>
 </html>
 
-                </body>
-</html>
+     
