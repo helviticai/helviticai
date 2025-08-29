@@ -1534,6 +1534,298 @@
         // Initialiser l'application
         init();
     </script>
+  <!-- === Chatbot Multilingue HelviticAI === -->
+<div id="chatbot-toggle"
+     class="fixed bottom-4 right-4 w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 
+            flex items-center justify-center text-white shadow-lg cursor-pointer z-50">
+    💬
+</div>
+
+<div id="chatbot-window"
+     class="hidden fixed bottom-20 right-4 w-80 bg-white shadow-2xl rounded-2xl flex flex-col z-50 border border-gray-200">
+    <!-- Header -->
+    <div class="flex justify-between items-center p-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-t-2xl">
+        <h4 class="font-bold">HelviticAI Chatbot</h4>
+        <button id="chatbot-close" class="text-white font-bold">✖</button>
+    </div>
+
+    <!-- Messages -->
+    <div id="chatbot-messages" class="flex-1 p-3 overflow-y-auto space-y-3 text-sm"></div>
+
+    <!-- Typing indicator -->
+    <div id="typing-indicator" class="hidden px-3 pb-2 text-gray-400 text-xs">AI is typing...</div>
+
+    <!-- Suggestions -->
+    <div id="suggestions" class="p-2 space-y-2"></div>
+
+    <!-- Input -->
+    <div class="flex items-center border-t p-2">
+        <textarea id="user-input" rows="1" placeholder="Type your message..."
+                  class="flex-1 resize-none border rounded-xl px-3 py-2 text-sm focus:outline-none"></textarea>
+        <button id="send-btn" class="ml-2 px-3 py-2 bg-blue-500 text-white rounded-xl">➤</button>
+    </div>
+</div>
+
+<!-- === Script Chatbot Multilingue === -->
+<script>
+/* ---------------------------
+   BASE DE CONNAISSANCES MULTILINGUE
+---------------------------- */
+const knowledgeBase = {
+    fr: {
+        services: {
+            keywords: ["service","proposez","offrez","faites","solutions","produits"],
+            responses: [
+                "🚀 **Nos services principaux :**\n• Automatisation intelligente\n• Analyse de données avancée\n• IA personnalisée\n• Conseil en transformation digitale\n• Formation et accompagnement",
+                "💼 Nous proposons des solutions complètes d'IA : automatisation, analyse prédictive, chatbots, vision par ordinateur et plus !",
+                "⚡ Découvrez nos services : développement sur mesure, intégration d'IA, optimisation de processus et support technique."
+            ]
+        },
+        contact: {
+            keywords: ["contact","joindre","appeler","email","téléphone","rendez-vous"],
+            responses: [
+                "📩 **Contactez-nous :**\n• Email: contact@helvitic.ai\n• Site: www.helvitic.ai\n• Réponse sous 24h garantie !",
+                "☎️ Contact par email, formulaire en ligne ou rappel. Nous répondons rapidement !",
+                "📞 Disponible du lundi au vendredi. Contact via notre site web pour un premier échange gratuit."
+            ]
+        },
+        demo: {
+            keywords: ["démo","test","essai","gratuit","exemple","voir"],
+            responses: [
+                "✨ **Démo gratuite disponible !**\n• Générateur de prompts\n• Exemples de solutions IA\n• Consultation personnalisée",
+                "🎁 Testez gratuitement notre générateur de prompts et découvrez le potentiel de l'IA pour votre entreprise !",
+                "🆓 Démo gratuite de 30 minutes avec présentation, Q&R et recommandations spécifiques."
+            ]
+        },
+        pricing: {
+            keywords: ["prix","tarif","coût","budget","devis"],
+            responses: [
+                "💰 **Tarification flexible :**\n• Audit gratuit\n• Devis personnalisé\n• Options de paiement adaptées\n• ROI garanti",
+                "📊 Nos tarifs s'adaptent à votre budget et objectifs. Demandez un devis personnalisé.",
+                "💼 Pricing transparent basé sur vos besoins. Consultation gratuite pour un devis détaillé."
+            ]
+        },
+        company: {
+            keywords: ["helvitic","entreprise","équipe","qui","société"],
+            responses: [
+                "🏢 **Helvitic AI** est une jeune entreprise innovante spécialisée dans l’IA appliquée aux besoins des entreprises.",
+                "🚀 Nous venons de lancer notre activité avec une mission claire : rendre l’IA accessible et utile pour toutes les entreprises.",
+                "👥 Une équipe passionnée combinant technologie, innovation et proximité client."
+            ]
+        }
+    },
+    en: {
+        services: {
+            keywords: ["service","offer","solution","product"],
+            responses: [
+                "🚀 **Our main services:**\n• Smart automation\n• Advanced data analytics\n• Custom AI\n• Digital transformation consulting\n• Training & support",
+                "💼 We provide complete AI solutions: automation, predictive analytics, chatbots, computer vision, and more!",
+                "⚡ Discover our services: custom development, AI integration, process optimization, and full support."
+            ]
+        },
+        contact: {
+            keywords: ["contact","email","phone","call","meeting"],
+            responses: [
+                "📩 **Contact us:**\n• Email: contact@helvitic.ai\n• Website: www.helvitic.ai\n• Reply within 24h guaranteed!",
+                "☎️ Reach us via email, online form, or callback request. We reply fast!",
+                "📞 Available Mon–Fri. Contact us on our website for a free first consultation."
+            ]
+        },
+        demo: {
+            keywords: ["demo","test","free","example","try"],
+            responses: [
+                "✨ **Free demo available!**\n• Prompt generator\n• AI solution examples\n• Personalized consultation",
+                "🎁 Try our free prompt generator and discover AI potential for your business!",
+                "🆓 30-minute free demo including presentation, Q&A, and tailored recommendations."
+            ]
+        },
+        pricing: {
+            keywords: ["price","cost","budget","quote"],
+            responses: [
+                "💰 **Flexible pricing:**\n• Free initial audit\n• Custom quotes\n• Payment options\n• ROI guaranteed",
+                "📊 Our pricing adapts to your budget and goals. Request a tailored quote.",
+                "💼 Transparent pricing based on your needs. Free consultation for detailed estimate."
+            ]
+        },
+        company: {
+            keywords: ["helvitic","company","team","who"],
+            responses: [
+                "🏢 **Helvitic AI** is a young innovative company specialized in AI for businesses.",
+                "🚀 We recently launched with a clear mission: making AI accessible and useful for all companies.",
+                "👥 A passionate team combining technology, innovation, and customer focus."
+            ]
+        }
+    },
+    de: {
+        services: {
+            keywords: ["dienst","service","angebot","lösung","produkt"],
+            responses: [
+                "🚀 **Unsere Hauptservices:**\n• Intelligente Automatisierung\n• Erweiterte Datenanalyse\n• Maßgeschneiderte KI\n• Digitale Transformation\n• Schulung & Support",
+                "💼 Wir bieten komplette KI-Lösungen: Automatisierung, prädiktive Analyse, Chatbots, Computer Vision und mehr!",
+                "⚡ Entdecken Sie unsere Services: individuelle Entwicklung, KI-Integration, Prozessoptimierung und Support."
+            ]
+        },
+        contact: {
+            keywords: ["kontakt","email","telefon","anruf","termin"],
+            responses: [
+                "📩 **Kontaktieren Sie uns:**\n• Email: contact@helvitic.ai\n• Website: www.helvitic.ai\n• Antwort garantiert in 24h!",
+                "☎️ Kontakt per Email, Formular oder Rückruf. Wir antworten schnell!",
+                "📞 Erreichbar Montag–Freitag. Kontakt über unsere Website für eine kostenlose Erstberatung."
+            ]
+        },
+        demo: {
+            keywords: ["demo","test","kostenlos","beispiel","versuch"],
+            responses: [
+                "✨ **Kostenlose Demo verfügbar!**\n• Prompt-Generator\n• KI-Beispiele\n• Persönliche Beratung",
+                "🎁 Testen Sie kostenlos unseren Prompt-Generator und entdecken Sie das Potenzial von KI für Ihr Unternehmen!",
+                "🆓 30-minütige kostenlose Demo mit Präsentation, Q&A und spezifischen Empfehlungen."
+            ]
+        },
+        pricing: {
+            keywords: ["preis","kosten","budget","angebot"],
+            responses: [
+                "💰 **Flexible Preise:**\n• Kostenloses Audit\n• Individuelles Angebot\n• Flexible Zahlungsoptionen\n• Garantierte ROI",
+                "📊 Unsere Preise passen sich Ihrem Budget und Ihren Zielen an. Fordern Sie ein individuelles Angebot an.",
+                "💼 Transparente Preise basierend auf Ihren Bedürfnissen. Kostenlose Beratung für detailliertes Angebot."
+            ]
+        },
+        company: {
+            keywords: ["helvitic","firma","unternehmen","team","wer"],
+            responses: [
+                "🏢 **Helvitic AI** ist ein junges, innovatives Unternehmen, das sich auf KI-Lösungen für Unternehmen spezialisiert.",
+                "🚀 Wir haben mit einer klaren Mission gestartet: KI für alle Unternehmen zugänglich und nützlich machen.",
+                "👥 Ein leidenschaftliches Team, das Technologie, Innovation und Kundennähe verbindet."
+            ]
+        }
+    }
+};
+
+/* ---------------------------
+   VARIABLES
+---------------------------- */
+let selectedLang = null;
+let conversationHistory = [];
+let isTyping = false;
+
+/* ---------------------------
+   DOM ELEMENTS
+---------------------------- */
+const toggleBtn = document.getElementById("chatbot-toggle");
+const chatWindow = document.getElementById("chatbot-window");
+const closeBtn = document.getElementById("chatbot-close");
+const messagesDiv = document.getElementById("chatbot-messages");
+const userInput = document.getElementById("user-input");
+const sendBtn = document.getElementById("send-btn");
+const typingIndicator = document.getElementById("typing-indicator");
+const suggestionsDiv = document.getElementById("suggestions");
+
+/* ---------------------------
+   INIT
+---------------------------- */
+function init() {
+    setupEventListeners();
+}
+function setupEventListeners() {
+    toggleBtn.addEventListener("click", toggleChat);
+    closeBtn.addEventListener("click", closeChat);
+    sendBtn.addEventListener("click", sendMessage);
+    userInput.addEventListener("keypress", handleKeyPress);
+}
+
+/* ---------------------------
+   CHAT FUNCTIONS
+---------------------------- */
+function toggleChat() {
+    const isHidden = chatWindow.classList.contains("hidden");
+    if (isHidden) {
+        chatWindow.classList.remove("hidden");
+        if (!selectedLang) {
+            askLanguage();
+        }
+    } else {
+        closeChat();
+    }
+}
+function closeChat() {
+    chatWindow.classList.add("hidden");
+}
+function askLanguage() {
+    addBotMessage("🌐 Please select your language:<br><br>🇫🇷 Français<br>🇬🇧 English<br>🇩🇪 Deutsch");
+}
+function sendMessage() {
+    const message = userInput.value.trim();
+    if (!message || isTyping) return;
+    addUserMessage(message);
+    userInput.value = "";
+
+    if (!selectedLang) {
+        if (message.toLowerCase().includes("fr")) selectedLang = "fr";
+        else if (message.toLowerCase().includes("en")) selectedLang = "en";
+        else if (message.toLowerCase().includes("de")) selectedLang = "de";
+
+        if (selectedLang) {
+            addBotMessage("✅ Language set! You can start asking questions.");
+        } else {
+            addBotMessage("❓ Please choose: Français, English, Deutsch.");
+        }
+        return;
+    }
+
+    // Process user message
+    showTypingIndicator();
+    setTimeout(() => {
+        const response = generateResponse(message);
+        hideTypingIndicator();
+        addBotMessage(response);
+    }, 1000);
+}
+function generateResponse(message) {
+    const lowerMessage = message.toLowerCase();
+    const langBase = knowledgeBase[selectedLang] || {};
+
+    for (const [category, data] of Object.entries(langBase)) {
+        for (const keyword of data.keywords) {
+            if (lowerMessage.includes(keyword)) {
+                return data.responses[Math.floor(Math.random() * data.responses.length)];
+            }
+        }
+    }
+    return "🤔 Sorry, I didn’t understand. Could you rephrase?";
+}
+
+/* ---------------------------
+   UI HELPERS
+---------------------------- */
+function addUserMessage(message) {
+    const el = document.createElement("div");
+    el.className = "flex justify-end";
+    el.innerHTML = `<div class="bg-blue-500 text-white px-3 py-2 rounded-lg max-w-64">${message}</div>`;
+    messagesDiv.appendChild(el);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+function addBotMessage(message) {
+    const el = document.createElement("div");
+    el.className = "flex items-start space-x-2";
+    el.innerHTML = `<div class="bg-gray-100 px-3 py-2 rounded-lg max-w-64">${message}</div>`;
+    messagesDiv.appendChild(el);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+function handleKeyPress(e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+}
+function showTypingIndicator() { typingIndicator.classList.remove("hidden"); isTyping = true; }
+function hideTypingIndicator() { typingIndicator.classList.add("hidden"); isTyping = false; }
+
+/* ---------------------------
+   START
+---------------------------- */
+init();
+</script>
+<!-- === END Chatbot === -->
+
 
 
 </body>
