@@ -1,219 +1,134 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Helvitic AI - Chatbot Avancé</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-            50% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
-        }
-        .pulse-glow { animation: pulse-glow 2s infinite; }
-        
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        .slide-up { animation: slideUp 0.3s ease-out; }
-        
-        @keyframes typing {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-        .typing-indicator { animation: typing 1s infinite; }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .glass-effect {
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.9);
-        }
-        
-        .message-user {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-        }
-        
-        .message-bot {
-            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-            border: 1px solid #d1d5db;
-        }
-        
-        .scrollbar-thin::-webkit-scrollbar { width: 4px; }
-        .scrollbar-thin::-webkit-scrollbar-track { background: #f1f5f9; }
-        .scrollbar-thin::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
-        
-        .language-btn {
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-        .language-btn:hover {
-            transform: scale(1.05);
-            border-color: #3b82f6;
-        }
-        .language-btn.selected {
-            border-color: #3b82f6;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helvitic AI - Chatbot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* === Animations & Styles === */
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.7); }
+      50% { box-shadow: 0 0 0 10px rgba(59,130,246,0); }
+    }
+    .pulse-glow { animation: pulse-glow 2s infinite; }
+    @keyframes slideUp { from {transform:translateY(20px);opacity:0;} to {transform:translateY(0);opacity:1;} }
+    .slide-up { animation: slideUp 0.3s ease-out; }
+    .gradient-bg { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); }
+    .glass-effect { backdrop-filter: blur(10px); background: rgba(255,255,255,0.9); }
+    .message-user { background: linear-gradient(135deg,#3b82f6,#1d4ed8); color:white; }
+    .message-bot { background: #f3f4f6; border:1px solid #d1d5db; }
+    .scrollbar-thin::-webkit-scrollbar { width:4px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:2px; }
+  </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Chatbot Container -->
-    <div id="chatbot-container" class="fixed bottom-5 right-5 z-50">
-        <!-- Notification Badge -->
-        <div id="notification-badge" class="absolute -top-2 -left-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold hidden">
-            <span id="notification-count">1</span>
-        </div>
-        
-        <!-- Toggle Button -->
-        <button id="chatbot-toggle" class="w-16 h-16 rounded-full gradient-bg flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300 pulse-glow">
-            <span id="toggle-icon" class="text-2xl">🤖</span>
-        </button>
 
-        <!-- Chat Window -->
-        <div id="chatbot-window" class="hidden absolute bottom-20 right-0 w-96 h-[600px] glass-effect rounded-3xl shadow-2xl flex flex-col border border-white/20">
-            <!-- Header -->
-            <div class="gradient-bg text-white flex justify-between items-center p-4 rounded-t-3xl">
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                        <span class="text-lg">🚀</span>
-                    </div>
-                    <div>
-                        <div class="font-bold">Helvitic AI</div>
-                        <div class="text-xs opacity-80" id="status">En ligne</div>
-                    </div>
-                </div>
-                <div class="flex space-x-2">
-                    <button id="language-selector" class="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors" title="Changer de langue">
-                        🌍
-                    </button>
-                    <button id="clear-chat" class="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors" title="Effacer la conversation">
-                        🗑️
-                    </button>
-                    <button id="chatbot-close" class="w-8 h-8 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors">
-                        ✕
-                    </button>
-                </div>
-            </div>
+<!-- === Container === -->
+<div id="chatbot-container" class="fixed bottom-5 right-5 z-50">
+  <!-- Bouton flottant -->
+  <button id="chatbot-toggle" class="w-16 h-16 rounded-full gradient-bg flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300 pulse-glow">
+    🤖
+  </button>
 
-            <!-- Language Selection Modal -->
-            <div id="language-modal" class="absolute inset-0 bg-black/50 rounded-3xl flex items-center justify-center z-10">
-                <div class="bg-white p-6 rounded-2xl shadow-xl max-w-sm w-full mx-4">
-                    <h3 class="text-lg font-bold text-center mb-4">Choose your language / Choisissez votre langue / Wählen Sie Ihre Sprache</h3>
-                    <div class="space-y-3">
-                        <button class="language-btn w-full p-3 bg-gray-100 rounded-xl flex items-center space-x-3 hover:bg-gray-200" data-lang="fr">
-                            <span class="text-2xl">🇫🇷</span>
-                            <div class="text-left">
-                                <div class="font-semibold">Français</div>
-                                <div class="text-sm text-gray-600">Langue française</div>
-                            </div>
-                        </button>
-                        <button class="language-btn w-full p-3 bg-gray-100 rounded-xl flex items-center space-x-3 hover:bg-gray-200" data-lang="en">
-                            <span class="text-2xl">🇬🇧</span>
-                            <div class="text-left">
-                                <div class="font-semibold">English</div>
-                                <div class="text-sm text-gray-600">English language</div>
-                            </div>
-                        </button>
-                        <button class="language-btn w-full p-3 bg-gray-100 rounded-xl flex items-center space-x-3 hover:bg-gray-200" data-lang="de">
-                            <span class="text-2xl">🇩🇪</span>
-                            <div class="text-left">
-                                <div class="font-semibold">Deutsch</div>
-                                <div class="text-sm text-gray-600">Deutsche Sprache</div>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Messages Container -->
-            <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin"></div>
-
-            <!-- Typing Indicator -->
-            <div id="typing-indicator" class="hidden px-4 pb-2">
-                <div class="flex items-center space-x-2 text-gray-500 text-sm">
-                    <div class="w-6 h-6 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white text-xs">
-                        AI
-                    </div>
-                    <span id="typing-text">Assistant écrit</span>
-                    <span class="typing-indicator">...</span>
-                </div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div id="quick-actions" class="px-4 pb-2">
-                <div class="flex space-x-2 overflow-x-auto scrollbar-thin">
-                    <button class="quick-action-btn flex-shrink-0 bg-blue-100 hover:bg-blue-200 px-3 py-1 rounded-full text-xs transition-colors" data-action="services">
-                        🚀 Services
-                    </button>
-                    <button class="quick-action-btn flex-shrink-0 bg-green-100 hover:bg-green-200 px-3 py-1 rounded-full text-xs transition-colors" data-action="demo">
-                        ✨ Démo
-                    </button>
-                    <button class="quick-action-btn flex-shrink-0 bg-purple-100 hover:bg-purple-200 px-3 py-1 rounded-full text-xs transition-colors" data-action="contact">
-                        📞 Contact
-                    </button>
-                </div>
-            </div>
-
-            <!-- Input Area -->
-            <div class="border-t border-gray-200 p-4">
-                <div class="flex items-center space-x-3">
-                    <div class="flex-1 relative">
-                        <input 
-                            type="text" 
-                            id="user-input" 
-                            placeholder="Tapez votre message..." 
-                            class="w-full px-4 py-3 rounded-2xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                            maxlength="500"
-                        >
-                        <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400" id="char-count">
-                            0/500
-                        </div>
-                    </div>
-                    <button id="send-btn" class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform disabled:opacity-50">
-                        <span id="send-icon">📤</span>
-                    </button>
-                </div>
-                <!-- Suggestions -->
-                <div id="suggestions" class="mt-2 space-y-1"></div>
-            </div>
-
-            <!-- Footer -->
-            <div class="px-4 pb-3 text-center">
-                <div class="text-xs text-gray-500">
-                    <span id="powered-by">Alimenté par</span> <span class="font-semibold text-blue-600">Helvitic AI</span>
-                </div>
-            </div>
-        </div>
+  <!-- Fenêtre -->
+  <div id="chatbot-window" class="hidden absolute bottom-20 right-0 w-96 h-[500px] glass-effect rounded-3xl shadow-2xl flex flex-col border border-white/20">
+    <!-- Header -->
+    <div class="gradient-bg text-white flex justify-between items-center p-4 rounded-t-3xl">
+      <span class="font-bold">Helvitic AI</span>
+      <button id="chatbot-close" class="text-lg">✕</button>
     </div>
 
-    <script>
-        /* --- Ton JavaScript complet ici (corrigé avec config.welcome) --- */
-        // (Je peux te renvoyer la version complète JS nettoyée si tu veux)
-        
-        // Exemple de correction de showWelcomeMessage :
-        function showWelcomeMessage() {
-            messagesDiv.innerHTML = "";
-            const config = languages[currentLanguage];
-            
-            const messageEl = document.createElement("div");
-            messageEl.className = "flex items-start space-x-2 slide-up";
-            messageEl.innerHTML = `
-                <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
-                    AI
-                </div>
-                <div class="message-bot px-4 py-2 rounded-2xl rounded-tl-sm max-w-72 text-sm">
-                    ${formatMessage(config.welcome)}
-                </div>
-            `;
-            messagesDiv.appendChild(messageEl);
-            scrollToBottom();
-        }
-    </script>
+    <!-- Messages -->
+    <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin"></div>
+
+    <!-- Formulaire -->
+    <form id="bot-form" class="border-t border-gray-200 p-3 flex">
+      <input id="bot-input" type="text" placeholder="Écrivez ici..." class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <button class="ml-2 px-4 bg-blue-600 text-white rounded-lg">Envoyer</button>
+    </form>
+  </div>
+</div>
+
+<script>
+/* === Réponses multilingues === */
+const responses = {
+  fr: {
+    welcome: "Bonjour 👋 Je suis le chatbot Helvitic AI. Posez-moi vos questions.",
+    greeting: "Bonjour! Comment puis-je vous aider ?",
+    services: "Nous offrons des solutions IA pour la gestion financière, l’optimisation et la formation.",
+    contact: "Vous pouvez nous contacter via email : helviticaich@gmail.com.",
+    goodbye: "Merci pour votre visite ! À bientôt 👋",
+    unknown: "Désolé, je n'ai pas compris. Pouvez-vous préciser ?"
+  },
+  en: {
+    welcome: "Hello 👋 I'm the Helvitic AI chatbot. Ask me anything.",
+    greeting: "Hello! How can I help?",
+    services: "We provide AI solutions for financial management, optimization, and training.",
+    contact: "You can reach us via email: helviticaich@gmail.com.",
+    goodbye: "Thank you for visiting! See you soon 👋",
+    unknown: "Sorry, I didn't understand. Could you clarify?"
+  },
+  de: {
+    welcome: "Hallo 👋 Ich bin der Helvitic AI Chatbot. Stellen Sie mir Ihre Fragen.",
+    greeting: "Hallo! Wie kann ich Ihnen helfen?",
+    services: "Wir bieten KI-Lösungen für Finanzmanagement, Optimierung und Schulungen.",
+    contact: "Sie erreichen uns per E-Mail: helviticaich@gmail.com.",
+    goodbye: "Danke für Ihren Besuch! Bis bald 👋",
+    unknown: "Entschuldigung, das habe ich nicht verstanden. Können Sie das bitte präzisieren?"
+  }
+};
+
+let currentLang = "fr"; // langue par défaut
+
+// === Sélecteurs ===
+const botBtn = document.getElementById("chatbot-toggle");
+const botWin = document.getElementById("chatbot-window");
+const botClose = document.getElementById("chatbot-close");
+const botForm = document.getElementById("bot-form");
+const botInput = document.getElementById("bot-input");
+const botMessages = document.getElementById("chatbot-messages");
+
+// === Ouvrir / fermer ===
+botBtn.addEventListener("click", () => {
+  botWin.classList.toggle("hidden");
+  if (!botWin.classList.contains("hidden")) {
+    showWelcomeMessage();
+  }
+});
+botClose.addEventListener("click", () => botWin.classList.add("hidden"));
+
+// === Affichage messages ===
+function addMessage(sender, text) {
+  const div = document.createElement("div");
+  div.className = sender === "bot" ? "message-bot px-3 py-2 rounded-lg" : "message-user px-3 py-2 rounded-lg text-right";
+  div.innerHTML = `<strong>${sender==="bot"?"Bot":"Vous"}:</strong> ${text}`;
+  botMessages.appendChild(div);
+  botMessages.scrollTop = botMessages.scrollHeight;
+}
+
+// === Message de bienvenue ===
+function showWelcomeMessage() {
+  botMessages.innerHTML = "";
+  addMessage("bot", responses[currentLang].welcome);
+}
+
+// === Réponses ===
+botForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const msg = botInput.value.trim().toLowerCase();
+  if (!msg) return;
+  addMessage("user", msg);
+  botInput.value = "";
+
+  let reply = responses[currentLang].unknown;
+  if (msg.includes("bonjour")||msg.includes("hello")||msg.includes("hallo")) reply = responses[currentLang].greeting;
+  else if (msg.includes("service")) reply = responses[currentLang].services;
+  else if (msg.includes("contact")) reply = responses[currentLang].contact;
+  else if (msg.includes("bye")||msg.includes("au revoir")||msg.includes("tschüss")) reply = responses[currentLang].goodbye;
+
+  addMessage("bot", reply);
+});
+</script>
 </body>
 </html>
