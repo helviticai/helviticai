@@ -71,6 +71,7 @@ const responses = {
   }
 };
 
+// Langue actuelle (sauvegardée dans le navigateur)
 let currentLang = localStorage.getItem("helveticai_lang") || "fr";
 
 // Sélecteurs
@@ -89,7 +90,7 @@ if (botClose && botWin) {
   botClose.addEventListener("click", () => botWin.classList.add("hidden"));
 }
 
-// Fonction d'affichage message
+// Fonction pour ajouter un message
 function addMessage(sender, text) {
   const p = document.createElement("p");
   p.classList.add(sender === "bot" ? "bot-msg" : "user-msg");
