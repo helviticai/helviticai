@@ -576,10 +576,7 @@
     </div>
   </section>
 
-<a href="chatbot.html" target="_blank" 
-   class="bg-blue-600 text-white px-6 py-3 rounded-full shadow hover:scale-105 transition">
-   Ouvrir le Chatbot 🤖
-</a>
+
 
 
 
@@ -705,5 +702,60 @@
       botMessages.scrollTop = botMessages.scrollHeight;
     });
   </script>
+  <!-- ================= CHATBOT DEMO ================= -->
+<div id="chatbot-container"></div>
+
+<script>
+  const questionsReponses = {
+    "Quels sont vos services ?" : "Nous proposons l’automatisation, l’analyse de données, l’IA personnalisée et le conseil en transformation digitale.",
+    "Comment puis-je vous contacter ?" : "Vous pouvez nous écrire via la page Contact ou par email : contact@helvitic-ai.com",
+    "Qu’est-ce que Helvitic AI ?" : "Helvitic AI est une startup spécialisée dans l’intelligence artificielle au service des entreprises.",
+    "Avez-vous une démo ?" : "Oui, nous proposons une démonstration gratuite pour découvrir nos solutions.",
+    "Quels sont vos tarifs ?" : "Nos tarifs dépendent du projet. Nous proposons des offres adaptées aux PME et grandes entreprises.",
+    "Proposez-vous du conseil en IA ?" : "Oui, nous accompagnons les entreprises dans leurs projets d’IA et de transformation digitale.",
+    "Pouvez-vous automatiser des tâches administratives ?" : "Oui, nous créons des solutions qui réduisent le travail manuel et accélèrent vos workflows.",
+    "Faites-vous du développement sur mesure ?" : "Absolument ! Chaque solution est adaptée aux besoins spécifiques de votre entreprise.",
+    "Accompagnez-vous les PME ?" : "Oui, nous travaillons avec des PME et des grandes entreprises."
+  };
+
+  function createChatbot() {
+    const container = document.getElementById("chatbot-container");
+    container.innerHTML = `
+      <div id="chatbot" style="
+        position: fixed; bottom: 20px; right: 20px; width: 350px;
+        background: #fff; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        overflow: hidden; font-family: sans-serif; z-index: 1000;
+      ">
+        <div style="background: #2563eb; color: white; padding: 12px; font-weight: bold;">
+          🤖 Helvitic AI - Démo
+        </div>
+        <div id="chatbot-messages" style="padding: 15px; max-height: 300px; overflow-y: auto;">
+          <p><strong>Bot :</strong> Sélectionnez une question ci-dessous 👇</p>
+        </div>
+        <div id="chatbot-questions" style="padding: 10px; border-top: 1px solid #eee; max-height: 200px; overflow-y: auto;"></div>
+      </div>
+    `;
+
+    const questionsDiv = document.getElementById("chatbot-questions");
+    Object.keys(questionsReponses).forEach(q => {
+      const btn = document.createElement("button");
+      btn.innerText = q;
+      btn.style = "display:block;width:100%;text-align:left;margin:5px 0;padding:8px;border:none;border-radius:8px;background:#f3f4f6;cursor:pointer;";
+      btn.onclick = () => addMessage(q, questionsReponses[q]);
+      questionsDiv.appendChild(btn);
+    });
+  }
+
+  function addMessage(question, reponse) {
+    const messagesDiv = document.getElementById("chatbot-messages");
+    messagesDiv.innerHTML += `<p><strong>Vous :</strong> ${question}</p>`;
+    messagesDiv.innerHTML += `<p><strong>Bot :</strong> ${reponse}</p>`;
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  createChatbot();
+</script>
+<!-- =============================================== -->
+
 </body>
 </html>
