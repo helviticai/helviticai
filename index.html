@@ -1,3 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Helvetic AI — FR / EN / DE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
+    .fade-in.show { opacity: 1; transform: translateY(0); }
+    .accordion-content { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+    .accordion-content.open { max-height: 1000px; }
+    .focus-ring:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+    .lang { display:none; }
+    .lang.active { display:block; }
+    .flag { width:28px; height:20px; border-radius:3px; cursor:pointer; }
+  </style>
+</head>
+<body class="bg-white text-gray-900">
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur border-b border-gray-100 z-50">
+    <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center space-x-3">
+        <img src="logo.png" alt="Logo Helvetic AI" class="h-10 w-10 object-contain"/>
+        <span class="text-xl font-semibold">Helvetic AI</span>
+      </a>
+
+      <!-- Desktop menu (multilingue) -->
+      <ul id="mainMenu" class="hidden md:flex items-center gap-8 font-medium ml-10">
+        <li>
+          <a href="#mission" class="hover:text-blue-600 lang fr active">Mission</a>
+          <a href="#mission" class="hover:text-blue-600 lang en">Mission</a>
+          <a href="#mission" class="hover:text-blue-600 lang de">Mission</a>
+        </li>
+        <li>
+          <a href="#expertises" class="hover:text-blue-600 lang fr active">Expertises</a>
+          <a href="#expertises" class="hover:text-blue-600 lang en">Expertise</a>
+          <a href="#expertises" class="hover:text-blue-600 lang de">Kompetenzen</a>
+        </li>
+        <li>
+          <a href="#methodologie" class="hover:text-blue-600 lang fr active">Méthodologie</a>
+          <a href="#methodologie" class="hover:text-blue-600 lang en">Methodology</a>
+          <a href="#methodologie" class="hover:text-blue-600 lang de">Methodik</a>
+        </li>
+        <li>
+          <a href="#identite" class="hover:text-blue-600 lang fr active">Identité</a>
+          <a href="#identite" class="hover:text-blue-600 lang en">Identity</a>
+          <a href="#identite" class="hover:text-blue-600 lang de">Identität</a>
+        </li>
+        <li>
+          <a href="#equipe" class="hover:text-blue-600 lang fr active">Équipe</a>
+          <a href="#equipe" class="hover:text-blue-600 lang en">Team</a>
+          <a href="#equipe" class="hover:text-blue-600 lang de">Team</a>
+        </li>
+        <li>
+          <a href="#contact" class="hover:text-blue-600 lang fr active">Contact</a>
+          <a href="#contact" class="hover:text-blue-600 lang en">Contact</a>
+          <a href="#contact" class="hover:text-blue-600 lang de">Kontakt</a>
+        </li>
+      </ul>
+
+      <!-- Lang flags -->
+      <div class="flex items-center space-x-3 ml-6">
+        <img src="https://flagcdn.com/w20/fr.png" alt="FR" class="flag" onclick="setLang('fr')" title="Français"/>
+        <img src="https://flagcdn.com/w20/gb.png" alt="EN" class="flag" onclick="setLang('en')" title="English"/>
+        <img src="https://flagcdn.com/w20/de.png" alt="DE" class="flag" onclick="setLang('de')" title="Deutsch"/>
+        <button id="mobileMenuBtn" class="md:hidden text-gray-700 focus-ring ml-2" aria-label="Menu">☰</button>
+      </div>
+    </nav>
+
+    <!-- Mobile panel -->
+    <div id="mobilePanel" class="hidden md:hidden border-t border-gray-100">
+      <ul class="px-6 py-3 space-y-3 font-medium">
+        <li><a href="#mission" class="block py-1 hover:text-blue-600">Mission</a></li>
+        <li><a href="#expertises" class="block py-1 hover:text-blue-600">Expertises</a></li>
+        <li><a href="#methodologie" class="block py-1 hover:text-blue-600">Méthodologie</a></li>
+        <li><a href="#identite" class="block py-1 hover:text-blue-600">Identité</a></li>
+        <li><a href="#equipe" class="block py-1 hover:text-blue-600">Équipe</a></li>
+        <li><a href="#contact" class="block py-1 hover:text-blue-600">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="bg-[#0A0F2C] text-white min-h-[86vh] flex items-center pt-28">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-10">
+      <div class="md:w-1/2 space-y-6 fade-in">
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight lang fr active">
+          L'intelligence artificielle <br/><span class="text-blue-400">au service de la performance financière.</span>
+        </h1>
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight lang en">
+          Artificial intelligence <br/><span class="text-blue-400">serving financial performance.</span>
+        </h1>
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight lang de">
+          Künstliche Intelligenz <br/><span class="text-blue-400">im Dienste der finanziellen Leistung.</span>
+        </h1>
+
+        <p class="text-lg text-gray-300 lang fr active">
+          Des solutions innovantes pour optimiser vos processus financiers et améliorer votre prise de décision.
+        </p>
+        <p class="text-lg text-gray-300 lang en">
+          Innovative solutions to optimize your financial processes and enhance decision-making.
+        </p>
+        <p class="text-lg text-gray-300 lang de">
+          Innovative Lösungen zur Optimierung Ihrer Finanzprozesse und Verbesserung der Entscheidungsfindung.
+        </p>
+        <div class="flex gap-4">
+          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang fr active">Découvrir nos solutions</a>
+          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang en">Discover our solutions</a>
+          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang de">Unsere Lösungen entdecken</a>
+
+          <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang fr active">Nous contacter</a>
+          <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang en">Contact us</a>
+          <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang de">Kontakt aufnehmen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section id="mission" class="py-20">
+    <div class="container mx-auto px-6">
+      <h2 class="text-4xl font-bold text-center mb-12 fade-in lang fr active">Notre Mission</h2>
+      <h2 class="text-4xl font-bold text-center mb-12 fade-in lang en">Our Mission</h2>
+      <h2 class="text-4xl font-bold text-center mb-12 fade-in lang de">Unsere Mission</h2>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="md:col-span-2 space-y-4 fade-in">
+          <h3 class="text-2xl text-blue-600 font-semibold lang fr active">Transformer la finance par l'IA</h3>
+          <h3 class="text-2xl text-blue-600 font-semibold lang en">Transforming finance with AI</h3>
+          <h3 class="text-2xl text-blue-600 font-semibold lang de">Finanzen mit KI transformieren</h3>
+
+          <p class="lang fr active">Chez Helvetic AI, nous accompagnons les directions financières dans leur transformation digitale grâce à des technologies d'IA fiables et utiles.</p>
+          <p class="lang en">At Helvetic AI, we support finance leaders in their digital transformation with reliable, useful AI technologies.</p>
+          <p class="lang de">Bei Helvetic AI begleiten wir Finanzabteilungen bei der digitalen Transformation mit zuverlässigen, praxisnahen KI‑Technologien.</p>
+
+          <p class="lang fr active">Notre expertise combine les enjeux EPM (Enterprise Performance Management) avec des méthodes d’implémentation éprouvées, pour des résultats mesurables.</p>
+          <p class="lang en">Our expertise blends EPM (Enterprise Performance Management) challenges with proven implementation methods for measurable results.</p>
+          <p class="lang de">Unsere Expertise verbindet EPM‑Herausforderungen mit bewährten Implementierungsmethoden für messbare Ergebnisse.</p>
+
+          <p class="lang fr active">Sécurité, précision et fiabilité des données guident nos choix — des valeurs au cœur de notre identité suisse.</p>
+          <p class="lang en">Security, accuracy and data reliability guide our choices—values at the heart of our Swiss identity.</p>
+          <p class="lang de">Sicherheit, Genauigkeit und Datenzuverlässigkeit leiten unsere Entscheidungen—Werte, die unsere Schweizer Identität prägen.</p>
+        </div>
+        <div class="bg-blue-50 p-6 rounded-xl shadow fade-in">
+          <h4 class="text-xl font-semibold mb-3 lang fr active">Nos engagements</h4>
+          <h4 class="text-xl font-semibold mb-3 lang en">Our commitments</h4>
+          <h4 class="text-xl font-semibold mb-3 lang de">Unsere Verpflichtungen</h4>
 
           <ul class="space-y-2 text-gray-700">
             <li class="lang fr active">• Innovation pragmatique</li>
@@ -711,6 +861,4 @@ botForm.addEventListener("submit", (e) => {
 </script>
 </body>
 </html>
-
-
 
