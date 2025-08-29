@@ -1206,6 +1206,335 @@
     </script>
 </body>
 </html>
+        ]
+            },
+            demo: {
+                keywords: ["démo", "test", "essai", "gratuit", "exemple", "voir"],
+                responses: [
+                    "✨ **Démo gratuite disponible !**\n• Générateur de prompts interactif\n• Exemples de solutions IA\n• Consultation personnalisée",
+                    "🎁 Testez gratuitement notre générateur de prompts et découvrez le potentiel de l'IA pour votre entreprise !",
+                    "🆓 Démo gratuite de 30 minutes incluant : présentation personnalisée, Q&R et recommandations spécifiques."
+                ]
+            },
+            pricing: {
+                keywords: ["prix", "tarif", "coût", "budget", "devis"],
+                responses: [
+                    "💰 **Tarification flexible :**\n• Audit gratuit initial\n• Devis personnalisé\n• Options de paiement adaptées\n• ROI garanti",
+                    "📊 Nos tarifs s'adaptent à votre budget et vos objectifs. Demandez un devis personnalisé pour une estimation précise.",
+                    "💼 Pricing transparent basé sur vos besoins spécifiques. Consultation gratuite pour établir un devis détaillé."
+                ]
+            },
+           company: {
+    keywords: ["helvitic", "entreprise", "équipe", "qui", "société"],
+    responses: [
+        "🏢 **Helvitic AI** est une jeune entreprise innovante, spécialisée dans l’intelligence artificielle appliquée aux besoins des entreprises.",
+        "🚀 Nous venons de lancer notre activité avec une mission claire : rendre l’IA accessible et utile pour toutes les entreprises, petites ou grandes.",
+        "👥 Helvitic AI, c’est une équipe passionnée qui combine technologie, innovation et proximité client pour créer des solutions modernes et efficaces."
+    ]
+},
+
+            automation: {
+                keywords: ["automatisation", "automatique", "tâches", "processus", "workflow"],
+                responses: [
+                    "⚡ **Automatisation intelligente :**\n• Emails et communications\n• Gestion CRM/ERP\n• Traitement de documents\n• Workflows personnalisés",
+                    "🤖 Nous automatisons vos tâches répétitives pour libérer du temps pour l'innovation et la croissance.",
+                    "📈 Automatisation sur mesure : de 30% à 80% de gain de productivité selon les processus optimisés."
+                ]
+            },
+            ai_consulting: {
+                keywords: ["conseil", "consulting", "stratégie", "accompagnement"],
+                responses: [
+                    "📊 **Conseil en IA stratégique :**\n• Audit de maturité digitale\n• Roadmap personnalisée\n• Accompagnement dans la transformation\n• Formation des équipes",
+                    "🎯 Notre approche conseil : analyse de vos besoins, recommandations stratégiques et accompagnement dans l'implémentation.",
+                    "💡 Conseil expert pour identifier les opportunités IA les plus rentables pour votre secteur d'activité."
+                ]
+            }
+        };
+
+        // Réponses par défaut avec personnalité
+        const defaultResponses = [
+            "🤔 Intéressant ! Pouvez-vous me donner plus de détails pour que je puisse mieux vous aider ?",
+            "💡 Je pense pouvoir vous aider ! Reformulez votre question pour que je comprenne mieux vos besoins.",
+            "🎯 Cette question mérite une réponse personnalisée. Contactez-nous directement pour un échange approfondi !",
+            "✨ Excellente question ! Je vous invite à découvrir nos solutions sur notre site web ou à nous contacter.",
+            "🚀 Pour une réponse complète et personnalisée, je recommande une consultation gratuite avec notre équipe."
+        ];
+
+        // Suggestions contextuelles
+        const suggestions = [
+            "Quels sont vos services ?",
+            "Comment vous contacter ?",
+            "Avez-vous une démo gratuite ?",
+            "Quels sont vos tarifs ?",
+            "Proposez-vous du conseil en IA ?",
+            "Pouvez-vous automatiser mes tâches ?"
+        ];
+
+        // Variables globales
+        let conversationHistory = [];
+        let isTyping = false;
+        let suggestionIndex = 0;
+
+        // Éléments DOM
+        const toggleBtn = document.getElementById("chatbot-toggle");
+        const chatWindow = document.getElementById("chatbot-window");
+        const closeBtn = document.getElementById("chatbot-close");
+        const clearBtn = document.getElementById("clear-chat");
+        const messagesDiv = document.getElementById("chatbot-messages");
+        const userInput = document.getElementById("user-input");
+        const sendBtn = document.getElementById("send-btn");
+        const typingIndicator = document.getElementById("typing-indicator");
+        const charCount = document.getElementById("char-count");
+        const suggestionsDiv = document.getElementById("suggestions");
+        const notificationBadge = document.getElementById("notification-badge");
+
+        // Initialisation
+        function init() {
+            setupEventListeners();
+            showSuggestions();
+            // Afficher une notification après 5 secondes si pas d'interaction
+            setTimeout(showNotification, 5000);
+        }
+
+        // Configuration des écouteurs d'événements
+        function setupEventListeners() {
+            toggleBtn.addEventListener("click", toggleChat);
+            closeBtn.addEventListener("click", closeChat);
+            clearBtn.addEventListener("click", clearConversation);
+            sendBtn.addEventListener("click", sendMessage);
+            userInput.addEventListener("keypress", handleKeyPress);
+            userInput.addEventListener("input", updateCharCount);
+            
+            // Quick actions
+            document.querySelectorAll(".quick-action-btn").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    const action = e.target.dataset.action;
+                    handleQuickAction(action);
+                });
+            });
+        }
+
+        // Toggle chat
+        function toggleChat() {
+            const isHidden = chatWindow.classList.contains("hidden");
+            if (isHidden) {
+                chatWindow.classList.remove("hidden");
+                chatWindow.classList.add("slide-up");
+                userInput.focus();
+                hideNotification();
+            } else {
+                closeChat();
+            }
+        }
+
+        // Fermer chat
+        function closeChat() {
+            chatWindow.classList.add("hidden");
+        }
+
+        // Effacer conversation
+        function clearConversation() {
+            conversationHistory = [];
+            messagesDiv.innerHTML = `
+                <div class="flex items-start space-x-2 slide-up">
+                    <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                        AI
+                    </div>
+                    <div class="message-bot px-4 py-2 rounded-2xl rounded-tl-sm max-w-72 text-sm">
+                        👋 Conversation effacée ! Comment puis-je vous aider ?
+                    </div>
+                </div>
+            `;
+            showSuggestions();
+        }
+
+        // Gestion des touches
+        function handleKeyPress(e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        }
+
+        // Mise à jour compteur caractères
+        function updateCharCount() {
+            const count = userInput.value.length;
+            charCount.textContent = `${count}/500`;
+            charCount.style.color = count > 450 ? "#ef4444" : "#9ca3af";
+        }
+
+        // Actions rapides
+        function handleQuickAction(action) {
+            const actionQuestions = {
+                services: "Quels sont vos services ?",
+                demo: "Avez-vous une démo gratuite ?",
+                contact: "Comment puis-je vous contacter ?"
+            };
+            
+            userInput.value = actionQuestions[action] || "";
+            sendMessage();
+        }
+
+        // Envoyer message
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message || isTyping) return;
+
+            // Ajouter message utilisateur
+            addUserMessage(message);
+            userInput.value = "";
+            updateCharCount();
+            hideSuggestions();
+
+            // Simuler frappe
+            showTypingIndicator();
+            
+            // Délai réaliste pour la réponse
+            setTimeout(() => {
+                const response = generateResponse(message);
+                hideTypingIndicator();
+                addBotMessage(response);
+                updateSuggestions();
+            }, 1000 + Math.random() * 2000);
+
+            conversationHistory.push({user: message, timestamp: Date.now()});
+        }
+
+        // Ajouter message utilisateur
+        function addUserMessage(message) {
+            const messageEl = document.createElement("div");
+            messageEl.className = "flex justify-end slide-up";
+            messageEl.innerHTML = `
+                <div class="message-user px-4 py-2 rounded-2xl rounded-tr-sm max-w-72 text-sm">
+                    ${escapeHtml(message)}
+                </div>
+            `;
+            messagesDiv.appendChild(messageEl);
+            scrollToBottom();
+        }
+
+        // Ajouter message bot
+        function addBotMessage(message) {
+            const messageEl = document.createElement("div");
+            messageEl.className = "flex items-start space-x-2 slide-up";
+            messageEl.innerHTML = `
+                <div class="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                    AI
+                </div>
+                <div class="message-bot px-4 py-2 rounded-2xl rounded-tl-sm max-w-72 text-sm">
+                    ${formatMessage(message)}
+                </div>
+            `;
+            messagesDiv.appendChild(messageEl);
+            scrollToBottom();
+        }
+
+        // Génération de réponse intelligente
+        function generateResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Recherche dans la base de connaissances
+            for (const [category, data] of Object.entries(knowledgeBase)) {
+                for (const keyword of data.keywords) {
+                    if (lowerMessage.includes(keyword)) {
+                        const responses = data.responses;
+                        return responses[Math.floor(Math.random() * responses.length)];
+                    }
+                }
+            }
+
+            // Réponses contextuelles
+            if (lowerMessage.includes("merci") || lowerMessage.includes("remercie")) {
+                return "😊 Avec plaisir ! N'hésitez pas si vous avez d'autres questions.";
+            }
+            
+            if (lowerMessage.includes("au revoir") || lowerMessage.includes("bye")) {
+                return "👋 Au revoir ! N'hésitez pas à revenir quand vous voulez. Bonne journée !";
+            }
+
+            // Réponse par défaut
+            return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+        }
+
+        // Formattage des messages
+        function formatMessage(message) {
+            return message
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>')
+                .replace(/•/g, '<span style="color: #3b82f6;">•</span>');
+        }
+
+        // Échapper HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Afficher indicateur de frappe
+        function showTypingIndicator() {
+            isTyping = true;
+            typingIndicator.classList.remove("hidden");
+            scrollToBottom();
+        }
+
+        // Masquer indicateur de frappe
+        function hideTypingIndicator() {
+            isTyping = false;
+            typingIndicator.classList.add("hidden");
+        }
+
+        // Défiler vers le bas
+        function scrollToBottom() {
+            setTimeout(() => {
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }, 100);
+        }
+
+        // Afficher suggestions
+        function showSuggestions() {
+            suggestionsDiv.innerHTML = "";
+            const currentSuggestions = suggestions.slice(suggestionIndex, suggestionIndex + 3);
+            
+            currentSuggestions.forEach(suggestion => {
+                const btn = document.createElement("button");
+                btn.className = "w-full text-left px-3 py-2 bg-gray-50 hover:bg-blue-50 rounded-lg text-xs transition-colors border border-gray-200";
+                btn.textContent = suggestion;
+                btn.onclick = () => {
+                    userInput.value = suggestion;
+                    sendMessage();
+                };
+                suggestionsDiv.appendChild(btn);
+            });
+        }
+
+        // Masquer suggestions
+        function hideSuggestions() {
+            suggestionsDiv.innerHTML = "";
+        }
+
+        // Mettre à jour suggestions
+        function updateSuggestions() {
+            suggestionIndex = (suggestionIndex + 3) % suggestions.length;
+            showSuggestions();
+        }
+
+        // Afficher notification
+        function showNotification() {
+            if (chatWindow.classList.contains("hidden")) {
+                notificationBadge.classList.remove("hidden");
+            }
+        }
+
+        // Masquer notification
+        function hideNotification() {
+            notificationBadge.classList.add("hidden");
+        }
+
+        // Initialiser l'application
+        init();
+    </script>
+
 
 </body>
 </html>
