@@ -610,26 +610,27 @@
 
 
 <!-- === CHATBOT === -->
-<button id="bot-button" class="bot-button">💬</button>
+  <button id="bot-button" class="bot-button">💬</button>
 
-<div id="bot-window" class="hidden">
-  <div class="bot-header">
-    Helvetic AI Chatbot
-    <span id="bot-close" class="bot-close">×</span>
+  <div id="bot-window" class="hidden">
+    <div class="bot-header">
+      Helvetic AI Chatbot
+      <span id="bot-close" class="bot-close">×</span>
+    </div>
+    <div id="bot-messages" class="bot-messages">
+      <p class="bot-msg">👋 Bonjour, je suis HelveticBot. Comment puis-je vous aider ?</p>
+    </div>
+    <form id="bot-form" class="bot-form">
+      <input id="bot-input" type="text" placeholder="Écrivez votre message..." autocomplete="off"/>
+      <button type="submit">➤</button>
+    </form>
   </div>
-  <div id="bot-messages" class="bot-messages">
-    <p class="bot-msg">👋 Bonjour, je suis HelveticBot. Comment puis-je vous aider ?</p>
-  </div>
-  <form id="bot-form" class="bot-form">
-    <input id="bot-input" type="text" placeholder="Écrivez votre message..." autocomplete="off"/>
-    <button type="submit">➤</button>
-  </form>
-</div>
-   </body>
    
-<!-- === FIN CHATBOT === -->
+  <!-- === FIN CHATBOT === -->
 
-<script src="chatbot.js" defer></script>
+  <script src="chatbot.js" defer></script>
 </body>
+
+   </body>
 </html>
 
