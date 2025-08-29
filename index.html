@@ -19,8 +19,7 @@
   </style>
 <!-- Feuille de style principale -->
   <link rel="stylesheet" href="style.css">
-  <!-- Styles du chatbot séparés -->
-  <link rel="stylesheet" href="chatbot.css">
+   <link rel="stylesheet" href="chatbot.css">
 </head>
 <body class="bg-white text-gray-900">
 
@@ -565,9 +564,6 @@
 
 
 
-<!-- Scripts -->
-<link rel="stylesheet" href="chatbot.css">
-<script src="chatbot.js"></script>
 
 
   <!-- SCRIPTS du site -->
@@ -614,22 +610,24 @@
 <button id="bot-button" class="bot-button">💬</button>
 
 
-  <!-- === CHATBOT PRO === -->
+  <!-- === CHATBOT === -->
+<button id="bot-button" class="bot-button">💬</button>
 
-  <!-- Fenêtre -->
-  <div id="bot-window" class="hidden">
-    <div class="bot-header">
-      <span>HelveticBot</span>
-      <span id="bot-close" class="bot-close">✖</span>
-    </div>
-    <div id="bot-messages" class="bot-messages">
-      <p class="bot-msg">👋 Bonjour, je suis HelveticBot. Comment puis-je vous aider ?</p>
-    </div>
-    <form id="bot-form" class="bot-form">
-      <input id="bot-input" type="text" placeholder="Écrivez votre message..." autocomplete="off"/>
-      <button type="submit">➤</button>
-    </form>
+<div id="bot-window" class="hidden">
+  <div class="bot-header">
+    Helvetic AI Chatbot
+    <span id="bot-close" class="bot-close">×</span>
   </div>
+  <div id="bot-messages" class="bot-messages">
+    <p class="bot-msg">👋 Bonjour, je suis HelveticBot. Comment puis-je vous aider ?</p>
+  </div>
+  <form id="bot-form" class="bot-form">
+    <input id="bot-input" type="text" placeholder="Écrivez votre message..." autocomplete="off"/>
+    <button type="submit">➤</button>
+  </form>
+</div>
+<!-- === FIN CHATBOT === -->
+
 
 
 </body>
