@@ -18,9 +18,12 @@
 
   <!-- Header -->
   <div class="bg-white shadow-lg border-b border-blue-100 flex justify-between items-center p-3">
-    <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-      HelveticBot
-    </h1>
+    <div class="flex items-center space-x-2">
+      <span class="text-2xl">🇨🇭</span>
+      <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+        HelveticBot
+      </h1>
+    </div>
     <button onclick="closeWindow()" class="text-red-500 font-bold text-lg">✖</button>
   </div>
 
@@ -76,6 +79,9 @@
       if (msg.toLowerCase().includes("analyse")) {
         return "📊 Analyse financière :<br>• Collecte des données<br>• Ratios clés<br>• Benchmark sectoriel";
       }
+      if (msg.toLowerCase().includes("automatisation")) {
+        return "⚙️ Automatisation des processus :<br>• Rapprochements bancaires<br>• Facturation<br>• Contrôles automatiques";
+      }
       return "🤖 Je suis HelveticBot. Posez-moi vos questions financières 🇨🇭";
     }
 
@@ -97,7 +103,7 @@
       }
     });
 
-    // === CORRECTION : fonction close ===
+    // === Fonction close ===
     function closeWindow() {
       if (window.parent) {
         window.parent.postMessage({ action: "closeChatbot" }, "*");
