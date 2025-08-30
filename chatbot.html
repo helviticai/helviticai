@@ -5,177 +5,155 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HelveticBot</title>
   <link rel="icon" type="image/svg+xml" href="Switzerland.svg">
-  
+
   <style>
- body {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-  font-family: "Segoe UI", Arial, sans-serif;
-  color: #111827;
-}
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-.chat-message {
-  padding: 12px 16px;
-  margin: 8px 0;
-  border-radius: 12px;
-  line-height: 1.5;
-  font-size: 15px;
-}
+    .chat-container {
+      width: 350px;
+      height: 500px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
-.chat-message.user {
-  background: #2563eb;
-  color: white;
-  align-self: flex-end;
-}
+    /* Header */
+    .chat-header {
+      background: #2563eb;
+      color: white;
+      padding: 12px;
+      text-align: center;
+      font-weight: bold;
+    }
 
-.chat-message.bot {
-  background: #f3f4f6;
-  color: #111827;
-  border-left: 4px solid #2563eb;
-}
+    /* Messages */
+    .chat-body {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      background: #f9fafb;
+    }
 
-.chat-message strong {
-  color: #1e40af;
-}
+    .chat-message {
+      max-width: 80%;
+      padding: 12px 14px;
+      margin: 6px 0;
+      border-radius: 16px;
+      line-height: 1.5;
+      font-size: 15px;
+    }
 
-.chat-message ul {
-  margin: 8px 0;
-  padding-left: 20px;
-}
+    .chat-message.bot {
+      background: #ffffff;
+      border-left: 4px solid #2563eb;
+      align-self: flex-start;
+      color: #111827;
+    }
 
+    .chat-message.user {
+      background: linear-gradient(to right, #2563eb, #1e40af);
+      color: white;
+      align-self: flex-end;
+    }
 
+    .chat-message b {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 6px;
+      color: #1e3a8a;
+    }
 
-  <!-- Header -->
-  <div class="bg-white shadow-lg border-b border-blue-100 flex justify-between items-center p-3">
-    <div class="flex items-center space-x-2">
-      <span class="text-2xl">🇨🇭</span>
-      <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-        HelveticBot
-      </h1>
+    /* Footer */
+    .chat-footer {
+      display: flex;
+      padding: 10px;
+      background: #fff;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .chat-footer textarea {
+      flex: 1;
+      border-radius: 20px;
+      padding: 10px 14px;
+      border: 1px solid #d1d5db;
+      resize: none;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .chat-footer button {
+      margin-left: 8px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .chat-footer button:hover {
+      background: #1e40af;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">💬 HelveticBot</div>
+    <div class="chat-body" id="chatBody">
+      <div class="chat-message bot">
+        Bonjour 👋 Je suis <strong>HelveticBot</strong>, votre assistant IA financier 
+        <img src="Switzerland.svg" alt="CH" style="width:16px; height:16px; margin-left:4px; vertical-align:middle;"><br><br>
+        Je peux vous aider avec :<br>
+        • 📊 Analyses financières<br>
+        • 📈 Prévisions budgétaires<br>
+        • ⚠️ Gestion des risques<br>
+        • 💡 Investissements<br>
+        • 📑 Fiscalité
+      </div>
     </div>
-
-    <!-- Sélecteur de langue -->
-    <select id="langSelect" class="border rounded p-1 text-sm">
-      <option value="fr">🇫🇷 FR</option>
-      <option value="en">🇬🇧 EN</option>
-      <option value="de">🇩🇪 DE</option>
-    </select>
-
-    <button onclick="closeWindow()" class="text-red-500 font-bold text-lg ml-3">✖</button>
-  </div>
-
-  <!-- Chat Container -->
-  <div class="flex flex-col chat-container max-w-4xl mx-auto bg-transparent">
-    <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-6"></div>
-
-    <!-- Input -->
-    <div class="border-t border-gray-200 bg-white p-3 flex items-end space-x-3">
-      <textarea id="userInput" placeholder="Posez votre question..." class="flex-1 p-3 border rounded-2xl focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
-      <button id="sendBtn" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-3 rounded-2xl">➤</button>
+    <div class="chat-footer">
+      <textarea id="userInput" rows="1" placeholder="Écrivez un message..."></textarea>
+      <button id="sendBtn">➤</button>
     </div>
-  </div>
-
-  <!-- Footer -->
-  <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-2 text-center text-xs">
-    ⚡ Powered by Helvetic AI • Secure Data
   </div>
 
   <script>
-    const chatMessages = document.getElementById("chatMessages");
+    const chatBody = document.getElementById("chatBody");
     const userInput = document.getElementById("userInput");
     const sendBtn = document.getElementById("sendBtn");
-    const langSelect = document.getElementById("langSelect");
 
-    // === Textes multilingues ===
-    const messages = {
-      fr: {
-        welcome: "Bonjour 👋 Je suis <strong class='text-blue-800'>HelveticBot</strong>, votre assistant IA financier <img src='Switzerland.svg' alt='CH' style='width:16px; height:16px; margin-left:4px; vertical-align:middle;'><br><br> Je peux vous aider avec :<br>• Analyses financières 📊<br>• Prévisions budgétaires 📈<br>• Gestion des risques ⚠️<br>• Investissements 💡<br>• Fiscalité 📑",
-        default: "🤖 Je suis HelveticBot 🇨🇭 spécialisé en finance. Posez-moi vos questions sur :<br>• Budget<br>• Analyse<br>• Investissements<br>• Risques<br>• Fiscalité",
-        budget: "📈 <b>Prévisions budgétaires</b><br>• Analyse des flux de trésorerie<br>• Scénarios optimistes/prudents<br>• Modèles prédictifs IA pour anticiper vos besoins",
-        analyse: "📊 <b>Analyse financière</b><br>• Ratios de rentabilité & solvabilité<br>• Marges & performance<br>• Comparaison sectorielle (benchmark)",
-        investissement: "💡 <b>Conseil en investissement</b><br>• Diversification de portefeuille<br>• Allocation d’actifs (actions, obligations, immobilier, crypto)<br>• Simulations de rendement",
-        risque: "⚠️ <b>Gestion des risques</b><br>• Risques financiers (taux, change, liquidité)<br>• Risques opérationnels<br>• Stress tests & stratégies de couverture",
-        fiscalite: "📑 <b>Optimisation fiscale</b><br>• Planification fiscale d’entreprise<br>• Déductions et amortissements<br>• Conformité suisse et internationale"
-      },
-      en: {
-        welcome: "Hello 👋 I am <strong class='text-blue-800'>HelveticBot</strong>, your financial AI assistant <img src='Switzerland.svg' alt='CH' style='width:16px; height:16px; margin-left:4px; vertical-align:middle;'><br><br>I can help you with:<br>• Financial analysis 📊<br>• Budget forecasts 📈<br>• Risk management ⚠️<br>• Investments 💡<br>• Taxation 📑",
-        default: "🤖 I am HelveticBot 🇨🇭 specialized in finance. Ask me about:<br>• Budgeting<br>• Analysis<br>• Investments<br>• Risks<br>• Taxation",
-        budget: "📈 <b>Budget Forecasting</b><br>• Cashflow analysis<br>• Optimistic/prudent scenarios<br>• AI predictive models to anticipate needs",
-        analyse: "📊 <b>Financial Analysis</b><br>• Profitability & solvency ratios<br>• Margins & performance<br>• Industry benchmarking",
-        investissement: "💡 <b>Investment Advisory</b><br>• Portfolio diversification<br>• Asset allocation (stocks, bonds, real estate, crypto)<br>• Return simulations",
-        risque: "⚠️ <b>Risk Management</b><br>• Financial risks (rates, FX, liquidity)<br>• Operational risks<br>• Stress tests & hedging strategies",
-        fiscalite: "📑 <b>Tax Optimization</b><br>• Corporate tax planning<br>• Deductions & depreciation<br>• Swiss & international compliance"
-      },
-      de: {
-        welcome: "Hallo 👋 Ich bin <strong class='text-blue-800'>HelveticBot</strong>, Ihr Finanz-KI-Assistent <img src='Switzerland.svg' alt='CH' style='width:16px; height:16px; margin-left:4px; vertical-align:middle;'><br><br>Ich kann Ihnen helfen mit:<br>• Finanzanalysen 📊<br>• Budgetprognosen 📈<br>• Risikomanagement ⚠️<br>• Investitionen 💡<br>• Steuern 📑",
-        default: "🤖 Ich bin HelveticBot 🇨🇭 spezialisiert auf Finanzen. Fragen Sie mich über:<br>• Budget<br>• Analyse<br>• Investitionen<br>• Risiken<br>• Steuern",
-        budget: "📈 <b>Budgetprognosen</b><br>• Cashflow-Analyse<br>• Optimistische/vorsichtige Szenarien<br>• KI-Modelle zur Bedarfsprognose",
-        analyse: "📊 <b>Finanzanalyse</b><br>• Rentabilitäts- & Solvenzkennzahlen<br>• Margen & Leistung<br>• Branchen-Benchmarking",
-        investissement: "💡 <b>Investitionen</b><br>• Portfoliodiversifikation<br>• Asset Allocation (Aktien, Anleihen, Immobilien, Krypto)<br>• Renditesimulationen",
-        risque: "⚠️ <b>Risikomanagement</b><br>• Finanzrisiken (Zinsen, Wechselkurse, Liquidität)<br>• Operative Risiken<br>• Stresstests & Absicherungsstrategien",
-        fiscalite: "📑 <b>Steueroptimierung</b><br>• Unternehmenssteuerplanung<br>• Abzüge & Abschreibungen<br>• Schweizer & internationale Compliance"
-      }
-    };
-
-    let currentLang = "fr";
-
-    function addMessage(type, content) {
-      const div = document.createElement("div");
-      div.className = `flex ${type === "user" ? "justify-end" : "justify-start"} fade-in-up`;
-      const bubble = document.createElement("div");
-      bubble.className = `${type === "user" ? "bg-gray-700 text-white" : "bg-white border border-blue-100"} rounded-2xl p-4 shadow-lg max-w-xl`;
-      bubble.innerHTML = content;
-      div.appendChild(bubble);
-      chatMessages.appendChild(div);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
+    function addMessage(content, sender) {
+      const msg = document.createElement("div");
+      msg.className = "chat-message " + sender;
+      msg.innerHTML = content;
+      chatBody.appendChild(msg);
+      chatBody.scrollTop = chatBody.scrollHeight;
     }
 
-    function botResponse(msg) {
-      msg = msg.toLowerCase();
-
-      if (msg.includes("budget") || msg.includes("forecast") || msg.includes("prognose")) return messages[currentLang].budget;
-      if (msg.includes("analyse") || msg.includes("analysis")) return messages[currentLang].analyse;
-      if (msg.includes("invest") || msg.includes("investment") || msg.includes("investition")) return messages[currentLang].investissement;
-      if (msg.includes("risque") || msg.includes("risk")) return messages[currentLang].risque;
-      if (msg.includes("fiscal") || msg.includes("tax") || msg.includes("steuer")) return messages[currentLang].fiscalite;
-
-      return messages[currentLang].default;
-    }
-
-    function sendMessage() {
+    sendBtn.addEventListener("click", () => {
       const text = userInput.value.trim();
       if (!text) return;
-      addMessage("user", text);
+      addMessage(text, "user");
       userInput.value = "";
+
+      // Réponse simulée
       setTimeout(() => {
-        addMessage("bot", botResponse(text));
-      }, 800);
-    }
-
-    sendBtn.addEventListener("click", sendMessage);
-    userInput.addEventListener("keypress", e => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
+        addMessage("📊 Voici une suggestion financière basée sur votre demande.", "bot");
+      }, 600);
     });
-
-    // Changement de langue
-    langSelect.addEventListener("change", () => {
-      currentLang = langSelect.value;
-      chatMessages.innerHTML = "";
-      addMessage("bot", messages[currentLang].welcome);
-    });
-
-    // Init
-    addMessage("bot", messages[currentLang].welcome);
-
-    // === Fonction close ===
-    function closeWindow() {
-      if (window.parent) {
-        window.parent.postMessage({ action: "closeChatbot" }, "*");
-      }
-    }
   </script>
 </body>
 </html>
