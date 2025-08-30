@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>HelveticBot Pro</title>
@@ -30,42 +30,159 @@
       pointer-events: none;
     }
     
-    header {
+    .chatbot-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 400px;
+      height: 600px;
       background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: translateY(0);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+    }
+    
+    .chatbot-container.minimized {
+      transform: translateY(calc(100% - 60px));
+    }
+    
+    .chatbot-container.closed {
+      transform: translateY(100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    header {
+      background: linear-gradient(45deg, #dc2626, #b91c1c);
+      color: white;
       padding: 15px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      cursor: pointer;
       position: relative;
-      z-index: 10;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 30px;
+      height: 30px;
+      background: white;
+      opacity: 0.1;
+    }
+    
+    header::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 20px;
+      background: white;
+      opacity: 0.1;
+      box-shadow: 
+        -12px 0 0 white,
+        12px 0 0 white,
+        0 -7px 0 white,
+        0 7px 0 white;
     }
     
     header h1 {
-      font-size: 24px;
-      background: linear-gradient(45deg, #667eea, #764ba2);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-size: 18px;
       margin: 0;
-      font-weight: 700;
+      font-weight: 600;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      z-index: 10;
+      position: relative;
+    }
+    
+    .swiss-flag {
+      width: 24px;
+      height: 24px;
+      background: #dc2626;
+      border: 2px solid white;
+      border-radius: 2px;
+      position: relative;
+      margin-right: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    
+    .swiss-flag::before,
+    .swiss-flag::after {
+      content: '';
+      position: absolute;
+      background: white;
+    }
+    
+    .swiss-flag::before {
+      width: 3px;
+      height: 14px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .swiss-flag::after {
+      width: 14px;
+      height: 3px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     
     .status {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      color: #666;
+      gap: 6px;
+      font-size: 12px;
+      opacity: 0.9;
     }
     
     .status-dot {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       background: #22c55e;
       border-radius: 50%;
       animation: pulse 2s infinite;
+    }
+    
+    .control-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    
+    .control-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
     }
     
     @keyframes pulse {
@@ -76,13 +193,12 @@
     .chat {
       flex: 1;
       overflow-y: auto;
-      padding: 20px;
-      position: relative;
-      z-index: 1;
+      padding: 15px;
+      background: transparent;
     }
     
     .message {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       display: flex;
       align-items: flex-start;
       animation: fadeInUp 0.3s ease-out;
@@ -91,7 +207,7 @@
     @keyframes fadeInUp {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(15px);
       }
       to {
         opacity: 1;
@@ -104,14 +220,14 @@
     }
     
     .avatar {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      margin: 0 10px;
+      margin: 0 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: bold;
     }
     
@@ -128,17 +244,16 @@
     }
     
     .bubble {
-      padding: 15px 18px;
-      border-radius: 20px;
-      max-width: 70%;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      padding: 12px 15px;
+      border-radius: 18px;
+      max-width: 75%;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
       white-space: pre-wrap;
       position: relative;
-      backdrop-filter: blur(10px);
     }
     
     .message.bot .bubble {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.9);
       color: #333;
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
@@ -150,13 +265,13 @@
     
     .typing {
       display: flex;
-      gap: 4px;
-      padding: 10px;
+      gap: 3px;
+      padding: 8px;
     }
     
     .typing-dot {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       background: #667eea;
       border-radius: 50%;
       animation: typing 1.4s infinite;
@@ -168,30 +283,30 @@
     
     @keyframes typing {
       0%, 60%, 100% { transform: translateY(0); }
-      30% { transform: translateY(-10px); }
+      30% { transform: translateY(-8px); }
     }
     
     .input-area {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
       border-top: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 15px 20px;
+      padding: 12px 15px;
       display: flex;
-      gap: 10px;
-      position: relative;
-      z-index: 10;
+      gap: 8px;
     }
     
     textarea {
       flex: 1;
       border: 2px solid transparent;
-      border-radius: 15px;
-      padding: 12px 15px;
+      border-radius: 12px;
+      padding: 10px 12px;
       resize: none;
-      font-size: 14px;
+      font-size: 13px;
       background: rgba(255, 255, 255, 0.9);
       transition: all 0.3s ease;
       font-family: inherit;
+      min-height: 36px;
+      max-height: 100px;
     }
     
     textarea:focus {
@@ -204,17 +319,17 @@
       background: linear-gradient(45deg, #667eea, #764ba2);
       color: #fff;
       border: none;
-      border-radius: 15px;
-      padding: 12px 20px;
+      border-radius: 12px;
+      padding: 10px 16px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 14px;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
     }
     
-    button.send:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    button.send:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
     }
     
     button.send:disabled {
@@ -224,18 +339,18 @@
     }
     
     .suggestions {
-      margin-top: 15px;
+      margin-top: 12px;
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
     }
     
     .suggestions button {
       background: rgba(102, 126, 234, 0.1);
       border: 1px solid rgba(102, 126, 234, 0.3);
-      padding: 8px 15px;
-      border-radius: 20px;
-      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 15px;
+      font-size: 11px;
       cursor: pointer;
       transition: all 0.3s ease;
       color: #667eea;
@@ -247,56 +362,80 @@
     }
     
     footer {
-      background: linear-gradient(45deg, #667eea, #764ba2);
+      background: linear-gradient(45deg, #dc2626, #b91c1c);
       color: #fff;
-      font-size: 12px;
+      font-size: 10px;
       text-align: center;
-      padding: 8px;
+      padding: 6px;
       position: relative;
-      z-index: 10;
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      background: #dc2626;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 1px;
+    }
+    
+    footer::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 19px;
+      transform: translateY(-50%);
+      width: 2px;
+      height: 8px;
+      background: white;
+      box-shadow: 0 -3px 0 white, 0 3px 0 white, -3px 0 0 white, 3px 0 0 white;
     }
     
     .feature-pills {
       display: flex;
-      gap: 10px;
-      margin: 15px 0;
+      gap: 6px;
+      margin: 12px 0;
       flex-wrap: wrap;
     }
     
     .pill {
       background: rgba(102, 126, 234, 0.1);
       border: 1px solid rgba(102, 126, 234, 0.3);
-      padding: 6px 12px;
-      border-radius: 15px;
-      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 10px;
       color: #667eea;
       font-weight: 500;
     }
     
     .chart-container {
-      margin: 15px 0;
-      padding: 15px;
+      margin: 12px 0;
+      padding: 12px;
       background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
+      border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
     
     .mini-chart {
       width: 100%;
-      height: 100px;
+      height: 80px;
       background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-      border-radius: 8px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #667eea;
-      font-size: 12px;
+      font-size: 11px;
     }
     
     .action-buttons {
       display: flex;
-      gap: 8px;
-      margin-top: 12px;
+      gap: 6px;
+      margin-top: 10px;
       flex-wrap: wrap;
     }
     
@@ -304,112 +443,203 @@
       background: linear-gradient(45deg, #667eea, #764ba2);
       color: white;
       border: none;
-      padding: 6px 12px;
-      border-radius: 12px;
-      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 10px;
+      font-size: 10px;
       cursor: pointer;
       transition: all 0.3s ease;
     }
     
     .action-btn:hover {
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
     }
     
-    @media (max-width: 768px) {
+    /* Toggle button for opening/closing */
+    .chat-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(45deg, #dc2626, #b91c1c);
+      border: 3px solid white;
+      border-radius: 50%;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 999;
+      display: none;
+      position: relative;
+    }
+    
+    .chat-toggle::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      background: #dc2626;
+      border: 1px solid white;
+      border-radius: 1px;
+    }
+    
+    .chat-toggle::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 3px;
+      height: 12px;
+      background: white;
+      box-shadow: 
+        0 -4px 0 white,
+        0 4px 0 white,
+        -4px 0 0 white,
+        4px 0 0 white;
+    }
+    
+    .chat-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 12px 35px rgba(220, 38, 38, 0.4);
+    }
+    
+    .chat-toggle.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    @media (max-width: 480px) {
+      .chatbot-container {
+        width: calc(100vw - 20px);
+        height: calc(100vh - 40px);
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        border-radius: 15px;
+      }
+      
+      .chat-toggle {
+        bottom: 15px;
+        right: 15px;
+      }
+      
       .bubble {
         max-width: 85%;
       }
       
-      header {
-        padding: 10px 15px;
-      }
-      
       header h1 {
-        font-size: 20px;
-      }
-      
-      .input-area {
-        padding: 10px 15px;
+        font-size: 16px;
       }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>HelveticBot Pro</h1>
-    <div class="status">
-      <div class="status-dot"></div>
-      <span>🇨🇭 En ligne</span>
+  <div class="chatbot-container" id="chatbotContainer">
+    <header onclick="toggleMinimize()">
+      <div style="display: flex; align-items: center;">
+        <div class="swiss-flag"></div>
+        <h1>HelveticBot Pro</h1>
+      </div>
+      <div class="header-controls">
+        <div class="status">
+          <div class="status-dot"></div>
+          <span>🇨🇭 Online</span>
+        </div>
+        <button class="control-btn" onclick="event.stopPropagation(); toggleMinimize()" title="Minimize">−</button>
+        <button class="control-btn" onclick="event.stopPropagation(); closeChatbot()" title="Close">×</button>
+      </div>
+    </header>
+
+    <div class="chat" id="chat"></div>
+
+    <div class="input-area">
+      <textarea id="userInput" rows="1" placeholder="Ask your question about finance, analysis, or strategy..."></textarea>
+      <button class="send" id="sendBtn">➤</button>
     </div>
-  </header>
 
-  <div class="chat" id="chat"></div>
-
-  <div class="input-area">
-    <textarea id="userInput" rows="1" placeholder="Posez votre question sur la finance, l'analyse ou la stratégie..."></textarea>
-    <button class="send" id="sendBtn">➤</button>
+    <footer>
+      ⚡ Powered by Helvetic AI • Secure Data 🇨🇭 • v2.1 Pro
+    </footer>
   </div>
 
-  <footer>
-    ⚡ Propulsé par Helvetic AI • Données sécurisées 🇨🇭 • v2.1 Pro
-  </footer>
+  <button class="chat-toggle" id="chatToggle" onclick="openChatbot()" title="Open HelveticBot Pro">
+  </button>
 
   <script>
     const chat = document.getElementById('chat');
     const input = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
+    const chatbotContainer = document.getElementById('chatbotContainer');
+    const chatToggle = document.getElementById('chatToggle');
     let messageHistory = [];
     let isTyping = false;
+    let isMinimized = false;
+    let isClosed = false;
 
-    // Base de connaissances enrichie
+    // Enhanced knowledge base in English
     const knowledgeBase = {
-      analyse: {
-        keywords: ["analyse", "analyser", "analyse financière", "étude", "diagnostic"],
+      analysis: {
+        keywords: ["analysis", "analyze", "financial analysis", "study", "diagnostic", "examine"],
         responses: [
           {
-            text: "📊 <b>Analyse Financière Avancée</b><br><br>Je peux vous accompagner sur :<br>• Analyse des ratios de liquidité<br>• Étude de rentabilité (ROE, ROA, ROIC)<br>• Analyse du BFR et cash-flow<br>• Benchmarking sectoriel<br>• Diagnostic de performance",
-            sugg: ["Calculer les ratios", "Analyser la solvabilité", "Comparer à la concurrence", "Tendances sectorielles"]
+            text: "📊 <b>Advanced Financial Analysis</b><br><br>I can assist you with:<br>• Liquidity ratio analysis<br>• Profitability study (ROE, ROA, ROIC)<br>• Working capital & cash flow analysis<br>• Industry benchmarking<br>• Performance diagnostics",
+            sugg: ["Calculate ratios", "Analyze solvency", "Compare to competitors", "Industry trends"]
           },
           {
-            text: "🔍 <b>Diagnostic Approfondi</b><br><br>Voici ma méthodologie :<br>• Collecte et validation des données<br>• Analyse verticale et horizontale<br>• Identification des KPIs critiques<br>• Recommandations stratégiques",
-            sugg: ["Définir les KPIs", "Créer un tableau de bord", "Planifier les actions", "Automatiser le suivi"]
+            text: "🔍 <b>In-Depth Diagnostic</b><br><br>My methodology includes:<br>• Data collection & validation<br>• Vertical & horizontal analysis<br>• Critical KPI identification<br>• Strategic recommendations",
+            sugg: ["Define KPIs", "Create dashboard", "Plan actions", "Automate tracking"]
           }
         ]
       },
       budget: {
-        keywords: ["budget", "prévision", "prévisions", "planification", "projection"],
+        keywords: ["budget", "forecast", "forecasting", "planning", "projection", "predict"],
         responses: [
           {
-            text: "📈 <b>Prévisions Budgétaires Intelligentes</b><br><br>Technologies disponibles :<br>• Machine Learning prédictif<br>• Modèles statistiques avancés<br>• Analyse de tendances macro<br>• Scénarios Monte Carlo<br>• Prévisions multi-horizons",
-            sugg: ["Créer un modèle", "Définir des scénarios", "Configurer les alertes", "Optimiser la précision"]
+            text: "📈 <b>Intelligent Budget Forecasting</b><br><br>Available technologies:<br>• Predictive Machine Learning<br>• Advanced statistical models<br>• Macro trend analysis<br>• Monte Carlo scenarios<br>• Multi-horizon forecasts",
+            sugg: ["Create a model", "Define scenarios", "Set up alerts", "Optimize accuracy"]
           }
         ]
       },
-      automatisation: {
-        keywords: ["automatisation", "automatiser", "robot", "processus", "workflow"],
+      automation: {
+        keywords: ["automation", "automate", "robot", "process", "workflow", "automatic"],
         responses: [
           {
-            text: "⚙️ <b>Automatisation Intelligente</b><br><br>Processus automatisables :<br>• Rapprochements bancaires<br>• Facturation et recouvrement<br>• Contrôles qualité<br>• Reporting automatique<br>• Alertes prédictives",
-            sugg: ["Cartographier les processus", "Estimer le ROI", "Planifier la mise en œuvre", "Former les équipes"]
+            text: "⚙️ <b>Intelligent Automation</b><br><br>Automatable processes:<br>• Bank reconciliations<br>• Invoicing & collections<br>• Quality controls<br>• Automated reporting<br>• Predictive alerts",
+            sugg: ["Map processes", "Estimate ROI", "Plan implementation", "Train teams"]
           }
         ]
       },
-      strategie: {
-        keywords: ["stratégie", "stratégique", "plan", "développement", "croissance"],
+      strategy: {
+        keywords: ["strategy", "strategic", "plan", "development", "growth", "planning"],
         responses: [
           {
-            text: "🎯 <b>Stratégie Financière</b><br><br>Accompagnement stratégique :<br>• Modélisation financière<br>• Plan de financement<br>• Optimisation fiscale<br>• Stratégie d'investissement<br>• Gestion des risques",
-            sugg: ["Modéliser la croissance", "Optimiser la structure", "Évaluer les risques", "Planifier les investissements"]
+            text: "🎯 <b>Financial Strategy</b><br><br>Strategic support:<br>• Financial modeling<br>• Funding plan<br>• Tax optimization<br>• Investment strategy<br>• Risk management",
+            sugg: ["Model growth", "Optimize structure", "Assess risks", "Plan investments"]
           }
         ]
       },
       reporting: {
-        keywords: ["rapport", "reporting", "dashboard", "tableau de bord", "kpi"],
+        keywords: ["report", "reporting", "dashboard", "kpi", "metrics", "visualization"],
         responses: [
           {
-            text: "📋 <b>Reporting Dynamique</b><br><br>Solutions de reporting :<br>• Dashboards interactifs<br>• Rapports automatisés<br>• KPIs en temps réel<br>• Visualisations avancées<br>• Alertes personnalisées",
-            sugg: ["Créer un dashboard", "Définir les KPIs", "Automatiser les rapports", "Personnaliser les vues"]
+            text: "📋 <b>Dynamic Reporting</b><br><br>Reporting solutions:<br>• Interactive dashboards<br>• Automated reports<br>• Real-time KPIs<br>• Advanced visualizations<br>• Custom alerts",
+            sugg: ["Create dashboard", "Define KPIs", "Automate reports", "Customize views"]
+          }
+        ]
+      },
+      ai: {
+        keywords: ["ai", "artificial intelligence", "machine learning", "ml", "algorithm"],
+        responses: [
+          {
+            text: "🤖 <b>AI-Powered Finance</b><br><br>AI capabilities:<br>• Predictive analytics<br>• Pattern recognition<br>• Anomaly detection<br>• Risk scoring<br>• Automated insights",
+            sugg: ["Explore AI models", "Set up predictions", "Detect anomalies", "Train algorithms"]
           }
         ]
       }
@@ -436,19 +666,19 @@
         div.appendChild(avatar);
       }
 
-      // Ajout d'un mini graphique pour certaines réponses
+      // Add mini chart for certain responses
       if (showChart) {
         const chartContainer = document.createElement('div');
         chartContainer.className = 'chart-container';
         chartContainer.innerHTML = `
           <div class="mini-chart">
-            📊 Graphique interactif disponible
+            📊 Interactive chart available
           </div>
         `;
         bubble.appendChild(chartContainer);
       }
 
-      // Suggestions améliorées
+      // Enhanced suggestions
       if (type === 'bot' && suggestions.length) {
         const suggDiv = document.createElement('div');
         suggDiv.className = 'suggestions';
@@ -467,7 +697,7 @@
       chat.appendChild(div);
       chat.scrollTop = chat.scrollHeight;
       
-      // Sauvegarde de l'historique
+      // Save to history
       messageHistory.push({
         content: content.replace(/<[^>]*>/g, ''),
         type: type,
@@ -502,7 +732,7 @@
     function findBestResponse(message) {
       const lower = message.toLowerCase();
       
-      // Recherche dans la base de connaissances
+      // Search in knowledge base
       for (const category in knowledgeBase) {
         const categoryData = knowledgeBase[category];
         for (const keyword of categoryData.keywords) {
@@ -513,36 +743,43 @@
         }
       }
       
-      // Réponses contextuelles basées sur l'historique
+      // Contextual responses based on history
       if (messageHistory.length > 0) {
         const lastMessage = messageHistory[messageHistory.length - 1];
-        if (lastMessage.type === 'bot' && lower.includes("comment")) {
+        if (lastMessage.type === 'bot' && (lower.includes("how") || lower.includes("explain"))) {
           return {
-            text: "💡 <b>Assistance Personnalisée</b><br><br>Je peux vous guider étape par étape :<br>• Définir vos objectifs<br>• Identifier les outils nécessaires<br>• Planifier la mise en œuvre<br>• Suivre les résultats",
-            sugg: ["Commencer l'analyse", "Voir des exemples", "Planifier ensemble", "Obtenir plus d'infos"]
+            text: "💡 <b>Personalized Assistance</b><br><br>I can guide you step by step:<br>• Define your objectives<br>• Identify necessary tools<br>• Plan implementation<br>• Track results",
+            sugg: ["Start analysis", "See examples", "Plan together", "Get more info"]
           };
         }
       }
       
-      // Réponses spéciales pour des mots-clés spécifiques
-      if (lower.includes("merci") || lower.includes("parfait")) {
+      // Special responses for specific keywords
+      if (lower.includes("thank") || lower.includes("perfect") || lower.includes("great")) {
         return {
-          text: "😊 <b>Avec plaisir !</b><br><br>N'hésitez pas si vous avez d'autres questions. Je suis là pour optimiser vos processus financiers !",
-          sugg: ["Nouvelle analyse", "Explorer d'autres fonctions", "Obtenir de l'aide"]
+          text: "😊 <b>You're welcome!</b><br><br>Feel free to ask if you have other questions. I'm here to optimize your financial processes!",
+          sugg: ["New analysis", "Explore other functions", "Get help"]
         };
       }
       
-      if (lower.includes("prix") || lower.includes("coût") || lower.includes("tarif")) {
+      if (lower.includes("price") || lower.includes("cost") || lower.includes("pricing")) {
         return {
-          text: "💰 <b>Solutions Adaptées</b><br><br>Nos services s'adaptent à votre budget :<br>• Version gratuite : analyses de base<br>• Pro : automatisation avancée<br>• Enterprise : solution complète<br>• Sur-mesure : développement spécifique",
-          sugg: ["Comparer les versions", "Demander un devis", "Tester gratuitement", "Planifier une démo"]
+          text: "💰 <b>Tailored Solutions</b><br><br>Our services adapt to your budget:<br>• Free version: basic analysis<br>• Pro: advanced automation<br>• Enterprise: complete solution<br>• Custom: specific development",
+          sugg: ["Compare versions", "Request quote", "Try for free", "Schedule demo"]
         };
       }
       
-      // Réponse par défaut enrichie
+      if (lower.includes("help") || lower.includes("support")) {
+        return {
+          text: "🆘 <b>HelveticBot Pro Help</b><br><br><b>Special commands:</b><br>• /clear - Clear conversation<br>• /export - Export history<br>• /help - Show this help<br><br><b>Features:</b><br>• Type your questions naturally<br>• Use suggestions to explore<br>• Mention your specific needs<br>• Ask for concrete examples",
+          sugg: ["See examples", "Test analysis", "Explore automation"]
+        };
+      }
+      
+      // Default enhanced response
       return {
-        text: "🤖 <b>HelveticBot Pro à votre service !</b><br><br>Expertise finance & technologie :<br>• Analyses financières avancées<br>• Prévisions intelligentes<br>• Automatisation des processus<br>• Stratégie & optimisation<br>• Reporting dynamique",
-        sugg: ["🔍 Lancer une analyse", "📊 Créer des prévisions", "⚙️ Automatiser", "🎯 Définir la stratégie"],
+        text: "🤖 <b>HelveticBot Pro at your service!</b><br><br>Finance & Technology expertise:<br>• Advanced financial analysis<br>• Intelligent forecasting<br>• Process automation<br>• Strategy & optimization<br>• Dynamic reporting",
+        sugg: ["🔍 Start analysis", "📊 Create forecasts", "⚙️ Automate", "🎯 Define strategy"],
         showChart: true
       };
     }
@@ -551,45 +788,70 @@
       const text = input.value.trim();
       if (!text || isTyping) return;
       
-      // Désactiver le bouton d'envoi
+      // Check special commands
+      if (handleSpecialCommands(text)) {
+        input.value = '';
+        return;
+      }
+      
       sendBtn.disabled = true;
       isTyping = true;
       
       addMessage(text, 'user');
       input.value = '';
       
-      // Afficher l'indicateur de frappe
       const typingIndicator = showTyping();
       
-      // Simuler le temps de réponse
+      // Variable response time based on complexity
+      const complexity = text.length > 50 ? 2000 : 1200;
+      const randomDelay = Math.random() * 600;
+      
       setTimeout(() => {
         removeTyping(typingIndicator);
         const response = findBestResponse(text);
         addMessage(response.text, 'bot', response.sugg || [], response.showChart || false);
         
-        // Réactiver le bouton
         sendBtn.disabled = false;
         isTyping = false;
-      }, 1200 + Math.random() * 800);
+      }, complexity + randomDelay);
     }
 
-    // Gestionnaires d'événements
-    sendBtn.addEventListener('click', sendMessage);
-    
-    input.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
+    function handleSpecialCommands(text) {
+      const lower = text.toLowerCase();
+      
+      if (lower === '/clear' || lower === '/reset') {
+        clearChat();
+        return true;
       }
-    });
-    
-    // Auto-resize du textarea
-    input.addEventListener('input', function() {
-      this.style.height = 'auto';
-      this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-    });
+      
+      if (lower === '/export') {
+        exportChat();
+        addMessage("💾 <b>Export successful!</b><br>Your conversation has been exported.", "bot");
+        return true;
+      }
+      
+      if (lower === '/help') {
+        addMessage(`🆘 <b>HelveticBot Pro Help</b><br><br>
+        <b>Special commands:</b><br>
+        • /clear - Clear conversation<br>
+        • /export - Export history<br>
+        • /help - Show this help<br><br>
+        
+        <b>Features:</b><br>
+        • Type your questions naturally<br>
+        • Use suggestions to explore<br>
+        • Mention your specific needs<br>
+        • Ask for concrete examples`, "bot", [
+          "See examples",
+          "Test analysis",
+          "Explore automation"
+        ]);
+        return true;
+      }
+      
+      return false;
+    }
 
-    // Fonctions utilitaires
     function clearChat() {
       chat.innerHTML = '';
       messageHistory = [];
@@ -611,115 +873,98 @@
       URL.revokeObjectURL(url);
     }
 
+    function toggleMinimize() {
+      isMinimized = !isMinimized;
+      if (isMinimized) {
+        chatbotContainer.classList.add('minimized');
+      } else {
+        chatbotContainer.classList.remove('minimized');
+      }
+    }
+
+    function closeChatbot() {
+      isClosed = true;
+      chatbotContainer.classList.add('closed');
+      chatToggle.classList.add('show');
+    }
+
+    function openChatbot() {
+      isClosed = false;
+      isMinimized = false;
+      chatbotContainer.classList.remove('closed', 'minimized');
+      chatToggle.classList.remove('show');
+      input.focus();
+    }
+
     function showWelcomeMessage() {
-      const welcomeMsg = `🚀 <b>Bienvenue dans HelveticBot Pro !</b><br><br>
-      Votre assistant IA financier nouvelle génération 🇨🇭<br><br>
+      const welcomeMsg = `🚀 <b>Welcome to HelveticBot Pro!</b><br><br>
+      Your next-generation AI financial assistant 🇨🇭<br><br>
       
       <div class="feature-pills">
-        <span class="pill">🔮 IA Prédictive</span>
-        <span class="pill">⚡ Temps Réel</span>
-        <span class="pill">🛡️ Sécurisé</span>
+        <span class="pill">🔮 Predictive AI</span>
+        <span class="pill">⚡ Real-time</span>
+        <span class="pill">🛡️ Secure</span>
         <span class="pill">🇨🇭 Swiss Made</span>
       </div>
       
-      <b>Domaines d'expertise :</b><br>
-      • 📊 Analyses financières poussées<br>
-      • 📈 Prévisions & modélisation<br>
-      • ⚙️ Automatisation intelligente<br>
-      • 🎯 Stratégie & optimisation<br>
-      • 📋 Reporting dynamique<br><br>
+      <b>Areas of expertise:</b><br>
+      • 📊 Advanced financial analysis<br>
+      • 📈 Forecasting & modeling<br>
+      • ⚙️ Intelligent automation<br>
+      • 🎯 Strategy & optimization<br>
+      • 📋 Dynamic reporting<br><br>
       
       <div class="action-buttons">
-        <button class="action-btn" onclick="input.value='Faire une analyse complète'; sendMessage();">🔍 Analyse Express</button>
-        <button class="action-btn" onclick="input.value='Créer des prévisions'; sendMessage();">📊 Prévisions</button>
-        <button class="action-btn" onclick="input.value='Automatiser mes processus'; sendMessage();">⚙️ Automatisation</button>
+        <button class="action-btn" onclick="input.value='Perform complete analysis'; sendMessage();">🔍 Quick Analysis</button>
+        <button class="action-btn" onclick="input.value='Create forecasts'; sendMessage();">📊 Forecasts</button>
+        <button class="action-btn" onclick="input.value='Automate my processes'; sendMessage();">⚙️ Automation</button>
       </div>`;
       
       addMessage(welcomeMsg, "bot", [
-        "🚀 Démarrer une analyse",
-        "📊 Créer un dashboard", 
-        "💡 Optimiser ma stratégie",
-        "🔧 Configurer l'automatisation"
+        "🚀 Start analysis",
+        "📊 Create dashboard", 
+        "💡 Optimize strategy",
+        "🔧 Configure automation"
       ]);
     }
 
-    // Commandes spéciales
-    function handleSpecialCommands(text) {
-      const lower = text.toLowerCase();
-      
-      if (lower === '/clear' || lower === '/reset') {
-        clearChat();
-        return true;
+    // Event listeners
+    sendBtn.addEventListener('click', sendMessage);
+    
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
       }
-      
-      if (lower === '/export') {
-        exportChat();
-        addMessage("💾 <b>Export réussi !</b><br>Votre conversation a été exportée.", "bot");
-        return true;
-      }
-      
-      if (lower === '/help' || lower === '/aide') {
-        addMessage(`🆘 <b>Aide HelveticBot Pro</b><br><br>
-        <b>Commandes spéciales :</b><br>
-        • /clear - Effacer la conversation<br>
-        • /export - Exporter l'historique<br>
-        • /help - Afficher cette aide<br><br>
-        
-        <b>Fonctionnalités :</b><br>
-        • Tapez naturellement vos questions<br>
-        • Utilisez les suggestions pour explorer<br>
-        • Mentionnez vos besoins spécifiques<br>
-        • Demandez des exemples concrets`, "bot", [
-          "Voir des exemples",
-          "Tester une analyse",
-          "Explorer l'automatisation"
-        ]);
-        return true;
-      }
-      
-      return false;
-    }
+    });
+    
+    // Auto-resize textarea
+    input.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+    });
 
-    // Version améliorée de sendMessage
-    function sendMessage() {
-      const text = input.value.trim();
-      if (!text || isTyping) return;
-      
-      // Vérifier les commandes spéciales
-      if (handleSpecialCommands(text)) {
-        input.value = '';
-        return;
+    // Click outside to minimize (optional)
+    document.addEventListener('click', (e) => {
+      if (!chatbotContainer.contains(e.target) && !chatToggle.contains(e.target) && !isClosed && !isMinimized) {
+        // Optional: uncomment to minimize when clicking outside
+        // toggleMinimize();
       }
-      
-      sendBtn.disabled = true;
-      isTyping = true;
-      
-      addMessage(text, 'user');
-      input.value = '';
-      
-      const typingIndicator = showTyping();
-      
-      // Temps de réponse variable selon la complexité
-      const complexity = text.length > 50 ? 2000 : 1200;
-      const randomDelay = Math.random() * 600;
-      
-      setTimeout(() => {
-        removeTyping(typingIndicator);
-        const response = findBestResponse(text);
-        addMessage(response.text, 'bot', response.sugg || [], response.showChart || false);
-        
-        sendBtn.disabled = false;
-        isTyping = false;
-      }, complexity + randomDelay);
-    }
+    });
 
-    // Auto-focus sur l'input
+    // Prevent body scroll when chatbot is open
+    chatbotContainer.addEventListener('wheel', (e) => {
+      e.stopPropagation();
+    });
+
+    // Auto-focus on input when opening
     input.focus();
 
-    // Message d'accueil au chargement
+    // Welcome message on load
     setTimeout(() => {
       showWelcomeMessage();
     }, 500);
-  </script>
-</body>
-</html>
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !isClosed) {
