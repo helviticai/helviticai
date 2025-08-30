@@ -39,6 +39,38 @@
       background-position: bottom, bottom;
     }
 
+    /* Swiss flag icon */
+    .swiss-flag {
+      width: 24px;
+      height: 24px;
+      background: #FF0000;
+      position: relative;
+      border-radius: 2px;
+      animation: wave 3s ease-in-out infinite;
+      display: inline-block;
+    }
+    
+    .swiss-flag::before,
+    .swiss-flag::after {
+      content: '';
+      position: absolute;
+      background: white;
+    }
+    
+    .swiss-flag::before {
+      width: 14px;
+      height: 4px;
+      top: 10px;
+      left: 5px;
+    }
+    
+    .swiss-flag::after {
+      width: 4px;
+      height: 14px;
+      top: 5px;
+      left: 10px;
+    }
+
     /* Swiss mountain logo */
     .mountain-logo {
       width: 48px;
@@ -132,14 +164,17 @@
             </div>
             <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
           </div>
-          <div>
-            <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-              HelveticBot
-            </h1>
-            <p class="text-sm text-gray-600 flex items-center">
-              <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-              Financial AI Assistant • Helvetic AI
-            </p>
+          <div class="flex items-center space-x-3">
+            <div class="swiss-flag"></div>
+            <div>
+              <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                HelveticBot
+              </h1>
+              <p class="text-sm text-gray-600 flex items-center">
+                <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                Financial AI Assistant • Helvetic AI
+              </p>
+            </div>
           </div>
         </div>
         
@@ -524,6 +559,7 @@ How can I assist you today?</div>
                     </div>
                   </div>
                 </div>
+                <div class="swiss-flag mx-auto mb-4"></div>
                 <h1 class="text-2xl font-bold text-gray-800 mb-2">HelveticBot Session Closed</h1>
                 <p class="text-gray-600 mb-4">Thank you for using HelveticBot!</p>
                 <button onclick="location.reload()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
