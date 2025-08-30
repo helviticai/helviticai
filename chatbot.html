@@ -18,8 +18,8 @@
     }
 
     .chat-container {
-      width: 350px;
-      height: 500px;
+      width: 370px;
+      height: 520px;
       background: #ffffff;
       border-radius: 20px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.15);
@@ -33,8 +33,19 @@
       background: #2563eb;
       color: white;
       padding: 12px;
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-weight: bold;
+    }
+    .chat-header select {
+      border: none;
+      background: white;
+      color: #2563eb;
+      font-weight: bold;
+      border-radius: 8px;
+      padding: 4px 6px;
+      cursor: pointer;
     }
 
     /* Messages */
@@ -111,19 +122,15 @@
 </head>
 <body>
   <div class="chat-container">
-    <div class="chat-header">💬 HelveticBot</div>
-    <div class="chat-body" id="chatBody">
-      <div class="chat-message bot">
-        Bonjour 👋 Je suis <strong>HelveticBot</strong>, votre assistant IA financier 
-        <img src="Switzerland.svg" alt="CH" style="width:16px; height:16px; margin-left:4px; vertical-align:middle;"><br><br>
-        Je peux vous aider avec :<br>
-        • 📊 Analyses financières<br>
-        • 📈 Prévisions budgétaires<br>
-        • ⚠️ Gestion des risques<br>
-        • 💡 Investissements<br>
-        • 📑 Fiscalité
-      </div>
+    <div class="chat-header">
+      <span>💬 HelveticBot</span>
+      <select id="langSelect">
+        <option value="fr">🇫🇷 FR</option>
+        <option value="en">🇬🇧 EN</option>
+        <option value="de">🇩🇪 DE</option>
+      </select>
     </div>
+    <div class="chat-body" id="chatBody"></div>
     <div class="chat-footer">
       <textarea id="userInput" rows="1" placeholder="Écrivez un message..."></textarea>
       <button id="sendBtn">➤</button>
@@ -134,7 +141,25 @@
     const chatBody = document.getElementById("chatBody");
     const userInput = document.getElementById("userInput");
     const sendBtn = document.getElementById("sendBtn");
+    const langSelect = document.getElementById("langSelect");
 
+    // Messages multilingues
+    const messages = {
+      fr: {
+        welcome: "Bonjour 👋 Je suis <strong>HelveticBot</strong>, votre assistant IA financier <img src='Switzerland.svg' alt='CH' style='width:16px; height:16px; margin-left:4px; vertical-align:middle;'><br><br>Je peux vous aider avec :<br>• 📊 Analyses financières<br>• 📈 Prévisions budgétaires<br>• ⚠️ Gestion des risques<br>• 💡 Investissements<br>• 📑 Fiscalité",
+        placeholder: "Écrivez un message..."
+      },
+      en: {
+        welcome: "Hello 👋 I am <strong>HelveticBot</strong>, your financial AI assistant <img src='Switzerland.svg' alt='CH' style='width:16px; height:16px; margin-left:4px; vertical-align:middle;'><br><br>I can help you with:<br>• 📊 Financial analysis<br>• 📈 Budget forecasting<br>• ⚠️ Risk management<br>• 💡 Investments<br>• 📑 Taxation",
+        placeholder: "Type a message..."
+      },
+      de: {
+        welcome: "Hallo 👋 Ich bin <strong>HelveticBot</strong>, Ihr Finanz-KI-Assistent <img src='Switzerland.svg' alt='CH' style='width:16px; height:16px; margin-left:4px; vertical-align:middle;'><br><br>Ich kann Ihnen helfen mit:<br>• 📊 Finanzanalysen<br>• 📈 Budgetprognosen<br>• ⚠️ Risikomanagement<br>• 💡 Investitionen<br>• 📑 Steuern",
+        placeholder: "Nachricht eingeben..."
+      }
+    };
+
+    // Fonction ajout de message
     function addMessage(content, sender) {
       const msg = document.createElement("div");
       msg.className = "chat-message " + sender;
@@ -143,6 +168,19 @@
       chatBody.scrollTop = chatBody.scrollHeight;
     }
 
+    // Affichage message de bienvenue
+    function setLanguage(lang) {
+      chatBody.innerHTML = "";
+      addMessage(messages[lang].welcome, "bot");
+      userInput.placeholder = messages[lang].placeholder;
+    }
+
+    // Event: changement de langue
+    langSelect.addEventListener("change", () => {
+      setLanguage(langSelect.value);
+    });
+
+    // Event: envoi message
     sendBtn.addEventListener("click", () => {
       const text = userInput.value.trim();
       if (!text) return;
@@ -151,9 +189,14 @@
 
       // Réponse simulée
       setTimeout(() => {
-        addMessage("📊 Voici une suggestion financière basée sur votre demande.", "bot");
+        addMessage("✅ " + (langSelect.value === "fr" ? "Merci pour votre message." :
+                           langSelect.value === "en" ? "Thank you for your message." :
+                           "Danke für Ihre Nachricht."), "bot");
       }, 600);
     });
+
+    // Initialisation
+    setLanguage("fr");
   </script>
 </body>
 </html>
