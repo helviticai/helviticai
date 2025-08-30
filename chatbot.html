@@ -143,22 +143,46 @@
     const sendBtn = document.getElementById("sendBtn");
     const langSelect = document.getElementById("langSelect");
 
-    // Messages multilingues
-    const messages = {
-      fr: {
-        welcome: "Bonjour 👋 Je suis <strong>HelveticBot</strong>, votre assistant IA financier <img src='Switzerland.svg' alt='CH' style='width:16px; height:16px; margin-left:4px; vertical-align:middle;'><br><br>Je peux vous aider avec :<br>• 📊 Analyses financières<br>• 📈 Prévisions budgétaires<br>• ⚠️ Gestion des risques<br>• 💡 Investissements<br>• 📑 Fiscalité",
-        placeholder: "Écrivez un message..."
-      },
-      en: {
-        welcome: "Hello 👋 I am <strong>HelveticBot</strong>, your financial AI assistant <img src='Switzerland.svg' alt='CH' style='width:16px; height:16px; margin-left:4px; vertical-align:middle;'><br><br>I can help you with:<br>• 📊 Financial analysis<br>• 📈 Budget forecasting<br>• ⚠️ Risk management<br>• 💡 Investments<br>• 📑 Taxation",
-        placeholder: "Type a message..."
-      },
-      de: {
-        welcome: "Hallo 👋 Ich bin <strong>HelveticBot</strong>, Ihr Finanz-KI-Assistent <img src='Switzerland.svg' alt='CH' style='width:16px; height:16px; margin-left:4px; vertical-align:middle;'><br><br>Ich kann Ihnen helfen mit:<br>• 📊 Finanzanalysen<br>• 📈 Budgetprognosen<br>• ⚠️ Risikomanagement<br>• 💡 Investitionen<br>• 📑 Steuern",
-        placeholder: "Nachricht eingeben..."
-      }
-    };
+const responses = {
+  fr: {
+    welcome: "Bonjour 👋 Je suis le chatbot Helvetic AI. Posez-moi vos questions.",
+    context: "L’IA aide à optimiser les ressources, anticiper les risques et améliorer la performance financière.",
+    benefits: "Les bénéfices incluent : optimisation des coûts, meilleure prise de décision et gestion proactive des risques.",
+    costs: "🔹 Réduction des coûts : détection des dépenses inutiles, automatisation de la facturation et reporting.",
+    decision: "🔹 Prise de décision augmentée : analyses prédictives, tableaux de bord intelligents et simulations.",
+    risks: "🔹 Gestion des risques : détection de fraude, suivi des indicateurs financiers, alertes automatisées.",
+    usecases: "Exemples : banque (fraude), industrie (achats), retail (prévisions ventes), PME (automatisation comptable).",
+    value: "💡 L’IA permet d’améliorer la rentabilité, renforcer la compétitivité, sécuriser les investissements et gagner du temps.",
+    goodbye: "Merci pour votre visite ! À bientôt 👋",
+    unknown: "Désolé, je n'ai pas compris. Pouvez-vous préciser ?"
+  },
+  en: {
+    welcome: "Hello 👋 I'm the Helvetic AI chatbot. Ask me your questions.",
+    context: "AI helps optimize resources, anticipate risks, and improve financial performance.",
+    benefits: "Key benefits: cost optimization, enhanced decision-making, and proactive risk management.",
+    costs: "🔹 Cost optimization: detect unnecessary expenses, automate billing and reporting.",
+    decision: "🔹 Augmented decision-making: predictive analytics, smart dashboards, scenario simulations.",
+    risks: "🔹 Risk management: fraud detection, financial KPI monitoring, automated alerts.",
+    usecases: "Examples: banking (fraud), industry (procurement), retail (sales forecasts), SMEs (accounting automation).",
+    value: "💡 AI helps improve profitability, strengthen competitiveness, secure investments, and save time.",
+    goodbye: "Thank you for visiting! See you soon 👋",
+    unknown: "Sorry, I didn't understand. Could you clarify?"
+  },
+  de: {
+    welcome: "Hallo 👋 Ich bin der Helvetic AI Chatbot. Stellen Sie mir Ihre Fragen.",
+    context: "KI hilft, Ressourcen zu optimieren, Risiken vorherzusehen und die finanzielle Leistung zu verbessern.",
+    benefits: "Vorteile: Kostenoptimierung, bessere Entscheidungsfindung und proaktives Risikomanagement.",
+    costs: "🔹 Kostenoptimierung: Erkennung unnötiger Ausgaben, Automatisierung von Abrechnung und Reporting.",
+    decision: "🔹 Verbesserte Entscheidungen: prädiktive Analysen, intelligente Dashboards, Szenariosimulationen.",
+    risks: "🔹 Risikomanagement: Betrugserkennung, Überwachung von Finanz-KPIs, automatisierte Warnungen.",
+    usecases: "Beispiele: Banken (Betrug), Industrie (Einkäufe), Handel (Absatzprognosen), KMU (Buchhaltungsautomatisierung).",
+    value: "💡 KI steigert die Rentabilität, stärkt die Wettbewerbsfähigkeit, sichert Investitionen und spart Zeit.",
+    goodbye: "Danke für Ihren Besuch! Bis bald 👋",
+    unknown: "Entschuldigung, das habe ich nicht verstanden. Können Sie das bitte präzisieren?"
+  }
+};
 
+   
     // Fonction ajout de message
     function addMessage(content, sender) {
       const msg = document.createElement("div");
