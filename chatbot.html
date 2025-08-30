@@ -1,394 +1,204 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Sparkles, TrendingUp, Calculator, PieChart, BarChart3, DollarSign, Shield, Zap, Brain, Download, Copy } from 'lucide-react';
-
-const HelveticBot = () => {
-  const [messages, setMessages] = useState([
-    {
-      type: 'bot',
-      content: 'Bonjour ! Je suis **HelveticBot**, votre assistant IA spécialisé en finance. 🇨🇭\n\nJe peux vous aider avec :\n• **Analyses financières** et prévisions\n• **Budgétisation** et planification\n• **Automatisation** de processus\n• **Conseils stratégiques** personnalisés\n• **Questions EPM** et reporting\n\nComment puis-je vous accompagner aujourd\'hui ?',
-      timestamp: Date.now(),
-      suggestions: [
-        '📊 Analyser mes données financières',
-        '📈 Créer des prévisions budgétaires',
-        '⚙️ Automatiser un processus',
-        '🎯 Optimiser ma stratégie financière'
-      ]
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>HelveticBot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #f0f7ff, #ffffff, #eef2ff);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
     }
-  ]);
-  
-  const [userInput, setUserInput] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const [showSuggestions, setShowSuggestions] = useState(true);
-  const messagesEndRef = useRef(null);
-  const inputRef = useRef(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const financialTemplates = {
-    'analyse': {
-      title: '📊 Analyse Financière Complète',
-      questions: [
-        'Quel type d\'analyse souhaitez-vous ? (rentabilité, liquidité, solvabilité)',
-        'Sur quelle période ? (mensuelle, trimestrielle, annuelle)',
-        'Quels sont vos KPIs prioritaires ?'
-      ],
-      response: 'Parfait ! Voici une approche structurée pour votre analyse financière :\n\n**1. Collecte des données**\n• Bilan et compte de résultat\n• Flux de trésorerie\n• Données sectorielles\n\n**2. Indicateurs clés**\n• Ratios de rentabilité (ROE, ROI)\n• Ratios de liquidité\n• Ratios d\'endettement\n\n**3. Benchmarking sectoriel**\n\n**Recommandations IA** :\n✅ Automatisation du reporting\n✅ Alertes sur seuils critiques\n✅ Prévisions basées sur l\'historique'
-    },
-    'prevision': {
-      title: '📈 Prévisions Budgétaires Intelligentes',
-      questions: [
-        'Horizon de prévision souhaité ?',
-        'Variables principales à inclure ?',
-        'Niveau de précision requis ?'
-      ],
-      response: 'Excellente initiative ! Voici notre méthodologie de prévision :\n\n**🧠 Algorithmes utilisés**\n• Machine Learning prédictif\n• Séries temporelles avancées\n• Analyse de corrélations\n\n**📊 Données intégrées**\n• Historiques financiers\n• Données macro-économiques\n• Indicateurs sectoriels\n• Saisonnalité\n\n**🎯 Livrables**\n• Prévisions multi-scénarios\n• Intervalles de confiance\n• Facteurs d\'influence\n• Dashboard interactif\n\n**Précision moyenne : 95%** sur 12 mois'
-    },
-    'automatisation': {
-      title: '⚙️ Automatisation de Processus',
-      questions: [
-        'Quel processus souhaitez-vous automatiser ?',
-        'Volume de transactions concernées ?',
-        'Contraintes de validation ?'
-      ],
-      response: 'Transformons ensemble vos processus ! 🚀\n\n**🔄 Processus automatisables**\n• Rapprochements bancaires\n• Facturation et recouvrement\n• Contrôles de cohérence\n• Consolidation comptable\n\n**🎯 Bénéfices attendus**\n• **80%** de réduction du temps manuel\n• **99.5%** de précision\n• Traçabilité complète\n• Alertes en temps réel\n\n**🛠️ Technologies**\n• RPA intelligent\n• OCR avancé\n• Workflows adaptatifs\n• API robustes\n\n**ROI moyen : 300%** en première année'
-    },
-    'strategie': {
-      title: '🎯 Optimisation Stratégique',
-      questions: [
-        'Objectifs financiers prioritaires ?',
-        'Contraintes actuelles ?',
-        'Horizon stratégique ?'
-      ],
-      response: 'Développons votre stratégie financière optimale ! 💡\n\n**📋 Diagnostic stratégique**\n• Analyse de la performance\n• Identification des leviers\n• Benchmark concurrentiel\n• Matrice risques/opportunités\n\n**🎯 Plan d\'actions**\n• Optimisation du BFR\n• Structure financière\n• Politique d\'investissement\n• Gestion des risques\n\n**📊 Outils de pilotage**\n• Tableaux de bord dynamiques\n• KPIs personnalisés\n• Alertes prédictives\n• Reporting automatisé\n\n**🇨🇭 Approche Helvetic AI**\nPrécision, fiabilité et innovation au service de vos ambitions.'
+    header {
+      background: #fff;
+      border-bottom: 1px solid #cce;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-  };
+    header h1 {
+      font-size: 20px;
+      background: linear-gradient(to right, #2563eb, #1e40af);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0;
+    }
+    .chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+    }
+    .message {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: flex-start;
+    }
+    .message.user {
+      justify-content: flex-end;
+    }
+    .bubble {
+      padding: 12px;
+      border-radius: 15px;
+      max-width: 70%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      white-space: pre-wrap;
+    }
+    .message.bot .bubble {
+      background: #fff;
+      border: 1px solid #cce;
+      color: #333;
+    }
+    .message.user .bubble {
+      background: linear-gradient(to right, #4b5563, #1f2937);
+      color: #fff;
+    }
+    .input-area {
+      border-top: 1px solid #ddd;
+      padding: 10px;
+      display: flex;
+    }
+    textarea {
+      flex: 1;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      resize: none;
+      font-size: 14px;
+    }
+    button.send {
+      background: linear-gradient(to right, #2563eb, #1e40af);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 15px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    .suggestions {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .suggestions button {
+      background: #eef2ff;
+      border: 1px solid #cce;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    footer {
+      background: linear-gradient(to right, #2563eb, #1e40af);
+      color: #fff;
+      font-size: 12px;
+      text-align: center;
+      padding: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HelveticBot</h1>
+    <span>🇨🇭 Suisse</span>
+  </header>
 
-  const handleSuggestionClick = (suggestion) => {
-    setUserInput(suggestion);
-    setShowSuggestions(false);
-    inputRef.current?.focus();
-  };
+  <div class="chat" id="chat"></div>
 
-  const generateBotResponse = async (userMessage) => {
-    setIsTyping(true);
-    
-    // Simuler un délai de traitement IA
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    const lowerMessage = userMessage.toLowerCase();
-    let response = '';
-    let suggestions = [];
+  <div class="input-area">
+    <textarea id="userInput" rows="1" placeholder="Posez votre question..."></textarea>
+    <button class="send" id="sendBtn">➤</button>
+  </div>
 
-    // Détection d'intention basée sur mots-clés
-    if (lowerMessage.includes('analys') || lowerMessage.includes('données') || lowerMessage.includes('kpi')) {
-      response = financialTemplates.analyse.response;
-      suggestions = [
-        '📊 Configurer un dashboard',
-        '📈 Analyser la rentabilité',
-        '⚡ Automatiser le reporting',
-        '💡 Conseils d\'optimisation'
-      ];
-    } else if (lowerMessage.includes('prév') || lowerMessage.includes('budget') || lowerMessage.includes('planif')) {
-      response = financialTemplates.prevision.response;
-      suggestions = [
-        '🎯 Créer des scénarios',
-        '📊 Intégrer des variables externes',
-        '⚠️ Définir des alertes',
-        '📈 Optimiser la précision'
-      ];
-    } else if (lowerMessage.includes('automat') || lowerMessage.includes('process') || lowerMessage.includes('workflow')) {
-      response = financialTemplates.automatisation.response;
-      suggestions = [
-        '🔄 Identifier d\'autres processus',
-        '📋 Planifier la mise en œuvre',
-        '🎓 Former les équipes',
-        '📊 Mesurer le ROI'
-      ];
-    } else if (lowerMessage.includes('stratég') || lowerMessage.includes('optim') || lowerMessage.includes('perform')) {
-      response = financialTemplates.strategie.response;
-      suggestions = [
-        '🎯 Définir des objectifs SMART',
-        '📊 Créer un plan de suivi',
-        '⚡ Prioriser les actions',
-        '🔍 Analyser la concurrence'
-      ];
-    } else if (lowerMessage.includes('epm') || lowerMessage.includes('reporting') || lowerMessage.includes('consolidation')) {
-      response = '🏗️ **Solutions EPM Helvetic AI**\n\nNos plateformes EPM intègrent :\n\n**📊 Modules principaux**\n• Planification & budgétisation\n• Consolidation financière\n• Reporting réglementaire\n• Pilotage de la performance\n\n**🔗 Intégrations natives**\n• ERP (SAP, Oracle, etc.)\n• Systèmes comptables\n• Bases de données\n• Outils de BI\n\n**🇨🇭 Avantages Helvetic**\n• Configuration sur mesure\n• Sécurité bancaire\n• Support 24/7\n• Formation continue\n\n**Déploiement moyen : 3 mois**';
-      suggestions = [
-        '🔧 Personnaliser la solution',
-        '📋 Planifier l\'implémentation',
-        '🎓 Organiser la formation',
-        '📞 Demander une démo'
-      ];
-    } else if (lowerMessage.includes('risque') || lowerMessage.includes('compliance') || lowerMessage.includes('réglementaire')) {
-      response = '🛡️ **Gestion des Risques & Compliance**\n\n**🔍 Détection proactive**\n• Algorithmes de détection d\'anomalies\n• Monitoring en temps réel\n• Alertes automatiques\n• Scoring de risque dynamique\n\n**📋 Conformité réglementaire**\n• RGPD & protection des données\n• Normes comptables (IFRS, Swiss GAAP)\n• Réglementations bancaires\n• Audit trails complets\n\n**⚡ Réponse rapide**\n• Plans de mitigation automatiques\n• Escalade intelligente\n• Reporting réglementaire\n• Documentation automatique\n\n**🇨🇭 Standards suisses** de sécurité et fiabilité';
-      suggestions = [
-        '🔒 Renforcer la sécurité',
-        '📊 Audit de conformité',
-        '⚠️ Configurer des alertes',
-        '📋 Plan de continuité'
-      ];
-    } else {
-      // Réponse générique avec l'identité Helvetic AI
-      response = `🤖 **HelveticBot à votre service !**\n\nJe comprends votre question sur "${userMessage}". \n\n**🇨🇭 Mon expertise Helvetic AI couvre :**\n\n• **Intelligence Financière** - Analytics avancés et prédictions\n• **Automatisation** - Processus optimisés et workflows intelligents  \n• **Solutions EPM** - Planification et pilotage de performance\n• **Gestion des Risques** - Détection proactive et compliance\n• **Stratégie Digitale** - Transformation et innovation\n\n**💡 Voulez-vous que je vous aide avec un domaine spécifique ?**\n\n*Helvetic AI - Précision suisse, innovation globale* ⚡`;
-      suggestions = [
-        '📊 Découvrir nos analyses',
-        '⚙️ Explorer l\'automatisation',
-        '🎯 Optimiser ma stratégie',
-        '📞 Contactez nos experts'
-      ];
+  <footer>
+    ⚡ Propulsé par Helvetic AI • Données sécurisées 🇨🇭
+  </footer>
+
+  <script>
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    function addMessage(content, type, suggestions=[]) {
+      const div = document.createElement('div');
+      div.className = `message ${type}`;
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.innerHTML = content;
+      div.appendChild(bubble);
+
+      if (type === 'bot' && suggestions.length) {
+        const suggDiv = document.createElement('div');
+        suggDiv.className = 'suggestions';
+        suggestions.forEach(text => {
+          const btn = document.createElement('button');
+          btn.textContent = text;
+          btn.onclick = () => {
+            input.value = text;
+            sendMessage();
+          };
+          suggDiv.appendChild(btn);
+        });
+        bubble.appendChild(suggDiv);
+      }
+
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
     }
 
-    setMessages(prev => [...prev, {
-      type: 'bot',
-      content: response,
-      timestamp: Date.now(),
-      suggestions: suggestions
-    }]);
-    
-    setIsTyping(false);
-    setShowSuggestions(true);
-  };
-
-  const handleSendMessage = async () => {
-    if (!userInput.trim()) return;
-    
-    const newMessage = {
-      type: 'user',
-      content: userInput,
-      timestamp: Date.now()
-    };
-    
-    setMessages(prev => [...prev, newMessage]);
-    const messageToProcess = userInput;
-    setUserInput('');
-    setShowSuggestions(false);
-    
-    await generateBotResponse(messageToProcess);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
+    function botResponse(msg) {
+      const lower = msg.toLowerCase();
+      if (lower.includes("analyse")) {
+        return {
+          text: "📊 Voici une approche d'analyse financière :<br>• Collecte des données<br>• Ratios clés<br>• Benchmark sectoriel",
+          sugg: ["Configurer un dashboard", "Analyser la rentabilité", "Automatiser le reporting"]
+        };
+      } else if (lower.includes("budget") || lower.includes("prévision")) {
+        return {
+          text: "📈 Prévisions budgétaires :<br>• Machine Learning prédictif<br>• Données macro-économiques<br>• Prévisions multi-scénarios",
+          sugg: ["Créer des scénarios", "Définir des alertes", "Optimiser la précision"]
+        };
+      } else if (lower.includes("automatisation")) {
+        return {
+          text: "⚙️ Automatisation des processus :<br>• Rapprochements bancaires<br>• Facturation<br>• Contrôles automatiques",
+          sugg: ["Planifier la mise en œuvre", "Former les équipes", "Mesurer le ROI"]
+        };
+      } else {
+        return {
+          text: "🤖 HelveticBot à votre service !<br>Je peux vous aider en :<br>• Analyses financières<br>• Prévisions<br>• Automatisation<br>• Stratégie",
+          sugg: ["Découvrir nos analyses", "Explorer l'automatisation", "Optimiser ma stratégie"]
+        };
+      }
     }
-  };
 
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
-  };
+    function sendMessage() {
+      const text = input.value.trim();
+      if (!text) return;
+      addMessage(text, 'user');
+      input.value = '';
 
-  const exportConversation = () => {
-    const conversation = messages.map(msg => 
-      `[${msg.type.toUpperCase()}] ${new Date(msg.timestamp).toLocaleString()}\n${msg.content}\n\n`
-    ).join('');
-    
-    const blob = new Blob([conversation], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `helveticbot_conversation_${new Date().toISOString().slice(0,10)}.txt`;
-    a.click();
-  };
+      setTimeout(() => {
+        const resp = botResponse(text);
+        addMessage(resp.text, 'bot', resp.sugg);
+      }, 1000);
+    }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex flex-col">
-      {/* Header */}
-      <div className="bg-white shadow-lg border-b border-blue-100">
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="relative">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center">
-                  <Bot className="w-7 h-7 text-white" />
-                </div>
-                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                  HelveticBot
-                </h1>
-                <p className="text-sm text-gray-600 flex items-center">
-                  <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                  Assistant IA Financier • Helvetic AI
-                </p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={exportConversation}
-                className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                title="Exporter la conversation"
-              >
-                <Download className="w-5 h-5" />
-              </button>
-              <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                🇨🇭 Suisse
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    sendBtn.addEventListener('click', sendMessage);
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
 
-      {/* Chat Area */}
-      <div className="flex-1 overflow-hidden flex flex-col max-w-4xl mx-auto w-full">
-        <div className="flex-1 overflow-y-auto p-4 space-y-6">
-          {messages.map((message, index) => (
-            <div key={index} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`flex max-w-3xl ${message.type === 'user' ? 'flex-row-reverse' : 'flex-row'} items-start space-x-3`}>
-                {/* Avatar */}
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                  message.type === 'user' 
-                    ? 'bg-gradient-to-br from-gray-600 to-gray-800' 
-                    : 'bg-gradient-to-br from-blue-600 to-blue-800'
-                }`}>
-                  {message.type === 'user' ? (
-                    <User className="w-5 h-5 text-white" />
-                  ) : (
-                    <Brain className="w-5 h-5 text-white" />
-                  )}
-                </div>
-
-                {/* Message Content */}
-                <div className={`rounded-2xl p-4 shadow-lg ${
-                  message.type === 'user'
-                    ? 'bg-gradient-to-r from-gray-600 to-gray-700 text-white ml-3'
-                    : 'bg-white border border-blue-100 mr-3'
-                }`}>
-                  <div className="prose prose-sm max-w-none">
-                    <div className="whitespace-pre-wrap">
-                      {message.content.split('**').map((part, i) => 
-                        i % 2 === 1 ? <strong key={i} className={message.type === 'user' ? 'text-blue-100' : 'text-blue-800'}>{part}</strong> : part
-                      )}
-                    </div>
-                  </div>
-                  
-                  {message.type === 'bot' && (
-                    <button
-                      onClick={() => copyToClipboard(message.content)}
-                      className="mt-2 text-xs text-gray-500 hover:text-blue-600 flex items-center space-x-1 transition-colors"
-                    >
-                      <Copy className="w-3 h-3" />
-                      <span>Copier</span>
-                    </button>
-                  )}
-
-                  {/* Suggestions */}
-                  {message.type === 'bot' && message.suggestions && showSuggestions && index === messages.length - 1 && (
-                    <div className="mt-4 space-y-2">
-                      <p className="text-xs text-gray-500 font-medium">Suggestions :</p>
-                      <div className="flex flex-wrap gap-2">
-                        {message.suggestions.map((suggestion, i) => (
-                          <button
-                            key={i}
-                            onClick={() => handleSuggestionClick(suggestion)}
-                            className="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1 rounded-full border border-blue-200 transition-colors hover:shadow-sm"
-                          >
-                            {suggestion}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-
-          {/* Typing Indicator */}
-          {isTyping && (
-            <div className="flex justify-start">
-              <div className="flex items-start space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center">
-                  <Brain className="w-5 h-5 text-white" />
-                </div>
-                <div className="bg-white rounded-2xl p-4 shadow-lg border border-blue-100">
-                  <div className="flex space-x-2">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                    <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-                  </div>
-                  <p className="text-xs text-gray-500 mt-2">HelveticBot analyse votre demande...</p>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          <div ref={messagesEndRef} />
-        </div>
-
-        {/* Input Area */}
-        <div className="border-t border-gray-200 bg-white p-4">
-          <div className="flex items-end space-x-3 max-w-3xl mx-auto">
-            <div className="flex-1 relative">
-              <textarea
-                ref={inputRef}
-                value={userInput}
-                onChange={(e) => setUserInput(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Posez votre question financière à HelveticBot..."
-                className="w-full p-4 pr-12 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none max-h-32 shadow-sm"
-                rows="1"
-                disabled={isTyping}
-              />
-              <div className="absolute right-3 bottom-3 text-xs text-gray-400">
-                {userInput.length}/500
-              </div>
-            </div>
-            <button
-              onClick={handleSendMessage}
-              disabled={!userInput.trim() || isTyping}
-              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white p-3 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl"
-            >
-              <Send className="w-5 h-5" />
-            </button>
-          </div>
-          
-          {/* Quick Actions */}
-          <div className="flex flex-wrap justify-center gap-2 mt-3 text-xs">
-            <span className="text-gray-500">Actions rapides :</span>
-            {['💡 Conseil stratégique', '📊 Analyse de données', '⚙️ Automatisation', '📈 Prévisions'].map((action, i) => (
-              <button
-                key={i}
-                onClick={() => handleSuggestionClick(action)}
-                className="bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-blue-700 px-2 py-1 rounded-md transition-colors"
-                disabled={isTyping}
-              >
-                {action}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-3">
-        <div className="max-w-4xl mx-auto flex items-center justify-between text-xs">
-          <div className="flex items-center space-x-4">
-            <span className="flex items-center">
-              <Sparkles className="w-4 h-4 mr-1" />
-              Propulsé par l'IA Helvetic AI
-            </span>
-            <span className="flex items-center">
-              <Shield className="w-4 h-4 mr-1" />
-              Données sécurisées
-            </span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span>🇨🇭</span>
-            <span>Made in Switzerland</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default HelveticBot;
+    // Message d'accueil
+    addMessage("Bonjour ! Je suis <b>HelveticBot</b>, votre assistant IA financier 🇨🇭.<br><br>Je peux vous aider avec :<br>• Analyses financières<br>• Prévisions budgétaires<br>• Automatisation<br>• Stratégie<br><br>Comment puis-je vous accompagner ?", "bot", ["📊 Analyse", "📈 Prévisions", "⚙️ Automatisation", "🎯 Stratégie"]);
+  </script>
+</body>
+</html>
