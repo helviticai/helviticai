@@ -6,10 +6,8 @@
   <title>HelveticBot</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { 
-      background: transparent !important;
-    }
-    .chat-container {height: calc(100vh - 140px);}
+    body { background: transparent !important; }
+    .chat-container {height: calc(100vh - 180px);}
     .fade-in-up {animation: fadeInUp 0.5s ease-out;}
     @keyframes fadeInUp {from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
   </style>
@@ -24,25 +22,20 @@
         HelveticBot
       </h1>
     </div>
-    <button onclick="closeWindow()" class="text-red-500 font-bold text-lg">✖</button>
+
+    <!-- Sélecteur de langue -->
+    <select id="langSelect" class="border rounded p-1 text-sm">
+      <option value="fr">🇫🇷 FR</option>
+      <option value="en">🇬🇧 EN</option>
+      <option value="de">🇩🇪 DE</option>
+    </select>
+
+    <button onclick="closeWindow()" class="text-red-500 font-bold text-lg ml-3">✖</button>
   </div>
 
   <!-- Chat Container -->
   <div class="flex flex-col chat-container max-w-4xl mx-auto bg-transparent">
-    <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-6">
-      <!-- Message de bienvenue -->
-      <div class="flex justify-start">
-        <div class="bg-white border border-blue-100 rounded-2xl p-4 shadow-lg">
-          Bonjour 👋 Je suis <strong class="text-blue-800">HelveticBot</strong>, votre assistant IA financier 🇨🇭
-          <br><br>
-          Je peux vous aider avec :<br>
-          • Analyses financières<br>
-          • Prévisions budgétaires<br>
-          • Automatisation<br>
-          • Stratégie
-        </div>
-      </div>
-    </div>
+    <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-6"></div>
 
     <!-- Input -->
     <div class="border-t border-gray-200 bg-white p-3 flex items-end space-x-3">
@@ -53,13 +46,32 @@
 
   <!-- Footer -->
   <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-2 text-center text-xs">
-    ⚡ Propulsé par Helvetic AI • Données sécurisées
+    ⚡ Powered by Helvetic AI • Secure Data
   </div>
 
   <script>
     const chatMessages = document.getElementById("chatMessages");
     const userInput = document.getElementById("userInput");
     const sendBtn = document.getElementById("sendBtn");
+    const langSelect = document.getElementById("langSelect");
+
+    // Textes multilingues
+    const messages = {
+      fr: {
+        welcome: "Bonjour 👋 Je suis <strong class='text-blue-800'>HelveticBot</strong>, votre assistant IA financier 🇨🇭<br><br>Je peux vous aider avec :<br>• Analyses financières<br>• Prévisions budgétaires<br>• Gestion des risques<br>• Investissements<br>• Fiscalité",
+        default: "🤖 Je suis HelveticBot 🇨🇭 spécialisé en finance. Posez-moi vos questions sur :<br>• Budget<br>• Analyse financière<br>• Investissements<br>• Risques<br>• Fiscalité",
+      },
+      en: {
+        welcome: "Hello 👋 I am <strong class='text-blue-800'>HelveticBot</strong>, your financial AI assistant 🇨🇭<br><br>I can help you with:<br>• Financial analysis<br>• Budget forecasts<br>• Risk management<br>• Investments<br>• Taxation",
+        default: "🤖 I am HelveticBot 🇨🇭 specialized in finance. Ask me about:<br>• Budgeting<br>• Financial analysis<br>• Investments<br>• Risks<br>• Taxation",
+      },
+      de: {
+        welcome: "Hallo 👋 Ich bin <strong class='text-blue-800'>HelveticBot</strong>, Ihr Finanz-KI-Assistent 🇨🇭<br><br>Ich kann Ihnen helfen mit:<br>• Finanzanalysen<br>• Budgetprognosen<br>• Risikomanagement<br>• Investitionen<br>• Steuern",
+        default: "🤖 Ich bin HelveticBot 🇨🇭 spezialisiert auf Finanzen. Fragen Sie mich über:<br>• Budget<br>• Finanzanalyse<br>• Investitionen<br>• Risiken<br>• Steuern",
+      }
+    };
+
+    let currentLang = "fr";
 
     function addMessage(type, content) {
       const div = document.createElement("div");
@@ -73,16 +85,28 @@
     }
 
     function botResponse(msg) {
-      if (msg.toLowerCase().includes("budget")) {
-        return "📈 Prévision budgétaire :<br>• Machine Learning<br>• Données économiques<br>• Scénarios multi-variantes";
+      msg = msg.toLowerCase();
+
+      // Quelques exemples multilingues
+      if (["budget", "forecast", "prognose"].some(word => msg.includes(word))) {
+        if (currentLang === "fr") return "📈 <b>Prévisions budgétaires intelligentes</b><br>• Analyse des flux de trésorerie<br>• Scénarios optimistes/prudents<br>• Modèles prédictifs IA";
+        if (currentLang === "en") return "📈 <b>Smart Budget Forecasts</b><br>• Cashflow analysis<br>• Optimistic/prudent scenarios<br>• AI predictive models";
+        if (currentLang === "de") return "📈 <b>Intelligente Budgetprognosen</b><br>• Cashflow-Analyse<br>• Optimistische/vorsichtige Szenarien<br>• KI-Vorhersagemodelle";
       }
-      if (msg.toLowerCase().includes("analyse")) {
-        return "📊 Analyse financière :<br>• Collecte des données<br>• Ratios clés<br>• Benchmark sectoriel";
+
+      if (["analyse", "analysis", "analyse"].some(word => msg.includes(word))) {
+        if (currentLang === "fr") return "📊 <b>Analyse financière</b><br>• Ratios clés<br>• Rentabilité & marges<br>• Benchmark sectoriel";
+        if (currentLang === "en") return "📊 <b>Financial Analysis</b><br>• Key ratios<br>• Profitability & margins<br>• Industry benchmark";
+        if (currentLang === "de") return "📊 <b>Finanzanalyse</b><br>• Wichtige Kennzahlen<br>• Rentabilität & Margen<br>• Branchen-Benchmark";
       }
-      if (msg.toLowerCase().includes("automatisation")) {
-        return "⚙️ Automatisation des processus :<br>• Rapprochements bancaires<br>• Facturation<br>• Contrôles automatiques";
+
+      if (["invest", "investissement", "investment"].some(word => msg.includes(word))) {
+        if (currentLang === "fr") return "💡 <b>Investissements</b><br>• Diversification<br>• Allocation d’actifs<br>• Simulations de rendement";
+        if (currentLang === "en") return "💡 <b>Investments</b><br>• Diversification<br>• Asset allocation<br>• Return simulations";
+        if (currentLang === "de") return "💡 <b>Investitionen</b><br>• Diversifikation<br>• Asset Allocation<br>• Renditesimulationen";
       }
-      return "🤖 Je suis HelveticBot. Posez-moi vos questions financières 🇨🇭";
+
+      return messages[currentLang].default;
     }
 
     function sendMessage() {
@@ -102,6 +126,16 @@
         sendMessage();
       }
     });
+
+    // Changement de langue
+    langSelect.addEventListener("change", () => {
+      currentLang = langSelect.value;
+      chatMessages.innerHTML = "";
+      addMessage("bot", messages[currentLang].welcome);
+    });
+
+    // Init
+    addMessage("bot", messages[currentLang].welcome);
 
     // === Fonction close ===
     function closeWindow() {
