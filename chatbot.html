@@ -3,70 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Helvitic AI - Chatbot</title>
+  <title>Helvitic AI Chatbot</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
   <style>
-    /* === Styles visuels pro === */
-    body { font-family: sans-serif; }
-
-    .glass-effect {
-      backdrop-filter: blur(10px);
-      background: rgba(255,255,255,0.9);
-      border-radius: 1rem;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-
-    .gradient-bg {
-      background: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
-    }
-
-    .message-user {
-      background: linear-gradient(135deg,#3b82f6,#1d4ed8);
-      color: white;
-      display: inline-block;
-      padding: 8px 12px;
-      border-radius: 12px;
-      max-width: 75%;
-      text-align: left;
-    }
-
-    .message-bot {
-      background: #f3f4f6;
-      border: 1px solid #d1d5db;
-      display: inline-block;
-      padding: 8px 12px;
-      border-radius: 12px;
-      max-width: 75%;
-    }
-
-    .scrollbar-thin::-webkit-scrollbar {
-      width: 6px;
-    }
-    .scrollbar-thin::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 3px;
-    }
-
-    @keyframes fadeIn {
-      from {opacity:0; transform: translateY(10px);}
-      to {opacity:1; transform: translateY(0);}
-    }
-    .fade-in {
-      animation: fadeIn 0.3s ease-in-out;
-    }
+    .message-bot { background:#f1f5f9; color:#111827; text-align:left; }
+    .message-user { background:#2563eb; color:white; text-align:right; }
+    .glass-effect { background:rgba(255,255,255,0.85); backdrop-filter:blur(10px); }
+    .faq-btn { background:#e5e7eb; padding:6px 10px; border-radius:8px; cursor:pointer; }
+    .faq-btn:hover { background:#d1d5db; }
   </style>
 </head>
-<body class="bg-gray-50">
+<body class="h-screen w-full">
 
 <!-- Fenêtre du chatbot -->
 <div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col">
 
-  <!-- Header avec sélecteur de langue + bouton fermer -->
-  <div class="gradient-bg text-white flex justify-between items-center p-4 rounded-t-xl">
+  <!-- Header -->
+  <div class="gradient-bg bg-blue-600 text-white flex justify-between items-center p-4">
     <span class="font-bold">Helvitic AI</span>
 
-    <div class="flex items-center space-x-2">
+    <div class="flex items-center gap-2">
       <select id="lang-select" class="text-black rounded px-2 py-1">
         <option value="fr">🇫🇷 FR</option>
         <option value="en">🇬🇧 EN</option>
@@ -79,9 +35,12 @@
   <!-- Messages -->
   <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin"></div>
 
+  <!-- FAQ -->
+  <div id="faq-questions" class="border-t border-gray-300 p-3 flex flex-wrap gap-2 text-sm"></div>
+
   <!-- Formulaire -->
   <form id="bot-form" class="border-t border-gray-200 p-3 flex">
-    <input id="bot-input" type="text" placeholder="Écrivez ici..."
+    <input id="bot-input" type="text" placeholder="Écrivez ici..." 
            class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
     <button class="ml-2 px-4 bg-blue-600 text-white rounded-lg">Envoyer</button>
   </form>
@@ -127,8 +86,10 @@ const langSelect = document.getElementById("lang-select");
 // Fonction affichage message
 function addMessage(sender, text) {
   const div = document.createElement("div");
-  div.className = sender === "bot" ? "message-bot fade-in" : "message-user fade-in ml-auto";
-  div.innerHTML = text;
+  div.className = sender === "bot" 
+    ? "message-bot px-3 py-2 rounded-lg" 
+    : "message-user px-3 py-2 rounded-lg text-right";
+  div.innerHTML = `<strong>${sender==="bot"?"Bot":"Vous"}:</strong> ${text}`;
   botMessages.appendChild(div);
   botMessages.scrollTop = botMessages.scrollHeight;
 }
@@ -153,17 +114,54 @@ botForm.addEventListener("submit", (e) => {
   else if (msg.includes("contact")) reply = responses[currentLang].contact;
   else if (msg.includes("bye")||msg.includes("au revoir")||msg.includes("tschüss")) reply = responses[currentLang].goodbye;
 
-  setTimeout(()=> addMessage("bot", reply), 400);
+  addMessage("bot", reply);
 });
+
+// === FAQ dynamique ===
+function updateFAQ() {
+  const faqContainer = document.getElementById("faq-questions");
+  faqContainer.innerHTML = ""; // reset
+  
+  const faqList = {
+    fr: ["Quels services proposez-vous ?", "Comment vous contacter ?", "Quels sont les avantages de l’IA ?"],
+    en: ["What services do you offer?", "How can I contact you?", "What are the benefits of AI?"],
+    de: ["Welche Dienstleistungen bieten Sie an?", "Wie kann ich Sie kontaktieren?", "Was sind die Vorteile von KI?"]
+  };
+
+  faqList[currentLang].forEach(q => {
+    const btn = document.createElement("button");
+    btn.className = "faq-btn";
+    btn.innerText = q;
+    btn.addEventListener("click", () => {
+      addMessage("user", q);
+
+      let reply = responses[currentLang].unknown;
+      if (q.toLowerCase().includes("service") || q.toLowerCase().includes("dienst")) reply = responses[currentLang].services;
+      else if (q.toLowerCase().includes("contact") || q.toLowerCase().includes("kontakt")) reply = responses[currentLang].contact;
+      else if (q.toLowerCase().includes("avantage") || q.toLowerCase().includes("benefit") || q.toLowerCase().includes("vorteil")) {
+        reply = {
+          fr: "L’IA permet d’automatiser, prédire et optimiser la performance financière 🚀",
+          en: "AI helps automate, predict, and optimize financial performance 🚀",
+          de: "KI hilft, die finanzielle Leistung zu automatisieren, vorherzusagen und zu optimieren 🚀"
+        }[currentLang];
+      }
+
+      addMessage("bot", reply);
+    });
+    faqContainer.appendChild(btn);
+  });
+}
 
 // Changement de langue
 langSelect.addEventListener("change", () => {
   currentLang = langSelect.value;
   showWelcomeMessage();
+  updateFAQ();
 });
 
 // Lancer avec message d’accueil
 showWelcomeMessage();
+updateFAQ();
 </script>
 </body>
 </html>
