@@ -1,16 +1,152 @@
-<!-- Structure correcte pour votre fichier chatbot -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helvitic AI Chatbot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .scrollbar-thin {
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 #f1f5f9;
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
 
 <!-- Fenêtre du chatbot -->
 <div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col">
-  <!-- Votre HTML existant du chatbot -->
+
+  <!-- Header avec sélecteur de langue + bouton fermer -->
+  <div class="gradient-bg text-white flex justify-between items-center p-4">
+    <span class="font-bold">Helvitic AI</span>
+
+    <select id="lang-select" class="text-black rounded px-2 py-1">
+      <option value="fr">🇫🇷 FR</option>
+      <option value="en">🇬🇧 EN</option>
+      <option value="de">🇩🇪 DE</option>
+    </select>
+
+    <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold">✕</button>
+  </div>
+
+  <!-- Messages -->
+  <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin"></div>
+
+  <!-- FAQ rapide -->
+  <div id="faq-container" class="p-3 border-t bg-gray-50">
+    <div id="faq-title" class="font-semibold mb-2 text-gray-700"></div>
+    <div id="faq-quick" class="flex flex-wrap gap-2"></div>
+  </div>
+
+  <!-- Formulaire -->
+  <form id="bot-form" class="border-t border-gray-200 p-3 flex">
+    <input id="bot-input" type="text" placeholder="Écrivez ici..." 
+           class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <button class="ml-2 px-4 bg-blue-600 text-white rounded-lg">Envoyer</button>
+  </form>
 </div>
 
-<!-- IMPORTATION FAQ - AVANT le script principal -->
-<script src="faq.js"></script>
-
-<!-- SCRIPT PRINCIPAL du chatbot -->
+<!-- Import de la base de connaissances -->
 <script>
-/* === Réponses multilingues de base === */
+// Base de connaissances intégrée (au lieu de faq.js externe)
+const faq = {
+  fr: {
+    "ia finance definition qu'est-ce": "L'IA appliquée à la performance financière utilise des algorithmes avancés, l'apprentissage automatique et l'analyse prédictive pour automatiser et optimiser les processus de gestion financière dans l'EPM (Enterprise Performance Management).",
+    
+    "avantages benefices ia epm finance": "Les avantages incluent : automatisation des processus (réduction 30-50% du temps), prévisions plus précises (+15-25%), détection d'anomalies en temps réel, optimisation continue, et réduction significative des erreurs humaines dans les processus financiers.",
+    
+    "planification budgeting forecasting ia": "L'IA transforme la planification financière via des modèles prédictifs sophistiqués, simulation de scénarios multiples en temps réel, intégration automatique de variables externes (marché, économie), et génération automatique de budgets/forecasts.",
+    
+    "processus automatisation epm finance": "Processus EPM automatisables avec l'IA : consolidation financière multi-entités, reporting automatisé intelligent, budgeting/forecasting prédictif, analyse de variance automatique, allocation des coûts optimisée, contrôle de gestion prédictif.",
+    
+    "precision amelioration previsions forecasts": "L'IA améliore la précision des prévisions grâce à l'analyse de patterns complexes dans l'historique, intégration de variables externes (indicateurs économiques, saisonnalité), et apprentissage continu qui affine les modèles au fil du temps.",
+    
+    "analyse risques anomalies detection": "L'IA excelle dans l'analyse des risques financiers : détection automatique d'anomalies dans les données, évaluation de probabilités de différents scénarios, surveillance continue des seuils critiques, et génération d'alertes préventives en temps réel.",
+    
+    "integration implementation deploiement ia epm": "L'intégration de l'IA en EPM suit 6 étapes clés : 1) Audit de la qualité des données 2) Définition des cas d'usage prioritaires 3) Sélection des technologies adaptées 4) Phase pilote contrôlée 5) Déploiement progressif 6) Formation complète des équipes.",
+    
+    "prerequis techniques infrastructure ia": "Prérequis techniques : infrastructure cloud/on-premise suffisamment puissante, données propres et cohérentes, APIs robustes pour l'intégration, sécurité renforcée pour données sensibles, compétences IA/data science, gouvernance claire des processus.",
+    
+    "delais temps resultats timeline ia": "Délais pour premiers résultats : 2-3 mois (détection d'anomalies basique), 4-6 mois (automatisation de processus), 6-12 mois (modèles prédictifs avancés), 12-24 mois (transformation complète EPM avec IA).",
+    
+    "technologies outils machine learning": "Technologies IA utilisées : Machine Learning (prévisions et classifications), Deep Learning (patterns complexes), Natural Language Processing (analyse textuelle), Computer Vision (documents/graphiques), RPA (automatisation tâches), IA générative (création rapports).",
+    
+    "solutions logiciels epm ia oracle sap": "Solutions EPM avec IA intégrée : Oracle EPM Cloud (prédictif avancé), SAP Analytics Cloud (IA pour planning), IBM Planning Analytics (analyse cognitive), Microsoft Power BI (IA native), Workday Adaptive Planning (machine learning).",
+    
+    "roi retour investissement cout benefices": "ROI attendu avec l'IA : 200-400% sur 3 ans. Gains typiques mesurés : +30-50% productivité des équipes, +15-25% précision des prévisions, -20-35% réduction coûts processus, -40-60% réduction délais de clôture comptable.",
+    
+    "contact aide support question": "Pour toute question ou projet IA en finance, contactez-nous : Email helviticaich@gmail.com, Téléphone +41 22 123 45 67. Nous répondons rapidement et proposons un premier échange gratuit pour évaluer vos besoins spécifiques."
+  },
+
+  en: {
+    "what ai finance definition artificial intelligence": "AI in financial performance uses advanced algorithms, machine learning and predictive analytics to automate and optimize financial management processes within EPM (Enterprise Performance Management) frameworks.",
+    
+    "benefits advantages ai epm finance": "Benefits include: process automation (30-50% time reduction), more accurate forecasts (+15-25%), real-time anomaly detection, continuous optimization, and significant reduction in human errors in financial processes.",
+    
+    "planning budgeting forecasting ai": "AI transforms financial planning through sophisticated predictive models, real-time multi-scenario simulation, automatic integration of external variables (market, economy), and automated budget/forecast generation.",
+    
+    "roi return investment cost benefits": "Expected AI ROI: 200-400% over 3 years. Typical measured gains: +30-50% team productivity, +15-25% forecast accuracy, -20-35% process cost reduction, -40-60% accounting closing time reduction.",
+    
+    "contact help support question": "For any AI in finance question or project, contact us: Email helviticaich@gmail.com, Phone +41 22 123 45 67. We respond quickly and offer a free initial consultation to assess your specific needs."
+  },
+
+  de: {
+    "was ist ki finanzen definition": "KI in der Finanzperformance nutzt fortgeschrittene Algorithmen, maschinelles Lernen und prädiktive Analytik zur Automatisierung und Optimierung von Finanzmanagementprozessen im EPM-Rahmen (Enterprise Performance Management).",
+    
+    "vorteile nutzen ki epm finanzen": "Vorteile: Prozessautomatisierung (30-50% Zeitreduktion), präzisere Prognosen (+15-25%), Echtzeit-Anomalieerkennung, kontinuierliche Optimierung, deutliche Reduzierung menschlicher Fehler in Finanzprozessen.",
+    
+    "roi rendite investition kosten nutzen": "Erwarteter KI-ROI: 200-400% über 3 Jahre. Typische gemessene Gewinne: +30-50% Team-Produktivität, +15-25% Prognosegenauigkeit, -20-35% Prozesskostenreduktion, -40-60% Reduzierung der Abschlusszeiten.",
+    
+    "kontakt hilfe support frage": "Für jede KI-Finanz-Frage oder Projekt kontaktieren Sie uns: E-Mail helviticaich@gmail.com, Telefon +41 22 123 45 67. Wir antworten schnell und bieten eine kostenlose Erstberatung zur Bewertung Ihrer spezifischen Bedürfnisse."
+  }
+};
+
+const quickQuestions = {
+  fr: [
+    "Qu'est-ce que l'IA en finance ?",
+    "Quels sont les avantages de l'IA pour l'EPM ?",
+    "Comment intégrer l'IA dans mon système ?",
+    "Quel est le ROI de l'IA en finance ?",
+    "Quelles technologies IA utilisez-vous ?"
+  ],
+  en: [
+    "What is AI in finance?",
+    "What are the benefits of AI for EPM?",
+    "How to integrate AI in my system?",
+    "What is the ROI of AI in finance?",
+    "What AI technologies do you use?"
+  ],
+  de: [
+    "Was ist KI im Finanzwesen?",
+    "Was sind die Vorteile von KI für EPM?",
+    "Wie integriere ich KI in mein System?",
+    "Was ist der ROI von KI im Finanzwesen?",
+    "Welche KI-Technologien verwenden Sie?"
+  ]
+};
+</script>
+
+<!-- Script principal du chatbot -->
+<script>
 const responses = {
   fr: { 
     welcome:"Bonjour 👋 Je suis le chatbot Helvitic AI spécialisé en IA pour la performance financière. Posez-moi vos questions sur l'EPM, l'automatisation ou nos solutions.",
@@ -38,7 +174,6 @@ const responses = {
   }
 };
 
-/* === FAQ multilingue pour boutons rapides === */
 const faqData = {
   fr: {
     title: "❓ Questions fréquentes",
@@ -49,7 +184,7 @@ const faqData = {
     ]
   },
   en: {
-    title: "❓ Frequently Asked Questions",
+    title: "❓ Frequently Asked Questions", 
     questions: [
       "What services do you provide?",
       "How can I contact you?",
@@ -92,8 +227,6 @@ function addMessage(sender, text) {
 
 // Fonction de recherche intelligente
 function searchFAQ(query, lang = 'fr') {
-  if (typeof faq === 'undefined') return null;
-  
   const faqLang = faq[lang] || faq.fr;
   const normalizedQuery = query.toLowerCase()
     .replace(/[àáâãäå]/g, 'a')
@@ -132,8 +265,6 @@ function searchFAQ(query, lang = 'fr') {
 
 // Suggestions de questions
 function getSuggestedQuestions(lang) {
-  if (typeof quickQuestions === 'undefined') return "";
-  
   const suggestions = quickQuestions[lang] || quickQuestions.fr;
   const randomSuggestions = suggestions.slice(0, 3);
   
@@ -214,6 +345,8 @@ botForm.addEventListener("submit", (e) => {
 
 // Charger FAQ
 function loadFAQ() {
+  if (!faqQuick || !faqTitle) return;
+  
   faqQuick.innerHTML = "";
   faqTitle.textContent = faqData[currentLang].title;
 
@@ -230,8 +363,8 @@ function loadFAQ() {
   });
 
   // Questions spécialisées IA & Finance
-  if (typeof quickQuestions !== 'undefined' && quickQuestions[currentLang]) {
-    quickQuestions[currentLang].slice(0, 5).forEach(q => {
+  if (quickQuestions[currentLang]) {
+    quickQuestions[currentLang].slice(0, 4).forEach(q => {
       const btn = document.createElement("button");
       btn.className = "faq-btn px-3 py-1 bg-green-100 text-green-700 rounded-lg text-sm hover:bg-green-200 transition mr-2 mb-2";
       btn.innerText = q;
@@ -245,10 +378,12 @@ function loadFAQ() {
 }
 
 // Changement de langue
-langSelect.addEventListener("change", () => {
-  currentLang = langSelect.value;
-  showWelcomeMessage();
-});
+if (langSelect) {
+  langSelect.addEventListener("change", () => {
+    currentLang = langSelect.value;
+    showWelcomeMessage();
+  });
+}
 
 // Initialisation
 document.addEventListener('DOMContentLoaded', () => {
@@ -259,3 +394,6 @@ if (document.readyState !== 'loading') {
   showWelcomeMessage();
 }
 </script>
+
+</body>
+</html>
