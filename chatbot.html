@@ -438,9 +438,69 @@ const translations = {
   }
 };
 
-const messagesContainer = document.getElementById("chatbot-messages");
-const questionsContainer = document.getElementById("questions-container");
-const questionsTitle = document.getElementById("questions-title");
+// Réponses spécifiques par question et langue
+const responses = {
+  fr: {
+    "Qu'est-ce que l'IA en finance ?": "L'IA en finance transforme la gestion financière en automatisant l'analyse de données, la détection de fraudes, et l'optimisation des investissements. Elle permet une prise de décision plus rapide et précise.",
+    "Quels sont les avantages de l'IA pour l'EPM ?": "L'IA révolutionne l'EPM (Enterprise Performance Management) en automatisant les prévisions budgétaires, optimisant les analyses de variance, et fournissant des insights prédictifs en temps réel pour améliorer la performance d'entreprise.",
+    "Comment intégrer l'IA dans mon système ?": "Notre processus d'intégration comprend : 1) Audit de votre infrastructure, 2) Personnalisation des modèles IA, 3) Migration progressive, 4) Formation des équipes, et 5) Support continu pour assurer une transition fluide.",
+    "Quel est le ROI de l'IA en finance ?": "Nos clients observent en moyenne : 35% de réduction des coûts opérationnels, 50% d'amélioration de la précision des prévisions, et un retour sur investissement de 300% dans les 18 premiers mois.",
+    "Quelles technologies IA utilisez-vous ?": "Nous utilisons des technologies de pointe : Machine Learning avancé, Deep Learning, NLP (traitement du langage naturel), algorithmes prédictifs, et des modèles d'IA explicable adaptés aux exigences financières.",
+    "Combien coûte une implémentation IA ?": "Nos solutions commencent à partir de 15 000 CHF selon la complexité. Nous proposons des packages modulaires adaptés à votre budget et vos besoins spécifiques. Contactez-nous pour un devis personnalisé.",
+    "L'IA peut-elle améliorer mes prévisions ?": "Absolument ! Notre IA analyse des milliers de variables simultanément, identifie des patterns invisibles à l'œil humain, et améliore la précision des prévisions de 40-60% en moyenne par rapport aux méthodes traditionnelles.",
+    "Comment assurer la sécurité des données ?": "Nous appliquons les standards les plus élevés : chiffrement AES-256, conformité RGPD, audits sécuritaires réguliers, hébergement en Suisse, et architecture zero-trust pour protéger vos données financières sensibles."
+  },
+  en: {
+    "What is AI in finance?": "AI in finance transforms financial management by automating data analysis, fraud detection, and investment optimization. It enables faster and more accurate decision-making.",
+    "What are the benefits of AI for EPM?": "AI revolutionizes EPM (Enterprise Performance Management) by automating budget forecasts, optimizing variance analysis, and providing real-time predictive insights to improve business performance.",
+    "How to integrate AI in my system?": "Our integration process includes: 1) Infrastructure audit, 2) AI model customization, 3) Progressive migration, 4) Team training, and 5) Continuous support for smooth transition.",
+    "What is the ROI of AI in finance?": "Our clients observe on average: 35% reduction in operational costs, 50% improvement in forecast accuracy, and 300% return on investment within the first 18 months.",
+    "What AI technologies do you use?": "We use cutting-edge technologies: Advanced Machine Learning, Deep Learning, NLP, predictive algorithms, and explainable AI models adapted to financial requirements.",
+    "How much does AI implementation cost?": "Our solutions start from CHF 15,000 depending on complexity. We offer modular packages adapted to your budget and specific needs. Contact us for a personalized quote.",
+    "Can AI improve my forecasts?": "Absolutely! Our AI analyzes thousands of variables simultaneously, identifies patterns invisible to the human eye, and improves forecast accuracy by 40-60% on average compared to traditional methods.",
+    "How to ensure data security?": "We apply the highest standards: AES-256 encryption, GDPR compliance, regular security audits, Swiss hosting, and zero-trust architecture to protect your sensitive financial data."
+  },
+  de: {
+    "Was ist KI im Finanzwesen?": "KI im Finanzwesen transformiert das Finanzmanagement durch Automatisierung der Datenanalyse, Betrugserkennung und Investitionsoptimierung. Sie ermöglicht schnellere und präzisere Entscheidungen.",
+    "Was sind die Vorteile von KI für EPM?": "KI revolutioniert EPM (Enterprise Performance Management) durch Automatisierung von Budgetprognosen, Optimierung von Abweichungsanalysen und Bereitstellung von Echtzeit-Predictive-Insights zur Verbesserung der Unternehmensleistung.",
+    "Wie integriere ich KI in mein System?": "Unser Integrationsprozess umfasst: 1) Infrastruktur-Audit, 2) KI-Modell-Anpassung, 3) Progressive Migration, 4) Team-Schulung und 5) Kontinuierliche Unterstützung für reibungslose Übergänge.",
+    "Was ist der ROI von KI im Finanzwesen?": "Unsere Kunden beobachten im Durchschnitt: 35% Reduzierung der Betriebskosten, 50% Verbesserung der Prognosegenauigkeit und 300% ROI innerhalb der ersten 18 Monate.",
+    "Welche KI-Technologien verwenden Sie?": "Wir verwenden modernste Technologien: Fortgeschrittenes Machine Learning, Deep Learning, NLP, prädiktive Algorithmen und erklärbare KI-Modelle, angepasst an finanzielle Anforderungen.",
+    "Wie viel kostet eine KI-Implementierung?": "Unsere Lösungen beginnen bei CHF 15.000 je nach Komplexität. Wir bieten modulare Pakete, angepasst an Ihr Budget und spezifische Bedürfnisse. Kontaktieren Sie uns für ein personalisiertes Angebot.",
+    "Kann KI meine Prognosen verbessern?": "Absolut! Unsere KI analysiert tausende Variablen gleichzeitig, identifiziert für das menschliche Auge unsichtbare Muster und verbessert die Prognosegenauigkeit um 40-60% im Vergleich zu traditionellen Methoden.",
+    "Wie stelle ich Datensicherheit sicher?": "Wir wenden höchste Standards an: AES-256-Verschlüsselung, DSGVO-Konformität, regelmäßige Sicherheitsaudits, Schweizer Hosting und Zero-Trust-Architektur zum Schutz Ihrer sensiblen Finanzdaten."
+  }
+};
+
+function getResponseForQuestion(question, lang) {
+  return responses[lang][question] || responses[lang]["Qu'est-ce que l'IA en finance ?"] || "Merci pour votre question ! Notre équipe vous contactera bientôt.";
+}
+
+function showTypingIndicator() {
+  const indicator = document.createElement("div");
+  indicator.id = "typing-indicator";
+  indicator.className = "text-left message-fade-in";
+  
+  const bubble = document.createElement("div");
+  bubble.className = "typing-indicator";
+  
+  for (let i = 0; i < 3; i++) {
+    const dot = document.createElement("div");
+    dot.className = "typing-dot";
+    bubble.appendChild(dot);
+  }
+  
+  indicator.appendChild(bubble);
+  messagesContainer.appendChild(indicator);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function hideTypingIndicator() {
+  const indicator = document.getElementById("typing-indicator");
+  if (indicator) {
+    indicator.remove();
+  }
+}
 
 let currentLang = "fr";
 let isTyping = false;
@@ -483,8 +543,13 @@ function updateQuickQuestions() {
     button.onclick = () => {
       addMessage(question, "user");
       setTimeout(() => {
-        addMessage("Merci pour votre question ! Notre équipe d'experts IA vous répondra dans les plus brefs délais avec une solution personnalisée.", "bot");
-      }, 1000);
+        showTypingIndicator();
+        setTimeout(() => {
+          hideTypingIndicator();
+          const response = getResponseForQuestion(question, currentLang);
+          addMessage(response, "bot");
+        }, 1500);
+      }, 500);
     };
     
     // Animation d'apparition décalée
