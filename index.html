@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Helvetic AI — FR / EN / DE</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Styles internes utiles au site -->
-  <style>
-    html { scroll-behavior: smooth; }
-    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
-    .fade-in.show { opacity: 1; transform: translateY(0); }
-    .accordion-content { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
-    .accordion-content.open { max-height: 1000px; }
-    .focus-ring:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
-    .lang { display:none; }
-    .lang.active { display:block; }
-    .flag { width:28px; height:20px; border-radius:3px; cursor:pointer; }
-  </style>
- 
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Helvetic AI — FR / EN / DE</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+html { scroll-behavior: smooth; }
+.fade-in { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
+.fade-in.show { opacity: 1; transform: translateY(0); }
+.accordion-content { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+.accordion-content.open { max-height: 1000px; }
+.focus-ring:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+.lang { display:none; }
+.lang.active { display:block; }
+.flag { width:28px; height:20px; border-radius:3px; cursor:pointer; }
+</style>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
 <body class="bg-white text-gray-900">
 
   <!-- NAVBAR -->
@@ -618,8 +618,10 @@ z-index:10000; box-shadow:0 4px 10px rgba(0,0,0,0.3);">
 </div>
 
 
-<!-- Iframe du chatbot (corrigé pour pointer sur fichier fusionné) -->
-<iframe src="chatbot.html"></iframe>
+
+
+<!-- Iframe du chatbot -->
+<iframe id="chatbotFrame" src="chatbot.html"
 style="border:none; position:fixed; bottom:20px; right:20px; width:350px; height:480px;
 z-index:9999; display:none; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.4);"
 title="HelveticBot"></iframe>
@@ -643,7 +645,8 @@ bubble.style.display = "flex";
 </script>
 
 
-
+</body>
+</html>
 
 
 
