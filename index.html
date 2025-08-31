@@ -622,9 +622,9 @@
 
 <!-- === Iframe du chatbot (cachée au départ) === -->
 <iframe id="chatbotFrame" src="chatbot.html"
-        style="border:none; position:fixed; bottom:20px; right:20px; width:350px; height:480px; 
-               z-index:9999; display:none; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.4);"
+        style="border:none; position:fixed; bottom:20px; right:20px; width:350px; height:480px; z-index:9999; display:none; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.4);"
         title="HelveticBot"></iframe>
+
 
 <script>
   const bubble = document.getElementById("chatBubble");
@@ -637,11 +637,14 @@
 </script>
 <script>
   function closeChatbot() {
-    const iframe = document.querySelector('iframe[title="Assistant Helvetic AI"]');
-    if (iframe) {
-      iframe.style.display = "none"; // masque l’iframe
-    }
+  const iframe = document.getElementById("chatbotFrame");
+  const bubble = document.getElementById("chatBubble");
+  if (iframe && bubble) {
+    iframe.style.display = "none";   // masque le chatbot
+    bubble.style.display = "flex";   // réaffiche la bulle
   }
+}
+
 </script>
 
 
