@@ -18,44 +18,11 @@
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 #f1f5f9;
 }
-.scrollbar-thin::-webkit-scrollbar {
-  width: 6px;
-}
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
+.scrollbar-thin::-webkit-scrollbar { width: 6px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: #f1f5f9; }
 .scrollbar-thin::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 3px;
-}
-.typing-indicator {
-  display: flex;
-  padding: 8px 16px;
-  background: #e5e7eb;
-  border-radius: 16px;
-  width: fit-content;
-  margin: 4px 0;
-}
-.typing-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #6b7280;
-  animation: typing 1.4s infinite;
-  margin-right: 4px;
-}
-.typing-dot:nth-child(2) { animation-delay: 0.2s; }
-.typing-dot:nth-child(3) { animation-delay: 0.4s; margin-right: 0; }
-@keyframes typing {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-  30% { transform: translateY(-8px); opacity: 1; }
-}
-.message-fade-in {
-  animation: fadeInUp 0.3s ease-out;
-}
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 .question-btn {
   transition: all 0.2s ease;
@@ -66,52 +33,27 @@
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
 }
-.toggle-btn {
-  transition: all 0.2s ease;
-}
-.toggle-btn:hover {
-  transform: scale(1.02);
-}
+.toggle-btn { transition: all 0.2s ease; }
+.toggle-btn:hover { transform: scale(1.02); }
 </style>
 </head>
 <body>
 
 <!-- Fenêtre du chatbot -->
 <div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col relative overflow-hidden">
-  <!-- Montagnes suisses en arrière-plan -->
-  <div class="absolute inset-0 pointer-events-none opacity-5">
-    <svg width="100%" height="100%" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0 200 L50 160 L100 140 L150 120 L200 110 L250 130 L300 150 L350 140 L400 160 L400 300 L0 300 Z" fill="#e2e8f0" opacity="0.6"/>
-      <path d="M0 240 L40 200 L80 180 L120 160 L160 140 L200 130 L240 145 L280 170 L320 160 L360 180 L400 200 L400 300 L0 300 Z" fill="#cbd5e1" opacity="0.8"/>
-      <path d="M0 280 L30 250 L60 230 L90 210 L130 190 L170 185 L210 200 L250 220 L290 210 L330 230 L370 240 L400 250 L400 300 L0 300 Z" fill="#94a3b8"/>
-    </svg>
-  </div>
 
   <!-- Header -->
   <div class="gradient-bg text-white flex justify-between items-center p-4 shadow-lg">
     <div class="flex items-center space-x-3">
-      <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center overflow-hidden">
-        <svg width="20" height="20" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-          <rect width="32" height="32" fill="#FF0000"/>
-          <rect x="6" y="13" width="20" height="6" fill="#FFFFFF"/>
-          <rect x="13" y="6" width="6" height="20" fill="#FFFFFF"/>
-        </svg>
-      </div>
-      <div>
-        <span class="font-bold">Helvetic AI</span>
-        <div class="text-xs opacity-75" id="status-indicator">En ligne</div>
-      </div>
+      <span class="font-bold">Helvetic AI</span>
+      <div class="text-xs opacity-75" id="status-indicator">En ligne</div>
     </div>
     <div class="flex items-center space-x-2">
-      <div class="relative">
-        <select id="lang-select" class="text-black rounded px-8 py-1 text-sm appearance-none bg-white pr-6">
-          <option value="fr">Français</option>
-          <option value="en">English</option>
-          <option value="de">Deutsch</option>
-        </select>
-        <div id="flag-icon" class="absolute left-2 top-1/2 transform -translate-y-1/2 pointer-events-none"></div>
-      </div>
-      <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold hover:bg-white/20 w-6 h-6 rounded-full flex items-center justify-center transition-colors">×</button>
+      <select id="lang-select" class="text-black rounded px-3 py-1 text-sm bg-white">
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+      </select>
     </div>
   </div>
 
@@ -126,21 +68,75 @@
 </div>
 
 <script>
-// ⚡ Traductions
-const translations = {
-  fr: { questionsTitle:"Questions rapides :", seeMore:"Voir plus", seeLess:"Voir moins", welcome:"Bonjour ! Je suis votre assistant IA Helvetic. Choisissez une question ci-dessous pour commencer.", online:"En ligne", typing:"En train d'écrire..." },
-  en: { questionsTitle:"Quick questions:", seeMore:"See more", seeLess:"See less", welcome:"Hello! I'm your Helvetic AI assistant. Choose a question below to get started.", online:"Online", typing:"Typing..." },
-  de: { questionsTitle:"Schnellfragen:", seeMore:"Mehr anzeigen", seeLess:"Weniger anzeigen", welcome:"Hallo! Ich bin Ihr Helvetic AI Assistent. Wählen Sie eine Frage unten aus, um zu beginnen.", online:"Online", typing:"Schreibt..." }
-};
-
-// ⚡ Questions
 const quickQuestions = {
-  fr:["Qu'est-ce que l'IA en finance ?","Quels sont les avantages de l'IA pour l'EPM ?","Comment intégrer l'IA dans mon système ?","Quel est le ROI de l'IA en finance ?","Quelles technologies IA utilisez-vous ?","Combien coûte une implémentation IA ?"],
-  en:["What is AI in finance?","What are the benefits of AI for EPM?","How to integrate AI in my system?","What is the ROI of AI in finance?","What AI technologies do you use?","How much does AI implementation cost?"],
-  de:["Was ist KI im Finanzwesen?","Was sind die Vorteile von KI für EPM?","Wie integriere ich KI in mein System?","Was ist der ROI von KI im Finanzwesen?","Welche KI-Technologien verwenden Sie?","Wie viel kostet eine KI-Implementierung?"]
+  fr: [
+    "Qu'est-ce que l'IA en finance ?",
+    "Quels sont les avantages de l'IA pour l'EPM ?",
+    "Comment intégrer l'IA dans mon système ?",
+    "Quel est le ROI de l'IA en finance ?",
+    "Quelles technologies IA utilisez-vous ?",
+    "Combien coûte une implémentation IA ?",
+    "L'IA peut-elle améliorer mes prévisions ?",
+    "Comment assurer la sécurité des données ?",
+    "Quels sont les services Helvetic AI ?",
+    "Qui compose l'équipe Helvetic AI ?",
+    "Comment vous contacter ?",
+    "Quelle est votre méthodologie ?"
+  ],
+  en: [
+    "What is AI in finance?",
+    "What are the benefits of AI for EPM?",
+    "How to integrate AI in my system?",
+    "What is the ROI of AI in finance?",
+    "What AI technologies do you use?",
+    "How much does AI implementation cost?",
+    "Can AI improve my forecasts?",
+    "How to ensure data security?",
+    "What are Helvetic AI services?",
+    "Who is the Helvetic AI team?",
+    "How to contact you?",
+    "What is your methodology?"
+  ],
+  de: [
+    "Was ist KI im Finanzwesen?",
+    "Was sind die Vorteile von KI für EPM?",
+    "Wie integriere ich KI in mein System?",
+    "Was ist der ROI von KI im Finanzwesen?",
+    "Welche KI-Technologien verwenden Sie?",
+    "Wie viel kostet eine KI-Implementierung?",
+    "Kann KI meine Prognosen verbessern?",
+    "Wie stelle ich Datensicherheit sicher?",
+    "Was sind die Helvetic AI Services?",
+    "Wer ist das Helvetic AI Team?",
+    "Wie kann ich Sie kontaktieren?",
+    "Was ist Ihre Methodik?"
+  ]
 };
 
-<script>
+const translations = {
+  fr: {
+    online: "En ligne",
+    questionsTitle: "Questions rapides :",
+    seeMore: "Voir plus",
+    seeLess: "Voir moins",
+    welcome: "Bonjour 👋 Je suis votre assistant IA Helvetic."
+  },
+  en: {
+    online: "Online",
+    questionsTitle: "Quick questions:",
+    seeMore: "See more",
+    seeLess: "See less",
+    welcome: "Hello 👋 I'm your Helvetic AI assistant."
+  },
+  de: {
+    online: "Online",
+    questionsTitle: "Schnellfragen:",
+    seeMore: "Mehr anzeigen",
+    seeLess: "Weniger anzeigen",
+    welcome: "Hallo 👋 Ich bin Ihr Helvetic AI Assistent."
+  }
+};
+
 const messagesContainer=document.getElementById("chatbot-messages");
 const langSelect=document.getElementById("lang-select");
 const statusIndicator=document.getElementById("status-indicator");
@@ -150,7 +146,6 @@ const questionsTitle=document.getElementById("questions-title");
 let currentLang="fr";
 let expanded=false;
 
-// Affichage message
 function addMessage(text,sender="bot"){
   const msg=document.createElement("div");
   msg.className=sender==="user"?"text-right":"text-left";
@@ -164,16 +159,12 @@ function addMessage(text,sender="bot"){
   messagesContainer.scrollTop=messagesContainer.scrollHeight;
 }
 
-// Questions rapides
 function updateQuickQuestions(){
   questionsContainer.innerHTML="";
   questionsTitle.textContent=translations[currentLang].questionsTitle;
   const questions=quickQuestions[currentLang];
-
-  // combien afficher ?
   const visible=expanded ? questions.length : 3;
 
-  // afficher les questions visibles
   questions.slice(0,visible).forEach(q=>{
     const btn=document.createElement("button");
     btn.className="question-btn w-full text-left p-3 rounded-lg bg-white hover:bg-gray-50 text-sm";
@@ -182,23 +173,20 @@ function updateQuickQuestions(){
     questionsContainer.appendChild(btn);
   });
 
-  // bouton voir plus / voir moins
   if(questions.length>3){
     const toggleButton=document.createElement("button");
-    toggleButton.id="toggle-btn"; // important : id fixe
     toggleButton.className="toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
     toggleButton.textContent=expanded
       ? translations[currentLang].seeLess
       : translations[currentLang].seeMore;
     toggleButton.onclick=()=>{
-      expanded=!expanded; // inverse l'état
-      updateQuickQuestions(); // recharge la liste
+      expanded=!expanded;
+      updateQuickQuestions();
     };
     questionsContainer.appendChild(toggleButton);
   }
 }
 
-// Changement de langue
 langSelect.addEventListener("change",e=>{
   currentLang=e.target.value;
   expanded=false;
@@ -208,10 +196,10 @@ langSelect.addEventListener("change",e=>{
   updateQuickQuestions();
 });
 
-// Init
 document.addEventListener("DOMContentLoaded",()=>{
   addMessage(translations[currentLang].welcome,"bot");
   updateQuickQuestions();
 });
 </script>
-
+</body>
+</html>
