@@ -418,10 +418,40 @@ function updateQuickQuestions() {
   }
 }
 
+// Fonction pour mettre à jour le drapeau
+function updateFlag(lang) {
+  const flagIcon = document.getElementById("flag-icon");
+  
+  const flags = {
+    fr: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+           <rect width="32" height="8" fill="#002395"/>
+           <rect width="32" height="8" y="8" fill="#FFFFFF"/>
+           <rect width="32" height="8" y="16" fill="#ED2939"/>
+         </svg>`,
+    en: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+           <rect width="32" height="24" fill="#012169"/>
+           <path d="M0 0L32 24M32 0L0 24" stroke="#FFFFFF" stroke-width="4"/>
+           <path d="M0 0L32 24M32 0L0 24" stroke="#C8102E" stroke-width="2.5"/>
+           <path d="M16 0V24M0 12H32" stroke="#FFFFFF" stroke-width="4"/>
+           <path d="M16 0V24M0 12H32" stroke="#C8102E" stroke-width="2.5"/>
+         </svg>`,
+    de: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+           <rect width="32" height="8" fill="#000000"/>
+           <rect width="32" height="8" y="8" fill="#DD0000"/>
+           <rect width="32" height="8" y="16" fill="#FFCE00"/>
+         </svg>`
+  };
+  
+  flagIcon.innerHTML = flags[lang];
+}
+
 // Changement de langue
 langSelect.addEventListener("change", (e) => {
   currentLang = e.target.value;
   expanded = false; // Reset l'état des questions
+  
+  // Mise à jour du drapeau
+  updateFlag(currentLang);
   
   // Mise à jour de l'interface
   statusIndicator.textContent = translations[currentLang].online;
