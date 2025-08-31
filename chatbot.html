@@ -291,6 +291,8 @@ const translations = {
 
 <!-- Script principal -->
 <script>
+<!-- Script principal -->
+<script>
 const messagesContainer = document.getElementById("chatbot-messages");
 const langSelect = document.getElementById("lang-select");
 const statusIndicator = document.getElementById("status-indicator");
@@ -360,7 +362,6 @@ function findAnswer(question) {
 
   const kb = knowledgeBase[currentLang];
   
-  // Recherche exacte par correspondance de question
   for (let key in kb) {
     const normalizedKey = key.replace(/[^a-z0-9\s]/g, '').trim();
     if (normalizedQuestion === normalizedKey) {
@@ -368,7 +369,6 @@ function findAnswer(question) {
     }
   }
   
-  // Recherche par mots-clés
   for (let key in kb) {
     const keyWords = key.split(' ');
     const questionWords = normalizedQuestion.split(' ');
@@ -378,17 +378,13 @@ function findAnswer(question) {
     }
   }
   
-  return kb[Object.keys(kb)[0]]; // Première réponse par défaut
+  return kb[Object.keys(kb)[0]];
 }
 
 // Traitement d'une question
 function handleQuestion(question) {
   if (isTyping) return;
-  
-  // Ajouter message utilisateur
   addMessage(question, "user");
-  
-  // Simuler délai de traitement
   showTypingIndicator();
   
   setTimeout(() => {
@@ -398,44 +394,7 @@ function handleQuestion(question) {
   }, Math.random() * 1000 + 800);
 }
 
-// Mise à jour des questions rapides
-function updateQuickQuestions() {
-  questionsContainer.innerHTML = "";
-  questionsTitle.textContent = translations[currentLang].questionsTitle;
-  
-  const questions = quickQuestions[currentLang];
-  const visibleCount = expanded ? questions.length : 3;
-  const visibleQuestions = questions.slice(0, visibleCount);
-  
-  // Afficher les questions
-  visibleQuestions.forEach((question, index) => {
-    const button = document.createElement("button");
-    button.className = "question-btn w-full text-left p-3 rounded-lg bg-white hover:bg-gray-50 text-sm";
-    button.textContent = question;
-    button.onclick = () => handleQuestion(question);
-    questionsContainer.appendChild(button);
-  });
-  
-  // Affichage questions rapides avec Voir plus / Voir moins
-function updateQuickQuestions() {
-  faqQuick.innerHTML = "";
-  faqTitle.textContent = translations[currentLang].quick;
-
-  let questions = quickQuestions[currentLang];
-  let display = expanded ? questions : questions.slice(0, 3);
-
-  display.forEach(q => {
-    const btn = document.createElement("button");
-    btn.className = "px-3 py-1 bg-gray-200 rounded-full text-sm hover:bg-gray-300 text-left";
-    btn.textContent = q;
-    btn.onclick = () => {
-      addMessage(q, "user");
-      setTimeout(() => addMessage(findAnswer(q), "bot"), 400);
-    };
-    faqQuick.appendChild(btn);
-  });
-// Affichage questions rapides avec Voir plus / Voir moins
-// Mise à jour des questions rapides
+// ✅ Mise à jour des questions rapides (corrigée et unique)
 function updateQuickQuestions() {
   questionsContainer.innerHTML = "";
   questionsTitle.textContent = translations[currentLang].questionsTitle;
@@ -444,7 +403,6 @@ function updateQuickQuestions() {
   const visibleCount = expanded ? questions.length : 3;
   const visibleQuestions = questions.slice(0, visibleCount);
 
-  // Afficher les questions visibles
   visibleQuestions.forEach((question) => {
     const button = document.createElement("button");
     button.className =
@@ -454,7 +412,6 @@ function updateQuickQuestions() {
     questionsContainer.appendChild(button);
   });
 
-  // Bouton Voir plus / Voir moins
   if (questions.length > 3) {
     const toggleButton = document.createElement("button");
     toggleButton.className =
@@ -470,49 +427,25 @@ function updateQuickQuestions() {
   }
 }
 
-// Fonction pour mettre à jour le drapeau
+// Mise à jour du drapeau
 function updateFlag(lang) {
   const flagIcon = document.getElementById("flag-icon");
-  
   const flags = {
-    fr: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
-           <rect width="32" height="8" fill="#002395"/>
-           <rect width="32" height="8" y="8" fill="#FFFFFF"/>
-           <rect width="32" height="8" y="16" fill="#ED2939"/>
-         </svg>`,
-    en: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
-           <rect width="32" height="24" fill="#012169"/>
-           <path d="M0 0L32 24M32 0L0 24" stroke="#FFFFFF" stroke-width="4"/>
-           <path d="M0 0L32 24M32 0L0 24" stroke="#C8102E" stroke-width="2.5"/>
-           <path d="M16 0V24M0 12H32" stroke="#FFFFFF" stroke-width="4"/>
-           <path d="M16 0V24M0 12H32" stroke="#C8102E" stroke-width="2.5"/>
-         </svg>`,
-    de: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
-           <rect width="32" height="8" fill="#000000"/>
-           <rect width="32" height="8" y="8" fill="#DD0000"/>
-           <rect width="32" height="8" y="16" fill="#FFCE00"/>
-         </svg>`
+    fr: `<svg width="16" height="12" ...>...</svg>`,
+    en: `<svg width="16" height="12" ...>...</svg>`,
+    de: `<svg width="16" height="12" ...>...</svg>`
   };
-  
   flagIcon.innerHTML = flags[lang];
 }
 
 // Changement de langue
 langSelect.addEventListener("change", (e) => {
   currentLang = e.target.value;
-  expanded = false; // Reset l'état des questions
-  
-  // Mise à jour du drapeau
+  expanded = false;
   updateFlag(currentLang);
-  
-  // Mise à jour de l'interface
   statusIndicator.textContent = translations[currentLang].online;
-  
-  // Reset conversation
   messagesContainer.innerHTML = "";
   addMessage(translations[currentLang].welcome, "bot", false);
-  
-  // Mise à jour des questions
   updateQuickQuestions();
 });
 
@@ -522,6 +455,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateQuickQuestions();
 });
 </script>
+
 
 </body>
 </html>
