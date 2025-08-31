@@ -18,20 +18,18 @@
 
 <!-- Fenêtre du chatbot -->
 <div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col">
-  
-  <!-- Header avec sélecteur de langue -->
-  
-}
-  function closeChatbot() {
-  chatbotFrame.style.display = "none";
-  bubble.style.display = "flex"; // on réaffiche la bulle
+
+  <!-- Header avec sélecteur de langue + bouton fermer -->
   <div class="gradient-bg text-white flex justify-between items-center p-4">
     <span class="font-bold">Helvitic AI</span>
+
     <select id="lang-select" class="text-black rounded px-2 py-1">
       <option value="fr">🇫🇷 FR</option>
       <option value="en">🇬🇧 EN</option>
       <option value="de">🇩🇪 DE</option>
     </select>
+
+    <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold">✕</button>
   </div>
 
   <!-- Messages -->
@@ -39,8 +37,7 @@
 
   <!-- Formulaire -->
   <form id="bot-form" class="border-t border-gray-200 p-3 flex">
-    <input id="bot-input" type="text" placeholder="Écrivez ici..." 
-           class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <input id="bot-input" type="text" placeholder="Écrivez ici..." class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
     <button class="ml-2 px-4 bg-blue-600 text-white rounded-lg">Envoyer</button>
   </form>
 </div>
