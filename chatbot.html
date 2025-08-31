@@ -6,6 +6,23 @@
 <title>Helvetic AI Chatbot</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
+  #questions-container {
+  max-height: 200px;   /* limite la hauteur visible */
+  overflow-y: auto;    /* active le scroll interne */
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+#questions-container::-webkit-scrollbar {
+  width: 6px;
+}
+#questions-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+#questions-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
 .glass-effect {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
