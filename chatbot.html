@@ -1,10 +1,15 @@
-<!-- Dans votre fichier chatbot (10).html, remplacez la section <script> par ceci : -->
+<!-- Structure correcte pour votre fichier chatbot -->
 
+<!-- Fenêtre du chatbot -->
+<div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col">
+  <!-- Votre HTML existant du chatbot -->
+</div>
+
+<!-- IMPORTATION FAQ - AVANT le script principal -->
+<script src="faq.js"></script>
+
+<!-- SCRIPT PRINCIPAL du chatbot -->
 <script>
-/* === Import du fichier FAQ === */
-// Assurez-vous que le fichier faq.js est chargé avant ce script
-  <script src="faq.js"></script>
-
 /* === Réponses multilingues de base === */
 const responses = {
   fr: { 
@@ -61,7 +66,7 @@ const faqData = {
   }
 };
 
-let currentLang = "fr"; // langue par défaut
+let currentLang = "fr";
 
 // Sélecteurs
 const botForm = document.getElementById("bot-form");
@@ -78,7 +83,6 @@ function addMessage(sender, text) {
     ? "message-bot px-3 py-2 rounded-lg bg-gray-100 mb-2" 
     : "message-user px-3 py-2 rounded-lg text-right bg-blue-500 text-white mb-2";
   
-  // Formatage du texte avec retours à la ligne
   const formattedText = text.replace(/\n/g, '<br>');
   div.innerHTML = `<strong>${sender==="bot"?"Helvitic AI":"Vous"}:</strong> ${formattedText}`;
   
@@ -86,7 +90,7 @@ function addMessage(sender, text) {
   botMessages.scrollTop = botMessages.scrollHeight;
 }
 
-// Fonction de recherche intelligente dans la FAQ spécialisée
+// Fonction de recherche intelligente
 function searchFAQ(query, lang = 'fr') {
   if (typeof faq === 'undefined') return null;
   
@@ -101,7 +105,6 @@ function searchFAQ(query, lang = 'fr') {
     .replace(/[^a-z0-9\s]/g, ' ')
     .trim();
 
-  // Recherche par mots-clés
   const keywords = normalizedQuery.split(' ').filter(word => word.length > 2);
   let bestMatch = null;
   let maxScore = 0;
@@ -111,13 +114,11 @@ function searchFAQ(query, lang = 'fr') {
     const normalizedKey = key.toLowerCase();
     const normalizedValue = value.toLowerCase();
 
-    // Score basé sur la correspondance des mots-clés
     keywords.forEach(keyword => {
       if (normalizedKey.includes(keyword)) score += 3;
       if (normalizedValue.includes(keyword)) score += 1;
     });
 
-    // Bonus pour correspondance exacte
     if (normalizedKey.includes(normalizedQuery)) score += 5;
 
     if (score > maxScore) {
@@ -129,7 +130,7 @@ function searchFAQ(query, lang = 'fr') {
   return maxScore > 2 ? bestMatch : null;
 }
 
-// Fonction pour obtenir des suggestions de questions
+// Suggestions de questions
 function getSuggestedQuestions(lang) {
   if (typeof quickQuestions === 'undefined') return "";
   
@@ -151,32 +152,25 @@ function getSuggestedQuestions(lang) {
   return suggestionText;
 }
 
-// Message de bienvenue spécialisé
+// Message de bienvenue
 function showWelcomeMessage() {
   botMessages.innerHTML = "";
-  
-  // Utiliser le message d'accueil spécialisé si disponible
-  let welcomeMsg = responses[currentLang].welcome;
-  if (typeof faq !== 'undefined' && faq[currentLang] && faq[currentLang].welcome) {
-    welcomeMsg = faq[currentLang].welcome;
-  }
-  
-  addMessage("bot", welcomeMsg);
+  addMessage("bot", responses[currentLang].welcome);
   loadFAQ();
 }
 
-// Réponses automatiques améliorées
+// Gestion des messages utilisateur
 function handleUserMessage(msg) {
   const normalizedMsg = msg.toLowerCase().trim();
 
-  // Recherche d'abord dans la FAQ spécialisée IA & Finance
+  // Recherche dans la FAQ spécialisée IA & Finance
   const faqResult = searchFAQ(normalizedMsg, currentLang);
   if (faqResult && faqResult.score > 2) {
     addMessage("bot", faqResult.value);
     return;
   }
 
-  // Puis dans les réponses basiques existantes
+  // Réponses basiques
   let reply = responses[currentLang].unknown;
   
   if (normalizedMsg.includes("bonjour") || normalizedMsg.includes("hello") || normalizedMsg.includes("hallo")) {
@@ -193,7 +187,7 @@ function handleUserMessage(msg) {
 
   addMessage("bot", reply);
 
-  // Suggérer des questions pertinentes si la réponse est générique
+  // Suggestions si pas de réponse trouvée
   if (reply === responses[currentLang].unknown) {
     setTimeout(() => {
       const suggestions = getSuggestedQuestions(currentLang);
@@ -209,21 +203,21 @@ botForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const msg = botInput.value.trim();
   if (!msg) return;
+  
   addMessage("user", msg);
   botInput.value = "";
   
-  // Délai pour simuler la réflexion
   setTimeout(() => {
     handleUserMessage(msg);
   }, 500);
 });
 
-// Charger FAQ avec questions spécialisées IA
+// Charger FAQ
 function loadFAQ() {
   faqQuick.innerHTML = "";
   faqTitle.textContent = faqData[currentLang].title;
 
-  // Questions générales existantes
+  // Questions générales
   faqData[currentLang].questions.forEach(q => {
     const btn = document.createElement("button");
     btn.className = "faq-btn px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-sm hover:bg-blue-200 transition mr-2 mb-2";
@@ -235,7 +229,7 @@ function loadFAQ() {
     faqQuick.appendChild(btn);
   });
 
-  // Ajouter des questions spécialisées IA & Finance
+  // Questions spécialisées IA & Finance
   if (typeof quickQuestions !== 'undefined' && quickQuestions[currentLang]) {
     quickQuestions[currentLang].slice(0, 5).forEach(q => {
       const btn = document.createElement("button");
@@ -256,15 +250,12 @@ langSelect.addEventListener("change", () => {
   showWelcomeMessage();
 });
 
-// Lancer avec message d'accueil
+// Initialisation
 document.addEventListener('DOMContentLoaded', () => {
   showWelcomeMessage();
 });
 
-// Si le DOM est déjà chargé
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', showWelcomeMessage);
-} else {
+if (document.readyState !== 'loading') {
   showWelcomeMessage();
 }
 </script>
