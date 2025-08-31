@@ -480,6 +480,9 @@ document.addEventListener("DOMContentLoaded", () => {
   addMessage(translations[currentLang].welcome, "bot", false);
   updateQuickQuestions();
 });
+
+// Initialiser le drapeau au chargement
+updateFlag(currentLang);
 </script>
 
 </body>
