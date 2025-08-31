@@ -319,68 +319,179 @@ html { scroll-behavior: smooth; }
     </div>
   </section>
 
-  <!-- MÉTHODOLOGIE (timeline visuelle) -->
- <!-- 🌍 Section Methodology Multilingue -->
-<section id="methodology" class="py-16 bg-gray-50">
-  <div class="max-w-6xl mx-auto px-6">
+<!-- MÉTHODOLOGIE (timeline visuelle améliorée) -->
+  <section id="methodologie" class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+    <div class="container mx-auto px-6 max-w-7xl">
+      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang fr active">Notre Méthodologie</h2>
+      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang en">Our Methodology</h2>
+      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang de">Unsere Methodik</h2>
+      
+      <p class="text-center text-gray-600 mb-16 max-w-3xl mx-auto fade-in lang fr active">
+        Un processus éprouvé en 5 étapes pour garantir le succès de votre transformation digitale.
+      </p>
+      <p class="text-center text-gray-600 mb-16 max-w-3xl mx-auto fade-in lang en">
+        A proven 5-step process to guarantee the success of your digital transformation.
+      </p>
+      <p class="text-center text-gray-600 mb-16 max-w-3xl mx-auto fade-in lang de">
+        Ein bewährter 5-Schritte-Prozess für den Erfolg Ihrer digitalen Transformation.
+      </p>
 
-    <!-- FR -->
-    <div lang="fr">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">Notre Méthodologie</h2>
-      <div class="flex space-x-6 overflow-x-auto pb-4 md:grid md:grid-cols-3 md:gap-8">
-        <div class="min-w-[250px] md:min-w-0 flex-shrink-0 p-6 bg-white shadow rounded-lg">
-          <h3 class="text-xl font-semibold mb-3">Étape 1</h3>
-          <p class="text-gray-600 leading-relaxed">Analyse approfondie de vos besoins financiers et de vos données.</p>
-        </div>
-        <div class="min-w-[250px] md:min-w-0 flex-shrink-0 p-6 bg-white shadow rounded-lg">
-          <h3 class="text-xl font-semibold mb-3">Étape 2</h3>
-          <p class="text-gray-600 leading-relaxed">Mise en place de solutions IA adaptées à votre organisation.</p>
-        </div>
-        <div class="min-w-[250px] md:min-w-0 flex-shrink-0 p-6 bg-white shadow rounded-lg">
-          <h3 class="text-xl font-semibold mb-3">Étape 3</h3>
-          <p class="text-gray-600 leading-relaxed">Suivi continu et optimisation pour des résultats durables.</p>
+      <!-- Timeline horizontale -->
+      <div class="relative">
+        <!-- Ligne de connexion -->
+        <div class="absolute top-16 left-0 right-0 h-1 bg-gradient-to-r from-blue-200 via-blue-400 to-blue-600 hidden md:block"></div>
+        
+        <!-- Étapes -->
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-8 relative z-10">
+          
+          <!-- Étape 1 -->
+          <div class="text-center fade-in group">
+            <div class="relative mb-6">
+              <div class="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                01
+              </div>
+              <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-blue-600 rounded-full hidden md:block"></div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-blue-500">
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang fr active">Analyse des besoins</h3>
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang en">Needs analysis</h3>
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang de">Bedarfsanalyse</h3>
+              
+              <p class="text-gray-600 text-sm leading-relaxed lang fr active">
+                Audit complet de votre environnement financier et identification des opportunités d'amélioration.
+              </p>
+              <p class="text-gray-600 text-sm leading-relaxed lang en">
+                Complete audit of your financial environment and identification of improvement opportunities.
+              </p>
+              <p class="text-gray-600 text-sm leading-relaxed lang de">
+                Vollständige Prüfung Ihres Finanzumfelds und Identifikation von Verbesserungsmöglichkeiten.
+              </p>
+            </div>
+          </div>
+
+          <!-- Étape 2 -->
+          <div class="text-center fade-in group">
+            <div class="relative mb-6">
+              <div class="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                02
+              </div>
+              <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-blue-600 rounded-full hidden md:block"></div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-blue-500">
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang fr active">Conception de la solution</h3>
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang en">Solution design</h3>
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang de">Lösungskonzeption</h3>
+              
+              <p class="text-gray-600 text-sm leading-relaxed lang fr active">
+                Création d'une architecture IA sur mesure adaptée à vos processus et contraintes métier.
+              </p>
+              <p class="text-gray-600 text-sm leading-relaxed lang en">
+                Creation of a custom AI architecture adapted to your business processes and constraints.
+              </p>
+              <p class="text-gray-600 text-sm leading-relaxed lang de">
+                Entwicklung einer maßgeschneiderten KI-Architektur für Ihre Geschäftsprozesse.
+              </p>
+            </div>
+          </div>
+
+          <!-- Étape 3 -->
+          <div class="text-center fade-in group">
+            <div class="relative mb-6">
+              <div class="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                03
+              </div>
+              <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-blue-600 rounded-full hidden md:block"></div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-blue-500">
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang fr active">Développement & intégration</h3>
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang en">Development & integration</h3>
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang de">Entwicklung & Integration</h3>
+              
+              <p class="text-gray-600 text-sm leading-relaxed lang fr active">
+                Mise en œuvre technique avec tests rigoureux et intégration sécurisée dans votre écosystème.
+              </p>
+              <p class="text-gray-600 text-sm leading-relaxed lang en">
+                Technical implementation with rigorous testing and secure integration into your ecosystem.
+              </p>
+              <p class="text-gray-600 text-sm leading-relaxed lang de">
+                Technische Umsetzung mit rigorosen Tests und sicherer Integration in Ihr System.
+              </p>
+            </div>
+          </div>
+
+          <!-- Étape 4 -->
+          <div class="text-center fade-in group">
+            <div class="relative mb-6">
+              <div class="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                04
+              </div>
+              <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-blue-600 rounded-full hidden md:block"></div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-blue-500">
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang fr active">Formation & transfert</h3>
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang en">Training & knowledge transfer</h3>
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang de">Schulung & Wissenstransfer</h3>
+              
+              <p class="text-gray-600 text-sm leading-relaxed lang fr active">
+                Accompagnement de vos équipes pour une adoption réussie et une autonomie progressive.
+              </p>
+              <p class="text-gray-600 text-sm leading-relaxed lang en">
+                Support for your teams for successful adoption and progressive autonomy.
+              </p>
+              <p class="text-gray-600 text-sm leading-relaxed lang de">
+                Begleitung Ihrer Teams für erfolgreiche Einführung und schrittweise Autonomie.
+              </p>
+            </div>
+          </div>
+
+          <!-- Étape 5 -->
+          <div class="text-center fade-in group">
+            <div class="relative mb-6">
+              <div class="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                05
+              </div>
+              <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-blue-600 rounded-full hidden md:block"></div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-blue-500">
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang fr active">Support & amélioration continue</h3>
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang en">Support & continuous improvement</h3>
+              <h3 class="font-bold text-lg mb-3 text-gray-800 lang de">Support & kontinuierliche Verbesserung</h3>
+              
+              <p class="text-gray-600 text-sm leading-relaxed lang fr active">
+                Maintenance proactive, optimisations régulières et évolution selon vos besoins futurs.
+              </p>
+              <p class="text-gray-600 text-sm leading-relaxed lang en">
+                Proactive maintenance, regular optimizations and evolution according to your future needs.
+              </p>
+              <p class="text-gray-600 text-sm leading-relaxed lang de">
+                Proaktive Wartung, regelmäßige Optimierungen und Weiterentwicklung nach Ihren Bedürfnissen.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- EN -->
-    <div lang="en" class="hidden">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">Our Methodology</h2>
-      <div class="flex space-x-6 overflow-x-auto pb-4 md:grid md:grid-cols-3 md:gap-8">
-        <div class="min-w-[250px] md:min-w-0 flex-shrink-0 p-6 bg-white shadow rounded-lg">
-          <h3 class="text-xl font-semibold mb-3">Step 1</h3>
-          <p class="text-gray-600 leading-relaxed">In-depth analysis of your financial needs and data.</p>
+      <!-- Stats/Benefits section -->
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 fade-in">
+        <div class="text-center bg-white/60 backdrop-blur p-6 rounded-xl">
+          <div class="text-3xl font-bold text-blue-600 mb-2">95%</div>
+          <p class="text-gray-700 lang fr active">Taux de satisfaction client</p>
+          <p class="text-gray-700 lang en">Client satisfaction rate</p>
+          <p class="text-gray-700 lang de">Kundenzufriedenheitsrate</p>
         </div>
-        <div class="min-w-[250px] md:min-w-0 flex-shrink-0 p-6 bg-white shadow rounded-lg">
-          <h3 class="text-xl font-semibold mb-3">Step 2</h3>
-          <p class="text-gray-600 leading-relaxed">Implementation of AI solutions tailored to your organization.</p>
+        <div class="text-center bg-white/60 backdrop-blur p-6 rounded-xl">
+          <div class="text-3xl font-bold text-blue-600 mb-2">6-12</div>
+          <p class="text-gray-700 lang fr active">Semaines de déploiement</p>
+          <p class="text-gray-700 lang en">Weeks deployment time</p>
+          <p class="text-gray-700 lang de">Wochen Implementierungszeit</p>
         </div>
-        <div class="min-w-[250px] md:min-w-0 flex-shrink-0 p-6 bg-white shadow rounded-lg">
-          <h3 class="text-xl font-semibold mb-3">Step 3</h3>
-          <p class="text-gray-600 leading-relaxed">Continuous monitoring and optimization for sustainable results.</p>
+        <div class="text-center bg-white/60 backdrop-blur p-6 rounded-xl">
+          <div class="text-3xl font-bold text-blue-600 mb-2">24/7</div>
+          <p class="text-gray-700 lang fr active">Support technique</p>
+          <p class="text-gray-700 lang en">Technical support</p>
+          <p class="text-gray-700 lang de">Technischer Support</p>
         </div>
       </div>
-    </div>
-
-    <!-- DE -->
-    <div lang="de" class="hidden">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">Unsere Methodologie</h2>
-      <div class="flex space-x-6 overflow-x-auto pb-4 md:grid md:grid-cols-3 md:gap-8">
-        <div class="min-w-[250px] md:min-w-0 flex-shrink-0 p-6 bg-white shadow rounded-lg">
-          <h3 class="text-xl font-semibold mb-3">Schritt 1</h3>
-          <p class="text-gray-600 leading-relaxed">Detaillierte Analyse Ihrer finanziellen Bedürfnisse und Daten.</p>
-        </div>
-        <div class="min-w-[250px] md:min-w-0 flex-shrink-0 p-6 bg-white shadow rounded-lg">
-          <h3 class="text-xl font-semibold mb-3">Schritt 2</h3>
-          <p class="text-gray-600 leading-relaxed">Einführung von KI-Lösungen, die auf Ihre Organisation zugeschnitten sind.</p>
-        </div>
-        <div class="min-w-[250px] md:min-w-0 flex-shrink-0 p-6 bg-white shadow rounded-lg">
-          <h3 class="text-xl font-semibold mb-3">Schritt 3</h3>
-          <p class="text-gray-600 leading-relaxed">Kontinuierliche Überwachung und Optimierung für nachhaltige Ergebnisse.</p>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 
