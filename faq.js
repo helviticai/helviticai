@@ -2,108 +2,86 @@
 
 const faq = {
   fr: {
-    // Messages système
-    welcome: "Bonjour 👋 Je suis le chatbot Helvitic AI spécialisé en IA pour la performance financière. Posez-moi vos questions sur l'EPM, l'automatisation ou nos solutions.",
-    greeting: "Bonjour! Comment puis-je vous aider avec l'IA en finance ?",
-    services: "Nous offrons des solutions IA pour l'EPM : prévisions automatisées, budgeting intelligent, détection d'anomalies, et optimisation des processus financiers.",
-    contact: "Vous pouvez nous contacter via email : helviticaich@gmail.com ou par téléphone +41 22 123 45 67",
-    goodbye: "Merci pour votre intérêt ! N'hésitez pas à nous recontacter pour vos projets IA & Finance 👋",
-    unknown: "Je n'ai pas trouvé d'information sur ce sujet. Pouvez-vous reformuler ou poser une question sur l'IA en finance, l'EPM, ou nos solutions ?",
-
-    // Base de connaissances IA & Finance
-    "qu'est-ce que l'ia en finance": "L'IA appliquée à la performance financière consiste à utiliser des algorithmes avancés, l'apprentissage automatique et l'analyse prédictive pour automatiser, optimiser et améliorer les processus de gestion financière dans le cadre de l'EPM.",
-    "ia finance definition": "L'IA appliquée à la performance financière consiste à utiliser des algorithmes avancés, l'apprentissage automatique et l'analyse prédictive pour automatiser, optimiser et améliorer les processus de gestion financière dans le cadre de l'EPM.",
+    // Questions générales et spécialisées IA & Finance
+    "qu'est-ce que l'ia en finance": "L'IA appliquée à la performance financière utilise des algorithmes avancés, l'apprentissage automatique et l'analyse prédictive pour automatiser et optimiser les processus de gestion financière dans l'EPM (Enterprise Performance Management).",
     
-    "avantages ia epm": "Les avantages incluent : automatisation des processus (réduction 30-50% du temps), prévisions plus précises (+15-25%), détection d'anomalies en temps réel, optimisation continue, et réduction des erreurs humaines.",
-    "benefices ia finance": "Les avantages incluent : automatisation des processus (réduction 30-50% du temps), prévisions plus précises (+15-25%), détection d'anomalies en temps réel, optimisation continue, et réduction des erreurs humaines.",
+    "avantages ia epm": "Les avantages incluent : automatisation des processus (réduction 30-50% du temps), prévisions plus précises (+15-25%), détection d'anomalies en temps réel, optimisation continue, et réduction significative des erreurs humaines.",
     
-    "ia planification financiere": "L'IA transforme la planification via des modèles prédictifs sophistiqués, simulation de scénarios multiples en temps réel, intégration automatique de variables externes, génération automatique de budgets/forecasts.",
-    "planning financier ia": "L'IA transforme la planification via des modèles prédictifs sophistiqués, simulation de scénarios multiples en temps réel, intégration automatique de variables externes, génération automatique de budgets/forecasts.",
+    "ia planification financiere": "L'IA transforme la planification via des modèles prédictifs sophistiqués, simulation de scénarios multiples en temps réel, intégration automatique de variables externes (marché, économie), et génération automatique de budgets/forecasts.",
     
-    "processus epm automatisables": "Processus automatisables : consolidation financière, reporting automatisé, budgeting/forecasting, analyse de variance, allocation des coûts, contrôle de gestion, réconciliation des données.",
-    "automatisation epm": "Processus automatisables : consolidation financière, reporting automatisé, budgeting/forecasting, analyse de variance, allocation des coûts, contrôle de gestion, réconciliation des données.",
+    "processus epm automatisables": "Processus automatisables avec l'IA : consolidation financière multi-entités, reporting automatisé, budgeting/forecasting intelligent, analyse de variance automatique, allocation des coûts optimisée, contrôle de gestion prédictif.",
     
-    "precision previsions ia": "L'IA améliore la précision des prévisions grâce à l'analyse de patterns complexes, intégration de variables externes (indicateurs économiques, saisonnalité), apprentissage continu qui affine les modèles.",
-    "forecasting ia": "L'IA améliore la précision des prévisions grâce à l'analyse de patterns complexes, intégration de variables externes (indicateurs économiques, saisonnalité), apprentissage continu qui affine les modèles.",
+    "precision previsions ia": "L'IA améliore la précision des prévisions grâce à l'analyse de patterns complexes dans l'historique, intégration de variables externes (indicateurs économiques, saisonnalité), et apprentissage continu qui affine les modèles au fil du temps.",
     
-    "ia analyse risques": "Oui, l'IA excelle dans l'analyse des risques : détection automatique d'anomalies, évaluation de probabilités de scénarios, surveillance continue des seuils critiques, alertes préventives automatiques.",
-    "risk management ia": "Oui, l'IA excelle dans l'analyse des risques : détection automatique d'anomalies, évaluation de probabilités de scénarios, surveillance continue des seuils critiques, alertes préventives automatiques.",
+    "ia analyse risques": "L'IA excelle dans l'analyse des risques financiers : détection automatique d'anomalies, évaluation de probabilités de différents scénarios, surveillance continue des seuils critiques, et génération d'alertes préventives en temps réel.",
     
-    "integration ia epm": "L'intégration se fait en 6 étapes : 1) Audit des données 2) Définition des cas d'usage 3) Sélection des outils 4) Phase pilote 5) Déploiement progressif 6) Formation des équipes.",
-    "comment integrer ia": "L'intégration se fait en 6 étapes : 1) Audit des données 2) Définition des cas d'usage 3) Sélection des outils 4) Phase pilote 5) Déploiement progressif 6) Formation des équipes.",
+    "integration ia epm": "L'intégration de l'IA en EPM suit 6 étapes clés : 1) Audit de la qualité des données 2) Définition des cas d'usage prioritaires 3) Sélection des technologies adaptées 4) Phase pilote 5) Déploiement progressif 6) Formation des équipes.",
     
-    "prerequis techniques ia": "Prérequis : infrastructure cloud/on-premise suffisante, données propres et cohérentes, APIs pour intégration, sécurité renforcée, compétences IA/data science, gouvernance claire.",
-    "prerequis ia finance": "Prérequis : infrastructure cloud/on-premise suffisante, données propres et cohérentes, APIs pour intégration, sécurité renforcée, compétences IA/data science, gouvernance claire.",
+    "prerequis techniques ia": "Prérequis techniques : infrastructure cloud/on-premise suffisante, données propres et cohérentes, APIs pour l'intégration, sécurité renforcée pour données sensibles, compétences IA/data science, gouvernance claire des processus.",
     
-    "delais resultats ia": "Premiers résultats : 2-3 mois (détection anomalies), 4-6 mois (automatisation processus), 6-12 mois (modèles prédictifs), 12-24 mois (transformation complète EPM).",
-    "timeline ia implementation": "Premiers résultats : 2-3 mois (détection anomalies), 4-6 mois (automatisation processus), 6-12 mois (modèles prédictifs), 12-24 mois (transformation complète EPM).",
+    "delais resultats ia": "Délais pour premiers résultats : 2-3 mois (détection d'anomalies), 4-6 mois (automatisation de processus), 6-12 mois (modèles prédictifs avancés), 12-24 mois (transformation complète EPM).",
     
-    "technologies ia finance": "Technologies clés : Machine Learning, Deep Learning, Natural Language Processing, Computer Vision, RPA (Robotic Process Automation), IA générative pour création de contenu.",
-    "outils ia epm": "Technologies clés : Machine Learning, Deep Learning, Natural Language Processing, Computer Vision, RPA (Robotic Process Automation), IA générative pour création de contenu.",
+    "technologies ia finance": "Technologies IA utilisées : Machine Learning (prévisions), Deep Learning (patterns complexes), Natural Language Processing (analyse textuelle), Computer Vision (documents), RPA (automatisation), IA générative (rapports).",
     
-    "solutions epm ia existantes": "Solutions avec IA intégrée : Oracle EPM Cloud (prédictif avancé), SAP Analytics Cloud (IA planning), IBM Planning Analytics (analyse cognitive), Microsoft Power BI, Workday Adaptive Planning.",
-    "logiciels epm ia": "Solutions avec IA intégrée : Oracle EPM Cloud (prédictif avancé), SAP Analytics Cloud (IA planning), IBM Planning Analytics (analyse cognitive), Microsoft Power BI, Workday Adaptive Planning.",
+    "solutions epm ia existantes": "Solutions EPM avec IA intégrée : Oracle EPM Cloud (prédictif avancé), SAP Analytics Cloud (IA pour planning), IBM Planning Analytics (analyse cognitive), Microsoft Power BI (IA native), Workday Adaptive Planning (ML).",
     
-    "roi ia finance": "ROI attendu : 200-400% sur 3 ans. Gains typiques : +30-50% productivité, +15-25% précision prévisions, -20-35% coûts processus, -40-60% délais de clôture.",
-    "retour investissement ia": "ROI attendu : 200-400% sur 3 ans. Gains typiques : +30-50% productivité, +15-25% précision prévisions, -20-35% coûts processus, -40-60% délais de clôture.",
+    "choisir solution ia epm": "Critères de choix : adéquation aux besoins métier spécifiques, compatibilité avec IT existant, facilité d'utilisation pour les équipes, scalabilité, qualité du support/formation, ROI global sur 3-5 ans.",
     
-    "cout implementation ia": "Coûts variables selon scope : solutions simples 50-100K€, projets moyens 200-500K€, transformation complète 500K-2M€. ROI généralement atteint en 18-24 mois.",
-    "prix solution ia": "Coûts variables selon scope : solutions simples 50-100K€, projets moyens 200-500K€, transformation complète 500K-2M€. ROI généralement atteint en 18-24 mois.",
+    "roi ia finance": "ROI attendu : 200-400% sur 3 ans. Gains typiques mesurés : +30-50% productivité équipes, +15-25% précision prévisions, -20-35% coûts processus, -40-60% délais de clôture comptable.",
     
-    "securite donnees ia": "Sécurité renforcée : chiffrement bout-en-bout, accès basé sur les rôles, audit trails complets, conformité RGPD, hébergement sécurisé (Swiss hosting disponible), anonymisation des données sensibles.",
-    "data security ia": "Sécurité renforcée : chiffrement bout-en-bout, accès basé sur les rôles, audit trails complets, conformité RGPD, hébergement sécurisé (Swiss hosting disponible), anonymisation des données sensibles.",
+    "mesurer impact ia": "KPIs pour mesurer l'impact : précision des prévisions (écart prévu/réalisé), temps de traitement des processus, taux d'automatisation atteint, qualité des données, satisfaction utilisateur, impact sur décisions stratégiques.",
     
-    "formation equipes ia": "Formation requise : sensibilisation concepts IA, cas d'usage financiers concrets, manipulation outils pratiques, interprétation des résultats IA, bonnes pratiques gouvernance, formation continue.",
-    "training ia finance": "Formation requise : sensibilisation concepts IA, cas d'usage financiers concrets, manipulation outils pratiques, interprétation des résultats IA, bonnes pratiques gouvernance, formation continue.",
+    "defis ia epm": "Défis principaux : qualité des données (critique pour succès), résistance au changement des équipes, complexité technique d'implémentation, besoins de gouvernance renforcée, sécurité des données sensibles, investissements initiaux.",
     
-    "ia remplace controleurs": "Non, l'IA ne remplace pas les contrôleurs de gestion : elle élimine les tâches répétitives, libère du temps pour l'analyse, renforce leur rôle de conseil stratégique et d'interprétation des insights IA.",
-    "remplacement emplois ia": "Non, l'IA ne remplace pas les contrôleurs de gestion : elle élimine les tâches répétitives, libère du temps pour l'analyse, renforce leur rôle de conseil stratégique et d'interprétation des insights IA.",
+    "fiabilite resultats ia": "Assurer la fiabilité : validation croisée avec méthodes traditionnelles, tests réguliers des modèles, transparence des algorithmes, contrôles qualité systématiques, boucles de feedback, audit trails complets pour traçabilité.",
     
-    "tendances ia epm": "Tendances émergentes : IA générative (création rapports automatiques), real-time analytics, démocratisation outils IA, IA explicable (transparence), edge computing, intégration critères ESG.",
-    "futur ia finance": "Tendances émergentes : IA générative (création rapports automatiques), real-time analytics, démocratisation outils IA, IA explicable (transparence), edge computing, intégration critères ESG."
+    "formation equipes ia": "Formation des équipes : sensibilisation aux concepts IA de base, cas d'usage financiers concrets, manipulation des outils pratiques, interprétation des résultats IA, bonnes pratiques de gouvernance, formation continue.",
+    
+    "ia remplace controleurs": "Non, l'IA ne remplace pas les contrôleurs de gestion. Elle élimine les tâches répétitives, libère du temps pour l'analyse à valeur ajoutée, et renforce leur rôle de conseil stratégique et d'interprétation des insights IA.",
+    
+    "cout implementation ia": "Coûts d'implémentation variables : solutions simples 50-100K€, projets moyens 200-500K€, transformation complète 500K-2M€. ROI généralement atteint en 18-24 mois selon la complexité.",
+    
+    "securite donnees ia": "Sécurité des données : chiffrement bout-en-bout, contrôles d'accès basés sur les rôles, audit trails complets, conformité RGPD stricte, hébergement sécurisé (Swiss hosting disponible), anonymisation des données sensibles.",
+    
+    "ia budgeting": "IA pour budgeting : prévisions bottom-up automatisées basées sur l'historique, ajustements dynamiques selon l'actualité, simulation de scénarios multiples, optimisation de l'allocation des ressources, validation automatique de cohérence.",
+    
+    "ia reporting": "IA pour reporting : génération automatique de rapports standardisés, création de narratives explicatives, visualisations adaptatives selon l'audience, alertes automatiques sur KPIs critiques, personnalisation selon profil utilisateur.",
+    
+    "ia consolidation": "IA pour consolidation : automatisation des écritures de consolidation, détection d'incohérences inter-entités, optimisation des délais de clôture, contrôles qualité automatiques, reporting multi-normes (IFRS/US GAAP).",
+    
+    "maintenance modeles ia": "Maintenance des modèles IA : monitoring performance continue, re-entraînement périodique avec nouvelles données, validation des données d'entrée, ajustements de paramètres, documentation des évolutions, tests A/B sur améliorations."
   },
 
   en: {
-    welcome: "Hello 👋 I'm the Helvitic AI chatbot specialized in AI for financial performance. Ask me about EPM, automation, or our solutions.",
-    greeting: "Hello! How can I help you with AI in finance?",
-    services: "We provide AI solutions for EPM: automated forecasting, intelligent budgeting, anomaly detection, and financial process optimization.",
-    contact: "You can reach us via email: helviticaich@gmail.com or phone +41 22 123 45 67",
-    goodbye: "Thank you for your interest! Feel free to contact us again for your AI & Finance projects 👋",
-    unknown: "I couldn't find information on this topic. Could you rephrase or ask about AI in finance, EPM, or our solutions?",
-
-    "what is ai in finance": "AI in financial performance uses advanced algorithms, machine learning and predictive analytics to automate, optimize and improve financial management processes within EPM frameworks.",
-    "ai finance definition": "AI in financial performance uses advanced algorithms, machine learning and predictive analytics to automate, optimize and improve financial management processes within EPM frameworks.",
+    "what is ai in finance": "AI in financial performance uses advanced algorithms, machine learning and predictive analytics to automate and optimize financial management processes within EPM (Enterprise Performance Management) frameworks.",
     
-    "ai epm benefits": "Benefits include: process automation (30-50% time reduction), more accurate forecasts (+15-25%), real-time anomaly detection, continuous optimization, and reduced human errors.",
-    "ai finance advantages": "Benefits include: process automation (30-50% time reduction), more accurate forecasts (+15-25%), real-time anomaly detection, continuous optimization, and reduced human errors.",
+    "ai epm benefits": "Benefits include: process automation (30-50% time reduction), more accurate forecasts (+15-25%), real-time anomaly detection, continuous optimization, and significant reduction in human errors.",
     
-    "ai financial planning": "AI transforms planning through sophisticated predictive models, real-time multi-scenario simulation, automatic integration of external variables, automated budget/forecast generation.",
-    "financial planning ai": "AI transforms planning through sophisticated predictive models, real-time multi-scenario simulation, automatic integration of external variables, automated budget/forecast generation.",
+    "ai financial planning": "AI transforms planning through sophisticated predictive models, real-time multi-scenario simulation, automatic integration of external variables (market, economy), and automated budget/forecast generation.",
     
-    "ai integration epm": "Integration in 6 steps: 1) Data audit 2) Use case definition 3) Tool selection 4) Pilot phase 5) Progressive deployment 6) Team training.",
-    "how to integrate ai": "Integration in 6 steps: 1) Data audit 2) Use case definition 3) Tool selection 4) Pilot phase 5) Progressive deployment 6) Team training.",
+    "ai epm integration": "AI EPM integration follows 6 key steps: 1) Data quality audit 2) Priority use case definition 3) Appropriate technology selection 4) Pilot phase 5) Progressive deployment 6) Team training.",
     
-    "ai finance roi": "Expected ROI: 200-400% over 3 years. Typical gains: +30-50% productivity, +15-25% forecast accuracy, -20-35% process costs, -40-60% closing time.",
-    "return on investment ai": "Expected ROI: 200-400% over 3 years. Typical gains: +30-50% productivity, +15-25% forecast accuracy, -20-35% process costs, -40-60% closing time."
+    "ai finance roi": "Expected ROI: 200-400% over 3 years. Typical measured gains: +30-50% team productivity, +15-25% forecast accuracy, -20-35% process costs, -40-60% closing timeframes.",
+    
+    "ai implementation cost": "Implementation costs vary: simple solutions 50-100K€, medium projects 200-500K€, complete transformation 500K-2M€. ROI typically achieved in 18-24 months depending on complexity.",
+    
+    "ai data security": "Data security: end-to-end encryption, role-based access controls, complete audit trails, strict GDPR compliance, secure hosting (Swiss hosting available), sensitive data anonymization."
   },
 
   de: {
-    welcome: "Hallo 👋 Ich bin der Helvitic AI Chatbot für KI in der Finanzperformance. Fragen Sie mich zu EPM, Automatisierung oder unseren Lösungen.",
-    greeting: "Hallo! Wie kann ich Ihnen mit KI im Finanzwesen helfen?",
-    services: "Wir bieten KI-Lösungen für EPM: automatisierte Prognosen, intelligente Budgetierung, Anomalieerkennung und Optimierung von Finanzprozessen.",
-    contact: "Sie erreichen uns per E-Mail: helviticaich@gmail.com oder Telefon +41 22 123 45 67",
-    goodbye: "Vielen Dank für Ihr Interesse! Kontaktieren Sie uns gerne für Ihre KI & Finance Projekte 👋",
-    unknown: "Ich konnte keine Information zu diesem Thema finden. Können Sie umformulieren oder zu KI im Finanzwesen, EPM oder unseren Lösungen fragen?",
-
-    "was ist ki in finanzen": "KI in der Finanzperformance nutzt fortgeschrittene Algorithmen, maschinelles Lernen und prädiktive Analytik zur Automatisierung, Optimierung und Verbesserung von Finanzmanagementprozessen im EPM-Rahmen.",
-    "ki finanzen definition": "KI in der Finanzperformance nutzt fortgeschrittene Algorithmen, maschinelles Lernen und prädiktive Analytik zur Automatisierung, Optimierung und Verbesserung von Finanzmanagementprozessen im EPM-Rahmen.",
+    "was ist ki in finanzen": "KI in der Finanzperformance nutzt fortgeschrittene Algorithmen, maschinelles Lernen und prädiktive Analytik zur Automatisierung und Optimierung von Finanzmanagementprozessen im EPM-Rahmen (Enterprise Performance Management).",
     
-    "ki epm vorteile": "Vorteile: Prozessautomatisierung (30-50% Zeitreduktion), präzisere Prognosen (+15-25%), Echtzeit-Anomalieerkennung, kontinuierliche Optimierung, weniger menschliche Fehler.",
-    "ki vorteile finanzen": "Vorteile: Prozessautomatisierung (30-50% Zeitreduktion), präzisere Prognosen (+15-25%), Echtzeit-Anomalieerkennung, kontinuierliche Optimierung, weniger menschliche Fehler."
+    "ki epm vorteile": "Vorteile: Prozessautomatisierung (30-50% Zeitreduktion), präzisere Prognosen (+15-25%), Echtzeit-Anomalieerkennung, kontinuierliche Optimierung, deutliche Reduzierung menschlicher Fehler.",
+    
+    "ki finanzplanung": "KI transformiert Planung durch sophisticated prädiktive Modelle, Echtzeit-Multi-Szenario-Simulation, automatische Integration externer Variablen (Markt, Wirtschaft), automatisierte Budget-/Prognosenerstellung.",
+    
+    "ki epm integration": "KI-EPM-Integration in 6 Schritten: 1) Datenqualitäts-Audit 2) Definition prioritärer Use Cases 3) Auswahl geeigneter Technologien 4) Pilotphase 5) Schrittweise Einführung 6) Team-Schulung.",
+    
+    "ki finanzen roi": "Erwarteter ROI: 200-400% über 3 Jahre. Typische gemessene Gewinne: +30-50% Team-Produktivität, +15-25% Prognosegenauigkeit, -20-35% Prozesskosten, -40-60% Closing-Zeiten."
   }
 };
 
-// Suggestions de questions fréquentes par thème
+// Suggestions de questions par thème
 const quickQuestions = {
   fr: [
     "Qu'est-ce que l'IA en finance ?",
@@ -113,9 +91,7 @@ const quickQuestions = {
     "Quelles technologies IA utilisez-vous ?",
     "Combien coûte une implémentation IA ?",
     "L'IA peut-elle aider pour les prévisions ?",
-    "Comment assurer la sécurité des données ?",
-    "Quels processus peuvent être automatisés ?",
-    "Comment former les équipes à l'IA ?"
+    "Comment assurer la sécurité des données ?"
   ],
   en: [
     "What is AI in finance?",
@@ -125,9 +101,7 @@ const quickQuestions = {
     "What AI technologies do you use?",
     "How much does AI implementation cost?",
     "Can AI help with forecasting?",
-    "How to ensure data security?",
-    "Which processes can be automated?",
-    "How to train teams on AI?"
+    "How to ensure data security?"
   ],
   de: [
     "Was ist KI im Finanzwesen?",
@@ -137,49 +111,6 @@ const quickQuestions = {
     "Welche KI-Technologien verwenden Sie?",
     "Wie viel kostet eine KI-Implementierung?",
     "Kann KI bei Prognosen helfen?",
-    "Wie stelle ich Datensicherheit sicher?",
-    "Welche Prozesse können automatisiert werden?",
-    "Wie schule ich Teams für KI?"
+    "Wie stelle ich Datensicherheit sicher?"
   ]
 };
-
-// Fonction de recherche intelligente dans la FAQ
-function searchFAQ(query, lang = 'fr') {
-  const faqLang = faq[lang] || faq.fr;
-  const normalizedQuery = query.toLowerCase()
-    .replace(/[àáâãäå]/g, 'a')
-    .replace(/[èéêë]/g, 'e')
-    .replace(/[ìíîï]/g, 'i')
-    .replace(/[òóôõö]/g, 'o')
-    .replace(/[ùúûü]/g, 'u')
-    .replace(/[ç]/g, 'c')
-    .replace(/[^a-z0-9\s]/g, ' ')
-    .trim();
-
-  // Recherche par mots-clés
-  const keywords = normalizedQuery.split(' ').filter(word => word.length > 2);
-  let bestMatch = null;
-  let maxScore = 0;
-
-  for (const [key, value] of Object.entries(faqLang)) {
-    let score = 0;
-    const normalizedKey = key.toLowerCase();
-    const normalizedValue = value.toLowerCase();
-
-    // Score basé sur la correspondance des mots-clés
-    keywords.forEach(keyword => {
-      if (normalizedKey.includes(keyword)) score += 3;
-      if (normalizedValue.includes(keyword)) score += 1;
-    });
-
-    // Bonus pour correspondance exacte
-    if (normalizedKey.includes(normalizedQuery)) score += 5;
-
-    if (score > maxScore) {
-      maxScore = score;
-      bestMatch = { key, value, score };
-    }
-  }
-
-  return maxScore > 2 ? bestMatch : null;
-}
