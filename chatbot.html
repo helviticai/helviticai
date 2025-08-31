@@ -629,42 +629,35 @@ html { scroll-behavior: smooth; }
 </div>
 
 </div>
-<!-- Bulle flottante (corrigée, version unique) -->
-<div id="chatBubble" onclick="openChatbot()"
-style="position:fixed; bottom:20px; right:20px; width:60px; height:60px;
-background:#2563eb; border-radius:50%; display:flex; align-items:center;
-justify-content:center; color:white; font-size:24px; cursor:pointer;
-z-index:10000; box-shadow:0 4px 10px rgba(0,0,0,0.3);">
-💬
-</div>
+ <!-- Bulle flottante -->
+  <div id="chatBubble" onclick="openChatbot()"
+  style="position:fixed; bottom:20px; right:20px; width:60px; height:60px;
+  background:#2563eb; border-radius:50%; display:flex; align-items:center;
+  justify-content:center; color:white; font-size:24px; cursor:pointer;
+  z-index:10000; box-shadow:0 4px 10px rgba(0,0,0,0.3);">
+  💬
+  </div>
 
+  <!-- Chatbot (iframe) -->
+  <div id="chatbotContainer" style="display:none; position:fixed; bottom:80px; right:20px; width:400px; height:600px; border-radius:16px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,0.2); z-index:10000;">
+    <iframe src="chatbot.html" style="width:100%; height:100%; border:none;"></iframe>
+  </div>
 
+  <!-- Script -->
+  <script>
+    function openChatbot() {
+      document.getElementById("chatbotContainer").style.display = "block";
+      document.getElementById("chatBubble").style.display = "none";
+    }
 
+    function closeChatbot() {
+      document.getElementById("chatbotContainer").style.display = "none";
+      document.getElementById("chatBubble").style.display = "flex";
+    }
 
-<!-- Iframe du chatbot -->
-<iframe id="chatbotFrame" src="chatbot.html"
-style="border:none; position:fixed; bottom:20px; right:20px; width:350px; height:480px;
-z-index:9999; display:none; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.4);"
-title="HelveticBot"></iframe>
-
-
-<script>
-const bubble = document.getElementById("chatBubble");
-const chatbotFrame = document.getElementById("chatbotFrame");
-
-
-function openChatbot() {
-bubble.style.display = "none";
-chatbotFrame.style.display = "block";
-}
-
-
-function closeChatbot() {
-chatbotFrame.style.display = "none";
-bubble.style.display = "flex";
-}
-</script>
-
+    // Rendre la fonction dispo dans l'iframe
+    window.closeChatbot = closeChatbot;
+  </script>
 
 </body>
 </html>
