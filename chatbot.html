@@ -597,7 +597,9 @@ function updateQuickQuestions() {
         button.style.transform = 'translateY(0)';
       }, 50);
     }, index * 100);
-  });
+  </script>
+</body>
+</html>
 
   if (questions.length > 3) {
     const toggleButton = document.createElement("button");
@@ -620,4 +622,53 @@ function updateQuickQuestions() {
 // Effet de frappe pour le message d'accueil
 function typeMessage(text, callback) {
   const tempMsg = document.createElement("div");
-  tempMsg.className =
+  tempMsg.className = "text-left";
+  
+  const bubble = document.createElement("div");
+  bubble.className = "inline-block px-6 py-4 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-bot text-gray-800";
+  tempMsg.appendChild(bubble);
+  messagesContainer.appendChild(tempMsg);
+
+  let index = 0;
+  const interval = setInterval(() => {
+    bubble.textContent = text.substring(0, index + 1);
+    index++;
+    
+    if (index >= text.length) {
+      clearInterval(interval);
+      if (callback) callback();
+    }
+    
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }, 30);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  typeMessage(translations[currentLang].welcome, () => {
+    updateQuickQuestions();
+  });
+});
+
+// Gestion du changement de langue avec effacement des messages
+document.getElementById("lang-select").addEventListener("change", (e) => {
+  const newLang = e.target.value;
+  
+  // Ne faire quelque chose que si la langue a vraiment changé
+  if (newLang !== currentLang) {
+    currentLang = newLang;
+    
+    // Mettre à jour le statut
+    document.getElementById("status-indicator").textContent = translations[currentLang].online;
+    
+    // Vider les messages et afficher le nouveau message d'accueil
+    clearMessages();
+    
+    // Réinitialiser l'état des questions rapides
+    expanded = false;
+    
+    // Mettre à jour les questions rapides après un petit délai
+    setTimeout(() => {
+      updateQuickQuestions();
+    }, 600);
+  }
+});
