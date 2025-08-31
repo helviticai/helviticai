@@ -617,8 +617,17 @@ document.addEventListener("DOMContentLoaded", () => {
 // Gestion du changement de langue
 document.getElementById("lang-select").addEventListener("change", (e) => {
   currentLang = e.target.value;
+  
+  // Clear la console des messages
+  messagesContainer.innerHTML = "";
+  
+  // Met à jour le statut
   document.getElementById("status-indicator").textContent = translations[currentLang].online;
-  updateQuickQuestions();
+  
+  // Affiche le nouveau message d'accueil dans la langue sélectionnée
+  typeMessage(translations[currentLang].welcome, () => {
+    updateQuickQuestions();
+  });
 });
 </script>
 </body>
