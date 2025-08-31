@@ -28,6 +28,17 @@
   background: #cbd5e1;
   border-radius: 3px;
 }
+
+/* Animation slide */
+.slide {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+.slide.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 </style>
 </head>
 <body>
@@ -129,23 +140,29 @@ function updateQuickQuestions() {
   const visibleCount = expanded ? questions.length : 3;
   const visibleQuestions = questions.slice(0, visibleCount);
 
-  visibleQuestions.forEach((q) => {
+  visibleQuestions.forEach((q, i) => {
     const btn = document.createElement("button");
-    btn.className = "question-btn w-full text-left p-3 rounded-lg bg-white hover:bg-gray-50 text-sm";
+    btn.className = "slide question-btn w-full text-left p-3 rounded-lg bg-white hover:bg-gray-50 text-sm";
     btn.textContent = q;
     btn.onclick = () => handleQuestion(q);
     questionsContainer.appendChild(btn);
+
+    // animation progressive
+    setTimeout(() => { btn.classList.add("show"); }, i * 80);
   });
 
   if (questions.length > 3) {
     const toggleButton = document.createElement("button");
-    toggleButton.className = "toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
+    toggleButton.className = "slide toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
     toggleButton.innerText = expanded ? translations[currentLang].seeLess : translations[currentLang].seeMore;
     toggleButton.onclick = () => {
       expanded = !expanded;
       updateQuickQuestions();
     };
     questionsContainer.appendChild(toggleButton);
+
+    // animation du bouton
+    setTimeout(() => { toggleButton.classList.add("show"); }, visibleQuestions.length * 80);
   }
 }
 
