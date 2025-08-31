@@ -748,6 +748,31 @@ justify-content:center; color:white; font-size:24px; cursor:pointer;
 z-index:10000; box-shadow:0 4px 10px rgba(0,0,0,0.3);">
 💬
 </div>
+  <p id="text-court" class="lang fr active">
+  Voici une introduction courte au texte...
+</p>
+<p id="text-long" class="hidden lang fr active">
+  Voici le texte détaillé qui s’affiche seulement quand on clique sur "Voir plus".
+</p>
+
+<button id="toggleBtn" class="text-blue-600 underline">Voir plus</button>
+
+<script>
+  const toggleBtn = document.getElementById("toggleBtn");
+  const shortText = document.getElementById("text-court");
+  const longText = document.getElementById("text-long");
+
+  toggleBtn.addEventListener("click", () => {
+    if (longText.classList.contains("hidden")) {
+      longText.classList.remove("hidden");   // montrer le texte long
+      toggleBtn.textContent = "Voir moins";  // changer le bouton
+    } else {
+      longText.classList.add("hidden");      // masquer le texte long
+      toggleBtn.textContent = "Voir plus";   // revenir à l’état initial
+    }
+  });
+</script>
+
 
 
 
