@@ -95,11 +95,20 @@
       </div>
     </div>
     <div class="flex items-center space-x-2">
-      <select id="lang-select" class="text-black rounded px-2 py-1 text-sm">
-        <option value="fr">🇫🇷 Français</option>
-        <option value="en">🇬🇧 English</option>
-        <option value="de">🇩🇪 Deutsch</option>
-      </select>
+      <div class="relative">
+        <select id="lang-select" class="text-black rounded px-8 py-1 text-sm appearance-none bg-white pr-6">
+          <option value="fr">Français</option>
+          <option value="en">English</option>
+          <option value="de">Deutsch</option>
+        </select>
+        <div id="flag-icon" class="absolute left-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+          <svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="8" fill="#002395"/>
+            <rect width="32" height="8" y="8" fill="#FFFFFF"/>
+            <rect width="32" height="8" y="16" fill="#ED2939"/>
+          </svg>
+        </div>
+      </div>
       <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold hover:bg-white/20 w-6 h-6 rounded-full flex items-center justify-center transition-colors">×</button>
     </div>
   </div>
