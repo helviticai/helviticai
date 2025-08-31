@@ -435,37 +435,40 @@ function updateQuickQuestions() {
     faqQuick.appendChild(btn);
   });
 // Affichage questions rapides avec Voir plus / Voir moins
+// Mise à jour des questions rapides
 function updateQuickQuestions() {
-  faqQuick.innerHTML = "";
-  faqTitle.textContent = translations[currentLang].quick;
+  questionsContainer.innerHTML = "";
+  questionsTitle.textContent = translations[currentLang].questionsTitle;
 
-  let questions = quickQuestions[currentLang];
-  let display = expanded ? questions : questions.slice(0, 3);
+  const questions = quickQuestions[currentLang];
+  const visibleCount = expanded ? questions.length : 3;
+  const visibleQuestions = questions.slice(0, visibleCount);
 
-  display.forEach(q => {
-    const btn = document.createElement("button");
-    btn.className = "px-3 py-1 bg-gray-200 rounded-full text-sm hover:bg-gray-300 text-left";
-    btn.textContent = q;
-    btn.onclick = () => {
-      addMessage(q, "user");
-      setTimeout(() => addMessage(findAnswer(q), "bot"), 400);
-    };
-    faqQuick.appendChild(btn);
+  // Afficher les questions visibles
+  visibleQuestions.forEach((question) => {
+    const button = document.createElement("button");
+    button.className =
+      "question-btn w-full text-left p-3 rounded-lg bg-white hover:bg-gray-50 text-sm";
+    button.textContent = question;
+    button.onclick = () => handleQuestion(question);
+    questionsContainer.appendChild(button);
   });
 
+  // Bouton Voir plus / Voir moins
   if (questions.length > 3) {
     const toggleButton = document.createElement("button");
-    toggleButton.className = "toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
-    toggleButton.textContent = expanded ? translations[currentLang].seeLess : translations[currentLang].seeMore;
+    toggleButton.className =
+      "toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
+    toggleButton.textContent = expanded
+      ? translations[currentLang].seeLess
+      : translations[currentLang].seeMore;
     toggleButton.onclick = () => {
       expanded = !expanded;
       updateQuickQuestions();
     };
-    faqQuick.appendChild(toggleButton);
+    questionsContainer.appendChild(toggleButton);
   }
 }
-
-
 
 // Fonction pour mettre à jour le drapeau
 function updateFlag(lang) {
