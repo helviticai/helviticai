@@ -6,57 +6,119 @@
   <title>Helvitic AI - Chatbot</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* === Styles corporate === */
     .gradient-bg { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); }
-    .glass-effect { backdrop-filter: blur(12px); background: rgba(255,255,255,0.85); }
-    .message-user { background: linear-gradient(135deg,#667eea,#764ba2); color:white; border-radius:20px 20px 0 20px; }
-    .message-bot { background: #f9fafb; border-radius:20px 20px 20px 0; border:1px solid #e5e7eb; }
-    .scrollbar-thin::-webkit-scrollbar { width:5px; }
-    .scrollbar-thin::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:4px; }
-    .pulse { animation: pulse 2s infinite; }
-    @keyframes pulse { 
-      0%{box-shadow:0 0 0 0 rgba(102,126,234,0.6);} 
-      70%{box-shadow:0 0 0 15px rgba(118,75,162,0);} 
-      100%{box-shadow:0 0 0 0 rgba(102,126,234,0);} 
-    }
+    .glass-effect { backdrop-filter: blur(10px); background: rgba(255,255,255,0.9); }
+    .message-user { background: linear-gradient(135deg,#3b82f6,#1d4ed8); color:white; }
+    .message-bot { background: #f3f4f6; border:1px solid #d1d5db; }
+    .scrollbar-thin::-webkit-scrollbar { width:4px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:2px; }
   </style>
 </head>
 <body class="bg-gray-50">
 
-<!-- === Container === -->
-<div id="chatbot-container" class="fixed bottom-6 right-6 z-50">
-  <!-- Bouton flottant -->
-  <button id="chatbot-toggle"
-          class="w-16 h-16 rounded-full gradient-bg flex items-center justify-center shadow-xl hover:scale-110 transition-all duration-300 pulse text-2xl">
-    🤖
-  </button>
-
-  <!-- Fenêtre -->
-  <div id="chatbot-window"
-       class="hidden absolute bottom-20 right-0 w-96 h-[520px] glass-effect rounded-3xl shadow-2xl flex flex-col border border-white/20 overflow-hidden">
-
-    <!-- Header -->
-    <div class="gradient-bg text-white flex justify-between items-center px-4 py-3 rounded-t-3xl shadow">
-      <div class="flex items-center space-x-2">
-        <span class="text-2xl">🤖</span>
-        <span class="font-semibold">Helvitic AI</span>
-      </div>
-      <button id="chatbot-close" class="text-lg hover:scale-110 transition">✕</button>
-    </div>
-
-    <!-- Messages -->
-    <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin bg-gradient-to-b from-white to-gray-50"></div>
-
-    <!-- Formulaire -->
-    <form id="bot-form" class="border-t border-gray-200 p-3 flex bg-white">
-      <input id="bot-input" type="text" placeholder="Écrivez ici..."
-             class="flex-1 px-4 py-2 border rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
-      <button class="ml-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full shadow hover:opacity-90">➤</button>
-    </form>
+<!-- Fenêtre du chatbot -->
+<div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col">
+  
+  <!-- Header avec sélecteur de langue -->
+  <div class="gradient-bg text-white flex justify-between items-center p-4">
+    <span class="font-bold">Helvitic AI</span>
+    <select id="lang-select" class="text-black rounded px-2 py-1">
+      <option value="fr">🇫🇷 FR</option>
+      <option value="en">🇬🇧 EN</option>
+      <option value="de">🇩🇪 DE</option>
+    </select>
   </div>
+
+  <!-- Messages -->
+  <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin"></div>
+
+  <!-- Formulaire -->
+  <form id="bot-form" class="border-t border-gray-200 p-3 flex">
+    <input id="bot-input" type="text" placeholder="Écrivez ici..." 
+           class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <button class="ml-2 px-4 bg-blue-600 text-white rounded-lg">Envoyer</button>
+  </form>
 </div>
 
-<script src="faq.js"></script>
-<script src="chatbot.js"></script>
+<script>
+/* === Réponses multilingues === */
+const responses = {
+  fr: { 
+    welcome:"Bonjour 👋 Je suis le chatbot Helvitic AI. Posez-moi vos questions.",
+    greeting:"Bonjour! Comment puis-je vous aider ?",
+    services:"Nous offrons des solutions IA pour la gestion financière, l’optimisation et la formation.",
+    contact:"Vous pouvez nous contacter via email : helviticaich@gmail.com.",
+    goodbye:"Merci pour votre visite ! À bientôt 👋",
+    unknown:"Désolé, je n'ai pas compris. Pouvez-vous préciser ?" 
+  },
+  en: {
+    welcome:"Hello 👋 I'm the Helvitic AI chatbot. Ask me anything.",
+    greeting:"Hello! How can I help?",
+    services:"We provide AI solutions for financial management, optimization, and training.",
+    contact:"You can reach us via email: helviticaich@gmail.com.",
+    goodbye:"Thank you for visiting! See you soon 👋",
+    unknown:"Sorry, I didn't understand. Could you clarify?"
+  },
+  de: {
+    welcome:"Hallo 👋 Ich bin der Helvitic AI Chatbot. Stellen Sie mir Ihre Fragen.",
+    greeting:"Hallo! Wie kann ich Ihnen helfen?",
+    services:"Wir bieten KI-Lösungen für Finanzmanagement, Optimierung und Schulungen.",
+    contact:"Sie erreichen uns per E-Mail: helviticaich@gmail.com.",
+    goodbye:"Danke für Ihren Besuch! Bis bald 👋",
+    unknown:"Entschuldigung, das habe ich nicht verstanden. Können Sie das bitte präzisieren?"
+  }
+};
+
+let currentLang = "fr"; // langue par défaut
+
+// Sélecteurs
+const botForm = document.getElementById("bot-form");
+const botInput = document.getElementById("bot-input");
+const botMessages = document.getElementById("chatbot-messages");
+const langSelect = document.getElementById("lang-select");
+
+// Fonction affichage message
+function addMessage(sender, text) {
+  const div = document.createElement("div");
+  div.className = sender === "bot" 
+    ? "message-bot px-3 py-2 rounded-lg" 
+    : "message-user px-3 py-2 rounded-lg text-right";
+  div.innerHTML = `<strong>${sender==="bot"?"Bot":"Vous"}:</strong> ${text}`;
+  botMessages.appendChild(div);
+  botMessages.scrollTop = botMessages.scrollHeight;
+}
+
+// Message de bienvenue
+function showWelcomeMessage() {
+  botMessages.innerHTML = "";
+  addMessage("bot", responses[currentLang].welcome);
+}
+
+// Réponses
+botForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const msg = botInput.value.trim().toLowerCase();
+  if (!msg) return;
+  addMessage("user", msg);
+  botInput.value = "";
+
+  let reply = responses[currentLang].unknown;
+  if (msg.includes("bonjour")||msg.includes("hello")||msg.includes("hallo")) reply = responses[currentLang].greeting;
+  else if (msg.includes("service")) reply = responses[currentLang].services;
+  else if (msg.includes("contact")) reply = responses[currentLang].contact;
+  else if (msg.includes("bye")||msg.includes("au revoir")||msg.includes("tschüss")) reply = responses[currentLang].goodbye;
+
+  addMessage("bot", reply);
+});
+
+// Changement de langue
+langSelect.addEventListener("change", () => {
+  currentLang = langSelect.value;
+  showWelcomeMessage();
+});
+
+// Lancer avec message d’accueil
+showWelcomeMessage();
+</script>
 </body>
 </html>
