@@ -400,6 +400,15 @@ function updateQuickQuestions() {
   const visibleQuestions = questions.slice(0, visibleCount);
 
   // Afficher les questions visibles
+  function updateQuickQuestions() {
+  questionsContainer.innerHTML = "";
+  questionsTitle.textContent = translations[currentLang].questionsTitle;
+
+  const questions = quickQuestions[currentLang];
+  const visibleCount = expanded ? questions.length : 3;
+  const visibleQuestions = questions.slice(0, visibleCount);
+
+  // Afficher les questions visibles
   visibleQuestions.forEach((question) => {
     const button = document.createElement("button");
     button.className = "question-btn w-full text-left p-3 rounded-lg bg-white hover:bg-gray-50 text-sm";
@@ -417,7 +426,6 @@ function updateQuickQuestions() {
       ? translations[currentLang].seeLess
       : translations[currentLang].seeMore;
 
-    // Important ⚡ éviter boucle infinie
     toggleButton.addEventListener("click", () => {
       expanded = !expanded;
       updateQuickQuestions(); // relance l'affichage avec le nouvel état
@@ -426,6 +434,7 @@ function updateQuickQuestions() {
     questionsContainer.appendChild(toggleButton);
   }
 }
+
 
 // Initialisation au chargement
 document.addEventListener("DOMContentLoaded", () => {
