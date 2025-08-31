@@ -1,15 +1,37 @@
 <head>
   <meta charset="UTF-8">
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* === Animations === */
+    .chatbot-enter {
+      animation: slideUp 0.3s ease-out;
+    }
+    .chatbot-exit {
+      animation: slideDown 0.3s ease-in forwards;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(0); opacity: 1; }
+      to   { transform: translateY(20px); opacity: 0; }
+    }
+  </style>
 </head>
 
 <body class="bg-white text-sm">
 <!-- Fenêtre du chatbot -->
-<div id="chatbot-window" class="w-full h-screen bg-white rounded-lg shadow-lg flex flex-col">
+<div id="chatbot-window" class="w-full h-screen bg-white rounded-lg shadow-lg flex flex-col chatbot-enter">
 
   <!-- Header -->
   <div class="gradient-bg text-white flex justify-between items-center p-3 rounded-t-lg">
-    <span class="font-bold">Helvitic AI</span>
+    <div class="flex items-center gap-2">
+      <div class="w-7 h-7 rounded-full bg-white flex items-center justify-center text-blue-600 font-bold">
+        🤖
+      </div>
+      <span class="font-bold">Helvitic AI</span>
+    </div>
 
     <div class="flex items-center gap-2">
       <select id="lang-select" class="text-black rounded px-2 py-1 text-xs">
@@ -39,139 +61,24 @@
 </div>
 
 <script>
-/* === Réponses multilingues === */
-const responses = {
-  fr: { 
-    welcome:"Bonjour 👋 Je suis le chatbot Helvitic AI. Posez-moi vos questions.",
-    greeting:"Bonjour! Comment puis-je vous aider ?",
-    services:"Nous offrons des solutions IA pour la gestion financière, l’optimisation et la formation.",
-    contact:"Vous pouvez nous contacter via email : helviticaich@gmail.com.",
-    goodbye:"Merci pour votre visite ! À bientôt 👋",
-    unknown:"Désolé, je n'ai pas compris. Pouvez-vous préciser ?" 
-  },
-  en: {
-    welcome:"Hello 👋 I'm the Helvitic AI chatbot. Ask me anything.",
-    greeting:"Hello! How can I help?",
-    services:"We provide AI solutions for financial management, optimization, and training.",
-    contact:"You can reach us via email: helviticaich@gmail.com.",
-    goodbye:"Thank you for visiting! See you soon 👋",
-    unknown:"Sorry, I didn't understand. Could you clarify?"
-  },
-  de: {
-    welcome:"Hallo 👋 Ich bin der Helvitic AI Chatbot. Stellen Sie mir Ihre Fragen.",
-    greeting:"Hallo! Wie kann ich Ihnen helfen?",
-    services:"Wir bieten KI-Lösungen für Finanzmanagement, Optimierung und Schulungen.",
-    contact:"Sie erreichen uns per E-Mail: helviticaich@gmail.com.",
-    goodbye:"Danke für Ihren Besuch! Bis bald 👋",
-    unknown:"Entschuldigung, das habe ich nicht verstanden. Können Sie das bitte präzisieren?"
+/* === Fonction pour fermer avec animation === */
+function closeChatbot() {
+  const iframe = parent.document.getElementById("chatbotFrame");
+  const bubble = parent.document.getElementById("chatBubble");
+
+  if (iframe) {
+    // Ajout de l’animation de sortie
+    iframe.classList.remove("chatbot-enter");
+    iframe.classList.add("chatbot-exit");
+
+    // Attendre la fin de l’animation avant de masquer
+    setTimeout(() => {
+      iframe.style.display = "none";
+      iframe.classList.remove("chatbot-exit");
+      if (bubble) bubble.style.display = "flex"; // réaffiche la bulle
+    }, 300); // correspond à la durée (0.3s)
   }
-};
-
-/* === FAQ multilingue === */
-const faqData = {
-  fr: {
-    title: "❓ Questions fréquentes",
-    questions: [
-      "Quels services proposez-vous ?",
-      "Comment vous contacter ?",
-      "Pouvez-vous m'aider avec la finance ?"
-    ]
-  },
-  en: {
-    title: "❓ Frequently Asked Questions",
-    questions: [
-      "What services do you provide?",
-      "How can I contact you?",
-      "Can you help me with finance?"
-    ]
-  },
-  de: {
-    title: "❓ Häufig gestellte Fragen",
-    questions: [
-      "Welche Dienstleistungen bieten Sie an?",
-      "Wie kann ich Sie kontaktieren?",
-      "Können Sie mir bei Finanzen helfen?"
-    ]
-  }
-};
-
-let currentLang = "fr"; 
-
-// Sélecteurs
-const botForm = document.getElementById("bot-form");
-const botInput = document.getElementById("bot-input");
-const botMessages = document.getElementById("chatbot-messages");
-const langSelect = document.getElementById("lang-select");
-const faqQuick = document.getElementById("faq-quick");
-const faqTitle = document.getElementById("faq-title");
-
-// Ajouter message
-function addMessage(sender, text) {
-  const div = document.createElement("div");
-  div.className = sender === "bot" 
-    ? "message-bot px-3 py-2 rounded-lg bg-gray-200 text-sm" 
-    : "message-user px-3 py-2 rounded-lg bg-blue-500 text-white text-sm text-right";
-  div.innerHTML = `<strong>${sender==="bot"?"Bot":"Vous"}:</strong> ${text}`;
-  botMessages.appendChild(div);
-  botMessages.scrollTop = botMessages.scrollHeight;
 }
-
-// Message d'accueil
-function showWelcomeMessage() {
-  botMessages.innerHTML = "";
-  addMessage("bot", responses[currentLang].welcome);
-  loadFAQ();
-}
-
-// Réponses auto
-function handleUserMessage(msg) {
-  let reply = responses[currentLang].unknown;
-  msg = msg.toLowerCase();
-
-  if (msg.includes("bonjour")||msg.includes("hello")||msg.includes("hallo")) reply = responses[currentLang].greeting;
-  else if (msg.includes("service")) reply = responses[currentLang].services;
-  else if (msg.includes("contact")) reply = responses[currentLang].contact;
-  else if (msg.includes("finance")) reply = responses[currentLang].services;
-  else if (msg.includes("bye")||msg.includes("au revoir")||msg.includes("tschüss")) reply = responses[currentLang].goodbye;
-
-  addMessage("bot", reply);
-}
-
-// Soumission
-botForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const msg = botInput.value.trim();
-  if (!msg) return;
-  addMessage("user", msg);
-  botInput.value = "";
-  handleUserMessage(msg);
-});
-
-// FAQ
-function loadFAQ() {
-  faqQuick.innerHTML = "";
-  faqTitle.textContent = faqData[currentLang].title;
-
-  faqData[currentLang].questions.forEach(q => {
-    const btn = document.createElement("button");
-    btn.className = "px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs hover:bg-blue-200 transition";
-    btn.innerText = q;
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      addMessage("user", q);
-      handleUserMessage(q);
-    });
-    faqQuick.appendChild(btn);
-  });
-}
-
-// Changement de langue
-langSelect.addEventListener("change", () => {
-  currentLang = langSelect.value;
-  showWelcomeMessage();
-});
-
-// Lancer
-showWelcomeMessage();
 </script>
 </body>
+</html>
