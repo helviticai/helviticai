@@ -1,810 +1,486 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Helvetic AI — FR / EN / DE</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helvetic AI Chatbot</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-html { scroll-behavior: smooth; }
-.fade-in { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
-.fade-in.show { opacity: 1; transform: translateY(0); }
-.accordion-content { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
-.accordion-content.open { max-height: 1000px; }
-.focus-ring:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
-.lang { display:none; }
-.lang.active { display:block; }
-.flag { width:28px; height:20px; border-radius:3px; cursor:pointer; }
+.glass-effect {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.gradient-bg {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+.typing-indicator {
+  display: flex;
+  padding: 8px 16px;
+  background: #e5e7eb;
+  border-radius: 16px;
+  width: fit-content;
+  margin: 4px 0;
+}
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6b7280;
+  animation: typing 1.4s infinite;
+  margin-right: 4px;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; margin-right: 0; }
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-8px); opacity: 1; }
+}
+.message-fade-in {
+  animation: fadeInUp 0.3s ease-out;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.question-btn {
+  transition: all 0.2s ease;
+  border: 1px solid #e5e7eb;
+}
+.question-btn:hover {
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+.toggle-btn {
+  transition: all 0.2s ease;
+}
+.toggle-btn:hover {
+  transform: scale(1.02);
+}
 </style>
-<link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
-<body class="bg-white text-gray-900">
+<body>
 
-  <!-- NAVBAR -->
-  <header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur border-b border-gray-100 z-50">
-    <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="#" class="flex items-center space-x-3">
-        <img src="logo.png" alt="Logo Helvetic AI" class="h-10 w-10 object-contain"/>
-        <span class="text-xl font-semibold">Helvetic AI</span>
-      </a>
-
-      <!-- Desktop menu (multilingue) -->
-      <ul id="mainMenu" class="hidden md:flex items-center gap-8 font-medium ml-10">
-        <li>
-          <a href="#mission" class="hover:text-blue-600 lang fr active">Mission</a>
-          <a href="#mission" class="hover:text-blue-600 lang en">Mission</a>
-          <a href="#mission" class="hover:text-blue-600 lang de">Mission</a>
-        </li>
-        <li>
-          <a href="#expertises" class="hover:text-blue-600 lang fr active">Expertises</a>
-          <a href="#expertises" class="hover:text-blue-600 lang en">Expertise</a>
-          <a href="#expertises" class="hover:text-blue-600 lang de">Kompetenzen</a>
-        </li>
-        <li>
-          <a href="#methodologie" class="hover:text-blue-600 lang fr active">Méthodologie</a>
-          <a href="#methodologie" class="hover:text-blue-600 lang en">Methodology</a>
-          <a href="#methodologie" class="hover:text-blue-600 lang de">Methodik</a>
-        </li>
-        <li>
-          <a href="#identite" class="hover:text-blue-600 lang fr active">Identité</a>
-          <a href="#identite" class="hover:text-blue-600 lang en">Identity</a>
-          <a href="#identite" class="hover:text-blue-600 lang de">Identität</a>
-        </li>
-        <li>
-          <a href="#equipe" class="hover:text-blue-600 lang fr active">Équipe</a>
-          <a href="#equipe" class="hover:text-blue-600 lang en">Team</a>
-          <a href="#equipe" class="hover:text-blue-600 lang de">Team</a>
-        </li>
-        <li>
-          <a href="#contact" class="hover:text-blue-600 lang fr active">Contact</a>
-          <a href="#contact" class="hover:text-blue-600 lang en">Contact</a>
-          <a href="#contact" class="hover:text-blue-600 lang de">Kontakt</a>
-        </li>
-      </ul>
-
-      <!-- Lang flags -->
-      <div class="flex items-center space-x-3 ml-6">
-        <img src="https://flagcdn.com/w20/fr.png" alt="FR" class="flag" onclick="setLang('fr')" title="Français"/>
-        <img src="https://flagcdn.com/w20/gb.png" alt="EN" class="flag" onclick="setLang('en')" title="English"/>
-        <img src="https://flagcdn.com/w20/de.png" alt="DE" class="flag" onclick="setLang('de')" title="Deutsch"/>
-        <button id="mobileMenuBtn" class="md:hidden text-gray-700 focus-ring ml-2" aria-label="Menu">☰</button>
-      </div>
-    </nav>
-
-    <!-- Mobile panel -->
-    <div id="mobilePanel" class="hidden md:hidden border-t border-gray-100">
-      <ul class="px-6 py-3 space-y-3 font-medium">
-        <li><a href="#mission" class="block py-1 hover:text-blue-600">Mission</a></li>
-        <li><a href="#expertises" class="block py-1 hover:text-blue-600">Expertises</a></li>
-        <li><a href="#methodologie" class="block py-1 hover:text-blue-600">Méthodologie</a></li>
-        <li><a href="#identite" class="block py-1 hover:text-blue-600">Identité</a></li>
-        <li><a href="#equipe" class="block py-1 hover:text-blue-600">Équipe</a></li>
-        <li><a href="#contact" class="block py-1 hover:text-blue-600">Contact</a></li>
-      </ul>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <section class="bg-[#0A0F2C] text-white min-h-[86vh] flex items-center pt-28">
-    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-10">
-      <div class="md:w-1/2 space-y-6 fade-in">
-        <h1 class="text-4xl md:text-5xl font-bold leading-tight lang fr active">
-          L'intelligence artificielle <br/><span class="text-blue-400">au service de la performance financière.</span>
-        </h1>
-        <h1 class="text-4xl md:text-5xl font-bold leading-tight lang en">
-          Artificial intelligence <br/><span class="text-blue-400">serving financial performance.</span>
-        </h1>
-        <h1 class="text-4xl md:text-5xl font-bold leading-tight lang de">
-          Künstliche Intelligenz <br/><span class="text-blue-400">im Dienste der finanziellen Leistung.</span>
-        </h1>
-
-        <p class="text-lg text-gray-300 lang fr active">
-          Des solutions innovantes pour optimiser vos processus financiers et améliorer votre prise de décision.
-        </p>
-        <p class="text-lg text-gray-300 lang en">
-          Innovative solutions to optimize your financial processes and enhance decision-making.
-        </p>
-        <p class="text-lg text-gray-300 lang de">
-          Innovative Lösungen zur Optimierung Ihrer Finanzprozesse und Verbesserung der Entscheidungsfindung.
-        </p>
-        <div class="flex gap-4">
-          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang fr active">Découvrir nos solutions</a>
-          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang en">Discover our solutions</a>
-          <a href="#expertises" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium lang de">Unsere Lösungen entdecken</a>
-
-          <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang fr active">Nous contacter</a>
-          <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang en">Contact us</a>
-          <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-medium lang de">Kontakt aufnehmen</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MISSION -->
-  <section id="mission" class="py-20">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold text-center mb-12 fade-in lang fr active">Notre Mission</h2>
-      <h2 class="text-4xl font-bold text-center mb-12 fade-in lang en">Our Mission</h2>
-      <h2 class="text-4xl font-bold text-center mb-12 fade-in lang de">Unsere Mission</h2>
-
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="md:col-span-2 space-y-4 fade-in">
-          <h3 class="text-2xl text-blue-600 font-semibold lang fr active">Transformer la finance par l'IA</h3>
-          <h3 class="text-2xl text-blue-600 font-semibold lang en">Transforming finance with AI</h3>
-          <h3 class="text-2xl text-blue-600 font-semibold lang de">Finanzen mit KI transformieren</h3>
-
-          <p class="lang fr active">Chez Helvetic AI, nous accompagnons les directions financières dans leur transformation digitale grâce à des technologies d'IA fiables et utiles.</p>
-          <p class="lang en">At Helvetic AI, we support finance leaders in their digital transformation with reliable, useful AI technologies.</p>
-          <p class="lang de">Bei Helvetic AI begleiten wir Finanzabteilungen bei der digitalen Transformation mit zuverlässigen, praxisnahen KI-Technologien.</p>
-
-          <p class="lang fr active">Notre expertise combine les enjeux EPM (Enterprise Performance Management) avec des méthodes d’implémentation éprouvées, pour des résultats mesurables.</p>
-          <p class="lang en">Our expertise blends EPM (Enterprise Performance Management) challenges with proven implementation methods for measurable results.</p>
-          <p class="lang de">Unsere Expertise verbindet EPM-Herausforderungen mit bewährten Implementierungsmethoden für messbare Ergebnisse.</p>
-
-          <p class="lang fr active">Sécurité, précision et fiabilité des données guident nos choix — des valeurs au cœur de notre identité suisse.</p>
-          <p class="lang en">Security, accuracy and data reliability guide our choices—values at the heart of our Swiss identity.</p>
-          <p class="lang de">Sicherheit, Genauigkeit und Datenzuverlässigkeit leiten unsere Entscheidungen—Werte, die unsere Schweizer Identität prägen.</p>
-        </div>
-        <div class="bg-blue-50 p-6 rounded-xl shadow fade-in">
-          <h4 class="text-xl font-semibold mb-3 lang fr active">Nos engagements</h4>
-          <h4 class="text-xl font-semibold mb-3 lang en">Our commitments</h4>
-          <h4 class="text-xl font-semibold mb-3 lang de">Unsere Verpflichtungen</h4>
-
-          <ul class="space-y-2 text-gray-700">
-            <li class="lang fr active">• Innovation pragmatique</li>
-            <li class="lang fr active">• Précision des analyses</li>
-            <li class="lang fr active">• Fiabilité opérationnelle</li>
-            <li class="lang fr active">• Sécurité & conformité</li>
-            <li class="lang fr active">• Excellence de service</li>
-
-            <li class="lang en">• Pragmatic innovation</li>
-            <li class="lang en">• Analytical precision</li>
-            <li class="lang en">• Operational reliability</li>
-            <li class="lang en">• Security & compliance</li>
-            <li class="lang en">• Service excellence</li>
-
-            <li class="lang de">• Pragmatistische Innovation</li>
-            <li class="lang de">• Analytische Präzision</li>
-            <li class="lang de">• Operative Zuverlässigkeit</li>
-            <li class="lang de">• Sicherheit & Compliance</li>
-            <li class="lang de">• Service-Exzellenz</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXPERTISES -->
-  <section id="expertises" class="py-20 bg-gray-50">
-    <div class="container mx-auto px-6 max-w-5xl">
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang fr active">Nos Expertises</h2>
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang en">Our Expertise</h2>
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang de">Unsere Kompetenzen</h2>
-
-      <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in lang fr active">
-        Explorez nos domaines d’intervention et découvrez comment Helvetic AI peut accélérer votre performance financière.
-      </p>
-      <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in lang en">
-        Explore our areas of intervention and see how Helvetic AI can accelerate your financial performance.
-      </p>
-      <p class="text-center text-gray-600 mb-10 max-w-3xl mx-auto fade-in lang de">
-        Entdecken Sie unsere Einsatzfelder und wie Helvetic AI Ihre finanzielle Performance beschleunigen kann.
-      </p>
-
-      <div class="space-y-4">
-        <!-- 1. Forecasting & Budgeting -->
-        <div class="border rounded-2xl shadow-sm bg-white fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="text-blue-600 font-bold">➤</span>
-              <span class="lang fr active">Prévision & Budgétisation</span>
-              <span class="lang en">Forecasting & Budgeting</span>
-              <span class="lang de">Prognose & Budgetierung</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4 lang fr active">Modèles prédictifs, scénarios dynamiques, rolling forecast et budgets plus précis.</p>
-            <p class="mb-4 lang en">Predictive models, dynamic scenarios, rolling forecasts and more accurate budgets.</p>
-            <p class="mb-4 lang de">Prädiktive Modelle, dynamische Szenarien, Rolling Forecasts und präzisere Budgets.</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li class="lang fr active">Prévisions mensuelles/hebdomadaires basées sur l’IA</li>
-              <li class="lang fr active">Scénarios What-if & sensibilités</li>
-              <li class="lang fr active">Alignement Budget ↔ Réel (variance & drivers)</li>
-
-              <li class="lang en">AI-based monthly/weekly forecasts</li>
-              <li class="lang en">What-if scenarios & sensitivities</li>
-              <li class="lang en">Budget ↔ Actual alignment (variance & drivers)</li>
-
-              <li class="lang de">KI-gestützte Monats-/Wochenprognosen</li>
-              <li class="lang de">What-if-Szenarien & Sensitivitäten</li>
-              <li class="lang de">Budget-/Ist-Abgleich (Varianz & Treiber)</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 2. Automation -->
-        <div class="border rounded-2xl shadow-sm bg-white fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="text-blue-600 font-bold">➤</span>
-              <span class="lang fr active">Automatisation des processus</span>
-              <span class="lang en">Process Automation</span>
-              <span class="lang de">Prozessautomatisierung</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4 lang fr active">RPA & IA pour réduire les tâches manuelles, fiabiliser les données et accélérer vos clôtures.</p>
-            <p class="mb-4 lang en">RPA & AI to reduce manual work, improve data reliability and speed up closing.</p>
-            <p class="mb-4 lang de">RPA & KI zur Reduzierung manueller Aufgaben, für verlässliche Daten und schnellere Abschlüsse.</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li class="lang fr active">Réconciliation automatique, extraction intelligente</li>
-              <li class="lang fr active">Workflows d’approbation avec traçabilité</li>
-              <li class="lang fr active">Réduction des erreurs, productivité accrue</li>
-
-              <li class="lang en">Automated reconciliation, intelligent extraction</li>
-              <li class="lang en">Approval workflows with full traceability</li>
-              <li class="lang en">Error reduction, higher productivity</li>
-
-              <li class="lang de">Automatische Abstimmung, intelligente Extraktion</li>
-              <li class="lang de">Genehmigungs-Workflows mit Nachverfolgbarkeit</li>
-              <li class="lang de">Weniger Fehler, mehr Produktivität</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 3. Decision Support -->
-        <div class="border rounded-2xl shadow-sm bg-white fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="text-blue-600 font-bold">➤</span>
-              <span class="lang fr active">Aide à la décision</span>
-              <span class="lang en">Decision Support</span>
-              <span class="lang de">Entscheidungsunterstützung</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4 lang fr active">Insights stratégiques (KPI, alerting, recommandations) pour décider vite et bien.</p>
-            <p class="mb-4 lang en">Strategic insights (KPIs, alerts, recommendations) to decide faster and better.</p>
-            <p class="mb-4 lang de">Strategische Einblicke (KPIs, Alerts, Empfehlungen) für schnellere, bessere Entscheidungen.</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li class="lang fr active">Tableaux de bord & alertes intelligentes</li>
-              <li class="lang fr active">Analyse des marges, cash, risques</li>
-              <li class="lang fr active">Recommandations actionnables par l’IA</li>
-
-              <li class="lang en">Dashboards & smart alerts</li>
-              <li class="lang en">Margin, cash and risk analysis</li>
-              <li class="lang en">AI-driven, actionable recommendations</li>
-
-              <li class="lang de">Dashboards & intelligente Alerts</li>
-              <li class="lang de">Analyse von Marge, Cash & Risiken</li>
-              <li class="lang de">Umsetzbare, KI-gestützte Empfehlungen</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 4. EPM -->
-        <div class="border rounded-2xl shadow-sm bg-white fade-in">
-          <button class="w-full flex justify-between items-center p-6 text-left font-semibold text-lg text-gray-900 accordion-btn focus-ring">
-            <span class="flex items-center gap-3">
-              <span class="text-blue-600 font-bold">➤</span>
-              <span class="lang fr active">Solutions EPM</span>
-              <span class="lang en">EPM Solutions</span>
-              <span class="lang de">EPM-Lösungen</span>
-            </span>
-            <span class="accordion-icon transition-transform">▼</span>
-          </button>
-          <div class="accordion-content px-6 pb-6 text-gray-700">
-            <p class="mb-4 lang fr active">Conception et intégration EPM sur mesure, adaptées à votre écosystème.</p>
-            <p class="mb-4 lang en">Tailored EPM design and integration, adapted to your ecosystem.</p>
-            <p class="mb-4 lang de">Maßgeschneiderte EPM-Konzeption und Integration, passend zu Ihrem Ökosystem.</p>
-            <ul class="list-disc pl-5 space-y-1">
-              <li class="lang fr active">Modélisation, référentiels, gouvernance des données</li>
-              <li class="lang fr active">Connecteurs systèmes & sécurité renforcée</li>
-              <li class="lang fr active">Conduite du changement et formation</li>
-
-              <li class="lang en">Modeling, master data, data governance</li>
-              <li class="lang en">System connectors & strengthened security</li>
-              <li class="lang en">Change management and training</li>
-
-              <li class="lang de">Modellierung, Stammdaten, Data Governance</li>
-              <li class="lang de">System-Connectoren & erhöhte Sicherheit</li>
-              <li class="lang de">Change Management und Schulung</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-<!-- MÉTHODOLOGIE (timeline visuelle améliorée) -->
-  <section id="methodologie" class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
-    <div class="container mx-auto px-6 max-w-7xl">
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang fr active">Notre Méthodologie</h2>
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang en">Our Methodology</h2>
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang de">Unsere Methodik</h2>
-      
-      <p class="text-center text-gray-600 mb-16 max-w-3xl mx-auto fade-in lang fr active">
-        Un processus éprouvé en 5 étapes pour garantir le succès de votre transformation digitale.
-      </p>
-      <p class="text-center text-gray-600 mb-16 max-w-3xl mx-auto fade-in lang en">
-        A proven 5-step process to guarantee the success of your digital transformation.
-      </p>
-      <p class="text-center text-gray-600 mb-16 max-w-3xl mx-auto fade-in lang de">
-        Ein bewährter 5-Schritte-Prozess für den Erfolg Ihrer digitalen Transformation.
-      </p>
-
-      <!-- Timeline horizontale -->
-      <div class="relative">
-        <!-- Ligne de connexion -->
-        <div class="absolute top-16 left-0 right-0 h-1 bg-gradient-to-r from-blue-200 via-blue-400 to-blue-600 hidden md:block"></div>
-        
-        <!-- Étapes -->
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-8 relative z-10">
-          
-          <!-- Étape 1 -->
-          <div class="text-center fade-in group">
-            <div class="relative mb-6">
-              <div class="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                01
-              </div>
-              <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-blue-600 rounded-full hidden md:block"></div>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-blue-500">
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang fr active">Analyse des besoins</h3>
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang en">Needs analysis</h3>
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang de">Bedarfsanalyse</h3>
-              
-              <p class="text-gray-600 text-sm leading-relaxed lang fr active">
-                Audit complet de votre environnement financier et identification des opportunités d'amélioration.
-              </p>
-              <p class="text-gray-600 text-sm leading-relaxed lang en">
-                Complete audit of your financial environment and identification of improvement opportunities.
-              </p>
-              <p class="text-gray-600 text-sm leading-relaxed lang de">
-                Vollständige Prüfung Ihres Finanzumfelds und Identifikation von Verbesserungsmöglichkeiten.
-              </p>
-            </div>
-          </div>
-
-          <!-- Étape 2 -->
-          <div class="text-center fade-in group">
-            <div class="relative mb-6">
-              <div class="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                02
-              </div>
-              <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-blue-600 rounded-full hidden md:block"></div>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-blue-500">
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang fr active">Conception de la solution</h3>
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang en">Solution design</h3>
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang de">Lösungskonzeption</h3>
-              
-              <p class="text-gray-600 text-sm leading-relaxed lang fr active">
-                Création d'une architecture IA sur mesure adaptée à vos processus et contraintes métier.
-              </p>
-              <p class="text-gray-600 text-sm leading-relaxed lang en">
-                Creation of a custom AI architecture adapted to your business processes and constraints.
-              </p>
-              <p class="text-gray-600 text-sm leading-relaxed lang de">
-                Entwicklung einer maßgeschneiderten KI-Architektur für Ihre Geschäftsprozesse.
-              </p>
-            </div>
-          </div>
-
-          <!-- Étape 3 -->
-          <div class="text-center fade-in group">
-            <div class="relative mb-6">
-              <div class="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                03
-              </div>
-              <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-blue-600 rounded-full hidden md:block"></div>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-blue-500">
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang fr active">Développement & intégration</h3>
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang en">Development & integration</h3>
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang de">Entwicklung & Integration</h3>
-              
-              <p class="text-gray-600 text-sm leading-relaxed lang fr active">
-                Mise en œuvre technique avec tests rigoureux et intégration sécurisée dans votre écosystème.
-              </p>
-              <p class="text-gray-600 text-sm leading-relaxed lang en">
-                Technical implementation with rigorous testing and secure integration into your ecosystem.
-              </p>
-              <p class="text-gray-600 text-sm leading-relaxed lang de">
-                Technische Umsetzung mit rigorosen Tests und sicherer Integration in Ihr System.
-              </p>
-            </div>
-          </div>
-
-          <!-- Étape 4 -->
-          <div class="text-center fade-in group">
-            <div class="relative mb-6">
-              <div class="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                04
-              </div>
-              <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-blue-600 rounded-full hidden md:block"></div>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-blue-500">
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang fr active">Formation & transfert</h3>
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang en">Training & knowledge transfer</h3>
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang de">Schulung & Wissenstransfer</h3>
-              
-              <p class="text-gray-600 text-sm leading-relaxed lang fr active">
-                Accompagnement de vos équipes pour une adoption réussie et une autonomie progressive.
-              </p>
-              <p class="text-gray-600 text-sm leading-relaxed lang en">
-                Support for your teams for successful adoption and progressive autonomy.
-              </p>
-              <p class="text-gray-600 text-sm leading-relaxed lang de">
-                Begleitung Ihrer Teams für erfolgreiche Einführung und schrittweise Autonomie.
-              </p>
-            </div>
-          </div>
-
-          <!-- Étape 5 -->
-          <div class="text-center fade-in group">
-            <div class="relative mb-6">
-              <div class="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                05
-              </div>
-              <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-blue-600 rounded-full hidden md:block"></div>
-            </div>
-            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-blue-500">
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang fr active">Support & amélioration continue</h3>
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang en">Support & continuous improvement</h3>
-              <h3 class="font-bold text-lg mb-3 text-gray-800 lang de">Support & kontinuierliche Verbesserung</h3>
-              
-              <p class="text-gray-600 text-sm leading-relaxed lang fr active">
-                Maintenance proactive, optimisations régulières et évolution selon vos besoins futurs.
-              </p>
-              <p class="text-gray-600 text-sm leading-relaxed lang en">
-                Proactive maintenance, regular optimizations and evolution according to your future needs.
-              </p>
-              <p class="text-gray-600 text-sm leading-relaxed lang de">
-                Proaktive Wartung, regelmäßige Optimierungen und Weiterentwicklung nach Ihren Bedürfnissen.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Stats/Benefits section -->
-      <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 fade-in">
-        <div class="text-center bg-white/60 backdrop-blur p-6 rounded-xl">
-          <div class="text-3xl font-bold text-blue-600 mb-2">95%</div>
-          <p class="text-gray-700 lang fr active">Taux de satisfaction client</p>
-          <p class="text-gray-700 lang en">Client satisfaction rate</p>
-          <p class="text-gray-700 lang de">Kundenzufriedenheitsrate</p>
-        </div>
-        <div class="text-center bg-white/60 backdrop-blur p-6 rounded-xl">
-          <div class="text-3xl font-bold text-blue-600 mb-2">6-12</div>
-          <p class="text-gray-700 lang fr active">Semaines de déploiement</p>
-          <p class="text-gray-700 lang en">Weeks deployment time</p>
-          <p class="text-gray-700 lang de">Wochen Implementierungszeit</p>
-        </div>
-        <div class="text-center bg-white/60 backdrop-blur p-6 rounded-xl">
-          <div class="text-3xl font-bold text-blue-600 mb-2">24/7</div>
-          <p class="text-gray-700 lang fr active">Support technique</p>
-          <p class="text-gray-700 lang en">Technical support</p>
-          <p class="text-gray-700 lang de">Technischer Support</p>
-        </div>
-      </div>
+<!-- Fenêtre du chatbot -->
+<div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col relative overflow-hidden">
+  <!-- Montagnes suisses en arrière-plan -->
+  <div class="absolute inset-0 pointer-events-none opacity-5">
+    <svg width="100%" height="100%" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <!-- Montagnes lointaines -->
+      <path d="M0 200 L50 160 L100 140 L150 120 L200 110 L250 130 L300 150 L350 140 L400 160 L400 300 L0 300 Z" fill="#e2e8f0" opacity="0.6"/>
+      <!-- Montagnes moyennes -->
+      <path d="M0 240 L40 200 L80 180 L120 160 L160 140 L200 130 L240 145 L280 170 L320 160 L360 180 L400 200 L400 300 L0 300 Z" fill="#cbd5e1" opacity="0.8"/>
+      <!-- Montagnes proches -->
+      <path d="M0 280 L30 250 L60 230 L90 210 L130 190 L170 185 L210 200 L250 220 L290 210 L330 230 L370 240 L400 250 L400 300 L0 300 Z" fill="#94a3b8"/>
+    </svg>
   </div>
-</section>
 
-
-  <!-- IDENTITE -->
-  <section id="identite" class="py-20 bg-[#0A0F2C] text-white">
-    <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold mb-10 fade-in lang fr active">Notre Identité Suisse</h2>
-      <h2 class="text-4xl font-bold mb-10 fade-in lang en">Our Swiss Identity</h2>
-      <h2 class="text-4xl font-bold mb-10 fade-in lang de">Unsere Schweizer Identität</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2 lang fr active">Fiabilité</h3>
-          <h3 class="font-semibold text-xl mb-2 lang en">Reliability</h3>
-          <h3 class="font-semibold text-xl mb-2 lang de">Zuverlässigkeit</h3>
-          <p class="lang fr active">Des standards élevés et des résultats constants pour vos processus critiques.</p>
-          <p class="lang en">High standards and consistent results for your critical processes.</p>
-          <p class="lang de">Hohe Standards und konstante Ergebnisse für Ihre kritischen Prozesse.</p>
-        </div>
-        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2 lang fr active">Précision</h3>
-          <h3 class="font-semibold text-xl mb-2 lang en">Precision</h3>
-          <h3 class="font-semibold text-xl mb-2 lang de">Präzision</h3>
-          <p class="lang fr active">Rigueur et contrôle pour des analyses financières de confiance.</p>
-          <p class="lang en">Rigour and control for trustworthy financial analysis.</p>
-          <p class="lang de">Strenge und Kontrolle für verlässliche Finanzanalysen.</p>
-        </div>
-        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2 lang fr active">Sécurité</h3>
-          <h3 class="font-semibold text-xl mb-2 lang en">Security</h3>
-          <h3 class="font-semibold text-xl mb-2 lang de">Sicherheit</h3>
-          <p class="lang fr active">Protection avancée des données et conformité stricte.</p>
-          <p class="lang en">Advanced data protection and strict compliance.</p>
-          <p class="lang de">Erweiterter Datenschutz und strikte Compliance.</p>
-        </div>
-        <div class="bg-white text-gray-900 p-6 rounded-xl shadow fade-in">
-          <h3 class="font-semibold text-xl mb-2 lang fr active">Innovation</h3>
-          <h3 class="font-semibold text-xl mb-2 lang en">Innovation</h3>
-          <h3 class="font-semibold text-xl mb-2 lang de">Innovation</h3>
-          <p class="lang fr active">Des technologies IA au service d’une performance durable.</p>
-          <p class="lang en">AI technologies serving sustainable performance.</p>
-          <p class="lang de">KI-Technologien für nachhaltige Performance.</p>
-        </div>
+  <!-- Header -->
+  <div class="gradient-bg text-white flex justify-between items-center p-4 shadow-lg">
+    <div class="flex items-center space-x-3">
+      <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center overflow-hidden">
+        <svg width="20" height="20" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" fill="#FF0000"/>
+          <rect x="6" y="13" width="20" height="6" fill="#FFFFFF"/>
+          <rect x="13" y="6" width="6" height="20" fill="#FFFFFF"/>
+        </svg>
+      </div>
+      <div>
+        <span class="font-bold">Helvetic AI</span>
+        <div class="text-xs opacity-75" id="status-indicator">En ligne</div>
       </div>
     </div>
-  </section>
-
-  <!-- EQUIPE -->
-  <section id="equipe" class="py-20 bg-gray-50">
-    <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold mb-12 fade-in lang fr active">Équipe Fondatrice</h2>
-      <h2 class="text-4xl font-bold mb-12 fade-in lang en">Founding Team</h2>
-      <h2 class="text-4xl font-bold mb-12 fade-in lang de">Gründungsteam</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-        <!-- Kahina -->
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in transform hover:-translate-y-2 transition duration-300">
-          <img src="Kahina AOUDIA.png" alt="Kahina Aoudia" class="w-full h-80 object-contain bg-gray-100">
-          <div class="p-6">
-            <h3 class="text-xl font-semibold text-gray-900">Kahina Aoudia</h3>
-            <p class="text-blue-600 font-medium lang fr active">Co-fondatrice & Directrice Stratégie</p>
-            <p class="text-blue-600 font-medium lang en">Co-founder & Strategy Director</p>
-            <p class="text-blue-600 font-medium lang de">Mitgründerin & Strategie-Direktorin</p>
-            <p class="mt-3 text-gray-600 text-sm lang fr active">
-              Avec 13 ans d’expérience sur l’outil IBM PA, Kahina se distingue par sa pédagogie, ses capacités d’analyse et son sens de la transmission des savoirs.
-              Experte des bases relationnelles et multidimensionnelles, elle maîtrise également les outils BI et EPM.
-              En véritable leader et manager d’équipe, elle pilote les projets avec efficacité et vision stratégique.
-            </p>
-            <p class="mt-3 text-gray-600 text-sm lang en">
-              With 13 years of experience on IBM PA, Kahina stands out for her pedagogy, analytical skills and talent for knowledge transfer.
-              An expert in relational and multidimensional databases, she also masters BI and EPM tools.
-              A true leader and team manager, she runs projects efficiently with strategic vision.
-            </p>
-            <p class="mt-3 text-gray-600 text-sm lang de">
-              Mit 13 Jahren Erfahrung mit IBM PA zeichnet sich Kahina durch Pädagogik, Analysefähigkeit und Wissensweitergabe aus.
-              Als Expertin für relationale und multidimensionale Datenbanken beherrscht sie auch BI- und EPM-Werkzeuge.
-              Als echte Führungskraft leitet sie Projekte effizient und mit strategischer Weitsicht.
-            </p>
-            <div class="mt-4 flex justify-center gap-4">
-              <a href="#" class="text-gray-500 hover:text-blue-600">🔗 LinkedIn</a>
-              <a href="mailto:kahina@helveticai.ch" class="text-gray-500 hover:text-blue-600">✉️ Email</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Adnane -->
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in transform hover:-translate-y-2 transition duration-300">
-          <img src="Adnane BAAHMED.png" alt="Adnane Baahmed" class="w-full h-80 object-contain bg-gray-100">
-          <div class="p-6">
-            <h3 class="text-xl font-semibold text-gray-900">Adnane Baahmed</h3>
-            <p class="text-blue-600 font-medium lang fr active">Co-fondateur & Directeur Technique</p>
-            <p class="text-blue-600 font-medium lang en">Co-founder & Technical Director</p>
-            <p class="text-blue-600 font-medium lang de">Mitgründer & Technischer Direktor</p>
-            <p class="mt-3 text-gray-600 text-sm lang fr active">
-              Adnane accompagne ses clients depuis 16 ans dans la mise en place et l’aide au choix de solutions BI/EPM, notamment BOARD et IBM PA/TM1.
-              Il a participé à de grands projets techniques et de transformation SI en tant que chef de projet technique ou architecte.
-            </p>
-            <p class="mt-3 text-gray-600 text-sm lang en">
-              For 16 years, Adnane has supported clients in selecting and implementing BI/EPM solutions, notably BOARD and IBM PA/TM1.
-              He has contributed to major technical and IT-transformation projects as a technical project manager or architect.
-            </p>
-            <p class="mt-3 text-gray-600 text-sm lang de">
-              Seit 16 Jahren unterstützt Adnane Kunden bei Auswahl und Implementierung von BI/EPM-Lösungen, insbesondere BOARD und IBM PA/TM1.
-              Er war an großen technischen und IT-Transformationsprojekten als technischer Projektleiter oder Architekt beteiligt.
-            </p>
-            <div class="mt-4 flex justify-center gap-4">
-              <a href="#" class="text-gray-500 hover:text-blue-600">🔗 LinkedIn</a>
-              <a href="mailto:adnane@helveticai.ch" class="text-gray-500 hover:text-blue-600">✉️ Email</a>
-            </div>
-          </div>
+    <div class="flex items-center space-x-2">
+      <div class="relative">
+        <select id="lang-select" class="text-black rounded px-8 py-1 text-sm appearance-none bg-white pr-6">
+          <option value="fr">Français</option>
+          <option value="en">English</option>
+          <option value="de">Deutsch</option>
+        </select>
+        <div id="flag-icon" class="absolute left-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+          <svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="8" fill="#002395"/>
+            <rect width="32" height="8" y="8" fill="#FFFFFF"/>
+            <rect width="32" height="8" y="16" fill="#ED2939"/>
+          </svg>
         </div>
       </div>
+      <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold hover:bg-white/20 w-6 h-6 rounded-full flex items-center justify-center transition-colors">×</button>
     </div>
-  </section>
+  </div>
 
-  <!-- CONTACT -->
-  <section id="contact" class="py-20">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang fr active">Contactez-nous</h2>
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang en">Contact Us</h2>
-      <h2 class="text-4xl font-bold text-center mb-6 fade-in lang de">Kontaktieren Sie uns</h2>
+  <!-- Messages -->
+  <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin bg-gray-50"></div>
 
-      <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in lang fr active">
-        Parlons de votre projet et voyons comment nos solutions d’IA peuvent booster votre performance financière.
-      </p>
-      <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in lang en">
-        Let’s discuss your project and how our AI solutions can boost your financial performance.
-      </p>
-      <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto fade-in lang de">
-        Sprechen wir über Ihr Projekt und wie unsere KI-Lösungen Ihre finanzielle Performance steigern können.
-      </p>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <!-- Infos -->
-        <div class="bg-blue-50 p-8 rounded-xl shadow fade-in">
-          <h3 class="text-2xl font-semibold mb-4 lang fr active">Parlons de votre projet</h3>
-          <h3 class="text-2xl font-semibold mb-4 lang en">Let’s talk about your project</h3>
-          <h3 class="text-2xl font-semibold mb-4 lang de">Sprechen wir über Ihr Projekt</h3>
-          <p class="text-gray-700 mb-6 lang fr active">Nous répondons rapidement et proposons des pistes concrètes dès le premier échange.</p>
-          <p class="text-gray-700 mb-6 lang en">We respond quickly and propose concrete next steps from the first conversation.</p>
-          <p class="text-gray-700 mb-6 lang de">Wir reagieren schnell und schlagen schon im ersten Gespräch konkrete Schritte vor.</p>
-          <ul class="space-y-4 text-gray-700">
-            <li class="flex items-center gap-3">
-              <span class="text-blue-600 text-xl">📍</span>
-              <span class="lang fr active"><strong>Adresse :</strong> Rue de Chantepoulet 10, 1201 Genève, Suisse</span>
-              <span class="lang en"><strong>Address:</strong> Rue de Chantepoulet 10, 1201 Geneva, Switzerland</span>
-              <span class="lang de"><strong>Adresse:</strong> Rue de Chantepoulet 10, 1201 Genf, Schweiz</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <span class="text-blue-600 text-xl">✉️</span>
-              <span><strong>Email :</strong> contact@helveticai.ch</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <span class="text-blue-600 text-xl">📧</span>
-              <span><strong>Support :</strong> helviticaich@gmail.com</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <span class="text-blue-600 text-xl">📞</span>
-              <span><strong>+41 22 123 45 67</strong></span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Form -->
-        <form action="https://formsubmit.co/helviticaich@gmail.com" method="POST" class="space-y-4 bg-gray-50 p-8 rounded-xl shadow fade-in">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_template" value="box">
-          <input type="hidden" name="_subject" value="Nouveau message depuis Helvetic AI">
-          <input type="hidden" name="_next" value="https://helviticai.github.io/helviticai/">
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input type="text" name="name" placeholder="Votre nom / Your name" required class="w-full p-3 border rounded-lg">
-            <input type="email" name="email" placeholder="Votre email / Your email" required class="w-full p-3 border rounded-lg">
-          </div>
-          <input type="text" name="company" placeholder="Entreprise / Company" class="w-full p-3 border rounded-lg">
-          <textarea name="message" placeholder="Votre message / Your message" rows="5" required class="w-full p-3 border rounded-lg"></textarea>
-
-          <label class="flex items-center gap-2 text-sm text-gray-600">
-            <input type="checkbox" required>
-            <span class="lang fr active">J'accepte que mes données soient traitées conformément à la politique de confidentialité.</span>
-            <span class="lang en">I agree that my data will be processed in accordance with the privacy policy.</span>
-            <span class="lang de">Ich stimme der Verarbeitung meiner Daten gemäß der Datenschutzrichtlinie zu.</span>
-          </label>
-
-          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition lang fr active">
-            Envoyer
-          </button>
-          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition lang en">
-            Send
-          </button>
-          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition lang de">
-            Senden
-          </button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- SCRIPTS du site -->
-  <script>
-    // Menu mobile
-    const mbBtn = document.getElementById('mobileMenuBtn');
-    const mbPanel = document.getElementById('mobilePanel');
-    mbBtn?.addEventListener('click', () => { mbPanel.classList.toggle('hidden'); });
-
-    // Fade-in on scroll
-    const faders = document.querySelectorAll('.fade-in');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
-    }, { threshold: 0.2 });
-    faders.forEach(el => io.observe(el));
-
-    // Accordions
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('.accordion-btn');
-      if (!btn) return;
-      const content = btn.parentElement.querySelector('.accordion-content');
-      const icon = btn.querySelector('.accordion-icon');
-      document.querySelectorAll('.accordion-content').forEach(c => { if (c !== content) c.classList.remove('open'); });
-      document.querySelectorAll('.accordion-icon').forEach(i => { if (i !== icon) i.classList.remove('rotate-180'); });
-      content.classList.toggle('open');
-      icon.classList.toggle('rotate-180');
-    });
-
-    // Lang switch (unique, sans doublon)
-    function applyLang(lang){
-      localStorage.setItem('helveticai_lang', lang);
-      document.querySelectorAll('.lang').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.'+lang).forEach(el => el.classList.add('active'));
-    }
-    function setLang(lang){ applyLang(lang); }
-    window.setLang = setLang;
-    applyLang(localStorage.getItem('helveticai_lang') || 'fr');
-  </script>
-<div id="chatBubble"
-     onclick="openChatbot()"
-     style="position:fixed; bottom:20px; right:20px;
-            width:60px; height:60px;
-            background:#2563eb;
-            border-radius:50%;
-            display:flex; justify-content:center; align-items:center;
-            cursor:pointer; z-index:9999;">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Flag_of_Switzerland.svg" 
-       alt="CH" style="width:28px; height:28px; border-radius:4px;">
+  <!-- Questions rapides -->
+  <div class="border-t bg-white p-4">
+    <div class="text-sm font-medium text-gray-600 mb-3" id="questions-title">Questions rapides :</div>
+    <div id="questions-container" class="space-y-2"></div>
+  </div>
 </div>
 
-</div>
-<!-- Bulle flottante (corrigée, version unique) -->
-<div id="chatBubble" onclick="openChatbot()"
-style="position:fixed; bottom:20px; right:20px; width:60px; height:60px;
-background:#2563eb; border-radius:50%; display:flex; align-items:center;
-justify-content:center; color:white; font-size:24px; cursor:pointer;
-z-index:10000; box-shadow:0 4px 10px rgba(0,0,0,0.3);">
-💬
-</div>
-  <p id="text-court" class="lang fr active">
-  Voici une introduction courte au texte...
-</p>
-<p id="text-long" class="hidden lang fr active">
-  Voici le texte détaillé qui s’affiche seulement quand on clique sur "Voir plus".
-</p>
-
-<button id="toggleBtn" class="text-blue-600 underline">Voir plus</button>
-
-
-
-
-
-
-
-<!-- Iframe du chatbot -->
-<iframe id="chatbotFrame" src="chatbot.html"
-style="border:none; position:fixed; bottom:20px; right:20px; width:350px; height:480px;
-z-index:9999; display:none; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.4);"
-title="HelveticBot"></iframe>
-
-
+<!-- Base de connaissances -->
 <script>
-const bubble = document.getElementById("chatBubble");
-const chatbotFrame = document.getElementById("chatbotFrame");
-
-
-function openChatbot() {
-bubble.style.display = "none";
-chatbotFrame.style.display = "block";
-}
-
-
-function closeChatbot() {
-chatbotFrame.style.display = "none";
-bubble.style.display = "flex";
-}
-</script>
+const knowledgeBase = {
+  fr: {
+    "qu'est-ce que l'ia en finance": "L'Intelligence Artificielle en finance utilise des algorithmes avancés pour automatiser et optimiser les processus financiers : prévisions, analyses de risques, détection de fraudes, et aide à la décision. Chez Helvetic AI, nous nous concentrons sur l'EPM (Enterprise Performance Management) pour améliorer la performance financière.",
+    
+    "avantages ia epm": "Les avantages de l'IA pour l'EPM incluent :\n• Prévisions plus précises\n• Automatisation des processus\n• Analyses prédictives\n• Recommandations intelligentes\n• Sécurité renforcée\n• Gain de temps significatif sur les tâches répétitives",
+    
+    "comment intégrer ia système": "L'intégration de l'IA se fait en 5 étapes :\n1. Analyse de vos besoins actuels\n2. Conception de la solution adaptée\n3. Développement et intégration technique\n4. Formation de vos équipes\n5. Support et amélioration continue\n\nNous accompagnons chaque étape.",
+    
+    "roi ia finance": "Le ROI de l'IA en finance se mesure par :\n• Réduction des coûts opérationnels (20-40%)\n• Gain de temps sur les processus (50-70%)\n• Amélioration de la précision des prévisions\n• Meilleure prise de décision stratégique",
+    
+    "technologies ia utilisées": "Nous utilisons des technologies IA de pointe :\n• Machine Learning\n• Deep Learning\n• Natural Language Processing\n• Algorithmes prédictifs\n• Solutions d'automatisation intelligente (RPA)\n\nToutes nos solutions respectent les standards de sécurité suisses.",
+    
+    "coût implémentation ia": "Le coût dépend de la complexité du projet. Nous proposons :\n• Audit gratuit initial\n• Solutions modulaires adaptées à votre budget\n• Implémentation progressive\n• ROI mesurable dès les premiers mois\n\nContactez-nous pour un devis personnalisé : contact@helveticai.ch",
+    
+    "ia améliorer prévisions": "L'IA peut améliorer vos prévisions de 30-50% grâce à :\n• Analyse de patterns complexes\n• Traitement de données massives\n• Modèles prédictifs avancés\n• Apprentissage continu à partir des résultats passés",
+    
+    "sécurité données ia": "La sécurité est notre priorité :\n• Chiffrement end-to-end\n• Conformité RGPD et standards suisses\n• Audit de sécurité réguliers\n• Contrôles d'accès stricts\n• Données hébergées en Suisse",
+    
+    "services helvetic ai": "Helvetic AI propose 4 expertises principales :\n• Prévision & Budgétisation\n• Automatisation des processus\n• Aide à la décision\n• Solutions EPM\n\nNous combinons expertise technique et connaissance métier finance.",
+    
+    "équipe helvetic ai": "Notre équipe fondatrice :\n• Kahina Aoudia (Co-fondatrice, 13 ans d'expérience IBM PA)\n• Adnane Baahmed (Co-fondateur, 16 ans d'expérience BI/EPM)\n\nExpertise combinée en pédagogie, analyse et architecture technique.",
+    
+    "contact helvetic ai": "Coordonnées Helvetic AI :\n📍 Rue de Chantepoulet 10, 1201 Genève, Suisse\n📧 contact@helveticai.ch\n🛠️ helviticaich@gmail.com\n📞 +41 22 123 45 67",
+    
+    "méthodologie helvetic ai": "Notre méthodologie en 5 étapes :\n1. Analyse approfondie des besoins\n2. Conception sur mesure\n3. Développement agile\n4. Formation complète des équipes\n5. Support continu et optimisation"
+  },
   
+  en: {
+    "what is ai in finance": "Artificial Intelligence in finance uses advanced algorithms to automate and optimize financial processes: forecasting, risk analysis, fraud detection, and decision support. At Helvetic AI, we focus on EPM (Enterprise Performance Management) to improve financial performance.",
+    
+    "ai epm benefits": "AI benefits for EPM include:\n• More accurate forecasts\n• Process automation\n• Predictive analytics\n• Smart recommendations\n• Enhanced security\n• Significant time savings on repetitive tasks",
+    
+    "how integrate ai system": "AI integration follows 5 steps:\n1. Analysis of your current needs\n2. Tailored solution design\n3. Technical development and integration\n4. Team training\n5. Ongoing support and improvement\n\nWe guide every step.",
+    
+    "ai finance roi": "AI ROI in finance is measured by:\n• Operational cost reduction (20-40%)\n• Process time savings (50-70%)\n• Improved forecast accuracy\n• Better strategic decision-making",
+    
+    "ai technologies used": "We use cutting-edge AI technologies:\n• Machine Learning\n• Deep Learning\n• Natural Language Processing\n• Predictive algorithms\n• Intelligent automation solutions (RPA)\n\nAll solutions meet Swiss security standards.",
+    
+    "ai implementation cost": "Cost depends on project complexity. We offer:\n• Free initial audit\n• Modular solutions fitting your budget\n• Progressive implementation\n• Measurable ROI from first months\n\nContact us for a personalized quote: contact@helveticai.ch",
+    
+    "can ai improve forecasts": "AI can improve your forecasts by 30-50% through:\n• Complex pattern analysis\n• Massive data processing\n• Advanced predictive models\n• Continuous learning from past results",
+    
+    "ai data security": "Security is our priority:\n• End-to-end encryption\n• GDPR compliance and Swiss standards\n• Regular security audits\n• Strict access controls\n• Data hosted in Switzerland",
+    
+    "helvetic ai services": "Helvetic AI offers 4 main expertise areas:\n• Forecasting & Budgeting\n• Process Automation\n• Decision Support\n• EPM Solutions\n\nWe combine technical expertise with finance business knowledge.",
+    
+    "helvetic ai team": "Our founding team:\n• Kahina Aoudia (Co-founder, 13 years IBM PA experience)\n• Adnane Baahmed (Co-founder, 16 years BI/EPM experience)\n\nCombined expertise in pedagogy, analysis and technical architecture.",
+    
+    "contact helvetic ai": "Helvetic AI contact details:\n📍 Rue de Chantepoulet 10, 1201 Geneva, Switzerland\n📧 contact@helveticai.ch\n🛠️ helviticaich@gmail.com\n📞 +41 22 123 45 67",
+    
+    "helvetic ai methodology": "Our 5-step methodology:\n1. Thorough needs analysis\n2. Custom design\n3. Agile development\n4. Complete team training\n5. Ongoing support and optimization"
+  },
+  
+  de: {
+    "was ist ki finanzen": "Künstliche Intelligenz im Finanzwesen nutzt fortgeschrittene Algorithmen zur Automatisierung und Optimierung von Finanzprozessen: Prognosen, Risikoanalyse, Betrugserkennung und Entscheidungsunterstützung. Bei Helvetic AI konzentrieren wir uns auf EPM zur Verbesserung der Finanzperformance.",
+    
+    "ki epm vorteile": "KI-Vorteile für EPM umfassen:\n• Präzisere Prognosen\n• Prozessautomatisierung\n• Predictive Analytics\n• Intelligente Empfehlungen\n• Erweiterte Sicherheit\n• Erhebliche Zeitersparnis bei repetitiven Aufgaben",
+    
+    "ki system integration": "KI-Integration erfolgt in 5 Schritten:\n1. Analyse Ihrer aktuellen Bedürfnisse\n2. Maßgeschneiderte Lösungskonzeption\n3. Technische Entwicklung und Integration\n4. Team-Schulung\n5. Laufender Support und Verbesserung\n\nWir begleiten jeden Schritt.",
+    
+    "ki finanzen roi": "KI-ROI im Finanzwesen wird gemessen durch:\n• Betriebskostensenkung (20-40%)\n• Zeitersparnis bei Prozessen (50-70%)\n• Verbesserte Prognosegenauigkeit\n• Bessere strategische Entscheidungsfindung",
+    
+    "verwendete ki technologien": "Wir nutzen modernste KI-Technologien:\n• Machine Learning\n• Deep Learning\n• Natural Language Processing\n• Prädiktive Algorithmen\n• Intelligente Automatisierungslösungen (RPA)\n\nAlle Lösungen erfüllen Schweizer Sicherheitsstandards.",
+    
+    "ki implementierung kosten": "Kosten hängen von der Projektkomplexität ab. Wir bieten:\n• Kostenlose Erstanalyse\n• Modulare Lösungen für Ihr Budget\n• Schrittweise Implementierung\n• Messbarer ROI ab den ersten Monaten\n\nKontaktieren Sie uns für ein Angebot: contact@helveticai.ch",
+    
+    "kann ki prognosen verbessern": "KI kann Ihre Prognosen um 30-50% verbessern durch:\n• Komplexe Musteranalyse\n• Massive Datenverarbeitung\n• Fortgeschrittene prädiktive Modelle\n• Kontinuierliches Lernen aus vergangenen Ergebnissen",
+    
+    "ki datensicherheit": "Sicherheit ist unsere Priorität:\n• End-to-End-Verschlüsselung\n• DSGVO-Konformität und Schweizer Standards\n• Regelmäßige Sicherheitsaudits\n• Strenge Zugangskontrollen\n• Datenhosting in der Schweiz",
+    
+    "helvetic ai services": "Helvetic AI bietet 4 Hauptkompetenzbereiche:\n• Prognose & Budgetierung\n• Prozessautomatisierung\n• Entscheidungsunterstützung\n• EPM-Lösungen\n\nWir kombinieren technische Expertise mit Finanz-Know-how.",
+    
+    "helvetic ai team": "Unser Gründungsteam:\n• Kahina Aoudia (Mitgründerin, 13 Jahre IBM PA Erfahrung)\n• Adnane Baahmed (Mitgründer, 16 Jahre BI/EPM Erfahrung)\n\nKombinierte Expertise in Pädagogik, Analyse und technischer Architektur.",
+    
+    "helvetic ai kontakt": "Helvetic AI Kontaktdaten:\n📍 Rue de Chantepoulet 10, 1201 Genf, Schweiz\n📧 contact@helveticai.ch\n🛠️ helviticaich@gmail.com\n📞 +41 22 123 45 67",
+    
+    "helvetic ai methodik": "Unsere 5-Schritte-Methodik:\n1. Gründliche Bedarfsanalyse\n2. Maßgeschneiderte Konzeption\n3. Agile Entwicklung\n4. Umfassende Team-Schulung\n5. Laufender Support und Optimierung"
+  }
+};
 
-<script>
-  const toggleBtn = document.getElementById("toggleBtn");
-  const shortText = document.getElementById("text-court");
-  const longText = document.getElementById("text-long");
+const quickQuestions = {
+  fr: [
+    "Qu'est-ce que l'IA en finance ?",
+    "Quels sont les avantages de l'IA pour l'EPM ?",
+    "Comment intégrer l'IA dans mon système ?",
+    "Quel est le ROI de l'IA en finance ?",
+    "Quelles technologies IA utilisez-vous ?",
+    "Combien coûte une implémentation IA ?",
+    "L'IA peut-elle améliorer mes prévisions ?",
+    "Comment assurer la sécurité des données ?",
+    "Quels sont les services Helvetic AI ?",
+    "Qui compose l'équipe Helvetic AI ?",
+    "Comment vous contacter ?",
+    "Quelle est votre méthodologie ?"
+  ],
+  en: [
+    "What is AI in finance?",
+    "What are the benefits of AI for EPM?",
+    "How to integrate AI in my system?",
+    "What is the ROI of AI in finance?",
+    "What AI technologies do you use?",
+    "How much does AI implementation cost?",
+    "Can AI improve my forecasts?",
+    "How to ensure data security?",
+    "What are Helvetic AI services?",
+    "Who is the Helvetic AI team?",
+    "How to contact you?",
+    "What is your methodology?"
+  ],
+  de: [
+    "Was ist KI im Finanzwesen?",
+    "Was sind die Vorteile von KI für EPM?",
+    "Wie integriere ich KI in mein System?",
+    "Was ist der ROI von KI im Finanzwesen?",
+    "Welche KI-Technologien verwenden Sie?",
+    "Wie viel kostet eine KI-Implementierung?",
+    "Kann KI meine Prognosen verbessern?",
+    "Wie stelle ich Datensicherheit sicher?",
+    "Was sind die Helvetic AI Services?",
+    "Wer ist das Helvetic AI Team?",
+    "Wie kann ich Sie kontaktieren?",
+    "Was ist Ihre Methodik?"
+  ]
+};
 
-  toggleBtn.addEventListener("click", () => {
-    if (longText.classList.contains("hidden")) {
-      longText.classList.remove("hidden");   // montrer le texte long
-      toggleBtn.textContent = "Voir moins";  // changer le bouton
-    } else {
-      longText.classList.add("hidden");      // masquer le texte long
-      toggleBtn.textContent = "Voir plus";   // revenir à l’état initial
-    }
-  });
+const translations = {
+  fr: {
+    typing: "En train d'écrire...",
+    online: "En ligne",
+    questionsTitle: "Questions rapides :",
+    seeMore: "Voir plus",
+    seeLess: "Voir moins",
+    welcome: "Bonjour ! Je suis votre assistant IA Helvetic. Choisissez une question ci-dessous pour commencer."
+  },
+  en: {
+    typing: "Typing...",
+    online: "Online",
+    questionsTitle: "Quick questions:",
+    seeMore: "See more",
+    seeLess: "See less",
+    welcome: "Hello! I'm your Helvetic AI assistant. Choose a question below to get started."
+  },
+  de: {
+    typing: "Schreibt...",
+    online: "Online",
+    questionsTitle: "Schnellfragen:",
+    seeMore: "Mehr anzeigen",
+    seeLess: "Weniger anzeigen",
+    welcome: "Hallo! Ich bin Ihr Helvetic AI Assistent. Wählen Sie eine Frage unten aus, um zu beginnen."
+  }
+};
 </script>
 
+<!-- Script principal -->
+<script>
+const messagesContainer = document.getElementById("chatbot-messages");
+const langSelect = document.getElementById("lang-select");
+const statusIndicator = document.getElementById("status-indicator");
+const questionsContainer = document.getElementById("questions-container");
+const questionsTitle = document.getElementById("questions-title");
 
+let currentLang = "fr";
+let isTyping = false;
+let expanded = false;
+
+// Fonction d'affichage de message
+function addMessage(text, sender = "bot", animate = true) {
+  const msg = document.createElement("div");
+  msg.className = `${sender === "user" ? "text-right" : "text-left"} ${animate ? "message-fade-in" : ""}`;
+  
+  const bubble = document.createElement("div");
+  bubble.className = `inline-block px-4 py-2 rounded-2xl max-w-xs lg:max-w-md ${
+    sender === "user" 
+      ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white' 
+      : 'bg-white text-gray-900 border border-gray-200 shadow-sm'
+  }`;
+  bubble.style.whiteSpace = "pre-wrap";
+  bubble.textContent = text;
+  
+  msg.appendChild(bubble);
+  messagesContainer.appendChild(msg);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+// Indicateur de frappe
+function showTypingIndicator() {
+  if (isTyping) return;
+  isTyping = true;
+  
+  const msg = document.createElement("div");
+  msg.className = "text-left typing-message";
+  msg.innerHTML = `
+    <div class="typing-indicator">
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    </div>
+  `;
+  messagesContainer.appendChild(msg);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  statusIndicator.textContent = translations[currentLang].typing;
+}
+
+function hideTypingIndicator() {
+  isTyping = false;
+  const typingMsg = document.querySelector(".typing-message");
+  if (typingMsg) typingMsg.remove();
+  statusIndicator.textContent = translations[currentLang].online;
+}
+
+// Recherche de réponse
+function findAnswer(question) {
+  const normalizedQuestion = question.toLowerCase()
+    .replace(/[àáâäã]/g, 'a')
+    .replace(/[èéêë]/g, 'e')
+    .replace(/[ìíîï]/g, 'i')
+    .replace(/[òóôöõ]/g, 'o')
+    .replace(/[ùúûü]/g, 'u')
+    .replace(/[ç]/g, 'c')
+    .replace(/[^a-z0-9\s]/g, '')
+    .trim();
+
+  const kb = knowledgeBase[currentLang];
+  
+  // Recherche exacte par correspondance de question
+  for (let key in kb) {
+    const normalizedKey = key.replace(/[^a-z0-9\s]/g, '').trim();
+    if (normalizedQuestion === normalizedKey) {
+      return kb[key];
+    }
+  }
+  
+  // Recherche par mots-clés
+  for (let key in kb) {
+    const keyWords = key.split(' ');
+    const questionWords = normalizedQuestion.split(' ');
+    const matches = keyWords.filter(kw => questionWords.some(qw => qw.includes(kw) || kw.includes(qw)));
+    if (matches.length >= 2) {
+      return kb[key];
+    }
+  }
+  
+  return kb[Object.keys(kb)[0]]; // Première réponse par défaut
+}
+
+// Traitement d'une question
+function handleQuestion(question) {
+  if (isTyping) return;
+  
+  // Ajouter message utilisateur
+  addMessage(question, "user");
+  
+  // Simuler délai de traitement
+  showTypingIndicator();
+  
+  setTimeout(() => {
+    hideTypingIndicator();
+    const response = findAnswer(question);
+    addMessage(response, "bot");
+  }, Math.random() * 1000 + 800);
+}
+
+// Mise à jour des questions rapides
+function updateQuickQuestions() {
+  questionsContainer.innerHTML = "";
+  questionsTitle.textContent = translations[currentLang].questionsTitle;
+  
+  const questions = quickQuestions[currentLang];
+  const visibleCount = expanded ? questions.length : 3;
+  const visibleQuestions = questions.slice(0, visibleCount);
+  
+  // Afficher les questions
+  visibleQuestions.forEach((question, index) => {
+    const button = document.createElement("button");
+    button.className = "question-btn w-full text-left p-3 rounded-lg bg-white hover:bg-gray-50 text-sm";
+    button.textContent = question;
+    button.onclick = () => handleQuestion(question);
+    questionsContainer.appendChild(button);
+  });
+  
+  // Bouton Voir plus / Voir moins
+  if (questions.length > 3) {
+    const toggleButton = document.createElement("button");
+    toggleButton.className = "toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
+    toggleButton.textContent = expanded ? translations[currentLang].seeLess : translations[currentLang].seeMore;
+    toggleButton.onclick = () => {
+      expanded = !expanded;
+      updateQuickQuestions();
+    };
+    questionsContainer.appendChild(toggleButton);
+  }
+}
+
+// Fonction pour mettre à jour le drapeau
+function updateFlag(lang) {
+  const flagIcon = document.getElementById("flag-icon");
+  
+  const flags = {
+    fr: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+           <rect width="32" height="8" fill="#002395"/>
+           <rect width="32" height="8" y="8" fill="#FFFFFF"/>
+           <rect width="32" height="8" y="16" fill="#ED2939"/>
+         </svg>`,
+    en: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+           <rect width="32" height="24" fill="#012169"/>
+           <path d="M0 0L32 24M32 0L0 24" stroke="#FFFFFF" stroke-width="4"/>
+           <path d="M0 0L32 24M32 0L0 24" stroke="#C8102E" stroke-width="2.5"/>
+           <path d="M16 0V24M0 12H32" stroke="#FFFFFF" stroke-width="4"/>
+           <path d="M16 0V24M0 12H32" stroke="#C8102E" stroke-width="2.5"/>
+         </svg>`,
+    de: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+           <rect width="32" height="8" fill="#000000"/>
+           <rect width="32" height="8" y="8" fill="#DD0000"/>
+           <rect width="32" height="8" y="16" fill="#FFCE00"/>
+         </svg>`
+  };
+  
+  flagIcon.innerHTML = flags[lang];
+}
+
+// Changement de langue
+langSelect.addEventListener("change", (e) => {
+  currentLang = e.target.value;
+  expanded = false; // Reset l'état des questions
+  
+  // Mise à jour du drapeau
+  updateFlag(currentLang);
+  
+  // Mise à jour de l'interface
+  statusIndicator.textContent = translations[currentLang].online;
+  
+  // Reset conversation
+  messagesContainer.innerHTML = "";
+  addMessage(translations[currentLang].welcome, "bot", false);
+  
+  // Mise à jour des questions
+  updateQuickQuestions();
+});
+
+// Initialisation
+document.addEventListener("DOMContentLoaded", () => {
+  addMessage(translations[currentLang].welcome, "bot", false);
+  updateQuickQuestions();
+});
+</script>
 
 </body>
 </html>
