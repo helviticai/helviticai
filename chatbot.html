@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -25,7 +27,7 @@
 <div id="chatbot-window" class="w-full h-screen bg-white rounded-lg shadow-lg flex flex-col chatbot-enter">
 
   <!-- Header -->
-  <div class="gradient-bg text-white flex justify-between items-center p-3 rounded-t-lg">
+  <div class="gradient-bg text-white flex justify-between items-center p-3 rounded-t-lg bg-gradient-to-r from-blue-600 to-indigo-600">
     <div class="flex items-center gap-2">
       <div class="w-7 h-7 rounded-full bg-white flex items-center justify-center text-blue-600 font-bold">
         🤖
@@ -39,7 +41,7 @@
         <option value="en">🇬🇧 EN</option>
         <option value="de">🇩🇪 DE</option>
       </select>
-      <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold hover:text-red-400">✕</button>
+      <button onclick="closeChatbot()" class="ml-2 text-lg font-bold hover:text-red-400">✕</button>
     </div>
   </div>
 
@@ -48,7 +50,7 @@
 
   <!-- FAQ -->
   <div id="faq-container" class="p-3 border-t bg-white">
-    <div id="faq-title" class="font-semibold mb-2 text-gray-600 text-sm"></div>
+    <div id="faq-title" class="font-semibold mb-2 text-gray-600 text-sm">❓ Questions fréquentes</div>
     <div id="faq-quick" class="flex flex-wrap gap-2"></div>
   </div>
 
@@ -61,24 +63,120 @@
 </div>
 
 <script>
-/* === Fonction pour fermer avec animation === */
+/* === Réponses multilingues === */
+const responses = {
+  fr: { 
+    welcome:"Bonjour 👋 Je suis le chatbot Helvitic AI. Posez-moi vos questions.",
+    greeting:"Bonjour! Comment puis-je vous aider ?",
+    services:"Nous offrons des solutions IA pour la gestion financière, l’optimisation et la formation.",
+    contact:"Vous pouvez nous contacter via email : helviticaich@gmail.com.",
+    goodbye:"Merci pour votre visite ! À bientôt 👋",
+    unknown:"Désolé, je n'ai pas compris. Pouvez-vous préciser ?",
+    faq:["Quels services proposez-vous ?","Comment vous contacter ?","Pouvez-vous m'aider avec la finance ?"]
+  },
+  en: {
+    welcome:"Hello 👋 I'm the Helvitic AI chatbot. Ask me anything.",
+    greeting:"Hello! How can I help?",
+    services:"We provide AI solutions for financial management, optimization, and training.",
+    contact:"You can reach us via email: helviticaich@gmail.com.",
+    goodbye:"Thank you for visiting! See you soon 👋",
+    unknown:"Sorry, I didn't understand. Could you clarify?",
+    faq:["What services do you offer?","How can we contact you?","Can you help me with finance?"]
+  },
+  de: {
+    welcome:"Hallo 👋 Ich bin der Helvitic AI Chatbot. Stellen Sie mir Ihre Fragen.",
+    greeting:"Hallo! Wie kann ich Ihnen helfen?",
+    services:"Wir bieten KI-Lösungen für Finanzmanagement, Optimierung und Schulungen.",
+    contact:"Sie erreichen uns per E-Mail: helviticaich@gmail.com.",
+    goodbye:"Danke für Ihren Besuch! Bis bald 👋",
+    unknown:"Entschuldigung, das habe ich nicht verstanden. Können Sie das bitte präzisieren?",
+    faq:["Welche Dienstleistungen bieten Sie an?","Wie können wir Sie kontaktieren?","Können Sie mir bei Finanzen helfen?"]
+  }
+};
+
+let currentLang = "fr"; // langue par défaut
+
+// Sélecteurs
+const botForm = document.getElementById("bot-form");
+const botInput = document.getElementById("bot-input");
+const botMessages = document.getElementById("chatbot-messages");
+const langSelect = document.getElementById("lang-select");
+const faqQuick = document.getElementById("faq-quick");
+
+// Fonction affichage message
+function addMessage(sender, text) {
+  const div = document.createElement("div");
+  div.className = sender === "bot" 
+    ? "bg-gray-200 px-3 py-2 rounded-lg text-sm"
+    : "bg-blue-500 text-white px-3 py-2 rounded-lg text-sm text-right";
+  div.innerHTML = `<strong>${sender==="bot"?"Bot":"Vous"}:</strong> ${text}`;
+  botMessages.appendChild(div);
+  botMessages.scrollTop = botMessages.scrollHeight;
+}
+
+// Message de bienvenue + FAQ
+function showWelcomeMessage() {
+  botMessages.innerHTML = "";
+  addMessage("bot", responses[currentLang].welcome);
+  renderFAQ();
+}
+
+// Générer la FAQ
+function renderFAQ() {
+  faqQuick.innerHTML = "";
+  responses[currentLang].faq.forEach(q => {
+    const btn = document.createElement("button");
+    btn.className = "px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs hover:bg-blue-200 transition";
+    btn.innerText = q;
+    btn.onclick = () => handleUserMessage(q);
+    faqQuick.appendChild(btn);
+  });
+}
+
+// Réponses
+function handleUserMessage(msg) {
+  addMessage("user", msg);
+  let reply = responses[currentLang].unknown;
+  const low = msg.toLowerCase();
+  if (low.includes("bonjour")||low.includes("hello")||low.includes("hallo")) reply = responses[currentLang].greeting;
+  else if (low.includes("service")) reply = responses[currentLang].services;
+  else if (low.includes("contact")) reply = responses[currentLang].contact;
+  else if (low.includes("bye")||low.includes("au revoir")||low.includes("tschüss")) reply = responses[currentLang].goodbye;
+  addMessage("bot", reply);
+}
+
+botForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const msg = botInput.value.trim();
+  if (!msg) return;
+  handleUserMessage(msg);
+  botInput.value = "";
+});
+
+// Changement de langue
+langSelect.addEventListener("change", () => {
+  currentLang = langSelect.value;
+  showWelcomeMessage();
+});
+
+// === Fonction fermer avec animation ===
 function closeChatbot() {
   const iframe = parent.document.getElementById("chatbotFrame");
   const bubble = parent.document.getElementById("chatBubble");
 
   if (iframe) {
-    // Ajout de l’animation de sortie
     iframe.classList.remove("chatbot-enter");
     iframe.classList.add("chatbot-exit");
-
-    // Attendre la fin de l’animation avant de masquer
     setTimeout(() => {
       iframe.style.display = "none";
       iframe.classList.remove("chatbot-exit");
-      if (bubble) bubble.style.display = "flex"; // réaffiche la bulle
-    }, 300); // correspond à la durée (0.3s)
+      if (bubble) bubble.style.display = "flex";
+    }, 300);
   }
 }
+
+// Lancer avec message d’accueil
+showWelcomeMessage();
 </script>
 </body>
 </html>
