@@ -629,46 +629,31 @@ html { scroll-behavior: smooth; }
 </div>
 
 </div>
-<!-- Bulle flottante (corrigée, version unique) -->
-<div id="chatBubble" onclick="openChatbot()"
-style="position:fixed; bottom:20px; right:20px; width:60px; height:60px;
-background:#2563eb; border-radius:50%; display:flex; align-items:center;
-justify-content:center; color:white; font-size:24px; cursor:pointer;
-z-index:10000; box-shadow:0 4px 10px rgba(0,0,0,0.3);">
-💬
+<!-- Bouton flottant -->
+<div id="chatbot-button"
+     class="fixed bottom-6 right-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:scale-105 transition">
+  💬
 </div>
 
-
-
-
-<!-- Iframe du chatbot -->
-<iframe id="chatbotFrame" src="chatbot.html"
-style="border:none; position:fixed; bottom:20px; right:20px; width:350px; height:480px;
-z-index:9999; display:none; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.4);"
-title="HelveticBot"></iframe>
-
+<!-- Iframe du chatbot (popup masquée au départ) -->
+<div id="chatbot-popup" class="fixed bottom-20 right-6 w-96 h-[600px] hidden shadow-2xl rounded-2xl overflow-hidden">
+  <iframe src="chatbot.html" class="w-full h-full border-0 rounded-2xl"></iframe>
+</div>
 
 <script>
-const bubble = document.getElementById("chatBubble");
-const chatbotFrame = document.getElementById("chatbotFrame");
+const button = document.getElementById("chatbot-button");
+const popup = document.getElementById("chatbot-popup");
 
+button.addEventListener("click", () => {
+  popup.classList.toggle("hidden");
+});
 
-function openChatbot() {
-bubble.style.display = "none";
-chatbotFrame.style.display = "block";
-}
-
-
+// Fonction pour fermer depuis chatbot.html
 function closeChatbot() {
-chatbotFrame.style.display = "none";
-bubble.style.display = "flex";
+  popup.classList.add("hidden");
 }
+window.closeChatbot = closeChatbot;
 </script>
-
-
-</body>
-</html>
-
 
 
 </body>
