@@ -392,7 +392,7 @@ function handleQuestion(question) {
   }, Math.random() * 1000 + 800);
 }
 
-// ✅ Mise à jour des questions rapides (corrigée et unique)
+// ✅ Mise à jour des questions rapides
 function updateQuickQuestions() {
   questionsContainer.innerHTML = "";
   questionsTitle.textContent = translations[currentLang].questionsTitle;
@@ -401,6 +401,7 @@ function updateQuickQuestions() {
   const visibleCount = expanded ? questions.length : 3;
   const visibleQuestions = questions.slice(0, visibleCount);
 
+  // Ajout des questions visibles
   visibleQuestions.forEach((question) => {
     const button = document.createElement("button");
     button.className =
@@ -410,6 +411,7 @@ function updateQuickQuestions() {
     questionsContainer.appendChild(button);
   });
 
+  // ✅ Bouton Voir plus / Voir moins
   if (questions.length > 3) {
     const toggleButton = document.createElement("button");
     toggleButton.className =
@@ -419,14 +421,13 @@ function updateQuickQuestions() {
       : translations[currentLang].seeMore;
 
     toggleButton.onclick = () => {
-      expanded = !expanded;
-      updateQuickQuestions();
+      expanded = !expanded;       // Inverse l’état
+      updateQuickQuestions();     // Recharge la liste avec le bon texte
     };
 
     questionsContainer.appendChild(toggleButton);
   }
-}  // ✅ fermeture de la fonction
-
+}
 
 // Mise à jour du drapeau
 function updateFlag(lang) {
