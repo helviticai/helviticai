@@ -390,7 +390,7 @@ function handleQuestion(question) {
   }, Math.random() * 1000 + 800);
 }
 
-// ✅ Mise à jour des questions rapides avec Voir plus / Voir moins
+// Mise à jour des questions rapides
 function updateQuickQuestions() {
   questionsContainer.innerHTML = "";
   questionsTitle.textContent = translations[currentLang].questionsTitle;
@@ -399,6 +399,7 @@ function updateQuickQuestions() {
   const visibleCount = expanded ? questions.length : 3;
   const visibleQuestions = questions.slice(0, visibleCount);
 
+  // Afficher les questions visibles
   visibleQuestions.forEach((question) => {
     const button = document.createElement("button");
     button.className = "question-btn w-full text-left p-3 rounded-lg bg-white hover:bg-gray-50 text-sm";
@@ -407,38 +408,24 @@ function updateQuickQuestions() {
     questionsContainer.appendChild(button);
   });
 
+  // Bouton Voir plus / Voir moins
   if (questions.length > 3) {
     const toggleButton = document.createElement("button");
-    toggleButton.className = "toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
-    toggleButton.textContent = expanded 
-      ? translations[currentLang].seeLess 
+    toggleButton.className =
+      "toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
+    toggleButton.textContent = expanded
+      ? translations[currentLang].seeLess
       : translations[currentLang].seeMore;
 
-    toggleButton.onclick = () => {
+    // Important ⚡ éviter boucle infinie
+    toggleButton.addEventListener("click", () => {
       expanded = !expanded;
-      updateQuickQuestions();
-    };
+      updateQuickQuestions(); // relance l'affichage avec le nouvel état
+    });
 
     questionsContainer.appendChild(toggleButton);
   }
 }
 
-// Changement de langue
-langSelect.addEventListener("change", (e) => {
-  currentLang = e.target.value;
-  expanded = false; 
-  updateFlag(currentLang);
-  statusIndicator.textContent = translations[currentLang].online;
-  messagesContainer.innerHTML = "";
-  addMessage(translations[currentLang].welcome, "bot", false);
-  updateQuickQuestions();
-});
-
-// Initialisation
-document.addEventListener("DOMContentLoaded", () => {
-  addMessage(translations[currentLang].welcome, "bot", false);
-  updateQuickQuestions();
-});
-</script>
 </body> 
 </html>
