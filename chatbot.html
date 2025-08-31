@@ -1,58 +1,65 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Helvitic AI - Chatbot</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .gradient-bg { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); }
-    .glass-effect { backdrop-filter: blur(10px); background: rgba(255,255,255,0.9); }
-    .message-user { background: linear-gradient(135deg,#3b82f6,#1d4ed8); color:white; display:inline-block; }
-    .message-bot { background: #f3f4f6; border:1px solid #d1d5db; display:inline-block; }
-    .scrollbar-thin::-webkit-scrollbar { width:4px; }
-    .scrollbar-thin::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:2px; }
-  </style>
-</head>
-<body class="bg-gray-50">
-
-<!-- Fenêtre du chatbot -->
-<div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col">
-
-  <!-- Header avec sélecteur de langue + bouton fermer -->
-  <div class="gradient-bg text-white flex justify-between items-center p-4">
-    <span class="font-bold">Helvitic AI</span>
-
-    <select id="lang-select" class="text-black rounded px-2 py-1">
-      <option value="fr">🇫🇷 FR</option>
-      <option value="en">🇬🇧 EN</option>
-      <option value="de">🇩🇪 DE</option>
-    </select>
-
-    <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold">✕</button>
-  </div>
-
-  <!-- Messages -->
-  <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin"></div>
-
-  <!-- FAQ rapide -->
-  <div id="faq-suggestions" class="border-t border-gray-200 p-3 bg-gray-50 hidden">
-    <p class="text-sm font-semibold mb-2">💡 Questions fréquentes :</p>
-    <div id="faq-buttons" class="flex flex-col gap-2"></div>
-  </div>
-
-  <!-- Formulaire -->
-  <form id="bot-form" class="border-t border-gray-200 p-3 flex">
-    <input id="bot-input" type="text" placeholder="Écrivez ici..." 
-           class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-    <button class="ml-2 px-4 bg-blue-600 text-white rounded-lg">Envoyer</button>
-  </form>
-</div>
-
-<!-- Import FAQ -->
-<script src="faq.js"></script>
+<!-- Dans votre fichier chatbot (10).html, remplacez la section <script> par ceci : -->
 
 <script>
+/* === Import du fichier FAQ === */
+// Assurez-vous que le fichier faq.js est chargé avant ce script
+
+/* === Réponses multilingues de base === */
+const responses = {
+  fr: { 
+    welcome:"Bonjour 👋 Je suis le chatbot Helvitic AI spécialisé en IA pour la performance financière. Posez-moi vos questions sur l'EPM, l'automatisation ou nos solutions.",
+    greeting:"Bonjour! Comment puis-je vous aider avec l'IA en finance ?",
+    services:"Nous offrons des solutions IA pour l'EPM : prévisions automatisées, budgeting intelligent, détection d'anomalies, et optimisation des processus financiers.",
+    contact:"Vous pouvez nous contacter via email : helviticaich@gmail.com ou par téléphone +41 22 123 45 67.",
+    goodbye:"Merci pour votre intérêt ! N'hésitez pas à nous recontacter pour vos projets IA & Finance 👋",
+    unknown:"Je n'ai pas trouvé d'information sur ce sujet. Pouvez-vous reformuler ou poser une question sur l'IA en finance, l'EPM, ou nos solutions ?" 
+  },
+  en: {
+    welcome:"Hello 👋 I'm the Helvitic AI chatbot specialized in AI for financial performance. Ask me about EPM, automation, or our solutions.",
+    greeting:"Hello! How can I help you with AI in finance?",
+    services:"We provide AI solutions for EPM: automated forecasting, intelligent budgeting, anomaly detection, and financial process optimization.",
+    contact:"You can reach us via email: helviticaich@gmail.com or phone +41 22 123 45 67.",
+    goodbye:"Thank you for your interest! Feel free to contact us again for your AI & Finance projects 👋",
+    unknown:"I couldn't find information on this topic. Could you rephrase or ask about AI in finance, EPM, or our solutions?"
+  },
+  de: {
+    welcome:"Hallo 👋 Ich bin der Helvitic AI Chatbot für KI in der Finanzperformance. Fragen Sie mich zu EPM, Automatisierung oder unseren Lösungen.",
+    greeting:"Hallo! Wie kann ich Ihnen mit KI im Finanzwesen helfen?",
+    services:"Wir bieten KI-Lösungen für EPM: automatisierte Prognosen, intelligente Budgetierung, Anomalieerkennung und Optimierung von Finanzprozessen.",
+    contact:"Sie erreichen uns per E-Mail: helviticaich@gmail.com oder Telefon +41 22 123 45 67.",
+    goodbye:"Vielen Dank für Ihr Interesse! Kontaktieren Sie uns gerne für Ihre KI & Finance Projekte 👋",
+    unknown:"Ich konnte keine Information zu diesem Thema finden. Können Sie umformulieren oder zu KI im Finanzwesen, EPM oder unseren Lösungen fragen?"
+  }
+};
+
+/* === FAQ multilingue pour boutons rapides === */
+const faqData = {
+  fr: {
+    title: "❓ Questions fréquentes",
+    questions: [
+      "Quels services proposez-vous ?",
+      "Comment vous contacter ?",
+      "Pouvez-vous m'aider avec la finance ?"
+    ]
+  },
+  en: {
+    title: "❓ Frequently Asked Questions",
+    questions: [
+      "What services do you provide?",
+      "How can I contact you?",
+      "Can you help me with finance?"
+    ]
+  },
+  de: {
+    title: "❓ Häufig gestellte Fragen",
+    questions: [
+      "Welche Dienstleistungen bieten Sie an?",
+      "Wie kann ich Sie kontaktieren?",
+      "Können Sie mir bei Finanzen helfen?"
+    ]
+  }
+};
+
 let currentLang = "fr"; // langue par défaut
 
 // Sélecteurs
@@ -60,70 +67,185 @@ const botForm = document.getElementById("bot-form");
 const botInput = document.getElementById("bot-input");
 const botMessages = document.getElementById("chatbot-messages");
 const langSelect = document.getElementById("lang-select");
-const faqContainer = document.getElementById("faq-suggestions");
-const faqButtons = document.getElementById("faq-buttons");
+const faqQuick = document.getElementById("faq-quick");
+const faqTitle = document.getElementById("faq-title");
 
 // Fonction affichage message
 function addMessage(sender, text) {
   const div = document.createElement("div");
   div.className = sender === "bot" 
-    ? "message-bot px-3 py-2 rounded-lg" 
-    : "message-user px-3 py-2 rounded-lg text-right";
-  div.innerHTML = `<strong>${sender==="bot"?"Bot":"Vous"}:</strong> ${text}`;
+    ? "message-bot px-3 py-2 rounded-lg bg-gray-100 mb-2" 
+    : "message-user px-3 py-2 rounded-lg text-right bg-blue-500 text-white mb-2";
+  
+  // Formatage du texte avec retours à la ligne
+  const formattedText = text.replace(/\n/g, '<br>');
+  div.innerHTML = `<strong>${sender==="bot"?"Helvitic AI":"Vous"}:</strong> ${formattedText}`;
+  
   botMessages.appendChild(div);
   botMessages.scrollTop = botMessages.scrollHeight;
 }
 
-// Message de bienvenue
-function showWelcomeMessage() {
-  botMessages.innerHTML = "";
-  addMessage("bot", faq[currentLang]?.welcome || "👋 Bonjour, posez-moi vos questions !");
-  generateFaqButtons();
+// Fonction de recherche intelligente dans la FAQ spécialisée
+function searchFAQ(query, lang = 'fr') {
+  if (typeof faq === 'undefined') return null;
+  
+  const faqLang = faq[lang] || faq.fr;
+  const normalizedQuery = query.toLowerCase()
+    .replace(/[àáâãäå]/g, 'a')
+    .replace(/[èéêë]/g, 'e')
+    .replace(/[ìíîï]/g, 'i')
+    .replace(/[òóôõö]/g, 'o')
+    .replace(/[ùúûü]/g, 'u')
+    .replace(/[ç]/g, 'c')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .trim();
+
+  // Recherche par mots-clés
+  const keywords = normalizedQuery.split(' ').filter(word => word.length > 2);
+  let bestMatch = null;
+  let maxScore = 0;
+
+  for (const [key, value] of Object.entries(faqLang)) {
+    let score = 0;
+    const normalizedKey = key.toLowerCase();
+    const normalizedValue = value.toLowerCase();
+
+    // Score basé sur la correspondance des mots-clés
+    keywords.forEach(keyword => {
+      if (normalizedKey.includes(keyword)) score += 3;
+      if (normalizedValue.includes(keyword)) score += 1;
+    });
+
+    // Bonus pour correspondance exacte
+    if (normalizedKey.includes(normalizedQuery)) score += 5;
+
+    if (score > maxScore) {
+      maxScore = score;
+      bestMatch = { key, value, score };
+    }
+  }
+
+  return maxScore > 2 ? bestMatch : null;
 }
 
-// Réponses normales
+// Fonction pour obtenir des suggestions de questions
+function getSuggestedQuestions(lang) {
+  if (typeof quickQuestions === 'undefined') return "";
+  
+  const suggestions = quickQuestions[lang] || quickQuestions.fr;
+  const randomSuggestions = suggestions.slice(0, 3);
+  
+  let suggestionText = "";
+  switch(lang) {
+    case 'en':
+      suggestionText = "Here are some questions I can help with:\n• " + randomSuggestions.join("\n• ");
+      break;
+    case 'de':
+      suggestionText = "Hier sind einige Fragen, bei denen ich helfen kann:\n• " + randomSuggestions.join("\n• ");
+      break;
+    default:
+      suggestionText = "Voici quelques questions sur lesquelles je peux vous aider :\n• " + randomSuggestions.join("\n• ");
+  }
+  
+  return suggestionText;
+}
+
+// Message de bienvenue spécialisé
+function showWelcomeMessage() {
+  botMessages.innerHTML = "";
+  
+  // Utiliser le message d'accueil spécialisé si disponible
+  let welcomeMsg = responses[currentLang].welcome;
+  if (typeof faq !== 'undefined' && faq[currentLang] && faq[currentLang].welcome) {
+    welcomeMsg = faq[currentLang].welcome;
+  }
+  
+  addMessage("bot", welcomeMsg);
+  loadFAQ();
+}
+
+// Réponses automatiques améliorées
+function handleUserMessage(msg) {
+  const normalizedMsg = msg.toLowerCase().trim();
+
+  // Recherche d'abord dans la FAQ spécialisée IA & Finance
+  const faqResult = searchFAQ(normalizedMsg, currentLang);
+  if (faqResult && faqResult.score > 2) {
+    addMessage("bot", faqResult.value);
+    return;
+  }
+
+  // Puis dans les réponses basiques existantes
+  let reply = responses[currentLang].unknown;
+  
+  if (normalizedMsg.includes("bonjour") || normalizedMsg.includes("hello") || normalizedMsg.includes("hallo")) {
+    reply = responses[currentLang].greeting;
+  } else if (normalizedMsg.includes("service") || normalizedMsg.includes("solution")) {
+    reply = responses[currentLang].services;
+  } else if (normalizedMsg.includes("contact")) {
+    reply = responses[currentLang].contact;
+  } else if (normalizedMsg.includes("finance") || normalizedMsg.includes("epm") || normalizedMsg.includes("ia") || normalizedMsg.includes("ai") || normalizedMsg.includes("ki")) {
+    reply = responses[currentLang].services;
+  } else if (normalizedMsg.includes("bye") || normalizedMsg.includes("au revoir") || normalizedMsg.includes("tschüss")) {
+    reply = responses[currentLang].goodbye;
+  }
+
+  addMessage("bot", reply);
+
+  // Suggérer des questions pertinentes si la réponse est générique
+  if (reply === responses[currentLang].unknown) {
+    setTimeout(() => {
+      const suggestions = getSuggestedQuestions(currentLang);
+      if (suggestions) {
+        addMessage("bot", suggestions);
+      }
+    }, 1000);
+  }
+}
+
+// Formulaire
 botForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const msg = botInput.value.trim();
   if (!msg) return;
   addMessage("user", msg);
   botInput.value = "";
-
-  let reply = faq[currentLang]?.unknown || "❓ Je n’ai pas compris.";
-  for (let key in faq[currentLang]) {
-    if (msg.toLowerCase().includes(key.toLowerCase())) {
-      reply = faq[currentLang][key];
-      break;
-    }
-  }
-  addMessage("bot", reply);
+  
+  // Délai pour simuler la réflexion
+  setTimeout(() => {
+    handleUserMessage(msg);
+  }, 500);
 });
 
-// FAQ cliquable
-function askFaq(question, answer) {
-  addMessage("user", question);
-  addMessage("bot", answer);
-}
+// Charger FAQ avec questions spécialisées IA
+function loadFAQ() {
+  faqQuick.innerHTML = "";
+  faqTitle.textContent = faqData[currentLang].title;
 
-// Générer automatiquement les boutons FAQ
-function generateFaqButtons() {
-  faqButtons.innerHTML = "";
-  let entries = Object.entries(faq[currentLang] || {});
-
-  // on prend uniquement les entrées de type question/réponse (Q1, Q2…)
-  let qas = entries.filter(([k,v]) => k.startsWith("q")).slice(0, 5);
-
-  if (qas.length > 0) {
-    faqContainer.classList.remove("hidden");
-    qas.forEach(([key, answer]) => {
-      const btn = document.createElement("button");
-      btn.innerText = key; // ⚠️ si faq.js contient le texte complet de la question, on peut remplacer par ça
-      btn.className = "px-3 py-2 text-sm bg-blue-100 rounded-lg hover:bg-blue-200 text-left";
-      btn.onclick = (e) => { e.preventDefault(); askFaq(key, answer); };
-      faqButtons.appendChild(btn);
+  // Questions générales existantes
+  faqData[currentLang].questions.forEach(q => {
+    const btn = document.createElement("button");
+    btn.className = "faq-btn px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-sm hover:bg-blue-200 transition mr-2 mb-2";
+    btn.innerText = q;
+    btn.addEventListener("click", () => {
+      addMessage("user", q);
+      setTimeout(() => handleUserMessage(q), 500);
     });
-  } else {
-    faqContainer.classList.add("hidden");
+    faqQuick.appendChild(btn);
+  });
+
+  // Ajouter des questions spécialisées IA & Finance
+  if (typeof quickQuestions !== 'undefined' && quickQuestions[currentLang]) {
+    quickQuestions[currentLang].slice(0, 5).forEach(q => {
+      const btn = document.createElement("button");
+      btn.className = "faq-btn px-3 py-1 bg-green-100 text-green-700 rounded-lg text-sm hover:bg-green-200 transition mr-2 mb-2";
+      btn.innerText = q;
+      btn.addEventListener("click", () => {
+        addMessage("user", q);
+        setTimeout(() => handleUserMessage(q), 500);
+      });
+      faqQuick.appendChild(btn);
+    });
   }
 }
 
@@ -133,8 +255,15 @@ langSelect.addEventListener("change", () => {
   showWelcomeMessage();
 });
 
-// Lancer avec message d’accueil
-showWelcomeMessage();
+// Lancer avec message d'accueil
+document.addEventListener('DOMContentLoaded', () => {
+  showWelcomeMessage();
+});
+
+// Si le DOM est déjà chargé
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', showWelcomeMessage);
+} else {
+  showWelcomeMessage();
+}
 </script>
-</body>
-</html>
