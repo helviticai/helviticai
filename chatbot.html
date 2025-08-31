@@ -5,13 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Helvitic AI - Chatbot</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    .gradient-bg { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); }
-    .glass-effect { backdrop-filter: blur(10px); background: rgba(255,255,255,0.9); }
-    .message-user { background: linear-gradient(135deg,#3b82f6,#1d4ed8); color:white; }
-    .message-bot { background: #f3f4f6; border:1px solid #d1d5db; }
-    .scrollbar-thin::-webkit-scrollbar { width:4px; }
-    .scrollbar-thin::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:2px; }
+    /* === Styles visuels pro === */
+    body { font-family: sans-serif; }
+
+    .glass-effect {
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.9);
+      border-radius: 1rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+    }
+
+    .message-user {
+      background: linear-gradient(135deg,#3b82f6,#1d4ed8);
+      color: white;
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 12px;
+      max-width: 75%;
+      text-align: left;
+    }
+
+    .message-bot {
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 12px;
+      max-width: 75%;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+
+    @keyframes fadeIn {
+      from {opacity:0; transform: translateY(10px);}
+      to {opacity:1; transform: translateY(0);}
+    }
+    .fade-in {
+      animation: fadeIn 0.3s ease-in-out;
+    }
   </style>
 </head>
 <body class="bg-gray-50">
@@ -20,16 +63,17 @@
 <div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col">
 
   <!-- Header avec sélecteur de langue + bouton fermer -->
-  <div class="gradient-bg text-white flex justify-between items-center p-4">
+  <div class="gradient-bg text-white flex justify-between items-center p-4 rounded-t-xl">
     <span class="font-bold">Helvitic AI</span>
 
-    <select id="lang-select" class="text-black rounded px-2 py-1">
-      <option value="fr">🇫🇷 FR</option>
-      <option value="en">🇬🇧 EN</option>
-      <option value="de">🇩🇪 DE</option>
-    </select>
-
-    <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold">✕</button>
+    <div class="flex items-center space-x-2">
+      <select id="lang-select" class="text-black rounded px-2 py-1">
+        <option value="fr">🇫🇷 FR</option>
+        <option value="en">🇬🇧 EN</option>
+        <option value="de">🇩🇪 DE</option>
+      </select>
+      <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold">✕</button>
+    </div>
   </div>
 
   <!-- Messages -->
@@ -37,7 +81,8 @@
 
   <!-- Formulaire -->
   <form id="bot-form" class="border-t border-gray-200 p-3 flex">
-    <input id="bot-input" type="text" placeholder="Écrivez ici..." class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <input id="bot-input" type="text" placeholder="Écrivez ici..."
+           class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
     <button class="ml-2 px-4 bg-blue-600 text-white rounded-lg">Envoyer</button>
   </form>
 </div>
@@ -82,10 +127,8 @@ const langSelect = document.getElementById("lang-select");
 // Fonction affichage message
 function addMessage(sender, text) {
   const div = document.createElement("div");
-  div.className = sender === "bot" 
-    ? "message-bot px-3 py-2 rounded-lg" 
-    : "message-user px-3 py-2 rounded-lg text-right";
-  div.innerHTML = `<strong>${sender==="bot"?"Bot":"Vous"}:</strong> ${text}`;
+  div.className = sender === "bot" ? "message-bot fade-in" : "message-user fade-in ml-auto";
+  div.innerHTML = text;
   botMessages.appendChild(div);
   botMessages.scrollTop = botMessages.scrollHeight;
 }
@@ -110,7 +153,7 @@ botForm.addEventListener("submit", (e) => {
   else if (msg.includes("contact")) reply = responses[currentLang].contact;
   else if (msg.includes("bye")||msg.includes("au revoir")||msg.includes("tschüss")) reply = responses[currentLang].goodbye;
 
-  addMessage("bot", reply);
+  setTimeout(()=> addMessage("bot", reply), 400);
 });
 
 // Changement de langue
