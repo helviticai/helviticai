@@ -26,24 +26,28 @@
 <!-- Fenêtre du chatbot -->
 <div id="chatbot-window" class="w-full h-screen bg-white rounded-lg shadow-lg flex flex-col chatbot-enter">
 
-  <!-- Header -->
-  <div class="gradient-bg text-white flex justify-between items-center p-3 rounded-t-lg bg-gradient-to-r from-blue-600 to-indigo-600">
-    <div class="flex items-center gap-2">
-      <div class="w-7 h-7 rounded-full bg-white flex items-center justify-center text-blue-600 font-bold">
-        🤖
-      </div>
-      <span class="font-bold">Helvitic AI</span>
+<!-- Header -->
+<div class="gradient-bg text-white flex justify-between items-center p-3 rounded-t-lg bg-gradient-to-r from-blue-600 to-indigo-600">
+  <div class="flex items-center gap-2">
+    <div class="w-7 h-7 rounded-full bg-white flex items-center justify-center text-blue-600 font-bold">
+      🤖
     </div>
-
-    <div class="flex items-center gap-2">
-      <select id="lang-select" class="text-black rounded px-2 py-1 text-xs">
-        <option value="fr">🇫🇷 FR</option>
-        <option value="en">🇬🇧 EN</option>
-        <option value="de">🇩🇪 DE</option>
-      </select>
-      <button onclick="closeChatbot()" class="ml-2 text-lg font-bold hover:text-red-400">✕</button>
-    </div>
+    <span class="font-bold">Helvitic AI</span>
   </div>
+
+  <!-- Sélecteur + bouton fermer -->
+  <div class="flex items-center gap-2">
+    <select id="lang-select" class="text-black rounded px-2 py-1 text-xs">
+      <option value="fr">🇫🇷 FR</option>
+      <option value="en">🇬🇧 EN</option>
+      <option value="de">🇩🇪 DE</option>
+    </select>
+    <button onclick="closeChatbot()" 
+            class="ml-2 text-lg font-bold hover:text-red-400 focus:outline-none">
+      ✕
+    </button>
+  </div>
+</div>
 
   <!-- Messages -->
   <div id="chatbot-messages" class="flex-1 overflow-y-auto p-3 space-y-3 scrollbar-thin bg-gray-50"></div>
