@@ -1,42 +1,27 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Helvitic AI Chatbot</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .message-bot { background:#f1f5f9; color:#111827; text-align:left; }
-    .message-user { background:#2563eb; color:white; text-align:right; }
-    .glass-effect { background:rgba(255,255,255,0.85); backdrop-filter:blur(10px); }
-    .faq-btn { background:#e5e7eb; padding:6px 10px; border-radius:8px; cursor:pointer; }
-    .faq-btn:hover { background:#d1d5db; }
-  </style>
-</head>
-<body class="h-screen w-full">
-
 <!-- Fenêtre du chatbot -->
 <div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col">
 
-  <!-- Header -->
-  <div class="gradient-bg bg-blue-600 text-white flex justify-between items-center p-4">
+  <!-- Header avec sélecteur de langue + bouton fermer -->
+  <div class="gradient-bg text-white flex justify-between items-center p-4">
     <span class="font-bold">Helvitic AI</span>
 
-    <div class="flex items-center gap-2">
-      <select id="lang-select" class="text-black rounded px-2 py-1">
-        <option value="fr">🇫🇷 FR</option>
-        <option value="en">🇬🇧 EN</option>
-        <option value="de">🇩🇪 DE</option>
-      </select>
-      <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold">✕</button>
-    </div>
+    <select id="lang-select" class="text-black rounded px-2 py-1">
+      <option value="fr">🇫🇷 FR</option>
+      <option value="en">🇬🇧 EN</option>
+      <option value="de">🇩🇪 DE</option>
+    </select>
+
+    <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold">✕</button>
   </div>
 
   <!-- Messages -->
   <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin"></div>
 
-  <!-- FAQ -->
-  <div id="faq-questions" class="border-t border-gray-300 p-3 flex flex-wrap gap-2 text-sm"></div>
+  <!-- FAQ rapide -->
+  <div id="faq-container" class="p-3 border-t bg-gray-50">
+    <div id="faq-title" class="font-semibold mb-2 text-gray-700"></div>
+    <div id="faq-quick" class="flex flex-wrap gap-2"></div>
+  </div>
 
   <!-- Formulaire -->
   <form id="bot-form" class="border-t border-gray-200 p-3 flex">
@@ -75,6 +60,34 @@ const responses = {
   }
 };
 
+/* === FAQ multilingue === */
+const faqData = {
+  fr: {
+    title: "❓ Questions fréquentes",
+    questions: [
+      "Quels services proposez-vous ?",
+      "Comment vous contacter ?",
+      "Pouvez-vous m'aider avec la finance ?"
+    ]
+  },
+  en: {
+    title: "❓ Frequently Asked Questions",
+    questions: [
+      "What services do you provide?",
+      "How can I contact you?",
+      "Can you help me with finance?"
+    ]
+  },
+  de: {
+    title: "❓ Häufig gestellte Fragen",
+    questions: [
+      "Welche Dienstleistungen bieten Sie an?",
+      "Wie kann ich Sie kontaktieren?",
+      "Können Sie mir bei Finanzen helfen?"
+    ]
+  }
+};
+
 let currentLang = "fr"; // langue par défaut
 
 // Sélecteurs
@@ -82,13 +95,15 @@ const botForm = document.getElementById("bot-form");
 const botInput = document.getElementById("bot-input");
 const botMessages = document.getElementById("chatbot-messages");
 const langSelect = document.getElementById("lang-select");
+const faqQuick = document.getElementById("faq-quick");
+const faqTitle = document.getElementById("faq-title");
 
 // Fonction affichage message
 function addMessage(sender, text) {
   const div = document.createElement("div");
   div.className = sender === "bot" 
-    ? "message-bot px-3 py-2 rounded-lg" 
-    : "message-user px-3 py-2 rounded-lg text-right";
+    ? "message-bot px-3 py-2 rounded-lg bg-gray-100" 
+    : "message-user px-3 py-2 rounded-lg text-right bg-blue-500 text-white";
   div.innerHTML = `<strong>${sender==="bot"?"Bot":"Vous"}:</strong> ${text}`;
   botMessages.appendChild(div);
   botMessages.scrollTop = botMessages.scrollHeight;
@@ -98,57 +113,47 @@ function addMessage(sender, text) {
 function showWelcomeMessage() {
   botMessages.innerHTML = "";
   addMessage("bot", responses[currentLang].welcome);
+  loadFAQ();
 }
 
-// Réponses
-botForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const msg = botInput.value.trim().toLowerCase();
-  if (!msg) return;
-  addMessage("user", msg);
-  botInput.value = "";
-
+// Réponses automatiques
+function handleUserMessage(msg) {
   let reply = responses[currentLang].unknown;
+  msg = msg.toLowerCase();
+
   if (msg.includes("bonjour")||msg.includes("hello")||msg.includes("hallo")) reply = responses[currentLang].greeting;
   else if (msg.includes("service")) reply = responses[currentLang].services;
   else if (msg.includes("contact")) reply = responses[currentLang].contact;
+  else if (msg.includes("finance")) reply = responses[currentLang].services;
   else if (msg.includes("bye")||msg.includes("au revoir")||msg.includes("tschüss")) reply = responses[currentLang].goodbye;
 
   addMessage("bot", reply);
+}
+
+// Formulaire
+botForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const msg = botInput.value.trim();
+  if (!msg) return;
+  addMessage("user", msg);
+  botInput.value = "";
+  handleUserMessage(msg);
 });
 
-// === FAQ dynamique ===
-function updateFAQ() {
-  const faqContainer = document.getElementById("faq-questions");
-  faqContainer.innerHTML = ""; // reset
-  
-  const faqList = {
-    fr: ["Quels services proposez-vous ?", "Comment vous contacter ?", "Quels sont les avantages de l’IA ?"],
-    en: ["What services do you offer?", "How can I contact you?", "What are the benefits of AI?"],
-    de: ["Welche Dienstleistungen bieten Sie an?", "Wie kann ich Sie kontaktieren?", "Was sind die Vorteile von KI?"]
-  };
+// Charger FAQ
+function loadFAQ() {
+  faqQuick.innerHTML = "";
+  faqTitle.textContent = faqData[currentLang].title;
 
-  faqList[currentLang].forEach(q => {
+  faqData[currentLang].questions.forEach(q => {
     const btn = document.createElement("button");
-    btn.className = "faq-btn";
+    btn.className = "faq-btn px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-sm hover:bg-blue-200 transition";
     btn.innerText = q;
     btn.addEventListener("click", () => {
       addMessage("user", q);
-
-      let reply = responses[currentLang].unknown;
-      if (q.toLowerCase().includes("service") || q.toLowerCase().includes("dienst")) reply = responses[currentLang].services;
-      else if (q.toLowerCase().includes("contact") || q.toLowerCase().includes("kontakt")) reply = responses[currentLang].contact;
-      else if (q.toLowerCase().includes("avantage") || q.toLowerCase().includes("benefit") || q.toLowerCase().includes("vorteil")) {
-        reply = {
-          fr: "L’IA permet d’automatiser, prédire et optimiser la performance financière 🚀",
-          en: "AI helps automate, predict, and optimize financial performance 🚀",
-          de: "KI hilft, die finanzielle Leistung zu automatisieren, vorherzusagen und zu optimieren 🚀"
-        }[currentLang];
-      }
-
-      addMessage("bot", reply);
+      handleUserMessage(q);
     });
-    faqContainer.appendChild(btn);
+    faqQuick.appendChild(btn);
   });
 }
 
@@ -156,12 +161,8 @@ function updateFAQ() {
 langSelect.addEventListener("change", () => {
   currentLang = langSelect.value;
   showWelcomeMessage();
-  updateFAQ();
 });
 
 // Lancer avec message d’accueil
 showWelcomeMessage();
-updateFAQ();
 </script>
-</body>
-</html>
