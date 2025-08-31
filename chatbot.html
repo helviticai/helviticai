@@ -57,30 +57,20 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.input-container {
-  position: relative;
-}
-.send-btn {
-  transition: all 0.2s ease;
-}
-.send-btn:hover {
-  transform: scale(1.05);
-}
-.conversation-starter {
+.question-btn {
   transition: all 0.2s ease;
   border: 1px solid #e5e7eb;
 }
-.conversation-starter:hover {
+.question-btn:hover {
   border-color: #3b82f6;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
 }
-.quick-action {
-  animation: slideIn 0.3s ease-out forwards;
-  opacity: 0;
+.toggle-btn {
+  transition: all 0.2s ease;
 }
-@keyframes slideIn {
-  to { opacity: 1; transform: translateX(0); }
+.toggle-btn:hover {
+  transform: scale(1.02);
 }
 </style>
 </head>
@@ -89,7 +79,7 @@
 <!-- Fenêtre du chatbot -->
 <div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col">
 
-  <!-- Header amélioré -->
+  <!-- Header -->
   <div class="gradient-bg text-white flex justify-between items-center p-4 shadow-lg">
     <div class="flex items-center space-x-3">
       <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
@@ -110,135 +100,112 @@
     </div>
   </div>
 
-  <!-- Messages avec scroll amélioré -->
+  <!-- Messages -->
   <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin bg-gray-50"></div>
 
-  <!-- Zone de saisie améliorée -->
+  <!-- Questions rapides -->
   <div class="border-t bg-white p-4">
-    <div class="input-container flex space-x-2">
-      <input 
-        type="text" 
-        id="user-input" 
-        placeholder="Tapez votre message..."
-        class="flex-1 border rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        onkeypress="handleKeyPress(event)"
-      >
-      <button 
-        id="send-button"
-        onclick="sendMessage()"
-        class="send-btn bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
-      >
-        <span id="send-icon">→</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Suggestions de conversation -->
-  <div id="conversation-starters" class="p-4 border-t bg-gray-50 space-y-2">
-    <div class="text-sm font-medium text-gray-600 mb-2" id="suggestions-title">Suggestions :</div>
-    <div id="suggestions-container" class="space-y-2"></div>
+    <div class="text-sm font-medium text-gray-600 mb-3" id="questions-title">Questions rapides :</div>
+    <div id="questions-container" class="space-y-2"></div>
   </div>
 </div>
 
-<!-- Base de connaissances étendue -->
+<!-- Base de connaissances -->
 <script>
 const knowledgeBase = {
   fr: {
-    // Questions sur l'IA et la finance
     "qu'est-ce que l'ia en finance": "L'Intelligence Artificielle en finance utilise des algorithmes avancés pour automatiser et optimiser les processus financiers : prévisions, analyses de risques, détection de fraudes, et aide à la décision. Chez Helvetic AI, nous nous concentrons sur l'EPM (Enterprise Performance Management) pour améliorer la performance financière.",
     
-    "avantages ia epm": "Les avantages de l'IA pour l'EPM incluent : 📊 Prévisions plus précises, ⚡ Automatisation des processus, 🎯 Analyses prédictives, 💡 Recommandations intelligentes, 🔒 Sécurité renforcée, et ⏰ Gain de temps significatif sur les tâches répétitives.",
+    "avantages ia epm": "Les avantages de l'IA pour l'EPM incluent :\n• Prévisions plus précises\n• Automatisation des processus\n• Analyses prédictives\n• Recommandations intelligentes\n• Sécurité renforcée\n• Gain de temps significatif sur les tâches répétitives",
     
-    "comment intégrer ia système": "L'intégration de l'IA se fait en 5 étapes : 1️⃣ Analyse de vos besoins actuels, 2️⃣ Conception de la solution adaptée, 3️⃣ Développement et intégration technique, 4️⃣ Formation de vos équipes, 5️⃣ Support et amélioration continue. Nous accompagnons chaque étape.",
+    "comment intégrer ia système": "L'intégration de l'IA se fait en 5 étapes :\n1. Analyse de vos besoins actuels\n2. Conception de la solution adaptée\n3. Développement et intégration technique\n4. Formation de vos équipes\n5. Support et amélioration continue\n\nNous accompagnons chaque étape.",
     
-    "roi ia finance": "Le ROI de l'IA en finance se mesure généralement par : 💰 Réduction des coûts opérationnels (20-40%), ⏱️ Gain de temps sur les processus (50-70%), 📈 Amélioration de la précision des prévisions, et 🎯 Meilleure prise de décision stratégique.",
+    "roi ia finance": "Le ROI de l'IA en finance se mesure par :\n• Réduction des coûts opérationnels (20-40%)\n• Gain de temps sur les processus (50-70%)\n• Amélioration de la précision des prévisions\n• Meilleure prise de décision stratégique",
     
-    "technologies ia utilisées": "Nous utilisons des technologies IA de pointe : Machine Learning, Deep Learning, Natural Language Processing, algorithmes prédictifs, et solutions d'automatisation intelligente (RPA). Toutes nos solutions respectent les standards de sécurité suisses.",
+    "technologies ia utilisées": "Nous utilisons des technologies IA de pointe :\n• Machine Learning\n• Deep Learning\n• Natural Language Processing\n• Algorithmes prédictifs\n• Solutions d'automatisation intelligente (RPA)\n\nToutes nos solutions respectent les standards de sécurité suisses.",
     
-    "coût implémentation ia": "Le coût dépend de la complexité du projet. Nous proposons : 📋 Audit gratuit initial, 💡 Solutions modulaires adaptées à votre budget, 🔄 Implémentation progressive, et 📊 ROI mesurable dès les premiers mois. Contactez-nous pour un devis personnalisé.",
+    "coût implémentation ia": "Le coût dépend de la complexité du projet. Nous proposons :\n• Audit gratuit initial\n• Solutions modulaires adaptées à votre budget\n• Implémentation progressive\n• ROI mesurable dès les premiers mois\n\nContactez-nous pour un devis personnalisé : contact@helveticai.ch",
     
-    "ia améliorer prévisions": "Oui ! L'IA peut améliorer vos prévisions de 30-50% grâce à : 🔍 Analyse de patterns complexes, 📊 Traitement de données massives, 🎯 Modèles prédictifs avancés, et 🔄 Apprentissage continu à partir des résultats passés.",
+    "ia améliorer prévisions": "L'IA peut améliorer vos prévisions de 30-50% grâce à :\n• Analyse de patterns complexes\n• Traitement de données massives\n• Modèles prédictifs avancés\n• Apprentissage continu à partir des résultats passés",
     
-    "sécurité données ia": "La sécurité est notre priorité : 🔒 Chiffrement end-to-end, 🏛️ Conformité RGPD et standards suisses, 🛡️ Audit de sécurité réguliers, 🔐 Contrôles d'accès stricts, et 📍 Données hébergées en Suisse.",
+    "sécurité données ia": "La sécurité est notre priorité :\n• Chiffrement end-to-end\n• Conformité RGPD et standards suisses\n• Audit de sécurité réguliers\n• Contrôles d'accès stricts\n• Données hébergées en Suisse",
     
-    "services helvetic ai": "Helvetic AI propose 4 expertises principales : 📈 Prévision & Budgétisation, 🤖 Automatisation des processus, 🎯 Aide à la décision, et 🏗️ Solutions EPM. Nous combinons expertise technique et connaissance métier finance.",
+    "services helvetic ai": "Helvetic AI propose 4 expertises principales :\n• Prévision & Budgétisation\n• Automatisation des processus\n• Aide à la décision\n• Solutions EPM\n\nNous combinons expertise technique et connaissance métier finance.",
     
-    "équipe helvetic ai": "Notre équipe fondatrice : 👩‍💼 Kahina Aoudia (Co-fondatrice, 13 ans d'expérience IBM PA, expertise pédagogique et analyse) et 👨‍💻 Adnane Baahmed (Co-fondateur, 16 ans d'expérience BI/EPM, expert BOARD et IBM PA/TM1).",
+    "équipe helvetic ai": "Notre équipe fondatrice :\n• Kahina Aoudia (Co-fondatrice, 13 ans d'expérience IBM PA)\n• Adnane Baahmed (Co-fondateur, 16 ans d'expérience BI/EPM)\n\nExpertise combinée en pédagogie, analyse et architecture technique.",
     
-    "contact helvetic ai": "📍 Adresse : Rue de Chantepoulet 10, 1201 Genève, Suisse\n📧 Email : contact@helveticai.ch\n🛠️ Support : helviticaich@gmail.com\n📞 Téléphone : +41 22 123 45 67",
+    "contact helvetic ai": "Coordonnées Helvetic AI :\n📍 Rue de Chantepoulet 10, 1201 Genève, Suisse\n📧 contact@helveticai.ch\n🛠️ helviticaich@gmail.com\n📞 +41 22 123 45 67",
     
-    "méthodologie helvetic ai": "Notre méthodologie en 5 étapes garantit le succès : 1️⃣ Analyse approfondie des besoins, 2️⃣ Conception sur mesure, 3️⃣ Développement agile, 4️⃣ Formation complète des équipes, 5️⃣ Support continu et optimisation.",
-    
-    "différence helvetic ai": "Ce qui nous distingue : 🇨🇭 Qualité suisse, 🔒 Sécurité maximale, 🎯 Focus EPM/Finance, 👥 Expertise éprouvée, 💡 Innovation pragmatique, et 🤝 Accompagnement personnalisé."
+    "méthodologie helvetic ai": "Notre méthodologie en 5 étapes :\n1. Analyse approfondie des besoins\n2. Conception sur mesure\n3. Développement agile\n4. Formation complète des équipes\n5. Support continu et optimisation"
   },
   
   en: {
     "what is ai in finance": "Artificial Intelligence in finance uses advanced algorithms to automate and optimize financial processes: forecasting, risk analysis, fraud detection, and decision support. At Helvetic AI, we focus on EPM (Enterprise Performance Management) to improve financial performance.",
     
-    "ai epm benefits": "AI benefits for EPM include: 📊 More accurate forecasts, ⚡ Process automation, 🎯 Predictive analytics, 💡 Smart recommendations, 🔒 Enhanced security, and ⏰ Significant time savings on repetitive tasks.",
+    "ai epm benefits": "AI benefits for EPM include:\n• More accurate forecasts\n• Process automation\n• Predictive analytics\n• Smart recommendations\n• Enhanced security\n• Significant time savings on repetitive tasks",
     
-    "how integrate ai system": "AI integration follows 5 steps: 1️⃣ Analysis of your current needs, 2️⃣ Tailored solution design, 3️⃣ Technical development and integration, 4️⃣ Team training, 5️⃣ Ongoing support and improvement. We guide every step.",
+    "how integrate ai system": "AI integration follows 5 steps:\n1. Analysis of your current needs\n2. Tailored solution design\n3. Technical development and integration\n4. Team training\n5. Ongoing support and improvement\n\nWe guide every step.",
     
-    "ai finance roi": "AI ROI in finance is measured by: 💰 Operational cost reduction (20-40%), ⏱️ Process time savings (50-70%), 📈 Improved forecast accuracy, and 🎯 Better strategic decision-making.",
+    "ai finance roi": "AI ROI in finance is measured by:\n• Operational cost reduction (20-40%)\n• Process time savings (50-70%)\n• Improved forecast accuracy\n• Better strategic decision-making",
     
-    "ai technologies used": "We use cutting-edge AI technologies: Machine Learning, Deep Learning, Natural Language Processing, predictive algorithms, and intelligent automation solutions (RPA). All our solutions meet Swiss security standards.",
+    "ai technologies used": "We use cutting-edge AI technologies:\n• Machine Learning\n• Deep Learning\n• Natural Language Processing\n• Predictive algorithms\n• Intelligent automation solutions (RPA)\n\nAll solutions meet Swiss security standards.",
     
-    "ai implementation cost": "Cost depends on project complexity. We offer: 📋 Free initial audit, 💡 Modular solutions fitting your budget, 🔄 Progressive implementation, and 📊 Measurable ROI from the first months. Contact us for a personalized quote.",
+    "ai implementation cost": "Cost depends on project complexity. We offer:\n• Free initial audit\n• Modular solutions fitting your budget\n• Progressive implementation\n• Measurable ROI from first months\n\nContact us for a personalized quote: contact@helveticai.ch",
     
-    "can ai improve forecasts": "Yes! AI can improve your forecasts by 30-50% through: 🔍 Complex pattern analysis, 📊 Massive data processing, 🎯 Advanced predictive models, and 🔄 Continuous learning from past results.",
+    "can ai improve forecasts": "AI can improve your forecasts by 30-50% through:\n• Complex pattern analysis\n• Massive data processing\n• Advanced predictive models\n• Continuous learning from past results",
     
-    "ai data security": "Security is our priority: 🔒 End-to-end encryption, 🏛️ GDPR compliance and Swiss standards, 🛡️ Regular security audits, 🔐 Strict access controls, and 📍 Data hosted in Switzerland.",
+    "ai data security": "Security is our priority:\n• End-to-end encryption\n• GDPR compliance and Swiss standards\n• Regular security audits\n• Strict access controls\n• Data hosted in Switzerland",
     
-    "helvetic ai services": "Helvetic AI offers 4 main expertise areas: 📈 Forecasting & Budgeting, 🤖 Process Automation, 🎯 Decision Support, and 🏗️ EPM Solutions. We combine technical expertise with finance business knowledge.",
+    "helvetic ai services": "Helvetic AI offers 4 main expertise areas:\n• Forecasting & Budgeting\n• Process Automation\n• Decision Support\n• EPM Solutions\n\nWe combine technical expertise with finance business knowledge.",
     
-    "helvetic ai team": "Our founding team: 👩‍💼 Kahina Aoudia (Co-founder, 13 years IBM PA experience, pedagogical and analytical expertise) and 👨‍💻 Adnane Baahmed (Co-founder, 16 years BI/EPM experience, BOARD and IBM PA/TM1 expert).",
+    "helvetic ai team": "Our founding team:\n• Kahina Aoudia (Co-founder, 13 years IBM PA experience)\n• Adnane Baahmed (Co-founder, 16 years BI/EPM experience)\n\nCombined expertise in pedagogy, analysis and technical architecture.",
     
-    "contact helvetic ai": "📍 Address: Rue de Chantepoulet 10, 1201 Geneva, Switzerland\n📧 Email: contact@helveticai.ch\n🛠️ Support: helviticaich@gmail.com\n📞 Phone: +41 22 123 45 67",
+    "contact helvetic ai": "Helvetic AI contact details:\n📍 Rue de Chantepoulet 10, 1201 Geneva, Switzerland\n📧 contact@helveticai.ch\n🛠️ helviticaich@gmail.com\n📞 +41 22 123 45 67",
     
-    "helvetic ai methodology": "Our 5-step methodology ensures success: 1️⃣ Thorough needs analysis, 2️⃣ Custom design, 3️⃣ Agile development, 4️⃣ Complete team training, 5️⃣ Ongoing support and optimization.",
-    
-    "helvetic ai difference": "What sets us apart: 🇨🇭 Swiss quality, 🔒 Maximum security, 🎯 EPM/Finance focus, 👥 Proven expertise, 💡 Pragmatic innovation, and 🤝 Personalized support."
+    "helvetic ai methodology": "Our 5-step methodology:\n1. Thorough needs analysis\n2. Custom design\n3. Agile development\n4. Complete team training\n5. Ongoing support and optimization"
   },
   
   de: {
     "was ist ki finanzen": "Künstliche Intelligenz im Finanzwesen nutzt fortgeschrittene Algorithmen zur Automatisierung und Optimierung von Finanzprozessen: Prognosen, Risikoanalyse, Betrugserkennung und Entscheidungsunterstützung. Bei Helvetic AI konzentrieren wir uns auf EPM zur Verbesserung der Finanzperformance.",
     
-    "ki epm vorteile": "KI-Vorteile für EPM umfassen: 📊 Präzisere Prognosen, ⚡ Prozessautomatisierung, 🎯 Predictive Analytics, 💡 Intelligente Empfehlungen, 🔒 Erweiterte Sicherheit, und ⏰ Erhebliche Zeitersparnis bei repetitiven Aufgaben.",
+    "ki epm vorteile": "KI-Vorteile für EPM umfassen:\n• Präzisere Prognosen\n• Prozessautomatisierung\n• Predictive Analytics\n• Intelligente Empfehlungen\n• Erweiterte Sicherheit\n• Erhebliche Zeitersparnis bei repetitiven Aufgaben",
     
-    "ki system integration": "KI-Integration erfolgt in 5 Schritten: 1️⃣ Analyse Ihrer aktuellen Bedürfnisse, 2️⃣ Maßgeschneiderte Lösungskonzeption, 3️⃣ Technische Entwicklung und Integration, 4️⃣ Team-Schulung, 5️⃣ Laufender Support und Verbesserung.",
+    "ki system integration": "KI-Integration erfolgt in 5 Schritten:\n1. Analyse Ihrer aktuellen Bedürfnisse\n2. Maßgeschneiderte Lösungskonzeption\n3. Technische Entwicklung und Integration\n4. Team-Schulung\n5. Laufender Support und Verbesserung\n\nWir begleiten jeden Schritt.",
     
-    "ki finanzen roi": "KI-ROI im Finanzwesen wird gemessen durch: 💰 Betriebskostensenkung (20-40%), ⏱️ Zeitersparnis bei Prozessen (50-70%), 📈 Verbesserte Prognosegenauigkeit, und 🎯 Bessere strategische Entscheidungsfindung.",
+    "ki finanzen roi": "KI-ROI im Finanzwesen wird gemessen durch:\n• Betriebskostensenkung (20-40%)\n• Zeitersparnis bei Prozessen (50-70%)\n• Verbesserte Prognosegenauigkeit\n• Bessere strategische Entscheidungsfindung",
     
-    "verwendete ki technologien": "Wir nutzen modernste KI-Technologien: Machine Learning, Deep Learning, Natural Language Processing, prädiktive Algorithmen und intelligente Automatisierungslösungen (RPA). Alle Lösungen erfüllen Schweizer Sicherheitsstandards.",
+    "verwendete ki technologien": "Wir nutzen modernste KI-Technologien:\n• Machine Learning\n• Deep Learning\n• Natural Language Processing\n• Prädiktive Algorithmen\n• Intelligente Automatisierungslösungen (RPA)\n\nAlle Lösungen erfüllen Schweizer Sicherheitsstandards.",
     
-    "ki implementierung kosten": "Kosten hängen von der Projektkomplexität ab. Wir bieten: 📋 Kostenlose Erstanalyse, 💡 Modulare Lösungen für Ihr Budget, 🔄 Schrittweise Implementierung, und 📊 Messbarer ROI ab den ersten Monaten.",
+    "ki implementierung kosten": "Kosten hängen von der Projektkomplexität ab. Wir bieten:\n• Kostenlose Erstanalyse\n• Modulare Lösungen für Ihr Budget\n• Schrittweise Implementierung\n• Messbarer ROI ab den ersten Monaten\n\nKontaktieren Sie uns für ein Angebot: contact@helveticai.ch",
     
-    "kann ki prognosen verbessern": "Ja! KI kann Ihre Prognosen um 30-50% verbessern durch: 🔍 Komplexe Musteranalyse, 📊 Massive Datenverarbeitung, 🎯 Fortgeschrittene prädiktive Modelle, und 🔄 Kontinuierliches Lernen aus vergangenen Ergebnissen.",
+    "kann ki prognosen verbessern": "KI kann Ihre Prognosen um 30-50% verbessern durch:\n• Komplexe Musteranalyse\n• Massive Datenverarbeitung\n• Fortgeschrittene prädiktive Modelle\n• Kontinuierliches Lernen aus vergangenen Ergebnissen",
     
-    "ki datensicherheit": "Sicherheit ist unsere Priorität: 🔒 End-to-End-Verschlüsselung, 🏛️ DSGVO-Konformität und Schweizer Standards, 🛡️ Regelmäßige Sicherheitsaudits, 🔐 Strenge Zugangskontrollen, und 📍 Datenhosting in der Schweiz.",
+    "ki datensicherheit": "Sicherheit ist unsere Priorität:\n• End-to-End-Verschlüsselung\n• DSGVO-Konformität und Schweizer Standards\n• Regelmäßige Sicherheitsaudits\n• Strenge Zugangskontrollen\n• Datenhosting in der Schweiz",
     
-    "helvetic ai services": "Helvetic AI bietet 4 Hauptkompetenzbereiche: 📈 Prognose & Budgetierung, 🤖 Prozessautomatisierung, 🎯 Entscheidungsunterstützung, und 🏗️ EPM-Lösungen. Wir kombinieren technische Expertise mit Finanz-Know-how.",
+    "helvetic ai services": "Helvetic AI bietet 4 Hauptkompetenzbereiche:\n• Prognose & Budgetierung\n• Prozessautomatisierung\n• Entscheidungsunterstützung\n• EPM-Lösungen\n\nWir kombinieren technische Expertise mit Finanz-Know-how.",
     
-    "helvetic ai team": "Unser Gründungsteam: 👩‍💼 Kahina Aoudia (Mitgründerin, 13 Jahre IBM PA Erfahrung, pädagogische und analytische Expertise) und 👨‍💻 Adnane Baahmed (Mitgründer, 16 Jahre BI/EPM Erfahrung, BOARD und IBM PA/TM1 Experte).",
+    "helvetic ai team": "Unser Gründungsteam:\n• Kahina Aoudia (Mitgründerin, 13 Jahre IBM PA Erfahrung)\n• Adnane Baahmed (Mitgründer, 16 Jahre BI/EPM Erfahrung)\n\nKombinierte Expertise in Pädagogik, Analyse und technischer Architektur.",
     
-    "helvetic ai kontakt": "📍 Adresse: Rue de Chantepoulet 10, 1201 Genf, Schweiz\n📧 Email: contact@helveticai.ch\n🛠️ Support: helviticaich@gmail.com\n📞 Telefon: +41 22 123 45 67",
+    "helvetic ai kontakt": "Helvetic AI Kontaktdaten:\n📍 Rue de Chantepoulet 10, 1201 Genf, Schweiz\n📧 contact@helveticai.ch\n🛠️ helviticaich@gmail.com\n📞 +41 22 123 45 67",
     
-    "helvetic ai methodik": "Unsere 5-Schritte-Methodik garantiert Erfolg: 1️⃣ Gründliche Bedarfsanalyse, 2️⃣ Maßgeschneiderte Konzeption, 3️⃣ Agile Entwicklung, 4️⃣ Umfassende Team-Schulung, 5️⃣ Laufender Support und Optimierung.",
-    
-    "helvetic ai unterschied": "Was uns auszeichnet: 🇨🇭 Schweizer Qualität, 🔒 Maximale Sicherheit, 🎯 EPM/Finanz-Focus, 👥 Bewährte Expertise, 💡 Pragmatische Innovation, und 🤝 Personalisierte Betreuung."
+    "helvetic ai methodik": "Unsere 5-Schritte-Methodik:\n1. Gründliche Bedarfsanalyse\n2. Maßgeschneiderte Konzeption\n3. Agile Entwicklung\n4. Umfassende Team-Schulung\n5. Laufender Support und Optimierung"
   }
 };
 
-const conversationStarters = {
+const quickQuestions = {
   fr: [
     "Qu'est-ce que l'IA en finance ?",
     "Quels sont les avantages de l'IA pour l'EPM ?",
     "Comment intégrer l'IA dans mon système ?",
     "Quel est le ROI de l'IA en finance ?",
     "Quelles technologies IA utilisez-vous ?",
+    "Combien coûte une implémentation IA ?",
+    "L'IA peut-elle améliorer mes prévisions ?",
     "Comment assurer la sécurité des données ?",
+    "Quels sont les services Helvetic AI ?",
     "Qui compose l'équipe Helvetic AI ?",
-    "Comment vous contacter ?"
+    "Comment vous contacter ?",
+    "Quelle est votre méthodologie ?"
   ],
   en: [
     "What is AI in finance?",
@@ -246,9 +213,13 @@ const conversationStarters = {
     "How to integrate AI in my system?",
     "What is the ROI of AI in finance?",
     "What AI technologies do you use?",
+    "How much does AI implementation cost?",
+    "Can AI improve my forecasts?",
     "How to ensure data security?",
+    "What are Helvetic AI services?",
     "Who is the Helvetic AI team?",
-    "How to contact you?"
+    "How to contact you?",
+    "What is your methodology?"
   ],
   de: [
     "Was ist KI im Finanzwesen?",
@@ -256,9 +227,13 @@ const conversationStarters = {
     "Wie integriere ich KI in mein System?",
     "Was ist der ROI von KI im Finanzwesen?",
     "Welche KI-Technologien verwenden Sie?",
+    "Wie viel kostet eine KI-Implementierung?",
+    "Kann KI meine Prognosen verbessern?",
     "Wie stelle ich Datensicherheit sicher?",
+    "Was sind die Helvetic AI Services?",
     "Wer ist das Helvetic AI Team?",
-    "Wie kann ich Sie kontaktieren?"
+    "Wie kann ich Sie kontaktieren?",
+    "Was ist Ihre Methodik?"
   ]
 };
 
@@ -266,42 +241,43 @@ const translations = {
   fr: {
     typing: "En train d'écrire...",
     online: "En ligne",
-    placeholder: "Tapez votre message...",
-    suggestions: "Suggestions :",
-    welcome: "Bonjour ! Je suis votre assistant IA Helvetic. Comment puis-je vous aider avec l'IA et la performance financière ?"
+    questionsTitle: "Questions rapides :",
+    seeMore: "Voir plus",
+    seeLess: "Voir moins",
+    welcome: "Bonjour ! Je suis votre assistant IA Helvetic. Choisissez une question ci-dessous pour commencer."
   },
   en: {
     typing: "Typing...",
     online: "Online",
-    placeholder: "Type your message...",
-    suggestions: "Suggestions:",
-    welcome: "Hello! I'm your Helvetic AI assistant. How can I help you with AI and financial performance?"
+    questionsTitle: "Quick questions:",
+    seeMore: "See more",
+    seeLess: "See less",
+    welcome: "Hello! I'm your Helvetic AI assistant. Choose a question below to get started."
   },
   de: {
     typing: "Schreibt...",
     online: "Online",
-    placeholder: "Nachricht eingeben...",
-    suggestions: "Vorschläge:",
-    welcome: "Hallo! Ich bin Ihr Helvetic AI Assistent. Wie kann ich Ihnen mit KI und Finanzperformance helfen?"
+    questionsTitle: "Schnellfragen:",
+    seeMore: "Mehr anzeigen",
+    seeLess: "Weniger anzeigen",
+    welcome: "Hallo! Ich bin Ihr Helvetic AI Assistent. Wählen Sie eine Frage unten aus, um zu beginnen."
   }
 };
 </script>
 
-<!-- Script principal amélioré -->
+<!-- Script principal -->
 <script>
 const messagesContainer = document.getElementById("chatbot-messages");
-const userInput = document.getElementById("user-input");
-const sendButton = document.getElementById("send-button");
-const sendIcon = document.getElementById("send-icon");
 const langSelect = document.getElementById("lang-select");
 const statusIndicator = document.getElementById("status-indicator");
-const suggestionsContainer = document.getElementById("suggestions-container");
-const suggestionsTitle = document.getElementById("suggestions-title");
+const questionsContainer = document.getElementById("questions-container");
+const questionsTitle = document.getElementById("questions-title");
 
 let currentLang = "fr";
 let isTyping = false;
+let expanded = false;
 
-// Fonction d'affichage de message améliorée
+// Fonction d'affichage de message
 function addMessage(text, sender = "bot", animate = true) {
   const msg = document.createElement("div");
   msg.className = `${sender === "user" ? "text-right" : "text-left"} ${animate ? "message-fade-in" : ""}`;
@@ -346,7 +322,7 @@ function hideTypingIndicator() {
   statusIndicator.textContent = translations[currentLang].online;
 }
 
-// Recherche de réponse améliorée
+// Recherche de réponse
 function findAnswer(question) {
   const normalizedQuestion = question.toLowerCase()
     .replace(/[àáâäã]/g, 'a')
@@ -360,120 +336,95 @@ function findAnswer(question) {
 
   const kb = knowledgeBase[currentLang];
   
-  // Recherche exacte
+  // Recherche exacte par correspondance de question
   for (let key in kb) {
-    if (normalizedQuestion.includes(key.replace(/[^a-z0-9\s]/g, '').trim())) {
+    const normalizedKey = key.replace(/[^a-z0-9\s]/g, '').trim();
+    if (normalizedQuestion === normalizedKey) {
       return kb[key];
     }
   }
   
   // Recherche par mots-clés
-  const keywords = normalizedQuestion.split(' ');
   for (let key in kb) {
     const keyWords = key.split(' ');
-    const matches = keyWords.filter(kw => keywords.some(k => k.includes(kw) || kw.includes(k)));
+    const questionWords = normalizedQuestion.split(' ');
+    const matches = keyWords.filter(kw => questionWords.some(qw => qw.includes(kw) || kw.includes(qw)));
     if (matches.length >= 2) {
       return kb[key];
     }
   }
   
-  // Réponse par défaut
-  const defaultResponses = {
-    fr: "Je comprends votre question, mais je n'ai pas de réponse spécifique. Pouvez-vous reformuler ou choisir une question dans les suggestions ? Pour des informations détaillées, contactez-nous directement : contact@helveticai.ch",
-    en: "I understand your question, but I don't have a specific answer. Could you rephrase or choose a question from the suggestions? For detailed information, contact us directly: contact@helveticai.ch",
-    de: "Ich verstehe Ihre Frage, habe aber keine spezifische Antwort. Könnten Sie umformulieren oder eine Frage aus den Vorschlägen wählen? Für detaillierte Informationen kontaktieren Sie uns direkt: contact@helveticai.ch"
-  };
-  
-  return defaultResponses[currentLang];
+  return kb[Object.keys(kb)[0]]; // Première réponse par défaut
 }
 
-// Envoi de message amélioré
-function sendMessage() {
-  const message = userInput.value.trim();
-  if (!message || isTyping) return;
-  
-  // Désactiver l'envoi temporairement
-  sendButton.disabled = true;
-  sendIcon.textContent = "⋯";
+// Traitement d'une question
+function handleQuestion(question) {
+  if (isTyping) return;
   
   // Ajouter message utilisateur
-  addMessage(message, "user");
-  userInput.value = "";
+  addMessage(question, "user");
   
   // Simuler délai de traitement
   showTypingIndicator();
   
   setTimeout(() => {
     hideTypingIndicator();
-    const response = findAnswer(message);
+    const response = findAnswer(question);
     addMessage(response, "bot");
-    
-    // Réactiver l'envoi
-    sendButton.disabled = false;
-    sendIcon.textContent = "→";
-    
-    // Mettre à jour les suggestions
-    updateConversationStarters();
-  }, Math.random() * 1000 + 800); // Délai réaliste variable
+  }, Math.random() * 1000 + 800);
 }
 
-// Gestion de la touche Entrée
-function handleKeyPress(event) {
-  if (event.key === "Enter" && !event.shiftKey) {
-    event.preventDefault();
-    sendMessage();
+// Mise à jour des questions rapides
+function updateQuickQuestions() {
+  questionsContainer.innerHTML = "";
+  questionsTitle.textContent = translations[currentLang].questionsTitle;
+  
+  const questions = quickQuestions[currentLang];
+  const visibleCount = expanded ? questions.length : 3;
+  const visibleQuestions = questions.slice(0, visibleCount);
+  
+  // Afficher les questions
+  visibleQuestions.forEach((question, index) => {
+    const button = document.createElement("button");
+    button.className = "question-btn w-full text-left p-3 rounded-lg bg-white hover:bg-gray-50 text-sm";
+    button.textContent = question;
+    button.onclick = () => handleQuestion(question);
+    questionsContainer.appendChild(button);
+  });
+  
+  // Bouton Voir plus / Voir moins
+  if (questions.length > 3) {
+    const toggleButton = document.createElement("button");
+    toggleButton.className = "toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
+    toggleButton.textContent = expanded ? translations[currentLang].seeLess : translations[currentLang].seeMore;
+    toggleButton.onclick = () => {
+      expanded = !expanded;
+      updateQuickQuestions();
+    };
+    questionsContainer.appendChild(toggleButton);
   }
 }
 
-// Mise à jour des suggestions de conversation
-function updateConversationStarters() {
-  suggestionsContainer.innerHTML = "";
-  suggestionsTitle.textContent = translations[currentLang].suggestions;
-  
-  const starters = conversationStarters[currentLang];
-  const randomStarters = starters.sort(() => 0.5 - Math.random()).slice(0, 4);
-  
-  randomStarters.forEach((starter, index) => {
-    const button = document.createElement("button");
-    button.className = "conversation-starter text-left p-3 rounded-lg bg-white hover:bg-gray-50 text-sm quick-action";
-    button.style.animationDelay = `${index * 0.1}s`;
-    button.textContent = starter;
-    button.onclick = () => {
-      userInput.value = starter;
-      sendMessage();
-    };
-    suggestionsContainer.appendChild(button);
-  });
-}
-
-// Changement de langue amélioré
+// Changement de langue
 langSelect.addEventListener("change", (e) => {
   currentLang = e.target.value;
+  expanded = false; // Reset l'état des questions
   
   // Mise à jour de l'interface
   statusIndicator.textContent = translations[currentLang].online;
-  userInput.placeholder = translations[currentLang].placeholder;
   
-  // Reset et message de bienvenue
+  // Reset conversation
   messagesContainer.innerHTML = "";
   addMessage(translations[currentLang].welcome, "bot", false);
   
-  // Mise à jour des suggestions
-  updateConversationStarters();
+  // Mise à jour des questions
+  updateQuickQuestions();
 });
 
 // Initialisation
 document.addEventListener("DOMContentLoaded", () => {
   addMessage(translations[currentLang].welcome, "bot", false);
-  updateConversationStarters();
-  userInput.focus();
-});
-
-// Gestion du focus sur l'input
-userInput.addEventListener("focus", () => {
-  setTimeout(() => {
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-  }, 100);
+  updateQuickQuestions();
 });
 </script>
 
