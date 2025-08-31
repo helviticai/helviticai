@@ -172,19 +172,35 @@ function renderQuickQuestions() {
   faqTitle.textContent =
     currentLang === "fr" ? "Questions rapides" :
     currentLang === "en" ? "Quick questions" : "Schnellfragen";
-  quickQuestions[currentLang].forEach(q => {
-    const btn = document.createElement("button");
-    btn.className = "px-3 py-1 bg-gray-200 rounded-full text-sm hover:bg-gray-300";
-    btn.textContent = q;
-    btn.onclick = () => {
-      addMessage(q, "user");
-      setTimeout(() => {
-        const answer = findAnswer(q);
-        addMessage(answer, "bot");
-      }, 400);
-    };
-    faqQuick.appendChild(btn);
-  });
+
+  // Montrer seulement les 3 premières questions
+  const questions = quickQuestions[currentLang].slice(0, 3);
+  questions.forEach(q => addQuickQuestionButton(q));
+
+  // Bouton "Voir plus"
+  const moreBtn = document.createElement("button");
+  moreBtn.textContent =
+    currentLang === "fr" ? "Voir plus ▾" :
+    currentLang === "en" ? "See more ▾" : "Mehr anzeigen ▾";
+  moreBtn.className = "px-3 py-1 bg-blue-500 text-white rounded-full text-sm hover:bg-blue-600";
+  moreBtn.onclick = () => {
+    faqQuick.innerHTML = "";
+    quickQuestions[currentLang].forEach(q => addQuickQuestionButton(q));
+  };
+  faqQuick.appendChild(moreBtn);
+}
+
+// Petite fonction utilitaire pour créer un bouton de question
+function addQuickQuestionButton(q) {
+  const btn = document.createElement("button");
+  btn.className = "px-3 py-1 bg-gray-200 rounded-full text-sm hover:bg-gray-300";
+  btn.textContent = q;
+  btn.onclick = () => {
+    addMessage(q, "user");
+    setTimeout(() => addMessage(findAnswer(q), "bot"), 400);
+  };
+  faqQuick.appendChild(btn);
+}
 }
 
 // Changement de langue
