@@ -757,21 +757,7 @@ z-index:10000; box-shadow:0 4px 10px rgba(0,0,0,0.3);">
 
 <button id="toggleBtn" class="text-blue-600 underline">Voir plus</button>
 
-<script>
-  const toggleBtn = document.getElementById("toggleBtn");
-  const shortText = document.getElementById("text-court");
-  const longText = document.getElementById("text-long");
 
-  toggleBtn.addEventListener("click", () => {
-    if (longText.classList.contains("hidden")) {
-      longText.classList.remove("hidden");   // montrer le texte long
-      toggleBtn.textContent = "Voir moins";  // changer le bouton
-    } else {
-      longText.classList.add("hidden");      // masquer le texte long
-      toggleBtn.textContent = "Voir plus";   // revenir à l’état initial
-    }
-  });
-</script>
 
 
 
@@ -800,10 +786,23 @@ chatbotFrame.style.display = "none";
 bubble.style.display = "flex";
 }
 </script>
+  
 
+<script>
+  const toggleBtn = document.getElementById("toggleBtn");
+  const shortText = document.getElementById("text-court");
+  const longText = document.getElementById("text-long");
 
-</body>
-</html>
+  toggleBtn.addEventListener("click", () => {
+    if (longText.classList.contains("hidden")) {
+      longText.classList.remove("hidden");   // montrer le texte long
+      toggleBtn.textContent = "Voir moins";  // changer le bouton
+    } else {
+      longText.classList.add("hidden");      // masquer le texte long
+      toggleBtn.textContent = "Voir plus";   // revenir à l’état initial
+    }
+  });
+</script>
 
 
 
