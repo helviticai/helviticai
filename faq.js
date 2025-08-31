@@ -1,0 +1,72 @@
+// faq.js
+
+const faq = {
+  fr: {
+    q1: "L'IA appliquée à la performance financière consiste à utiliser des algorithmes avancés, l’apprentissage automatique et l’analyse prédictive pour optimiser les processus financiers.",
+    q2: "Les avantages incluent : automatisation des processus, prévisions plus précises, détection d’anomalies, optimisation en temps réel et amélioration de la précision des décisions.",
+    q3: "L'IA transforme la planification financière via des modèles prédictifs, la simulation de scénarios multiples et l’intégration automatique de variables externes.",
+    q4: "Les processus automatisables incluent : consolidation, reporting, budget/forecast, analyse de variance, allocation des coûts et contrôle de gestion.",
+    q5: "L’IA améliore la précision des prévisions grâce à l’analyse de patterns complexes, l’intégration de variables externes et l’apprentissage continu.",
+    q6: "Oui. L’IA est excellente pour l’analyse des risques : détection d’anomalies, scénarios de risque, alertes préventives, suivi en temps réel.",
+    q7: "L’intégration de l’IA en EPM se fait en 6 étapes : audit des données, cas d’usage, sélection des outils, pilote, déploiement progressif, formation des équipes.",
+    q8: "Prérequis techniques : infrastructure (cloud ou on-premise), données propres, APIs, sécurité renforcée, compétences IA/data, gouvernance claire.",
+    q9: "Les premiers résultats arrivent en 2-3 mois (anomalies), 4-6 mois (automatisation), 6-12 mois (modèles prédictifs), 12-24 mois (transformation complète).",
+    q10: "Technologies clés : machine learning, deep learning, NLP, computer vision, RPA, IA générative.",
+    q11: "Oui, des solutions comme Oracle EPM Cloud, SAP Analytics Cloud, IBM Planning Analytics, Microsoft Power BI, Workday Adaptive Planning intègrent déjà l’IA.",
+    q12: "Choix de la solution : adéquation aux besoins, intégration IT, facilité d’utilisation, scalabilité, support & formation, ROI global.",
+    q13: "ROI attendu : 200 à 400% sur 3 ans. Gains : +30-50% productivité, +15-25% précision, -20-35% coûts, cycles -40-60%.",
+    q14: "KPIs à suivre : précision des prévisions, temps de traitement, taux d’automatisation, qualité des données, satisfaction utilisateur.",
+    q15: "Défis principaux : qualité des données, résistance au changement, complexité technique, gouvernance, sécurité, coûts initiaux.",
+    q16: "Assurer la fiabilité : validation croisée, tests réguliers, transparence, contrôles qualité, feedback loop, auditabilité complète.",
+    q17: "Former les équipes : sensibilisation IA, cas d’usage financiers, outils pratiques, interprétation, gouvernance, formation continue.",
+    q18: "Non, l’IA ne remplace pas les contrôleurs : elle élimine les tâches répétitives et renforce leur rôle d’analyste et conseiller stratégique.",
+    q19: "Tendances : IA générative, real-time analytics, démocratisation, IA explicable, edge computing, intégration ESG.",
+    q20: "L’avenir de l’EPM avec IA : finance autonome, planification continue, prévisions intégrées, hyper-personnalisation, écosystèmes intelligents."
+  },
+
+  en: {
+    q1: "AI in financial performance uses advanced algorithms, machine learning and predictive analytics to optimize financial processes.",
+    q2: "Benefits include: process automation, more accurate forecasts, anomaly detection, real-time optimization and improved decision accuracy.",
+    q3: "AI transforms planning with predictive models, real-time scenario simulation and automatic integration of external variables.",
+    q4: "Automatable processes include: consolidation, reporting, budgeting/forecasting, variance analysis, cost allocation and management control.",
+    q5: "AI improves forecast accuracy through pattern analysis, external variable integration and continuous learning.",
+    q6: "Yes. AI is excellent for risk analysis: anomaly detection, scenario evaluation, preventive alerts and continuous monitoring.",
+    q7: "Integration steps: data audit, use case definition, tool selection, pilot, progressive deployment, team training.",
+    q8: "Prerequisites: infrastructure (cloud/on-prem), clean data, APIs, strong security, AI/data skills, governance framework.",
+    q9: "Results appear in 2-3 months (anomalies), 4-6 months (automation), 6-12 months (predictive models), 12-24 months (full transformation).",
+    q10: "Key technologies: machine learning, deep learning, NLP, computer vision, RPA, generative AI.",
+    q11: "Yes, solutions like Oracle EPM Cloud, SAP Analytics Cloud, IBM Planning Analytics, Microsoft Power BI, Workday Adaptive Planning already embed AI.",
+    q12: "Choose solutions based on: fit to needs, IT integration, usability, scalability, vendor support, ROI.",
+    q13: "Expected ROI: 200-400% over 3 years. Gains: +30-50% productivity, +15-25% accuracy, -20-35% costs, -40-60% cycle times.",
+    q14: "KPIs: forecast accuracy, processing time, automation rate, data quality, user satisfaction, business value.",
+    q15: "Challenges: data quality, change resistance, technical complexity, governance, security, initial costs.",
+    q16: "Ensure reliability with: cross-validation, regular tests, transparency, quality controls, feedback loop, audit trail.",
+    q17: "Train teams in: AI basics, financial use cases, practical tools, result interpretation, governance, continuous learning.",
+    q18: "No, AI does not replace controllers: it removes repetitive tasks and enhances their role as analysts and advisors.",
+    q19: "Trends: generative AI, real-time analytics, democratization, explainable AI, edge computing, ESG integration.",
+    q20: "Future of EPM with AI: autonomous finance, continuous planning, predictive everything, hyper-personalization, intelligent ecosystems."
+  },
+
+  de: {
+    q1: "KI in der Finanzleistung nutzt Algorithmen, maschinelles Lernen und prädiktive Analysen, um Finanzprozesse zu optimieren.",
+    q2: "Vorteile: Prozessautomatisierung, genauere Prognosen, Anomalieerkennung, Echtzeit-Optimierung, höhere Entscheidungsgenauigkeit.",
+    q3: "KI verändert die Finanzplanung durch prädiktive Modelle, Szenariosimulation in Echtzeit und automatische Integration externer Variablen.",
+    q4: "Automatisierbare Prozesse: Konsolidierung, Reporting, Budget/Forecast, Abweichungsanalyse, Kostenallokation, Controlling.",
+    q5: "KI verbessert Prognosen durch Musteranalyse, externe Variablen und kontinuierliches Lernen.",
+    q6: "Ja. KI ist stark in der Risikoanalyse: Anomalien erkennen, Szenarien bewerten, präventive Alarme, kontinuierliches Monitoring.",
+    q7: "Integrationsschritte: Daten-Audit, Use-Cases, Tool-Auswahl, Pilotprojekt, schrittweise Einführung, Team-Training.",
+    q8: "Voraussetzungen: Infrastruktur (Cloud/On-Prem), saubere Daten, APIs, hohe Sicherheit, KI/Data-Skills, Governance.",
+    q9: "Ergebnisse: 2-3 Monate (Anomalien), 4-6 Monate (Automatisierung), 6-12 Monate (Modelle), 12-24 Monate (Transformation).",
+    q10: "Kerntechnologien: Machine Learning, Deep Learning, NLP, Computer Vision, RPA, generative KI.",
+    q11: "Ja, Lösungen wie Oracle EPM Cloud, SAP Analytics Cloud, IBM Planning Analytics, Microsoft Power BI, Workday Adaptive Planning nutzen bereits KI.",
+    q12: "Auswahlkriterien: Bedarfsgerechtheit, IT-Integration, Benutzerfreundlichkeit, Skalierbarkeit, Support, ROI.",
+    q13: "Erwarteter ROI: 200-400% über 3 Jahre. Gewinne: +30-50% Produktivität, +15-25% Genauigkeit, -20-35% Kosten, -40-60% Zykluszeit.",
+    q14: "KPIs: Prognosegenauigkeit, Bearbeitungszeit, Automatisierungsgrad, Datenqualität, Nutzerzufriedenheit.",
+    q15: "Herausforderungen: Datenqualität, Widerstand gegen Veränderung, technische Komplexität, Governance, Sicherheit, Anfangskosten.",
+    q16: "Zuverlässigkeit sichern: Cross-Validation, Tests, Transparenz, Qualitätskontrollen, Feedback-Loop, Audit-Trails.",
+    q17: "Teams schulen in: KI-Grundlagen, Finanz-Use-Cases, Tools, Ergebnisinterpretation, Governance, kontinuierliches Lernen.",
+    q18: "Nein, KI ersetzt Controller nicht: Sie eliminiert Routineaufgaben und stärkt ihre Rolle als Analyst und Berater.",
+    q19: "Trends: Generative KI, Echtzeit-Analytik, Demokratisierung, erklärbare KI, Edge Computing, ESG-Integration.",
+    q20: "Zukunft des EPM mit KI: autonome Finanzen, kontinuierliche Planung, prädiktiv in allen Prozessen, Hyper-Personalisierung, intelligente Ökosysteme."
+  }
+};
