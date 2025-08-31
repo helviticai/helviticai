@@ -625,9 +625,11 @@ document.getElementById("lang-select").addEventListener("change", (e) => {
   document.getElementById("status-indicator").textContent = translations[currentLang].online;
   
   // Afficher le message d'accueil dans la nouvelle langue
-  typeMessage(translations[currentLang].welcome, () => {
-    updateQuickQuestions();
-  });
+  setTimeout(() => {
+    typeMessage(translations[currentLang].welcome, () => {
+      updateQuickQuestions();
+    });
+  }, 100);
 });
 </script>
 </body>
