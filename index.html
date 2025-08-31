@@ -630,10 +630,16 @@
   const bubble = document.getElementById("chatBubble");
   const chatbotFrame = document.getElementById("chatbotFrame");
 
-  function openChatbot() {
-    bubble.style.display = "none";
-    chatbotFrame.style.display = "block";
-  }
+ function openChatbot() {
+  bubble.style.display = "none";   // cacher la bulle
+  chatbotFrame.style.display = "block"; // afficher le chatbot
+}
+
+function closeChatbot() {
+  chatbotFrame.style.display = "none";  // cacher la fenêtre
+  bubble.style.display = "flex";        // réafficher la bulle
+}
+
 </script>
 <script>
   function closeChatbot() {
