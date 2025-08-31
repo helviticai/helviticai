@@ -392,7 +392,6 @@ function handleQuestion(question) {
   }, Math.random() * 1000 + 800);
 }
 
-// ✅ Mise à jour des questions rapides
 function updateQuickQuestions() {
   questionsContainer.innerHTML = "";
   questionsTitle.textContent = translations[currentLang].questionsTitle;
@@ -401,7 +400,7 @@ function updateQuickQuestions() {
   const visibleCount = expanded ? questions.length : 3;
   const visibleQuestions = questions.slice(0, visibleCount);
 
-  // Ajout des questions visibles
+  // Ajouter les questions visibles
   visibleQuestions.forEach((question) => {
     const button = document.createElement("button");
     button.className =
@@ -411,7 +410,7 @@ function updateQuickQuestions() {
     questionsContainer.appendChild(button);
   });
 
-  // ✅ Bouton Voir plus / Voir moins
+  // Bouton Voir plus / Voir moins
   if (questions.length > 3) {
     const toggleButton = document.createElement("button");
     toggleButton.className =
@@ -421,8 +420,8 @@ function updateQuickQuestions() {
       : translations[currentLang].seeMore;
 
     toggleButton.onclick = () => {
-      expanded = !expanded;       // Inverse l’état
-      updateQuickQuestions();     // Recharge la liste avec le bon texte
+      expanded = !expanded;   // on inverse
+      updateQuickQuestions(); // on regénère la liste avec le bon état
     };
 
     questionsContainer.appendChild(toggleButton);
