@@ -611,37 +611,36 @@
 </div>
 
 </div>
-<!-- === Bulle flottante du chatbot === -->
-<div id="chatBubble"
-     onclick="openChatbot()"
-     style="position:fixed; bottom:20px; right:20px; width:60px; height:60px; 
-            background:#2563eb; border-radius:50%; display:flex; align-items:center; justify-content:center; 
-            box-shadow:0 4px 12px rgba(0,0,0,0.3); cursor:pointer; z-index:10000;">
-  🤖
+<!-- Bulle flottante -->
+<div id="chatBubble" onclick="openChatbot()" 
+     style="position:fixed; bottom:20px; right:20px; width:60px; height:60px;
+            background:#2563eb; border-radius:50%; display:flex; align-items:center; 
+            justify-content:center; color:white; font-size:24px; cursor:pointer; 
+            z-index:10000; box-shadow:0 4px 10px rgba(0,0,0,0.3);">
+  💬
 </div>
 
-<!-- === Iframe du chatbot (cachée au départ) === -->
+<!-- Iframe du chatbot -->
 <iframe id="chatbotFrame" src="chatbot.html"
-        style="border:none; position:fixed; bottom:20px; right:20px; width:350px; height:480px; z-index:9999; display:none; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.4);"
+        style="border:none; position:fixed; bottom:20px; right:20px; width:350px; height:480px; 
+               z-index:9999; display:none; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.4);"
         title="HelveticBot"></iframe>
-
 
 <script>
   const bubble = document.getElementById("chatBubble");
   const chatbotFrame = document.getElementById("chatbotFrame");
 
- function openChatbot() {
-  bubble.style.display = "none";   // cacher la bulle
-  chatbotFrame.style.display = "block"; // afficher le chatbot
-}
+  function openChatbot() {
+    bubble.style.display = "none";        // cacher la bulle
+    chatbotFrame.style.display = "block"; // afficher le chatbot
+  }
 
-function closeChatbot() {
-  chatbotFrame.style.display = "none";  // cacher la fenêtre
-  bubble.style.display = "flex";        // réafficher la bulle
-}
-
-
+  function closeChatbot() {
+    chatbotFrame.style.display = "none"; // cacher le chatbot
+    bubble.style.display = "flex";       // réafficher la bulle
+  }
 </script>
+
 
 
 
