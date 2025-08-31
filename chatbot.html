@@ -198,20 +198,6 @@
     position: relative;
   }
   
-  .message-bubble-bot::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
-    border-radius: inherit;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
   .message-bubble-user {
     background: linear-gradient(135deg, #6366f1, #8b5cf6);
     box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
@@ -472,6 +458,14 @@ const responses = {
   }
 };
 
+const messagesContainer = document.getElementById("chatbot-messages");
+const questionsContainer = document.getElementById("questions-container");
+const questionsTitle = document.getElementById("questions-title");
+
+let currentLang = "fr";
+let isTyping = false;
+let expanded = false;
+
 function getResponseForQuestion(question, lang) {
   return responses[lang][question] || responses[lang]["Qu'est-ce que l'IA en finance ?"] || "Merci pour votre question ! Notre équipe vous contactera bientôt.";
 }
@@ -501,10 +495,6 @@ function hideTypingIndicator() {
     indicator.remove();
   }
 }
-
-let currentLang = "fr";
-let isTyping = false;
-let expanded = false;
 
 function addMessage(text, sender = "bot", animate = true) {
   const msg = document.createElement("div");
@@ -621,16 +611,12 @@ document.getElementById("lang-select").addEventListener("change", (e) => {
   // Vider la console de messages
   messagesContainer.innerHTML = "";
   
+  // Réinitialiser l'état expanded
+  expanded = false;
+  
   // Mettre à jour le statut
   document.getElementById("status-indicator").textContent = translations[currentLang].online;
   
   // Afficher le message d'accueil dans la nouvelle langue
   setTimeout(() => {
-    typeMessage(translations[currentLang].welcome, () => {
-      updateQuickQuestions();
-    });
-  }, 100);
-});
-</script>
-</body>
-</html>
+    type
