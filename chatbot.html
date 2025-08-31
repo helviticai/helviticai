@@ -140,6 +140,7 @@ const quickQuestions = {
   de:["Was ist KI im Finanzwesen?","Was sind die Vorteile von KI für EPM?","Wie integriere ich KI in mein System?","Was ist der ROI von KI im Finanzwesen?","Welche KI-Technologien verwenden Sie?","Wie viel kostet eine KI-Implementierung?"]
 };
 
+<script>
 const messagesContainer=document.getElementById("chatbot-messages");
 const langSelect=document.getElementById("lang-select");
 const statusIndicator=document.getElementById("status-indicator");
@@ -154,7 +155,9 @@ function addMessage(text,sender="bot"){
   const msg=document.createElement("div");
   msg.className=sender==="user"?"text-right":"text-left";
   const bubble=document.createElement("div");
-  bubble.className=sender==="user"?"inline-block px-4 py-2 rounded-2xl bg-blue-600 text-white":"inline-block px-4 py-2 rounded-2xl bg-white border";
+  bubble.className=sender==="user"
+    ?"inline-block px-4 py-2 rounded-2xl bg-blue-600 text-white"
+    :"inline-block px-4 py-2 rounded-2xl bg-white border";
   bubble.textContent=text;
   msg.appendChild(bubble);
   messagesContainer.appendChild(msg);
@@ -166,7 +169,11 @@ function updateQuickQuestions(){
   questionsContainer.innerHTML="";
   questionsTitle.textContent=translations[currentLang].questionsTitle;
   const questions=quickQuestions[currentLang];
-  const visible=expanded?questions.length:3;
+
+  // combien afficher ?
+  const visible=expanded ? questions.length : 3;
+
+  // afficher les questions visibles
   questions.slice(0,visible).forEach(q=>{
     const btn=document.createElement("button");
     btn.className="question-btn w-full text-left p-3 rounded-lg bg-white hover:bg-gray-50 text-sm";
@@ -175,11 +182,18 @@ function updateQuickQuestions(){
     questionsContainer.appendChild(btn);
   });
 
+  // bouton voir plus / voir moins
   if(questions.length>3){
     const toggleButton=document.createElement("button");
+    toggleButton.id="toggle-btn"; // important : id fixe
     toggleButton.className="toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
-    toggleButton.textContent=expanded?translations[currentLang].seeLess:translations[currentLang].seeMore;
-    toggleButton.onclick=()=>{expanded=!expanded;updateQuickQuestions();};
+    toggleButton.textContent=expanded
+      ? translations[currentLang].seeLess
+      : translations[currentLang].seeMore;
+    toggleButton.onclick=()=>{
+      expanded=!expanded; // inverse l'état
+      updateQuickQuestions(); // recharge la liste
+    };
     questionsContainer.appendChild(toggleButton);
   }
 }
@@ -200,5 +214,4 @@ document.addEventListener("DOMContentLoaded",()=>{
   updateQuickQuestions();
 });
 </script>
-</body>
-</html>
+
