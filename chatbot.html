@@ -410,21 +410,22 @@ function updateQuickQuestions() {
     questionsContainer.appendChild(button);
   });
 
-if (questions.length > 3) {
-  const toggleButton = document.createElement("button");
-  toggleButton.className =
-    "toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
-  toggleButton.textContent = expanded
-    ? translations[currentLang].seeLess
-    : translations[currentLang].seeMore;
+  if (questions.length > 3) {
+    const toggleButton = document.createElement("button");
+    toggleButton.className =
+      "toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
+    toggleButton.textContent = expanded
+      ? translations[currentLang].seeLess
+      : translations[currentLang].seeMore;
 
-  toggleButton.onclick = () => {
-    expanded = !expanded;   // on inverse
-    updateQuickQuestions(); // on regénère toute la liste
-  };
+    toggleButton.onclick = () => {
+      expanded = !expanded;
+      updateQuickQuestions();
+    };
 
-  questionsContainer.appendChild(toggleButton);
-}
+    questionsContainer.appendChild(toggleButton);
+  }
+}  // ✅ fermeture de la fonction
 
 
 // Mise à jour du drapeau
