@@ -1,226 +1,54 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HelveticBot</title>
-  <link rel="icon" type="image/svg+xml" href="Switzerland.svg">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Helvitic AI - Chatbot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #f0f2f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .chat-container {
-      width: 370px;
-      height: 520px;
-      background: #ffffff;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* Header */
-    .chat-header {
-      background: #2563eb;
-      color: white;
-      padding: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: bold;
-    }
-    .chat-header select {
-      border: none;
-      background: white;
-      color: #2563eb;
-      font-weight: bold;
-      border-radius: 8px;
-      padding: 4px 6px;
-      cursor: pointer;
-    }
-
-    /* Messages */
-    .chat-body {
-      flex: 1;
-      padding: 12px;
-      overflow-y: auto;
-      background: #f9fafb;
-    }
-
-    .chat-message {
-      max-width: 80%;
-      padding: 12px 14px;
-      margin: 6px 0;
-      border-radius: 16px;
-      line-height: 1.5;
-      font-size: 15px;
-    }
-
-    .chat-message.bot {
-      background: #ffffff;
-      border-left: 4px solid #2563eb;
-      align-self: flex-start;
-      color: #111827;
-    }
-
-    .chat-message.user {
-      background: linear-gradient(to right, #2563eb, #1e40af);
-      color: white;
-      align-self: flex-end;
-    }
-
-    .chat-message b {
-      display: block;
-      font-size: 16px;
-      margin-bottom: 6px;
-      color: #1e3a8a;
-    }
-
-    /* Footer */
-    .chat-footer {
-      display: flex;
-      padding: 10px;
-      background: #fff;
-      border-top: 1px solid #e5e7eb;
-    }
-
-    .chat-footer textarea {
-      flex: 1;
-      border-radius: 20px;
-      padding: 10px 14px;
-      border: 1px solid #d1d5db;
-      resize: none;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .chat-footer button {
-      margin-left: 8px;
-      border: none;
-      background: #2563eb;
-      color: white;
-      border-radius: 50%;
-      width: 42px;
-      height: 42px;
-      cursor: pointer;
-      font-size: 18px;
-    }
-
-    .chat-footer button:hover {
-      background: #1e40af;
-    }
+    .gradient-bg { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); }
+    .glass-effect { backdrop-filter: blur(10px); background: rgba(255,255,255,0.9); }
+    .message-user { background: linear-gradient(135deg,#3b82f6,#1d4ed8); color:white; }
+    .message-bot { background:#f3f4f6; border:1px solid #d1d5db; }
+    .scrollbar-thin::-webkit-scrollbar { width:4px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:2px; }
   </style>
 </head>
-<body>
-  <div class="chat-container">
-    <div class="chat-header">
-      <span>💬 HelveticBot</span>
-      <select id="langSelect">
-        <option value="fr">🇫🇷 FR</option>
-        <option value="en">🇬🇧 EN</option>
-        <option value="de">🇩🇪 DE</option>
-      </select>
+<body class="bg-gray-50">
+
+<!-- === Container === -->
+<div id="chatbot-container" class="fixed bottom-5 right-5 z-50">
+  <!-- Bouton flottant -->
+  <button id="chatbot-toggle"
+          class="w-16 h-16 rounded-full gradient-bg flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300">
+    🤖
+  </button>
+
+  <!-- Fenêtre -->
+  <div id="chatbot-window"
+       class="hidden absolute bottom-20 right-0 w-96 h-[500px] glass-effect rounded-3xl shadow-2xl flex flex-col border border-white/20">
+
+    <!-- Header -->
+    <div class="gradient-bg text-white flex justify-between items-center p-4 rounded-t-3xl">
+      <span class="font-bold">Helvitic AI</span>
+      <button id="chatbot-close" class="text-lg">✕</button>
     </div>
-    <div class="chat-body" id="chatBody"></div>
-    <div class="chat-footer">
-      <textarea id="userInput" rows="1" placeholder="Écrivez un message..."></textarea>
-      <button id="sendBtn">➤</button>
-    </div>
+
+    <!-- Messages -->
+    <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin"></div>
+
+    <!-- Formulaire -->
+    <form id="bot-form" class="border-t border-gray-200 p-3 flex">
+      <input id="bot-input" type="text" placeholder="Écrivez ici..."
+             class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <button class="ml-2 px-4 bg-blue-600 text-white rounded-lg">Envoyer</button>
+    </form>
   </div>
+</div>
 
-  <script>
-    const chatBody = document.getElementById("chatBody");
-    const userInput = document.getElementById("userInput");
-    const sendBtn = document.getElementById("sendBtn");
-    const langSelect = document.getElementById("langSelect");
+<!-- === Scripts === -->
+<script src="faq.js"></script>
+<script src="chatbot.js"></script>
 
-const responses = {
-  fr: {
-    welcome: "Bonjour 👋 Je suis le chatbot Helvetic AI. Posez-moi vos questions.",
-    context: "L’IA aide à optimiser les ressources, anticiper les risques et améliorer la performance financière.",
-    benefits: "Les bénéfices incluent : optimisation des coûts, meilleure prise de décision et gestion proactive des risques.",
-    costs: "🔹 Réduction des coûts : détection des dépenses inutiles, automatisation de la facturation et reporting.",
-    decision: "🔹 Prise de décision augmentée : analyses prédictives, tableaux de bord intelligents et simulations.",
-    risks: "🔹 Gestion des risques : détection de fraude, suivi des indicateurs financiers, alertes automatisées.",
-    usecases: "Exemples : banque (fraude), industrie (achats), retail (prévisions ventes), PME (automatisation comptable).",
-    value: "💡 L’IA permet d’améliorer la rentabilité, renforcer la compétitivité, sécuriser les investissements et gagner du temps.",
-    goodbye: "Merci pour votre visite ! À bientôt 👋",
-    unknown: "Désolé, je n'ai pas compris. Pouvez-vous préciser ?"
-  },
-  en: {
-    welcome: "Hello 👋 I'm the Helvetic AI chatbot. Ask me your questions.",
-    context: "AI helps optimize resources, anticipate risks, and improve financial performance.",
-    benefits: "Key benefits: cost optimization, enhanced decision-making, and proactive risk management.",
-    costs: "🔹 Cost optimization: detect unnecessary expenses, automate billing and reporting.",
-    decision: "🔹 Augmented decision-making: predictive analytics, smart dashboards, scenario simulations.",
-    risks: "🔹 Risk management: fraud detection, financial KPI monitoring, automated alerts.",
-    usecases: "Examples: banking (fraud), industry (procurement), retail (sales forecasts), SMEs (accounting automation).",
-    value: "💡 AI helps improve profitability, strengthen competitiveness, secure investments, and save time.",
-    goodbye: "Thank you for visiting! See you soon 👋",
-    unknown: "Sorry, I didn't understand. Could you clarify?"
-  },
-  de: {
-    welcome: "Hallo 👋 Ich bin der Helvetic AI Chatbot. Stellen Sie mir Ihre Fragen.",
-    context: "KI hilft, Ressourcen zu optimieren, Risiken vorherzusehen und die finanzielle Leistung zu verbessern.",
-    benefits: "Vorteile: Kostenoptimierung, bessere Entscheidungsfindung und proaktives Risikomanagement.",
-    costs: "🔹 Kostenoptimierung: Erkennung unnötiger Ausgaben, Automatisierung von Abrechnung und Reporting.",
-    decision: "🔹 Verbesserte Entscheidungen: prädiktive Analysen, intelligente Dashboards, Szenariosimulationen.",
-    risks: "🔹 Risikomanagement: Betrugserkennung, Überwachung von Finanz-KPIs, automatisierte Warnungen.",
-    usecases: "Beispiele: Banken (Betrug), Industrie (Einkäufe), Handel (Absatzprognosen), KMU (Buchhaltungsautomatisierung).",
-    value: "💡 KI steigert die Rentabilität, stärkt die Wettbewerbsfähigkeit, sichert Investitionen und spart Zeit.",
-    goodbye: "Danke für Ihren Besuch! Bis bald 👋",
-    unknown: "Entschuldigung, das habe ich nicht verstanden. Können Sie das bitte präzisieren?"
-  }
-};
-
-   
-    // Fonction ajout de message
-    function addMessage(content, sender) {
-      const msg = document.createElement("div");
-      msg.className = "chat-message " + sender;
-      msg.innerHTML = content;
-      chatBody.appendChild(msg);
-      chatBody.scrollTop = chatBody.scrollHeight;
-    }
-
-    // Affichage message de bienvenue
-    function setLanguage(lang) {
-      chatBody.innerHTML = "";
-      addMessage(messages[lang].welcome, "bot");
-      userInput.placeholder = messages[lang].placeholder;
-    }
-
-    // Event: changement de langue
-    langSelect.addEventListener("change", () => {
-      setLanguage(langSelect.value);
-    });
-
-    // Event: envoi message
-    sendBtn.addEventListener("click", () => {
-      const text = userInput.value.trim();
-      if (!text) return;
-      addMessage(text, "user");
-      userInput.value = "";
-
-      // Réponse simulée
-      setTimeout(() => {
-        addMessage("✅ " + (langSelect.value === "fr" ? "Merci pour votre message." :
-                           langSelect.value === "en" ? "Thank you for your message." :
-                           "Danke für Ihre Nachricht."), "bot");
-      }, 600);
-    });
-
-    // Initialisation
-    setLanguage("fr");
-  </script>
 </body>
 </html>
