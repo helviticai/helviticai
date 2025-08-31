@@ -635,6 +635,14 @@
     chatbotFrame.style.display = "block";
   }
 </script>
+<script>
+  function closeChatbot() {
+    const iframe = document.querySelector('iframe[title="Assistant Helvetic AI"]');
+    if (iframe) {
+      iframe.style.display = "none"; // masque l’iframe
+    }
+  }
+</script>
 
 
 
