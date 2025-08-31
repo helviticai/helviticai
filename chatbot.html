@@ -288,8 +288,6 @@ const translations = {
   }
 };
 </script>
-
-<!-- Script principal -->
 <script>
 const messagesContainer = document.getElementById("chatbot-messages");
 const langSelect = document.getElementById("lang-select");
@@ -360,7 +358,6 @@ function findAnswer(question) {
 
   const kb = knowledgeBase[currentLang];
   
-  // Recherche exacte par correspondance de question
   for (let key in kb) {
     const normalizedKey = key.replace(/[^a-z0-9\s]/g, '').trim();
     if (normalizedQuestion === normalizedKey) {
@@ -368,7 +365,6 @@ function findAnswer(question) {
     }
   }
   
-  // Recherche par mots-clés
   for (let key in kb) {
     const keyWords = key.split(' ');
     const questionWords = normalizedQuestion.split(' ');
@@ -378,17 +374,13 @@ function findAnswer(question) {
     }
   }
   
-  return kb[Object.keys(kb)[0]]; // Première réponse par défaut
+  return kb[Object.keys(kb)[0]];
 }
 
 // Traitement d'une question
 function handleQuestion(question) {
   if (isTyping) return;
-  
-  // Ajouter message utilisateur
   addMessage(question, "user");
-  
-  // Simuler délai de traitement
   showTypingIndicator();
   
   setTimeout(() => {
@@ -398,80 +390,47 @@ function handleQuestion(question) {
   }, Math.random() * 1000 + 800);
 }
 
-// Mise à jour des questions rapides
+// ✅ Mise à jour des questions rapides avec Voir plus / Voir moins
 function updateQuickQuestions() {
   questionsContainer.innerHTML = "";
   questionsTitle.textContent = translations[currentLang].questionsTitle;
-  
+
   const questions = quickQuestions[currentLang];
   const visibleCount = expanded ? questions.length : 3;
   const visibleQuestions = questions.slice(0, visibleCount);
-  
-  // Afficher les questions
-  visibleQuestions.forEach((question, index) => {
+
+  visibleQuestions.forEach((question) => {
     const button = document.createElement("button");
     button.className = "question-btn w-full text-left p-3 rounded-lg bg-white hover:bg-gray-50 text-sm";
     button.textContent = question;
     button.onclick = () => handleQuestion(question);
     questionsContainer.appendChild(button);
   });
-  
-  // Bouton Voir plus / Voir moins
+
   if (questions.length > 3) {
     const toggleButton = document.createElement("button");
     toggleButton.className = "toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
-    toggleButton.textContent = expanded ? translations[currentLang].seeLess : translations[currentLang].seeMore;
+    toggleButton.textContent = expanded 
+      ? translations[currentLang].seeLess 
+      : translations[currentLang].seeMore;
+
     toggleButton.onclick = () => {
       expanded = !expanded;
       updateQuickQuestions();
     };
+
     questionsContainer.appendChild(toggleButton);
   }
-}
-
-// Fonction pour mettre à jour le drapeau
-function updateFlag(lang) {
-  const flagIcon = document.getElementById("flag-icon");
-  
-  const flags = {
-    fr: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
-           <rect width="32" height="8" fill="#002395"/>
-           <rect width="32" height="8" y="8" fill="#FFFFFF"/>
-           <rect width="32" height="8" y="16" fill="#ED2939"/>
-         </svg>`,
-    en: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
-           <rect width="32" height="24" fill="#012169"/>
-           <path d="M0 0L32 24M32 0L0 24" stroke="#FFFFFF" stroke-width="4"/>
-           <path d="M0 0L32 24M32 0L0 24" stroke="#C8102E" stroke-width="2.5"/>
-           <path d="M16 0V24M0 12H32" stroke="#FFFFFF" stroke-width="4"/>
-           <path d="M16 0V24M0 12H32" stroke="#C8102E" stroke-width="2.5"/>
-         </svg>`,
-    de: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
-           <rect width="32" height="8" fill="#000000"/>
-           <rect width="32" height="8" y="8" fill="#DD0000"/>
-           <rect width="32" height="8" y="16" fill="#FFCE00"/>
-         </svg>`
-  };
-  
-  flagIcon.innerHTML = flags[lang];
 }
 
 // Changement de langue
 langSelect.addEventListener("change", (e) => {
   currentLang = e.target.value;
-  expanded = false; // Reset l'état des questions
-  
-  // Mise à jour du drapeau
+  expanded = false; 
   updateFlag(currentLang);
-  
-  // Mise à jour de l'interface
   statusIndicator.textContent = translations[currentLang].online;
-  
-  // Reset conversation
   messagesContainer.innerHTML = "";
   addMessage(translations[currentLang].welcome, "bot", false);
-  
-  // Mise à jour des questions
   updateQuickQuestions();
 });
 
@@ -481,32 +440,5 @@ document.addEventListener("DOMContentLoaded", () => {
   updateQuickQuestions();
 });
 </script>
-  <!-- Bouton flottant -->
-<div id="chatbot-button"
-     class="fixed bottom-6 right-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:scale-105 transition">
-  💬
-</div>
-
-<!-- Iframe du chatbot (popup masquée au départ) -->
-<div id="chatbot-popup" class="fixed bottom-20 right-6 w-96 h-[600px] hidden shadow-2xl rounded-2xl overflow-hidden">
-  <iframe src="chatbot.html" class="w-full h-full border-0 rounded-2xl"></iframe>
-</div>
-
-<script>
-const button = document.getElementById("chatbot-button");
-const popup = document.getElementById("chatbot-popup");
-
-button.addEventListener("click", () => {
-  popup.classList.toggle("hidden");
-});
-
-// Fonction pour fermer depuis chatbot.html
-function closeChatbot() {
-  popup.classList.add("hidden");
-}
-window.closeChatbot = closeChatbot;
-</script>
-
-
-</body>
+</body> 
 </html>
