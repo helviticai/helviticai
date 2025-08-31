@@ -1,71 +1,80 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Helvitic AI Chatbot</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .glass-effect {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .gradient-bg {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    .scrollbar-thin {
-      scrollbar-width: thin;
-      scrollbar-color: #cbd5e1 #f1f5f9;
-    }
-    .scrollbar-thin::-webkit-scrollbar {
-      width: 6px;
-    }
-    .scrollbar-thin::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-    .scrollbar-thin::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 3px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helvitic AI Chatbot</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+.glass-effect {
+background: rgba(255, 255, 255, 0.95);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.gradient-bg {
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.scrollbar-thin {
+scrollbar-width: thin;
+scrollbar-color: #cbd5e1 #f1f5f9;
+}
+.scrollbar-thin::-webkit-scrollbar {
+width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+background: #f1f5f9;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+background: #cbd5e1;
+border-radius: 3px;
+}
+</style>
 </head>
 <body>
+
 
 <!-- Fenêtre du chatbot -->
 <div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col">
 
-  <!-- Header avec sélecteur de langue + bouton fermer -->
-  <div class="gradient-bg text-white flex justify-between items-center p-4">
-    <span class="font-bold">Helvitic AI</span>
 
-    <select id="lang-select" class="text-black rounded px-2 py-1">
-      <option value="fr">🇫🇷 FR</option>
-      <option value="en">🇬🇧 EN</option>
-      <option value="de">🇩🇪 DE</option>
-    </select>
+<!-- Header avec sélecteur de langue + bouton fermer -->
+<div class="gradient-bg text-white flex justify-between items-center p-4">
+<span class="font-bold">Helvitic AI</span>
 
-    <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold">✕</button>
-  </div>
 
-  <!-- Messages -->
-  <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin"></div>
+<select id="lang-select" class="text-black rounded px-2 py-1">
+<option value="fr">🇫🇷 FR</option>
+<option value="en">🇬🇧 EN</option>
+<option value="de">🇩🇪 DE</option>
+</select>
 
-  <!-- FAQ rapide -->
-  <div id="faq-container" class="p-3 border-t bg-gray-50">
-    <div id="faq-title" class="font-semibold mb-2 text-gray-700"></div>
-    <div id="faq-quick" class="flex flex-wrap gap-2"></div>
-  </div>
 
-  <!-- Formulaire -->
-  <form id="bot-form" class="border-t border-gray-200 p-3 flex">
-    <input id="bot-input" type="text" placeholder="Écrivez ici..." 
-           class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-    <button class="ml-2 px-4 bg-blue-600 text-white rounded-lg">Envoyer</button>
-  </form>
+<button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold">✕</button>
 </div>
 
+
+<!-- Messages -->
+<div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin"></div>
+
+
+<!-- FAQ rapide -->
+<div id="faq-container" class="p-3 border-t bg-gray-50">
+<div id="faq-title" class="font-semibold mb-2 text-gray-700"></div>
+<div id="faq-quick" class="flex flex-wrap gap-2"></div>
+</div>
+
+
+<!-- Formulaire -->
+<form id="bot-form" class="border-t border-gray-200 p-3 flex">
+<input id="bot-input" type="text" placeholder="Écrivez ici..."
+class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+<button class="ml-2 px-4 bg-blue-600 text-white rounded-lg">Envoyer</button>
+</form>
+</div>
+
+
 <!-- Base de connaissances fusionnée -->
+<script>
 <script>
 // FAQ complète (fusion de faq.js)
 const faq = {
@@ -160,8 +169,95 @@ const quickQuestions = {
 
 <!-- Script principal du chatbot -->
 <script>
-// (le reste de ton script reste inchangé)
+const messagesContainer = document.getElementById("chatbot-messages");
+const form = document.getElementById("bot-form");
+const input = document.getElementById("bot-input");
+const faqQuick = document.getElementById("faq-quick");
+const faqTitle = document.getElementById("faq-title");
+const langSelect = document.getElementById("lang-select");
+
+
+let currentLang = "fr";
+
+
+// Fonction affichage message
+function addMessage(text, sender = "bot") {
+const msg = document.createElement("div");
+msg.className = sender === "user"
+? "text-right"
+: "text-left";
+
+
+msg.innerHTML = `<div class="inline-block px-3 py-2 rounded-xl ${sender === "user" ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-900'}">${text}</div>`;
+messagesContainer.appendChild(msg);
+messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+
+// Fonction recherche réponse FAQ
+function findAnswer(question) {
+const key = question.toLowerCase().trim();
+const base = faq[currentLang];
+for (let k in base) {
+if (key.includes(k.split(" ")[0]) || key === k) {
+return base[k];
+}
+}
+return currentLang === "fr"
+? "Je n'ai pas de réponse exacte, mais je peux vous aider sur l'IA et la finance."
+: currentLang === "en"
+? "I don’t have an exact answer, but I can assist you with AI and finance."
+: "Ich habe keine genaue Antwort, aber ich kann Ihnen bei KI und Finanzen helfen.";
+}
+
+
+// Envoi message utilisateur
+form.addEventListener("submit", (e) => {
+e.preventDefault();
+const text = input.value.trim();
+if (!text) return;
+addMessage(text, "user");
+input.value = "";
+setTimeout(() => {
+const answer = findAnswer(text);
+addMessage(answer, "bot");
+}, 500);
+});
+
+
+// Questions rapides affichage
+function renderQuickQuestions() {
+faqQuick.innerHTML = "";
+faqTitle.textContent = currentLang === "fr" ? "Questions rapides" : currentLang === "en" ? "Quick questions" : "Schnellfragen";
+quickQuestions[currentLang].forEach(q => {
+const btn = document.createElement("button");
+btn.className = "px-3 py-1 bg-gray-200 rounded-full text-sm hover:bg-gray-300";
+btn.textContent = q;
+btn.onclick = () => {
+addMessage(q, "user");
+setTimeout(() => {
+const answer = findAnswer(q);
+addMessage(answer, "bot");
+}, 400);
+};
+faqQuick.appendChild(btn);
+});
+}
+
+
+// Changement de langue
+langSelect.addEventListener("change", (e) => {
+currentLang = e.target.value;
+renderQuickQuestions();
+});
+
+
+// Initialisation
+renderQuickQuestions();
+addMessage("Bonjour 👋 Je suis votre assistant IA. Posez-moi une question !", "bot");
 </script>
+
 
 </body>
 </html>
+
