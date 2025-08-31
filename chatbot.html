@@ -618,13 +618,13 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById("lang-select").addEventListener("change", (e) => {
   currentLang = e.target.value;
   
-  // Clear la console des messages
+  // Vider la console de messages
   messagesContainer.innerHTML = "";
   
-  // Met à jour le statut
+  // Mettre à jour le statut
   document.getElementById("status-indicator").textContent = translations[currentLang].online;
   
-  // Affiche le nouveau message d'accueil dans la langue sélectionnée
+  // Afficher le message d'accueil dans la nouvelle langue
   typeMessage(translations[currentLang].welcome, () => {
     updateQuickQuestions();
   });
