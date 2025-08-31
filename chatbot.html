@@ -28,16 +28,49 @@
   background: #cbd5e1;
   border-radius: 3px;
 }
-
-/* Animation slide */
-.slide {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
+.typing-indicator {
+  display: flex;
+  padding: 8px 16px;
+  background: #e5e7eb;
+  border-radius: 16px;
+  width: fit-content;
+  margin: 4px 0;
 }
-.slide.show {
-  opacity: 1;
-  transform: translateY(0);
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6b7280;
+  animation: typing 1.4s infinite;
+  margin-right: 4px;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; margin-right: 0; }
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-8px); opacity: 1; }
+}
+.message-fade-in {
+  animation: fadeInUp 0.3s ease-out;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.question-btn {
+  transition: all 0.2s ease;
+  border: 1px solid #e5e7eb;
+}
+.question-btn:hover {
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+.toggle-btn {
+  transition: all 0.2s ease;
+}
+.toggle-btn:hover {
+  transform: scale(1.02);
 }
 </style>
 </head>
@@ -45,18 +78,49 @@
 
 <!-- Fenêtre du chatbot -->
 <div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col relative overflow-hidden">
+  <!-- Montagnes suisses en arrière-plan -->
+  <div class="absolute inset-0 pointer-events-none opacity-5">
+    <svg width="100%" height="100%" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <!-- Montagnes lointaines -->
+      <path d="M0 200 L50 160 L100 140 L150 120 L200 110 L250 130 L300 150 L350 140 L400 160 L400 300 L0 300 Z" fill="#e2e8f0" opacity="0.6"/>
+      <!-- Montagnes moyennes -->
+      <path d="M0 240 L40 200 L80 180 L120 160 L160 140 L200 130 L240 145 L280 170 L320 160 L360 180 L400 200 L400 300 L0 300 Z" fill="#cbd5e1" opacity="0.8"/>
+      <!-- Montagnes proches -->
+      <path d="M0 280 L30 250 L60 230 L90 210 L130 190 L170 185 L210 200 L250 220 L290 210 L330 230 L370 240 L400 250 L400 300 L0 300 Z" fill="#94a3b8"/>
+    </svg>
+  </div>
+
   <!-- Header -->
   <div class="gradient-bg text-white flex justify-between items-center p-4 shadow-lg">
     <div class="flex items-center space-x-3">
-      <span class="font-bold">Helvetic AI</span>
+      <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center overflow-hidden">
+        <svg width="20" height="20" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" fill="#FF0000"/>
+          <rect x="6" y="13" width="20" height="6" fill="#FFFFFF"/>
+          <rect x="13" y="6" width="6" height="20" fill="#FFFFFF"/>
+        </svg>
+      </div>
+      <div>
+        <span class="font-bold">Helvetic AI</span>
+        <div class="text-xs opacity-75" id="status-indicator">En ligne</div>
+      </div>
     </div>
     <div class="flex items-center space-x-2">
-      <select id="lang-select" class="text-black rounded px-2 py-1">
-        <option value="fr">Français</option>
-        <option value="en">English</option>
-        <option value="de">Deutsch</option>
-      </select>
-      <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold">✕</button>
+      <div class="relative">
+        <select id="lang-select" class="text-black rounded px-8 py-1 text-sm appearance-none bg-white pr-6">
+          <option value="fr">Français</option>
+          <option value="en">English</option>
+          <option value="de">Deutsch</option>
+        </select>
+        <div id="flag-icon" class="absolute left-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+          <svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="8" fill="#002395"/>
+            <rect width="32" height="8" y="8" fill="#FFFFFF"/>
+            <rect width="32" height="8" y="16" fill="#ED2939"/>
+          </svg>
+        </div>
+      </div>
+      <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold hover:bg-white/20 w-6 h-6 rounded-full flex items-center justify-center transition-colors">×</button>
     </div>
   </div>
 
@@ -70,8 +134,88 @@
   </div>
 </div>
 
-<!-- Données -->
+<!-- Base de connaissances -->
 <script>
+const knowledgeBase = {
+  fr: {
+    "qu'est-ce que l'ia en finance": "L'Intelligence Artificielle en finance utilise des algorithmes avancés pour automatiser et optimiser les processus financiers : prévisions, analyses de risques, détection de fraudes, et aide à la décision. Chez Helvetic AI, nous nous concentrons sur l'EPM (Enterprise Performance Management) pour améliorer la performance financière.",
+    
+    "avantages ia epm": "Les avantages de l'IA pour l'EPM incluent :\n• Prévisions plus précises\n• Automatisation des processus\n• Analyses prédictives\n• Recommandations intelligentes\n• Sécurité renforcée\n• Gain de temps significatif sur les tâches répétitives",
+    
+    "comment intégrer ia système": "L'intégration de l'IA se fait en 5 étapes :\n1. Analyse de vos besoins actuels\n2. Conception de la solution adaptée\n3. Développement et intégration technique\n4. Formation de vos équipes\n5. Support et amélioration continue\n\nNous accompagnons chaque étape.",
+    
+    "roi ia finance": "Le ROI de l'IA en finance se mesure par :\n• Réduction des coûts opérationnels (20-40%)\n• Gain de temps sur les processus (50-70%)\n• Amélioration de la précision des prévisions\n• Meilleure prise de décision stratégique",
+    
+    "technologies ia utilisées": "Nous utilisons des technologies IA de pointe :\n• Machine Learning\n• Deep Learning\n• Natural Language Processing\n• Algorithmes prédictifs\n• Solutions d'automatisation intelligente (RPA)\n\nToutes nos solutions respectent les standards de sécurité suisses.",
+    
+    "coût implémentation ia": "Le coût dépend de la complexité du projet. Nous proposons :\n• Audit gratuit initial\n• Solutions modulaires adaptées à votre budget\n• Implémentation progressive\n• ROI mesurable dès les premiers mois\n\nContactez-nous pour un devis personnalisé : contact@helveticai.ch",
+    
+    "ia améliorer prévisions": "L'IA peut améliorer vos prévisions de 30-50% grâce à :\n• Analyse de patterns complexes\n• Traitement de données massives\n• Modèles prédictifs avancés\n• Apprentissage continu à partir des résultats passés",
+    
+    "sécurité données ia": "La sécurité est notre priorité :\n• Chiffrement end-to-end\n• Conformité RGPD et standards suisses\n• Audit de sécurité réguliers\n• Contrôles d'accès stricts\n• Données hébergées en Suisse",
+    
+    "services helvetic ai": "Helvetic AI propose 4 expertises principales :\n• Prévision & Budgétisation\n• Automatisation des processus\n• Aide à la décision\n• Solutions EPM\n\nNous combinons expertise technique et connaissance métier finance.",
+    
+    "équipe helvetic ai": "Notre équipe fondatrice :\n• Kahina Aoudia (Co-fondatrice, 13 ans d'expérience IBM PA)\n• Adnane Baahmed (Co-fondateur, 16 ans d'expérience BI/EPM)\n\nExpertise combinée en pédagogie, analyse et architecture technique.",
+    
+    "contact helvetic ai": "Coordonnées Helvetic AI :\n📍 Rue de Chantepoulet 10, 1201 Genève, Suisse\n📧 contact@helveticai.ch\n🛠️ helviticaich@gmail.com\n📞 +41 22 123 45 67",
+    
+    "méthodologie helvetic ai": "Notre méthodologie en 5 étapes :\n1. Analyse approfondie des besoins\n2. Conception sur mesure\n3. Développement agile\n4. Formation complète des équipes\n5. Support continu et optimisation"
+  },
+  
+  en: {
+    "what is ai in finance": "Artificial Intelligence in finance uses advanced algorithms to automate and optimize financial processes: forecasting, risk analysis, fraud detection, and decision support. At Helvetic AI, we focus on EPM (Enterprise Performance Management) to improve financial performance.",
+    
+    "ai epm benefits": "AI benefits for EPM include:\n• More accurate forecasts\n• Process automation\n• Predictive analytics\n• Smart recommendations\n• Enhanced security\n• Significant time savings on repetitive tasks",
+    
+    "how integrate ai system": "AI integration follows 5 steps:\n1. Analysis of your current needs\n2. Tailored solution design\n3. Technical development and integration\n4. Team training\n5. Ongoing support and improvement\n\nWe guide every step.",
+    
+    "ai finance roi": "AI ROI in finance is measured by:\n• Operational cost reduction (20-40%)\n• Process time savings (50-70%)\n• Improved forecast accuracy\n• Better strategic decision-making",
+    
+    "ai technologies used": "We use cutting-edge AI technologies:\n• Machine Learning\n• Deep Learning\n• Natural Language Processing\n• Predictive algorithms\n• Intelligent automation solutions (RPA)\n\nAll solutions meet Swiss security standards.",
+    
+    "ai implementation cost": "Cost depends on project complexity. We offer:\n• Free initial audit\n• Modular solutions fitting your budget\n• Progressive implementation\n• Measurable ROI from first months\n\nContact us for a personalized quote: contact@helveticai.ch",
+    
+    "can ai improve forecasts": "AI can improve your forecasts by 30-50% through:\n• Complex pattern analysis\n• Massive data processing\n• Advanced predictive models\n• Continuous learning from past results",
+    
+    "ai data security": "Security is our priority:\n• End-to-end encryption\n• GDPR compliance and Swiss standards\n• Regular security audits\n• Strict access controls\n• Data hosted in Switzerland",
+    
+    "helvetic ai services": "Helvetic AI offers 4 main expertise areas:\n• Forecasting & Budgeting\n• Process Automation\n• Decision Support\n• EPM Solutions\n\nWe combine technical expertise with finance business knowledge.",
+    
+    "helvetic ai team": "Our founding team:\n• Kahina Aoudia (Co-founder, 13 years IBM PA experience)\n• Adnane Baahmed (Co-founder, 16 years BI/EPM experience)\n\nCombined expertise in pedagogy, analysis and technical architecture.",
+    
+    "contact helvetic ai": "Helvetic AI contact details:\n📍 Rue de Chantepoulet 10, 1201 Geneva, Switzerland\n📧 contact@helveticai.ch\n🛠️ helviticaich@gmail.com\n📞 +41 22 123 45 67",
+    
+    "helvetic ai methodology": "Our 5-step methodology:\n1. Thorough needs analysis\n2. Custom design\n3. Agile development\n4. Complete team training\n5. Ongoing support and optimization"
+  },
+  
+  de: {
+    "was ist ki finanzen": "Künstliche Intelligenz im Finanzwesen nutzt fortgeschrittene Algorithmen zur Automatisierung und Optimierung von Finanzprozessen: Prognosen, Risikoanalyse, Betrugserkennung und Entscheidungsunterstützung. Bei Helvetic AI konzentrieren wir uns auf EPM zur Verbesserung der Finanzperformance.",
+    
+    "ki epm vorteile": "KI-Vorteile für EPM umfassen:\n• Präzisere Prognosen\n• Prozessautomatisierung\n• Predictive Analytics\n• Intelligente Empfehlungen\n• Erweiterte Sicherheit\n• Erhebliche Zeitersparnis bei repetitiven Aufgaben",
+    
+    "ki system integration": "KI-Integration erfolgt in 5 Schritten:\n1. Analyse Ihrer aktuellen Bedürfnisse\n2. Maßgeschneiderte Lösungskonzeption\n3. Technische Entwicklung und Integration\n4. Team-Schulung\n5. Laufender Support und Verbesserung\n\nWir begleiten jeden Schritt.",
+    
+    "ki finanzen roi": "KI-ROI im Finanzwesen wird gemessen durch:\n• Betriebskostensenkung (20-40%)\n• Zeitersparnis bei Prozessen (50-70%)\n• Verbesserte Prognosegenauigkeit\n• Bessere strategische Entscheidungsfindung",
+    
+    "verwendete ki technologien": "Wir nutzen modernste KI-Technologien:\n• Machine Learning\n• Deep Learning\n• Natural Language Processing\n• Prädiktive Algorithmen\n• Intelligente Automatisierungslösungen (RPA)\n\nAlle Lösungen erfüllen Schweizer Sicherheitsstandards.",
+    
+    "ki implementierung kosten": "Kosten hängen von der Projektkomplexität ab. Wir bieten:\n• Kostenlose Erstanalyse\n• Modulare Lösungen für Ihr Budget\n• Schrittweise Implementierung\n• Messbarer ROI ab den ersten Monaten\n\nKontaktieren Sie uns für ein Angebot: contact@helveticai.ch",
+    
+    "kann ki prognosen verbessern": "KI kann Ihre Prognosen um 30-50% verbessern durch:\n• Komplexe Musteranalyse\n• Massive Datenverarbeitung\n• Fortgeschrittene prädiktive Modelle\n• Kontinuierliches Lernen aus vergangenen Ergebnissen",
+    
+    "ki datensicherheit": "Sicherheit ist unsere Priorität:\n• End-to-End-Verschlüsselung\n• DSGVO-Konformität und Schweizer Standards\n• Regelmäßige Sicherheitsaudits\n• Strenge Zugangskontrollen\n• Datenhosting in der Schweiz",
+    
+    "helvetic ai services": "Helvetic AI bietet 4 Hauptkompetenzbereiche:\n• Prognose & Budgetierung\n• Prozessautomatisierung\n• Entscheidungsunterstützung\n• EPM-Lösungen\n\nWir kombinieren technische Expertise mit Finanz-Know-how.",
+    
+    "helvetic ai team": "Unser Gründungsteam:\n• Kahina Aoudia (Mitgründerin, 13 Jahre IBM PA Erfahrung)\n• Adnane Baahmed (Mitgründer, 16 Jahre BI/EPM Erfahrung)\n\nKombinierte Expertise in Pädagogik, Analyse und technischer Architektur.",
+    
+    "helvetic ai kontakt": "Helvetic AI Kontaktdaten:\n📍 Rue de Chantepoulet 10, 1201 Genf, Schweiz\n📧 contact@helveticai.ch\n🛠️ helviticaich@gmail.com\n📞 +41 22 123 45 67",
+    
+    "helvetic ai methodik": "Unsere 5-Schritte-Methodik:\n1. Gründliche Bedarfsanalyse\n2. Maßgeschneiderte Konzeption\n3. Agile Entwicklung\n4. Umfassende Team-Schulung\n5. Laufender Support und Optimierung"
+  }
+};
+
 const quickQuestions = {
   fr: [
     "Qu'est-ce que l'IA en finance ?",
@@ -81,7 +225,11 @@ const quickQuestions = {
     "Quelles technologies IA utilisez-vous ?",
     "Combien coûte une implémentation IA ?",
     "L'IA peut-elle améliorer mes prévisions ?",
-    "Comment assurer la sécurité des données ?"
+    "Comment assurer la sécurité des données ?",
+    "Quels sont les services Helvetic AI ?",
+    "Qui compose l'équipe Helvetic AI ?",
+    "Comment vous contacter ?",
+    "Quelle est votre méthodologie ?"
   ],
   en: [
     "What is AI in finance?",
@@ -91,7 +239,11 @@ const quickQuestions = {
     "What AI technologies do you use?",
     "How much does AI implementation cost?",
     "Can AI improve my forecasts?",
-    "How to ensure data security?"
+    "How to ensure data security?",
+    "What are Helvetic AI services?",
+    "Who is the Helvetic AI team?",
+    "How to contact you?",
+    "What is your methodology?"
   ],
   de: [
     "Was ist KI im Finanzwesen?",
@@ -101,14 +253,39 @@ const quickQuestions = {
     "Welche KI-Technologien verwenden Sie?",
     "Wie viel kostet eine KI-Implementierung?",
     "Kann KI meine Prognosen verbessern?",
-    "Wie stelle ich Datensicherheit sicher?"
+    "Wie stelle ich Datensicherheit sicher?",
+    "Was sind die Helvetic AI Services?",
+    "Wer ist das Helvetic AI Team?",
+    "Wie kann ich Sie kontaktieren?",
+    "Was ist Ihre Methodik?"
   ]
 };
 
 const translations = {
-  fr: { questionsTitle: "Questions rapides :", seeMore: "Voir plus", seeLess: "Voir moins", welcome: "Bonjour 👋 Je suis votre assistant IA." },
-  en: { questionsTitle: "Quick questions:", seeMore: "See more", seeLess: "See less", welcome: "Hello 👋 I'm your AI assistant." },
-  de: { questionsTitle: "Schnellfragen:", seeMore: "Mehr anzeigen", seeLess: "Weniger anzeigen", welcome: "Hallo 👋 Ich bin Ihr KI-Assistent." }
+  fr: {
+    typing: "En train d'écrire...",
+    online: "En ligne",
+    questionsTitle: "Questions rapides :",
+    seeMore: "Voir plus",
+    seeLess: "Voir moins",
+    welcome: "Bonjour ! Je suis votre assistant IA Helvetic. Choisissez une question ci-dessous pour commencer."
+  },
+  en: {
+    typing: "Typing...",
+    online: "Online",
+    questionsTitle: "Quick questions:",
+    seeMore: "See more",
+    seeLess: "See less",
+    welcome: "Hello! I'm your Helvetic AI assistant. Choose a question below to get started."
+  },
+  de: {
+    typing: "Schreibt...",
+    online: "Online",
+    questionsTitle: "Schnellfragen:",
+    seeMore: "Mehr anzeigen",
+    seeLess: "Weniger anzeigen",
+    welcome: "Hallo! Ich bin Ihr Helvetic AI Assistent. Wählen Sie eine Frage unten aus, um zu beginnen."
+  }
 };
 </script>
 
@@ -116,76 +293,193 @@ const translations = {
 <script>
 const messagesContainer = document.getElementById("chatbot-messages");
 const langSelect = document.getElementById("lang-select");
+const statusIndicator = document.getElementById("status-indicator");
 const questionsContainer = document.getElementById("questions-container");
 const questionsTitle = document.getElementById("questions-title");
 
 let currentLang = "fr";
+let isTyping = false;
 let expanded = false;
 
-// Fonction message
-function addMessage(text, sender = "bot") {
+// Fonction d'affichage de message
+function addMessage(text, sender = "bot", animate = true) {
   const msg = document.createElement("div");
-  msg.className = sender === "user" ? "text-right" : "text-left";
-  msg.innerHTML = `<div class="inline-block px-3 py-2 rounded-xl ${sender === "user" ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-900'}">${text}</div>`;
+  msg.className = `${sender === "user" ? "text-right" : "text-left"} ${animate ? "message-fade-in" : ""}`;
+  
+  const bubble = document.createElement("div");
+  bubble.className = `inline-block px-4 py-2 rounded-2xl max-w-xs lg:max-w-md ${
+    sender === "user" 
+      ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white' 
+      : 'bg-white text-gray-900 border border-gray-200 shadow-sm'
+  }`;
+  bubble.style.whiteSpace = "pre-wrap";
+  bubble.textContent = text;
+  
+  msg.appendChild(bubble);
   messagesContainer.appendChild(msg);
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
-// Questions rapides avec Voir plus / Voir moins
+// Indicateur de frappe
+function showTypingIndicator() {
+  if (isTyping) return;
+  isTyping = true;
+  
+  const msg = document.createElement("div");
+  msg.className = "text-left typing-message";
+  msg.innerHTML = `
+    <div class="typing-indicator">
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    </div>
+  `;
+  messagesContainer.appendChild(msg);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  statusIndicator.textContent = translations[currentLang].typing;
+}
+
+function hideTypingIndicator() {
+  isTyping = false;
+  const typingMsg = document.querySelector(".typing-message");
+  if (typingMsg) typingMsg.remove();
+  statusIndicator.textContent = translations[currentLang].online;
+}
+
+// Recherche de réponse
+function findAnswer(question) {
+  const normalizedQuestion = question.toLowerCase()
+    .replace(/[àáâäã]/g, 'a')
+    .replace(/[èéêë]/g, 'e')
+    .replace(/[ìíîï]/g, 'i')
+    .replace(/[òóôöõ]/g, 'o')
+    .replace(/[ùúûü]/g, 'u')
+    .replace(/[ç]/g, 'c')
+    .replace(/[^a-z0-9\s]/g, '')
+    .trim();
+
+  const kb = knowledgeBase[currentLang];
+  
+  // Recherche exacte par correspondance de question
+  for (let key in kb) {
+    const normalizedKey = key.replace(/[^a-z0-9\s]/g, '').trim();
+    if (normalizedQuestion === normalizedKey) {
+      return kb[key];
+    }
+  }
+  
+  // Recherche par mots-clés
+  for (let key in kb) {
+    const keyWords = key.split(' ');
+    const questionWords = normalizedQuestion.split(' ');
+    const matches = keyWords.filter(kw => questionWords.some(qw => qw.includes(kw) || kw.includes(qw)));
+    if (matches.length >= 2) {
+      return kb[key];
+    }
+  }
+  
+  return kb[Object.keys(kb)[0]]; // Première réponse par défaut
+}
+
+// Traitement d'une question
+function handleQuestion(question) {
+  if (isTyping) return;
+  
+  // Ajouter message utilisateur
+  addMessage(question, "user");
+  
+  // Simuler délai de traitement
+  showTypingIndicator();
+  
+  setTimeout(() => {
+    hideTypingIndicator();
+    const response = findAnswer(question);
+    addMessage(response, "bot");
+  }, Math.random() * 1000 + 800);
+}
+
+// Mise à jour des questions rapides
 function updateQuickQuestions() {
   questionsContainer.innerHTML = "";
   questionsTitle.textContent = translations[currentLang].questionsTitle;
+  
   const questions = quickQuestions[currentLang];
-
   const visibleCount = expanded ? questions.length : 3;
   const visibleQuestions = questions.slice(0, visibleCount);
-
-  visibleQuestions.forEach((q, i) => {
-    const btn = document.createElement("button");
-    btn.className = "slide question-btn w-full text-left p-3 rounded-lg bg-white hover:bg-gray-50 text-sm";
-    btn.textContent = q;
-    btn.onclick = () => handleQuestion(q);
-    questionsContainer.appendChild(btn);
-
-    // animation progressive
-    setTimeout(() => { btn.classList.add("show"); }, i * 80);
+  
+  // Afficher les questions
+  visibleQuestions.forEach((question, index) => {
+    const button = document.createElement("button");
+    button.className = "question-btn w-full text-left p-3 rounded-lg bg-white hover:bg-gray-50 text-sm";
+    button.textContent = question;
+    button.onclick = () => handleQuestion(question);
+    questionsContainer.appendChild(button);
   });
-
+  
+  // Bouton Voir plus / Voir moins
   if (questions.length > 3) {
     const toggleButton = document.createElement("button");
-    toggleButton.className = "slide toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
-    toggleButton.innerText = expanded ? translations[currentLang].seeLess : translations[currentLang].seeMore;
+    toggleButton.className = "toggle-btn w-full p-2 text-center text-sm text-blue-600 hover:text-blue-700 font-medium";
+    toggleButton.textContent = expanded ? translations[currentLang].seeLess : translations[currentLang].seeMore;
     toggleButton.onclick = () => {
       expanded = !expanded;
       updateQuickQuestions();
     };
     questionsContainer.appendChild(toggleButton);
-
-    // animation du bouton
-    setTimeout(() => { toggleButton.classList.add("show"); }, visibleQuestions.length * 80);
   }
 }
 
-// Réponse IA
-function handleQuestion(question) {
-  addMessage(question, "user");
-  setTimeout(() => {
-    addMessage("L'IA appliquée à la performance financière optimise vos processus grâce aux algorithmes avancés.", "bot");
-  }, 500);
+// Fonction pour mettre à jour le drapeau
+function updateFlag(lang) {
+  const flagIcon = document.getElementById("flag-icon");
+  
+  const flags = {
+    fr: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+           <rect width="32" height="8" fill="#002395"/>
+           <rect width="32" height="8" y="8" fill="#FFFFFF"/>
+           <rect width="32" height="8" y="16" fill="#ED2939"/>
+         </svg>`,
+    en: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+           <rect width="32" height="24" fill="#012169"/>
+           <path d="M0 0L32 24M32 0L0 24" stroke="#FFFFFF" stroke-width="4"/>
+           <path d="M0 0L32 24M32 0L0 24" stroke="#C8102E" stroke-width="2.5"/>
+           <path d="M16 0V24M0 12H32" stroke="#FFFFFF" stroke-width="4"/>
+           <path d="M16 0V24M0 12H32" stroke="#C8102E" stroke-width="2.5"/>
+         </svg>`,
+    de: `<svg width="16" height="12" viewBox="0 0 32 24" xmlns="http://www.w3.org/2000/svg">
+           <rect width="32" height="8" fill="#000000"/>
+           <rect width="32" height="8" y="8" fill="#DD0000"/>
+           <rect width="32" height="8" y="16" fill="#FFCE00"/>
+         </svg>`
+  };
+  
+  flagIcon.innerHTML = flags[lang];
 }
 
 // Changement de langue
 langSelect.addEventListener("change", (e) => {
   currentLang = e.target.value;
-  expanded = false;
+  expanded = false; // Reset l'état des questions
+  
+  // Mise à jour du drapeau
+  updateFlag(currentLang);
+  
+  // Mise à jour de l'interface
+  statusIndicator.textContent = translations[currentLang].online;
+  
+  // Reset conversation
   messagesContainer.innerHTML = "";
-  addMessage(translations[currentLang].welcome, "bot");
+  addMessage(translations[currentLang].welcome, "bot", false);
+  
+  // Mise à jour des questions
   updateQuickQuestions();
 });
 
 // Initialisation
-addMessage(translations[currentLang].welcome, "bot");
-updateQuickQuestions();
+document.addEventListener("DOMContentLoaded", () => {
+  addMessage(translations[currentLang].welcome, "bot", false);
+  updateQuickQuestions();
+});
 </script>
 
 </body>
