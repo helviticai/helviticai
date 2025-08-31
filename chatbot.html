@@ -54,35 +54,23 @@
     <div id="faq-title" class="font-semibold mb-2 text-gray-700"></div>
     <div id="faq-quick" class="flex flex-wrap gap-2"></div>
   </div>
-
-  <!-- Formulaire -->
-  <form id="bot-form" class="border-t border-gray-200 p-3 flex">
-    <input id="bot-input" type="text" placeholder="Écrivez ici..."
-      class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-    <button class="ml-2 px-4 bg-blue-600 text-white rounded-lg">Envoyer</button>
-  </form>
 </div>
 
-<!-- Base de connaissances fusionnée -->
+<!-- Base de connaissances -->
 <script>
-// FAQ complète
 const faq = {
   fr: {
     "ia finance definition qu'est-ce": "L'IA appliquée à la performance financière ...",
     "avantages benefices ia epm finance": "Les avantages incluent : automatisation des processus ..."
-    // ... (toutes les autres entrées)
   },
   en: {
     "what ai finance definition artificial intelligence": "AI in financial performance uses advanced algorithms ..."
-    // ... (entrées anglaises)
   },
   de: {
     "was ist ki finanzen definition": "KI in der Finanzperformance nutzt fortgeschrittene Algorithmen ..."
-    // ... (entrées allemandes)
   }
 };
 
-// Questions rapides
 const quickQuestions = {
   fr: [
     "Qu'est-ce que l'IA en finance ?",
@@ -120,13 +108,12 @@ const quickQuestions = {
 <!-- Script principal -->
 <script>
 const messagesContainer = document.getElementById("chatbot-messages");
-const form = document.getElementById("bot-form");
-const input = document.getElementById("bot-input");
 const faqQuick = document.getElementById("faq-quick");
 const faqTitle = document.getElementById("faq-title");
 const langSelect = document.getElementById("lang-select");
 
 let currentLang = "fr";
+let expanded = false;
 
 // Fonction affichage message
 function addMessage(text, sender = "bot") {
@@ -153,19 +140,6 @@ function findAnswer(question) {
     : "Ich habe keine genaue Antwort, aber ich kann Ihnen bei KI und Finanzen helfen.";
 }
 
-// Envoi message utilisateur
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const text = input.value.trim();
-  if (!text) return;
-  addMessage(text, "user");
-  input.value = "";
-  setTimeout(() => {
-    const answer = findAnswer(text);
-    addMessage(answer, "bot");
-  }, 500);
-});
-
 // Fonction utilitaire bouton question rapide
 function addQuickQuestionButton(q) {
   const btn = document.createElement("button");
@@ -178,33 +152,45 @@ function addQuickQuestionButton(q) {
   faqQuick.appendChild(btn);
 }
 
-// Questions rapides limitées (3 + Voir plus)
+// Questions rapides
 function renderQuickQuestions() {
   faqQuick.innerHTML = "";
   faqTitle.textContent =
     currentLang === "fr" ? "Questions rapides" :
     currentLang === "en" ? "Quick questions" : "Schnellfragen";
 
-  // Affiche les 3 premières
-  const firstThree = quickQuestions[currentLang].slice(0, 3);
-  firstThree.forEach(q => addQuickQuestionButton(q));
+  let list = expanded ? quickQuestions[currentLang] : quickQuestions[currentLang].slice(0, 3);
+  list.forEach(q => addQuickQuestionButton(q));
 
-  // Bouton "Voir plus"
-  const moreBtn = document.createElement("button");
-  moreBtn.textContent =
-    currentLang === "fr" ? "Voir plus ▾" :
-    currentLang === "en" ? "See more ▾" : "Mehr anzeigen ▾";
-  moreBtn.className = "px-3 py-1 bg-blue-500 text-white rounded-full text-sm hover:bg-blue-600";
-  moreBtn.onclick = () => {
-    faqQuick.innerHTML = "";
-    quickQuestions[currentLang].forEach(q => addQuickQuestionButton(q));
+  const toggleBtn = document.createElement("button");
+  toggleBtn.textContent = expanded
+    ? (currentLang === "fr" ? "Voir moins ▴" : currentLang === "en" ? "See less ▴" : "Weniger anzeigen ▴")
+    : (currentLang === "fr" ? "Voir plus ▾" : currentLang === "en" ? "See more ▾" : "Mehr anzeigen ▾");
+  toggleBtn.className = "px-3 py-1 bg-blue-500 text-white rounded-full text-sm hover:bg-blue-600";
+  toggleBtn.onclick = () => {
+    expanded = !expanded;
+    renderQuickQuestions();
   };
-  faqQuick.appendChild(moreBtn);
+  faqQuick.appendChild(toggleBtn);
 }
 
 // Changement de langue
 langSelect.addEventListener("change", (e) => {
   currentLang = e.target.value;
+  expanded = false;
+
+  // Reset conversation
+  messagesContainer.innerHTML = "";
+
+  // Réaffiche bienvenue dans la bonne langue
+  if (currentLang === "fr") {
+    addMessage("Bonjour 👋 Je suis votre assistant IA. Posez-moi une question !");
+  } else if (currentLang === "en") {
+    addMessage("Hello 👋 I am your AI assistant. Ask me a question!");
+  } else {
+    addMessage("Hallo 👋 Ich bin Ihr KI-Assistent. Stellen Sie mir eine Frage!");
+  }
+
   renderQuickQuestions();
 });
 
