@@ -1,33 +1,40 @@
-<!-- Fenêtre du chatbot -->
-<div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-  <!-- Header avec sélecteur de langue + bouton fermer -->
-  <div class="gradient-bg text-white flex justify-between items-center p-4">
+<body class="bg-white text-sm">
+<!-- Fenêtre du chatbot -->
+<div id="chatbot-window" class="w-full h-screen bg-white rounded-lg shadow-lg flex flex-col">
+
+  <!-- Header -->
+  <div class="gradient-bg text-white flex justify-between items-center p-3 rounded-t-lg">
     <span class="font-bold">Helvitic AI</span>
 
-    <select id="lang-select" class="text-black rounded px-2 py-1">
-      <option value="fr">🇫🇷 FR</option>
-      <option value="en">🇬🇧 EN</option>
-      <option value="de">🇩🇪 DE</option>
-    </select>
-
-    <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold">✕</button>
+    <div class="flex items-center gap-2">
+      <select id="lang-select" class="text-black rounded px-2 py-1 text-xs">
+        <option value="fr">🇫🇷 FR</option>
+        <option value="en">🇬🇧 EN</option>
+        <option value="de">🇩🇪 DE</option>
+      </select>
+      <button onclick="parent.closeChatbot()" class="ml-2 text-lg font-bold hover:text-red-400">✕</button>
+    </div>
   </div>
 
   <!-- Messages -->
-  <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin"></div>
+  <div id="chatbot-messages" class="flex-1 overflow-y-auto p-3 space-y-3 scrollbar-thin bg-gray-50"></div>
 
-  <!-- FAQ rapide -->
-  <div id="faq-container" class="p-3 border-t bg-gray-50">
-    <div id="faq-title" class="font-semibold mb-2 text-gray-700"></div>
+  <!-- FAQ -->
+  <div id="faq-container" class="p-3 border-t bg-white">
+    <div id="faq-title" class="font-semibold mb-2 text-gray-600 text-sm"></div>
     <div id="faq-quick" class="flex flex-wrap gap-2"></div>
   </div>
 
-  <!-- Formulaire -->
-  <form id="bot-form" class="border-t border-gray-200 p-3 flex">
+  <!-- Input -->
+  <form id="bot-form" class="border-t p-3 flex bg-gray-50">
     <input id="bot-input" type="text" placeholder="Écrivez ici..." 
-           class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-    <button class="ml-2 px-4 bg-blue-600 text-white rounded-lg">Envoyer</button>
+           class="flex-1 px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <button class="ml-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Envoyer</button>
   </form>
 </div>
 
@@ -88,7 +95,7 @@ const faqData = {
   }
 };
 
-let currentLang = "fr"; // langue par défaut
+let currentLang = "fr"; 
 
 // Sélecteurs
 const botForm = document.getElementById("bot-form");
@@ -98,25 +105,25 @@ const langSelect = document.getElementById("lang-select");
 const faqQuick = document.getElementById("faq-quick");
 const faqTitle = document.getElementById("faq-title");
 
-// Fonction affichage message
+// Ajouter message
 function addMessage(sender, text) {
   const div = document.createElement("div");
   div.className = sender === "bot" 
-    ? "message-bot px-3 py-2 rounded-lg bg-gray-100" 
-    : "message-user px-3 py-2 rounded-lg text-right bg-blue-500 text-white";
+    ? "message-bot px-3 py-2 rounded-lg bg-gray-200 text-sm" 
+    : "message-user px-3 py-2 rounded-lg bg-blue-500 text-white text-sm text-right";
   div.innerHTML = `<strong>${sender==="bot"?"Bot":"Vous"}:</strong> ${text}`;
   botMessages.appendChild(div);
   botMessages.scrollTop = botMessages.scrollHeight;
 }
 
-// Message de bienvenue
+// Message d'accueil
 function showWelcomeMessage() {
   botMessages.innerHTML = "";
   addMessage("bot", responses[currentLang].welcome);
   loadFAQ();
 }
 
-// Réponses automatiques
+// Réponses auto
 function handleUserMessage(msg) {
   let reply = responses[currentLang].unknown;
   msg = msg.toLowerCase();
@@ -130,7 +137,7 @@ function handleUserMessage(msg) {
   addMessage("bot", reply);
 }
 
-// Formulaire
+// Soumission
 botForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const msg = botInput.value.trim();
@@ -140,16 +147,17 @@ botForm.addEventListener("submit", (e) => {
   handleUserMessage(msg);
 });
 
-// Charger FAQ
+// FAQ
 function loadFAQ() {
   faqQuick.innerHTML = "";
   faqTitle.textContent = faqData[currentLang].title;
 
   faqData[currentLang].questions.forEach(q => {
     const btn = document.createElement("button");
-    btn.className = "faq-btn px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-sm hover:bg-blue-200 transition";
+    btn.className = "px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs hover:bg-blue-200 transition";
     btn.innerText = q;
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
       addMessage("user", q);
       handleUserMessage(q);
     });
@@ -163,6 +171,7 @@ langSelect.addEventListener("change", () => {
   showWelcomeMessage();
 });
 
-// Lancer avec message d’accueil
+// Lancer
 showWelcomeMessage();
 </script>
+</body>
