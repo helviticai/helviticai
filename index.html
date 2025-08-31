@@ -611,11 +611,19 @@
 </div>
 
 </div>
+<!-- === Bulle flottante du chatbot === -->
+<div id="chatBubble"
+     onclick="openChatbot()"
+     style="position:fixed; bottom:20px; right:20px; width:60px; height:60px; 
+            background:#2563eb; border-radius:50%; display:flex; align-items:center; justify-content:center; 
+            box-shadow:0 4px 12px rgba(0,0,0,0.3); cursor:pointer; z-index:10000;">
+  🤖
+</div>
 
-<!-- === Iframe du chatbot === -->
+<!-- === Iframe du chatbot (cachée au départ) === -->
 <iframe id="chatbotFrame" src="chatbot.html"
-        style="border:none; position:fixed; bottom:20px; right:20px; 
-               width:350px; height:480px; z-index:9999; display:none;"
+        style="border:none; position:fixed; bottom:20px; right:20px; width:350px; height:480px; 
+               z-index:9999; display:none; border-radius:15px; box-shadow:0 4px 20px rgba(0,0,0,0.4);"
         title="HelveticBot"></iframe>
 
 <script>
@@ -626,14 +634,6 @@
     bubble.style.display = "none";
     chatbotFrame.style.display = "block";
   }
-
-  // Fermer depuis chatbot.html
-  window.addEventListener("message", (event) => {
-    if (event.data.action === "closeChatbot") {
-      chatbotFrame.style.display = "none";
-      bubble.style.display = "flex";
-    }
-  });
 </script>
 
 
