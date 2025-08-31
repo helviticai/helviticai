@@ -70,15 +70,12 @@ const faq = {
   fr: {
     "ia finance definition qu'est-ce": "L'IA appliquée à la performance financière ...",
     "avantages benefices ia epm finance": "Les avantages incluent : automatisation des processus ..."
-    // ... (toutes les autres entrées)
   },
   en: {
     "what ai finance definition artificial intelligence": "AI in financial performance uses advanced algorithms ..."
-    // ... (entrées anglaises)
   },
   de: {
     "was ist ki finanzen definition": "KI in der Finanzperformance nutzt fortgeschrittene Algorithmen ..."
-    // ... (entrées allemandes)
   }
 };
 
@@ -166,31 +163,7 @@ form.addEventListener("submit", (e) => {
   }, 500);
 });
 
-// Questions rapides
-function renderQuickQuestions() {
-  faqQuick.innerHTML = "";
-  faqTitle.textContent =
-    currentLang === "fr" ? "Questions rapides" :
-    currentLang === "en" ? "Quick questions" : "Schnellfragen";
-
-  // Montrer seulement les 3 premières questions
-  const questions = quickQuestions[currentLang].slice(0, 3);
-  questions.forEach(q => addQuickQuestionButton(q));
-
-  // Bouton "Voir plus"
-  const moreBtn = document.createElement("button");
-  moreBtn.textContent =
-    currentLang === "fr" ? "Voir plus ▾" :
-    currentLang === "en" ? "See more ▾" : "Mehr anzeigen ▾";
-  moreBtn.className = "px-3 py-1 bg-blue-500 text-white rounded-full text-sm hover:bg-blue-600";
-  moreBtn.onclick = () => {
-    faqQuick.innerHTML = "";
-    quickQuestions[currentLang].forEach(q => addQuickQuestionButton(q));
-  };
-  faqQuick.appendChild(moreBtn);
-}
-
-// Petite fonction utilitaire pour créer un bouton de question
+// Fonction utilitaire pour bouton question
 function addQuickQuestionButton(q) {
   const btn = document.createElement("button");
   btn.className = "px-3 py-1 bg-gray-200 rounded-full text-sm hover:bg-gray-300";
@@ -201,6 +174,29 @@ function addQuickQuestionButton(q) {
   };
   faqQuick.appendChild(btn);
 }
+
+// Questions rapides : 3 visibles + Voir plus
+function renderQuickQuestions() {
+  faqQuick.innerHTML = "";
+  faqTitle.textContent =
+    currentLang === "fr" ? "Questions rapides" :
+    currentLang === "en" ? "Quick questions" : "Schnellfragen";
+
+  // 3 premières
+  const questions = quickQuestions[currentLang].slice(0, 3);
+  questions.forEach(q => addQuickQuestionButton(q));
+
+  // Bouton voir plus
+  const moreBtn = document.createElement("button");
+  moreBtn.textContent =
+    currentLang === "fr" ? "Voir plus ▾" :
+    currentLang === "en" ? "See more ▾" : "Mehr anzeigen ▾";
+  moreBtn.className = "px-3 py-1 bg-blue-500 text-white rounded-full text-sm hover:bg-blue-600";
+  moreBtn.onclick = () => {
+    faqQuick.innerHTML = "";
+    quickQuestions[currentLang].forEach(q => addQuickQuestionButton(q));
+  };
+  faqQuick.appendChild(moreBtn);
 }
 
 // Changement de langue
