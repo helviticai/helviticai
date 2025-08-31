@@ -70,12 +70,15 @@ const faq = {
   fr: {
     "ia finance definition qu'est-ce": "L'IA appliquée à la performance financière ...",
     "avantages benefices ia epm finance": "Les avantages incluent : automatisation des processus ..."
+    // ... (toutes les autres entrées)
   },
   en: {
     "what ai finance definition artificial intelligence": "AI in financial performance uses advanced algorithms ..."
+    // ... (entrées anglaises)
   },
   de: {
     "was ist ki finanzen definition": "KI in der Finanzperformance nutzt fortgeschrittene Algorithmen ..."
+    // ... (entrées allemandes)
   }
 };
 
@@ -163,7 +166,7 @@ form.addEventListener("submit", (e) => {
   }, 500);
 });
 
-// Fonction utilitaire pour bouton question
+// Fonction utilitaire bouton question rapide
 function addQuickQuestionButton(q) {
   const btn = document.createElement("button");
   btn.className = "px-3 py-1 bg-gray-200 rounded-full text-sm hover:bg-gray-300";
@@ -175,18 +178,18 @@ function addQuickQuestionButton(q) {
   faqQuick.appendChild(btn);
 }
 
-// Questions rapides : 3 visibles + Voir plus
+// Questions rapides limitées (3 + Voir plus)
 function renderQuickQuestions() {
   faqQuick.innerHTML = "";
   faqTitle.textContent =
     currentLang === "fr" ? "Questions rapides" :
     currentLang === "en" ? "Quick questions" : "Schnellfragen";
 
-  // 3 premières
-  const questions = quickQuestions[currentLang].slice(0, 3);
-  questions.forEach(q => addQuickQuestionButton(q));
+  // Affiche les 3 premières
+  const firstThree = quickQuestions[currentLang].slice(0, 3);
+  firstThree.forEach(q => addQuickQuestionButton(q));
 
-  // Bouton voir plus
+  // Bouton "Voir plus"
   const moreBtn = document.createElement("button");
   moreBtn.textContent =
     currentLang === "fr" ? "Voir plus ▾" :
