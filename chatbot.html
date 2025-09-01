@@ -6,23 +6,6 @@
 <title>Helvetic AI Chatbot</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-  .chatbot-floating-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #d52b1e;
-    color: white;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    font-size: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    z-index: 9999;
-  }
   .chatbot-window {
     position: fixed;
     bottom: 90px;
@@ -31,7 +14,7 @@
     max-height: 80vh;
     background: white;
     border-radius: 16px;
-    display: none;
+    display: none; /* Masqué par défaut */
     flex-direction: column;
     box-shadow: 0 8px 20px rgba(0,0,0,0.25);
     overflow: hidden;
@@ -64,9 +47,6 @@
 <script src="faq.js"></script>
 </head>
 <body class="bg-gray-100">
-
-<!-- Bouton flottant -->
-<div id="chatbot-btn" class="chatbot-floating-btn">💬</div>
 
 <!-- Fenêtre chatbot -->
 <div id="chatbot-window" class="chatbot-window">
@@ -203,13 +183,6 @@ function updateLangFlags(){
   });
 }
 document.addEventListener("DOMContentLoaded", updateLangFlags);
-
-// Ouvrir/fermer widget
-const chatbotBtn=document.getElementById("chatbot-btn");
-const chatbotWindow=document.getElementById("chatbot-window");
-chatbotBtn.addEventListener("click",()=>{
-  chatbotWindow.style.display=chatbotWindow.style.display==="flex"?"none":"flex";
-});
 </script>
 </body>
 </html>
