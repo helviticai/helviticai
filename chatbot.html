@@ -1,52 +1,33 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Helvetic AI Chatbot</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body, html {
-      margin: 0;
-      padding: 0;
+    /* Empêche la page d’avoir une scrollbar */
+    html, body {
       height: 100%;
-    }
-    .chat-background {
-      background: url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80") no-repeat center center;
-      background-size: cover;
-      position: relative;
-    }
-    .chat-background::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255, 255, 255, 0.45);
-      backdrop-filter: blur(2px);
-      z-index: 0;
-    }
-    #chatbot-messages > div {
-      position: relative;
-      z-index: 1;
-    }
-    .message-bubble-bot {
-      background: #ffffff;
-      color: #1f2937;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      border-radius: 1rem;
-    }
-    .message-bubble-user {
-      background: #dc2626;
-      color: #ffffff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-      border-radius: 1rem;
-    }
-    .line-clamp-5 {
-      display: -webkit-box;
-      -webkit-line-clamp: 5;
-      -webkit-box-orient: vertical;
+      margin: 0;
       overflow: hidden;
     }
-    /* ✅ Barre de défilement personnalisée */
+
+    /* Le chatbot occupe tout l’écran */
+    #chatbot-window {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Zone des messages avec scroll */
+    #chatbot-messages {
+      overflow-y: auto;
+      scrollbar-gutter: stable;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Scrollbar personnalisée (WebKit : Chrome, Edge, Safari) */
     #chatbot-messages::-webkit-scrollbar {
       width: 8px;
     }
@@ -60,144 +41,165 @@
     #chatbot-messages::-webkit-scrollbar-thumb:hover {
       background-color: #6b7280;
     }
+
+    /* Scrollbar Firefox */
+    #chatbot-messages {
+      scrollbar-width: thin;
+      scrollbar-color: #9ca3af transparent;
+    }
+
+    /* Texte coupé avec bouton Lire plus */
+    .line-clamp-5 {
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Fond montagne */
+    .chat-background {
+      background: url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80") no-repeat center center;
+      background-size: cover;
+      position: relative;
+    }
+    .chat-background::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(3px);
+      z-index: 0;
+    }
+    #chatbot-messages > div { position: relative; z-index: 1; }
   </style>
 </head>
 <body>
-  <div id="chatbot-window" class="w-full h-screen flex flex-col relative overflow-hidden chat-background">
+  <div id="chatbot-window" class="w-full h-screen flex flex-col relative overflow-hidden">
+
     <!-- Header -->
-    <div class="bg-red-600 text-white flex justify-between items-center p-4 shadow-lg relative z-10">
-      <div class="flex items-center space-x-2">
-        <!-- 🇨🇭 Drapeau officiel -->
+    <div class="bg-red-600 text-white flex justify-between items-center p-4 shadow-2xl relative z-10">
+      <div class="flex items-center space-x-2 sm:space-x-4">
         <img src="Switzerland.svg" alt="Drapeau Suisse" class="w-7 h-7 rounded-sm shadow-md" />
-        <span class="font-bold text-lg">Helvetic AI</span>
+        <div class="min-w-0 flex-1">
+          <span class="font-bold text-base sm:text-lg">Helvetic AI</span>
+        </div>
       </div>
-      <select id="lang-select" class="text-gray-800 rounded-lg px-2 py-1 text-sm">
-        <option value="fr">FR</option>
-        <option value="en">EN</option>
-        <option value="de">DE</option>
-      </select>
+      <div>
+        <select id="lang-select" class="text-gray-800 rounded-lg px-3 py-2 text-xs sm:text-sm font-medium appearance-none pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-white/50">
+          <option value="fr">🇫🇷 FR</option>
+          <option value="en">🇬🇧 EN</option>
+          <option value="de">🇩🇪 DE</option>
+        </select>
+      </div>
     </div>
 
     <!-- Messages -->
-    <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+    <div id="chatbot-messages" class="flex-1 p-4 sm:p-6 space-y-3 sm:space-y-4 chat-background"></div>
 
-    <!-- Quick Questions -->
-    <div class="border-t border-gray-200 bg-white/80 backdrop-blur-sm p-4 relative z-10">
-      <div id="questions-container" class="space-y-2"></div>
-      <button id="toggle-questions" class="mt-3 text-indigo-600 text-sm underline">
-        Voir plus
-      </button>
+    <!-- Questions rapides -->
+    <div class="border-t border-gray-200 bg-white/80 backdrop-blur-sm p-4 sm:p-6">
+      <div class="text-xs sm:text-sm font-semibold text-gray-700 mb-3 sm:mb-4 flex items-center">
+        <svg class="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        Questions rapides :
+      </div>
+      <div id="questions-container" class="space-y-2 sm:space-y-3"></div>
+      <button id="toggle-questions" class="mt-2 text-indigo-600 text-xs underline">Voir plus</button>
     </div>
 
     <!-- Input -->
-    <div class="border-t border-gray-300 bg-white p-3 flex items-center space-x-2 relative z-10">
-      <input id="user-input" type="text" placeholder="Posez votre question..."
-        class="flex-1 p-2 border rounded-lg text-sm" />
-      <button onclick="handleUserInput()" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
-        Envoyer
-      </button>
+    <div class="border-t border-gray-300 bg-white p-3 flex items-center space-x-2">
+      <input id="user-input" type="text" placeholder="Posez votre question..." class="flex-1 p-2 border rounded-lg text-sm"/>
+      <button onclick="handleUserInput()" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Envoyer</button>
     </div>
   </div>
 
-  <!-- Import FAQ -->
-  <script src="faq.js"></script>
   <script>
-    let currentLang = "fr";
-    let conversationHistory = [];
-    let showAllQuestions = false;
-
-    const introTexts = {
-      fr: `✨ Helvetic AI – L’intelligence artificielle au service de la performance financière ✨
-
-Helvetic AI accompagne les directions financières dans leur transformation digitale.
-Notre ambition : mettre la puissance de l’intelligence artificielle et de l’Enterprise Performance Management (EPM) au service des décideurs.
-
-🔹 Une expertise unique : rigueur suisse + approche pragmatique.
-🔹 Des solutions concrètes : automatisation, analyse prédictive, optimisation budgétaire, pilotage de la performance.
-🔹 Un engagement fort : fiabilité, innovation maîtrisée, conformité réglementaire.
-
-👉 Avec Helvetic AI, la performance financière devient plus intelligente, plus rapide et plus sûre.`,
-      en: `✨ Helvetic AI – Artificial Intelligence at the service of financial performance ✨
-
-Helvetic AI supports CFOs in their digital transformation.
-Our ambition: leverage AI and Enterprise Performance Management (EPM) to turn data into a strategic lever.
-
-🔹 Unique expertise: Swiss precision + pragmatic, results-driven approach.
-🔹 Concrete solutions: automation, predictive analysis, budgeting optimization, performance management.
-🔹 Strong commitment: reliability, controlled innovation, compliance.
-
-👉 With Helvetic AI, financial performance becomes smarter, faster, safer.`,
-      de: `✨ Helvetic AI – Künstliche Intelligenz im Dienste der Finanzperformance ✨
-
-Helvetic AI begleitet Finanzdirektionen bei der digitalen Transformation.
-Unsere Mission: die Leistungsfähigkeit von KI und Enterprise Performance Management (EPM) als strategischen Hebel einsetzen.
-
-🔹 Einzigartige Expertise: Schweizer Präzision + pragmatischer Ansatz.
-🔹 Konkrete Lösungen: Automatisierung, prädiktive Analysen, Budgetoptimierung, Performance-Steuerung.
-🔹 Starkes Engagement: Zuverlässigkeit, kontrollierte Innovation, Compliance.
-
-👉 Mit Helvetic AI wird Finanzperformance intelligenter, schneller und sicherer.`
+    const quickQuestions = {
+      fr: ["Qu'est-ce que l'IA en finance ?", "Quels sont les avantages de l'IA pour l'EPM ?", "Comment intégrer l'IA dans mon système ?", "Helvetic AI garantit-elle la sécurité des données ?", "Puis-je demander une démo ?"],
+      en: ["What is AI in finance?", "What are the benefits of AI for EPM?", "How to integrate AI into my system?", "Does Helvetic AI ensure data security?", "Can I request a demo?"],
+      de: ["Was ist KI im Finanzwesen?", "Was sind die Vorteile von KI für EPM?", "Wie integriere ich KI in mein System?", "Garantiert Helvetic AI Datensicherheit?", "Kann ich eine Demo anfordern?"]
     };
 
-    function addMessage(text, sender = "bot", collapsible = false) {
+    const translations = {
+      fr: {
+        welcome: `✨ Helvetic AI – L’intelligence artificielle au service de la performance financière ✨
+
+Helvetic AI accompagne les directions financières dans leur transformation digitale.
+Notre ambition : mettre la puissance de l’intelligence artificielle et de l’Enterprise Performance Management (EPM) au service des décideurs, pour transformer la donnée en véritable levier stratégique.
+
+🔹 Une expertise unique : rigueur suisse + approche pragmatique et orientée résultats.
+🔹 Des solutions concrètes : automatisation des processus, analyse prédictive, optimisation budgétaire, pilotage de la performance.
+🔹 Un engagement fort : fiabilité opérationnelle, innovation maîtrisée, conformité réglementaire.
+
+👉 Avec Helvetic AI, la performance financière devient plus intelligente, plus rapide et plus sûre.`,
+        readMore: "Lire plus", readLess: "Lire moins"
+      },
+      en: {
+        welcome: `✨ Helvetic AI – Artificial Intelligence at the service of financial performance ✨
+
+Helvetic AI supports CFOs in their digital transformation, turning data into a real strategic lever through AI and EPM.
+
+🔹 Unique expertise: Swiss precision combined with pragmatic, results-oriented methods.
+🔹 Concrete solutions: automation, predictive analysis, budgeting optimization, performance management.
+🔹 Strong commitment: operational reliability, controlled innovation, full compliance.
+
+👉 With Helvetic AI, financial performance becomes smarter, faster and safer.`,
+        readMore: "Read more", readLess: "Read less"
+      },
+      de: {
+        welcome: `✨ Helvetic AI – Künstliche Intelligenz im Dienste der Finanzperformance ✨
+
+Helvetic AI begleitet Finanzdirektionen bei der digitalen Transformation und macht Daten dank KI und EPM zu einem echten strategischen Hebel.
+
+🔹 Einzigartige Expertise: Schweizer Präzision + pragmatische, ergebnisorientierte Ansätze.
+🔹 Konkrete Lösungen: Automatisierung, prädiktive Analysen, Budgetoptimierung, Performance-Steuerung.
+🔹 Starkes Engagement: operative Zuverlässigkeit, kontrollierte Innovation, volle Compliance.
+
+👉 Mit Helvetic AI wird die Finanzperformance intelligenter, schneller und sicherer.`,
+        readMore: "Mehr lesen", readLess: "Weniger lesen"
+      }
+    };
+
+    let currentLang = "fr", conversationHistory = [];
+    let showAllQuestions = false;
+
+    function addMessage(text, sender="bot", collapsible=false) {
       const wrapper = document.createElement("div");
       wrapper.className = sender === "user" ? "text-right" : "text-left";
 
       const bubble = document.createElement("div");
-      bubble.className =
-        sender === "user"
-          ? "inline-block px-4 py-3 max-w-xs lg:max-w-md text-sm font-medium message-bubble-user"
-          : "inline-block px-4 py-3 max-w-xs lg:max-w-md text-sm font-medium message-bubble-bot whitespace-pre-line";
+      bubble.className = sender === "user"
+        ? "inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium bg-red-600 text-white"
+        : "inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium bg-white/90 text-gray-800 whitespace-pre-line";
 
       if (collapsible) {
         bubble.innerHTML = `
-          <div class="line-clamp-5" id="msg-${conversationHistory.length}">
-            ${text}
-          </div>
-          <button class="mt-2 text-indigo-600 text-xs underline toggle-btn">
-            ${currentLang === "fr" ? "Lire plus" : currentLang === "en" ? "Read more" : "Mehr lesen"}
-          </button>
+          <div class="line-clamp-5" id="msg-${conversationHistory.length}">${text}</div>
+          <button class="mt-2 text-indigo-600 text-xs underline toggle-btn">${translations[currentLang].readMore}</button>
         `;
+        setTimeout(() => {
+          const btn = bubble.querySelector(".toggle-btn");
+          const content = bubble.querySelector(`#msg-${conversationHistory.length}`);
+          btn.addEventListener("click", () => {
+            if (content.classList.contains("line-clamp-5")) {
+              content.classList.remove("line-clamp-5");
+              btn.textContent = translations[currentLang].readLess;
+            } else {
+              content.classList.add("line-clamp-5");
+              btn.textContent = translations[currentLang].readMore;
+            }
+          });
+        }, 50);
       } else {
         bubble.textContent = text;
       }
 
       wrapper.appendChild(bubble);
       document.getElementById("chatbot-messages").appendChild(wrapper);
-      document.getElementById("chatbot-messages").scrollTop =
-        document.getElementById("chatbot-messages").scrollHeight;
-
-      conversationHistory.push({ sender, text, time: new Date().toISOString() });
-
-      if (collapsible) {
-        const btn = bubble.querySelector(".toggle-btn");
-        const content = bubble.querySelector(`#msg-${conversationHistory.length - 1}`);
-        btn.addEventListener("click", () => {
-          if (content.classList.contains("line-clamp-5")) {
-            content.classList.remove("line-clamp-5");
-            btn.textContent = currentLang === "fr" ? "Lire moins" : currentLang === "en" ? "Read less" : "Weniger lesen";
-          } else {
-            content.classList.add("line-clamp-5");
-            btn.textContent = currentLang === "fr" ? "Lire plus" : currentLang === "en" ? "Read more" : "Mehr lesen";
-          }
-        });
-      }
-    }
-
-    function getAnswer(userInput) {
-      const db = faq[currentLang];
-      const query = userInput.toLowerCase();
-      for (const key in db) {
-        const keywords = key.split(" ");
-        if (keywords.some(word => query.includes(word))) {
-          return db[key];
-        }
-      }
-      return currentLang === "fr"
-        ? "Désolé, je n’ai pas encore de réponse pour ça."
-        : currentLang === "en"
-        ? "Sorry, I don’t have an answer for that yet."
-        : "Entschuldigung, ich habe dafür noch keine Antwort.";
+      document.getElementById("chatbot-messages").scrollTop = document.getElementById("chatbot-messages").scrollHeight;
+      conversationHistory.push({sender, text, time: new Date().toISOString()});
     }
 
     function handleUserInput() {
@@ -209,51 +211,47 @@ Unsere Mission: die Leistungsfähigkeit von KI und Enterprise Performance Manage
       input.value = "";
 
       setTimeout(() => {
-        const answer = getAnswer(question);
-        addMessage(answer, "bot", answer.length > 150);
-      }, 600);
+        const answer = "Désolé, je n’ai pas encore de réponse pour ça.";
+        addMessage(answer, "bot");
+      }, 800);
     }
 
     function updateQuickQuestions() {
       const container = document.getElementById("questions-container");
       container.innerHTML = "";
+      const list = showAllQuestions ? quickQuestions[currentLang] : quickQuestions[currentLang].slice(0,3);
 
-      const questions = quickQuestions[currentLang];
-      const limit = showAllQuestions ? questions.length : 3;
-
-      questions.slice(0, limit).forEach(q => {
+      list.forEach(q => {
         const btn = document.createElement("button");
-        btn.className =
-          "w-full text-left p-2 rounded-lg text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200";
+        btn.className = "question-btn w-full text-left p-3 rounded-xl text-sm font-medium text-gray-700 bg-white/70 hover:bg-white";
         btn.textContent = q;
         btn.onclick = () => {
           addMessage(q, "user");
-          setTimeout(() => addMessage(getAnswer(q), "bot"), 600);
+          setTimeout(() => addMessage("Réponse bientôt disponible.", "bot"), 800);
         };
         container.appendChild(btn);
       });
 
-      document.getElementById("toggle-questions").textContent =
-        showAllQuestions
-          ? currentLang === "fr" ? "Voir moins" : currentLang === "en" ? "See less" : "Weniger sehen"
-          : currentLang === "fr" ? "Voir plus" : currentLang === "en" ? "See more" : "Mehr sehen";
+      document.getElementById("toggle-questions").textContent = showAllQuestions
+        ? (currentLang === "fr" ? "Voir moins" : currentLang === "en" ? "Show less" : "Weniger anzeigen")
+        : (currentLang === "fr" ? "Voir plus" : currentLang === "en" ? "Show more" : "Mehr anzeigen");
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      addMessage(introTexts[currentLang], "bot", true);
+      addMessage(translations[currentLang].welcome, "bot", true);
       updateQuickQuestions();
+
+      document.getElementById("toggle-questions").addEventListener("click", () => {
+        showAllQuestions = !showAllQuestions;
+        updateQuickQuestions();
+      });
     });
 
     document.getElementById("lang-select").addEventListener("change", e => {
       currentLang = e.target.value;
       document.getElementById("chatbot-messages").innerHTML = "";
       conversationHistory = [];
-      addMessage(introTexts[currentLang], "bot", true);
-      updateQuickQuestions();
-    });
-
-    document.getElementById("toggle-questions").addEventListener("click", () => {
-      showAllQuestions = !showAllQuestions;
+      addMessage(translations[currentLang].welcome, "bot", true);
       updateQuickQuestions();
     });
   </script>
