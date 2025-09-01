@@ -18,6 +18,14 @@
   }
   .dropdown-content button:hover { background: #f3f4f6; }
   .dropdown.show .dropdown-content { display: block; }
+
+  /* Coupe le message après 5 lignes */
+  .line-clamp-5 {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 </style>
 </head>
 <body>
@@ -103,7 +111,9 @@ Notre ambition : mettre la puissance de l’intelligence artificielle et de l’
 🔹 Un engagement fort : fiabilité opérationnelle, innovation maîtrisée, conformité réglementaire.
 
 👉 Avec Helvetic AI, la performance financière devient plus intelligente, plus rapide et plus sûre.`,
-    online: "En ligne" 
+    online: "En ligne",
+    readMore: "Lire plus",
+    readLess: "Lire moins"
   },
   en: { 
     welcome: `✨ Helvetic AI – Artificial Intelligence at the service of financial performance ✨
@@ -115,7 +125,9 @@ Helvetic AI supports CFOs in their digital transformation, turning data into a r
 🔹 Strong commitment: operational reliability, controlled innovation, full compliance.
 
 👉 With Helvetic AI, financial performance becomes smarter, faster and safer.`,
-    online: "Online" 
+    online: "Online",
+    readMore: "Read more",
+    readLess: "Read less"
   },
   de: { 
     welcome: `✨ Helvetic AI – Künstliche Intelligenz im Dienste der Finanzperformance ✨
@@ -127,7 +139,9 @@ Helvetic AI begleitet Finanzdirektionen bei der digitalen Transformation und mac
 🔹 Starkes Engagement: operative Zuverlässigkeit, kontrollierte Innovation, volle Compliance.
 
 👉 Mit Helvetic AI wird die Finanzperformance intelligenter, schneller und sicherer.`,
-    online: "Online" 
+    online: "Online",
+    readMore: "Mehr lesen",
+    readLess: "Weniger lesen"
   }
 };
 
@@ -146,19 +160,46 @@ let conversationHistory = [];
 /* ==========================
    FONCTIONS
    ========================== */
-function addMessage(text, sender = "bot") {
+function addMessage(text, sender = "bot", isWelcome = false) {
   const msg = document.createElement("div");
   msg.className = sender === "user" ? "text-right" : "text-left";
+
   const bubble = document.createElement("div");
   bubble.className = sender === "user"
     ? "inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-user text-white"
     : "inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-bot text-gray-800 whitespace-pre-line";
-  bubble.textContent = text;
+
+  if (isWelcome) {
+    bubble.innerHTML = `
+      <div id="welcome-preview" class="line-clamp-5">${text}</div>
+      <button id="toggleWelcome" class="mt-2 text-indigo-600 text-xs underline">
+        ${translations[currentLang].readMore}
+      </button>
+    `;
+
+    setTimeout(() => {
+      const btn = document.getElementById("toggleWelcome");
+      const preview = document.getElementById("welcome-preview");
+      btn.addEventListener("click", () => {
+        if (btn.textContent === translations[currentLang].readMore) {
+          preview.classList.remove("line-clamp-5");
+          btn.textContent = translations[currentLang].readLess;
+        } else {
+          preview.classList.add("line-clamp-5");
+          btn.textContent = translations[currentLang].readMore;
+        }
+      });
+    }, 50);
+  } else {
+    bubble.textContent = text;
+  }
+
   msg.appendChild(bubble);
   document.getElementById("chatbot-messages").appendChild(msg);
   document.getElementById("chatbot-messages").scrollTop = document.getElementById("chatbot-messages").scrollHeight;
   conversationHistory.push({ sender, text, time: new Date().toISOString() });
 }
+
 function handleUserInput() {
   const inputEl = document.getElementById("user-input");
   const input = inputEl.value.trim();
@@ -170,6 +211,7 @@ function handleUserInput() {
     addMessage(response, "bot");
   }, 800);
 }
+
 function updateQuickQuestions() {
   const container = document.getElementById("questions-container");
   container.innerHTML = "";
@@ -181,6 +223,7 @@ function updateQuickQuestions() {
     container.appendChild(btn);
   });
 }
+
 function exportConversation(format = "txt") {
   if (conversationHistory.length === 0) return alert("Aucune conversation à exporter.");
   let content, blob, filename;
@@ -199,6 +242,7 @@ function exportConversation(format = "txt") {
   link.click();
   document.getElementById("exportDropdown").classList.remove("show");
 }
+
 function toggleDropdown() {
   document.getElementById("exportDropdown").classList.toggle("show");
 }
@@ -207,17 +251,19 @@ function toggleDropdown() {
    INIT
    ========================== */
 document.addEventListener("DOMContentLoaded", () => {
-addMessage(translations[currentLang].welcome, "bot", true);
+  addMessage(translations[currentLang].welcome, "bot", true);
   updateQuickQuestions();
 });
+
 document.getElementById("lang-select").addEventListener("change", (e) => {
   currentLang = e.target.value;
   document.getElementById("status-indicator").textContent = translations[currentLang].online;
   document.getElementById("chatbot-messages").innerHTML = "";
   conversationHistory = [];
-  addMessage(translations[currentLang].welcome, "bot");
+  addMessage(translations[currentLang].welcome, "bot", true);
   updateQuickQuestions();
 });
+
 window.addEventListener("click", (e) => {
   if (!e.target.closest("#exportDropdown")) {
     document.getElementById("exportDropdown").classList.remove("show");
