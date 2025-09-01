@@ -20,7 +20,7 @@
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255, 255, 255, 0.45); /* 👈 voile léger pour voir les montagnes */
+      background: rgba(255, 255, 255, 0.45);
       backdrop-filter: blur(2px);
       z-index: 0;
     }
@@ -35,7 +35,7 @@
       border-radius: 1rem;
     }
     .message-bubble-user {
-      background: #dc2626; /* rouge suisse */
+      background: #dc2626;
       color: #ffffff;
       box-shadow: 0 2px 6px rgba(0,0,0,0.15);
       border-radius: 1rem;
@@ -46,24 +46,20 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    /* Barre de défilement personnalisée */
-#chatbot-messages::-webkit-scrollbar {
-  width: 8px;              /* largeur fine */
-}
-
-#chatbot-messages::-webkit-scrollbar-track {
-  background: transparent; /* fond invisible */
-}
-
-#chatbot-messages::-webkit-scrollbar-thumb {
-  background-color: #9ca3af; /* gris moyen */
-  border-radius: 10px;       /* arrondi */
-}
-
-#chatbot-messages::-webkit-scrollbar-thumb:hover {
-  background-color: #6b7280; /* gris foncé au survol */
-}
-
+    /* ✅ Barre de défilement personnalisée */
+    #chatbot-messages::-webkit-scrollbar {
+      width: 8px;
+    }
+    #chatbot-messages::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    #chatbot-messages::-webkit-scrollbar-thumb {
+      background-color: #9ca3af;
+      border-radius: 10px;
+    }
+    #chatbot-messages::-webkit-scrollbar-thumb:hover {
+      background-color: #6b7280;
+    }
   </style>
 </head>
 <body>
@@ -71,7 +67,7 @@
     <!-- Header -->
     <div class="bg-red-600 text-white flex justify-between items-center p-4 shadow-lg relative z-10">
       <div class="flex items-center space-x-2">
-        <!-- 🇨🇭 Drapeau officiel (ton fichier Switzerland.svg) -->
+        <!-- 🇨🇭 Drapeau officiel -->
         <img src="Switzerland.svg" alt="Drapeau Suisse" class="w-7 h-7 rounded-sm shadow-md" />
         <span class="font-bold text-lg">Helvetic AI</span>
       </div>
