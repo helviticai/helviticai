@@ -1,93 +1,111 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Chatbot – Helvetic AI</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot Helvetic AI</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body { font-family: sans-serif; }
-    .lang { display:none; }
-    .lang.active { display:block; }
-    .flag { width:28px; height:20px; border-radius:3px; cursor:pointer; }
-    .msg { padding:8px 12px; margin:6px; border-radius:12px; max-width:80%; }
-    .user { background:#2563eb; color:white; align-self:flex-end; }
-    .bot { background:#f1f5f9; color:#111; align-self:flex-start; }
-  </style>
-  <script src="faq.js"></script>
 </head>
-<body class="bg-white h-full flex flex-col">
+<body class="bg-gray-50 h-screen flex flex-col">
 
-  <!-- HEADER -->
-  <header class="bg-blue-600 text-white px-4 py-2 flex justify-between items-center">
-    <span class="font-semibold">🤖 Helvetic AI</span>
-    <div class="flex gap-2">
-      <img src="https://flagcdn.com/w20/fr.png" alt="FR" class="flag" onclick="setLang('fr')">
-      <img src="https://flagcdn.com/w20/gb.png" alt="EN" class="flag" onclick="setLang('en')">
-      <img src="https://flagcdn.com/w20/de.png" alt="DE" class="flag" onclick="setLang('de')">
-    </div>
-  </header>
+  <!-- Zone de chat -->
+  <div id="chat" class="flex-1 overflow-y-auto p-4 flex flex-col space-y-2"></div>
 
-  <!-- CHAT -->
-  <main id="chat" class="flex-1 overflow-y-auto p-4 flex flex-col"></main>
-
-  <!-- INPUT -->
-  <form id="chat-form" class="p-3 border-t flex gap-2">
-    <input id="user-input" type="text" placeholder="Écrivez un message..." 
-           class="flex-1 border rounded-lg px-3 py-2" required />
-    <button class="bg-blue-600 text-white px-4 rounded-lg">➤</button>
-  </form>
+  <!-- Barre de saisie -->
+  <div class="p-3 border-t bg-white flex items-center gap-2">
+    <input id="userInput" 
+           type="text" 
+           placeholder="Écrivez votre message..." 
+           class="flex-1 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+    <button id="sendBtn" 
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+      ➤
+    </button>
+  </div>
 
 <script>
-let currentLang = localStorage.getItem("chatbot_lang") || "fr";
+let currentLang = localStorage.getItem("helveticai_lang") || "fr"; 
 
-// Gestion des langues
-function setLang(lang){
-  currentLang = lang;
-  localStorage.setItem("chatbot_lang", lang);
-  document.querySelectorAll(".lang").forEach(el => el.classList.remove("active"));
-  document.querySelectorAll("."+lang).forEach(el => el.classList.add("active"));
-}
-
-// Affiche un message
-function addMessage(text, sender){
+// Fonction pour ajouter un message
+function addMessage(text, sender="bot") {
   const chat = document.getElementById("chat");
   const msg = document.createElement("div");
-  msg.className = "msg "+sender;
+  msg.className = sender === "bot" 
+    ? "self-start bg-blue-100 text-gray-800 p-3 rounded-lg max-w-[80%]" 
+    : "self-end bg-gray-200 text-gray-800 p-3 rounded-lg max-w-[80%]";
   msg.textContent = text;
   chat.appendChild(msg);
   chat.scrollTop = chat.scrollHeight;
 }
 
-// Réponse depuis FAQ
-function getAnswer(question){
-  const lower = question.toLowerCase();
-  const entry = faq[currentLang].find(f => lower.includes(f.q.toLowerCase()));
-  return entry ? entry.a : {
-    fr: "Je n’ai pas compris, pourriez-vous préciser ?",
-    en: "I didn’t understand, could you clarify?",
-    de: "Ich habe das nicht verstanden, könnten Sie präzisieren?"
-  }[currentLang];
-}
+// Messages d’introduction
+const introMessage = {
+  fr: "👋 Bonjour et bienvenue chez Helvetic AI ! Nous sommes une société suisse spécialisée dans l’IA appliquée à la finance. Souhaitez-vous découvrir nos solutions ?",
+  en: "👋 Hello and welcome to Helvetic AI! We are a Swiss company specialized in AI applied to finance. Would you like to discover our solutions?",
+  de: "👋 Hallo und willkommen bei Helvetic AI! Wir sind ein Schweizer Unternehmen, das auf KI im Finanzwesen spezialisiert ist. Möchten Sie unsere Lösungen entdecken?"
+};
 
-// Gestion formulaire
-document.getElementById("chat-form").addEventListener("submit", e => {
-  e.preventDefault();
-  const input = document.getElementById("user-input");
-  const text = input.value.trim();
-  if(!text) return;
-  addMessage(text, "user");
-  input.value = "";
-  setTimeout(() => addMessage(getAnswer(text), "bot"), 500);
+// Message de bienvenue
+window.addEventListener("DOMContentLoaded", () => {
+  addMessage(introMessage[currentLang], "bot");
 });
 
-// Init
-setLang(currentLang);
-addMessage({
-  fr:"Bonjour 👋, je suis le chatbot Helvetic AI. Comment puis-je vous aider ?",
-  en:"Hello 👋, I’m Helvetic AI’s chatbot. How can I help you?",
-  de:"Hallo 👋, ich bin der Helvetic AI Chatbot. Wie kann ich Ihnen helfen?"
-}[currentLang], "bot");
+// FAQ enrichie
+const faq = {
+  fr: {
+    "mission": "Notre mission est de transformer la finance grâce à l’IA, avec des solutions fiables et utiles adaptées aux directions financières.",
+    "expertises": "Nos expertises couvrent la prévision, l’automatisation des processus, l’aide à la décision et les solutions EPM.",
+    "méthodologie": "Nous travaillons en 3 étapes : analyse de vos besoins, mise en place de solutions IA adaptées et suivi continu.",
+    "identité": "Notre identité suisse repose sur la fiabilité, la précision, la sécurité et l’innovation.",
+    "contact": "📧 Vous pouvez nous écrire à contact@helveticai.ch ou nous appeler au +41 22 123 45 67."
+  },
+  en: {
+    "mission": "Our mission is to transform finance through AI, with reliable and useful solutions tailored to finance departments.",
+    "expertises": "Our expertise covers forecasting, process automation, decision support, and EPM solutions.",
+    "méthodologie": "We work in 3 steps: analyzing your needs, implementing tailored AI solutions, and continuous monitoring.",
+    "identité": "Our Swiss identity is based on reliability, precision, security, and innovation.",
+    "contact": "📧 You can write to us at contact@helveticai.ch or call us at +41 22 123 45 67."
+  },
+  de: {
+    "mission": "Unsere Mission ist es, Finanzen mit KI zu transformieren – mit zuverlässigen und nützlichen Lösungen für Finanzabteilungen.",
+    "expertises": "Unsere Kompetenzen umfassen Prognosen, Prozessautomatisierung, Entscheidungsunterstützung und EPM-Lösungen.",
+    "méthodologie": "Wir arbeiten in 3 Schritten: Bedarfsanalyse, Einführung von maßgeschneiderten KI-Lösungen und kontinuierliche Betreuung.",
+    "identité": "Unsere Schweizer Identität basiert auf Zuverlässigkeit, Präzision, Sicherheit und Innovation.",
+    "contact": "📧 Sie können uns unter contact@helveticai.ch schreiben oder uns unter +41 22 123 45 67 anrufen."
+  }
+};
+
+// Gestion de l’envoi
+document.getElementById("sendBtn").addEventListener("click", sendMessage);
+document.getElementById("userInput").addEventListener("keypress", (e) => {
+  if (e.key === "Enter") sendMessage();
+});
+
+function sendMessage() {
+  const input = document.getElementById("userInput");
+  const text = input.value.trim();
+  if (!text) return;
+  addMessage(text, "user");
+  input.value = "";
+
+  const langFaq = faq[currentLang];
+  let response = null;
+
+  // Vérifie les mots-clés
+  if (/mission/i.test(text)) response = langFaq["mission"];
+  if (/expertise|solution/i.test(text)) response = langFaq["expertises"];
+  if (/method/i.test(text) || /méthodologie/i.test(text)) response = langFaq["méthodologie"];
+  if (/identité|identity/i.test(text)) response = langFaq["identité"];
+  if (/contact|email|téléphone/i.test(text)) response = langFaq["contact"];
+
+  // Réponse
+  if (response) {
+    setTimeout(() => addMessage(response, "bot"), 500);
+  } else {
+    setTimeout(() => addMessage("🤖 Je note votre question, un conseiller vous répondra bientôt.", "bot"), 500);
+  }
+}
 </script>
+
 </body>
 </html>
