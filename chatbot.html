@@ -1,111 +1,143 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chatbot Helvetic AI</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Helvetic AI Chatbot</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  .chatbot-window {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 350px;
+    max-height: 80vh;
+    background: white;
+    border-radius: 16px;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    overflow: hidden;
+    z-index: 9998;
+  }
+  .chat-background {
+    background: url("mountains.svg") no-repeat center center;
+    background-size: cover;
+    position: relative;
+  }
+  .chat-background::before {
+    content: "";
+    position: absolute;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(3px);
+    z-index: 0;
+  }
+  #chatbot-messages > div {
+    position: relative;
+    z-index: 1;
+  }
+</style>
+<script src="faq.js"></script>
 </head>
-<body class="bg-gray-50 h-screen flex flex-col">
+<body class="bg-gray-100">
 
-  <!-- Zone de chat -->
-  <div id="chat" class="flex-1 overflow-y-auto p-4 flex flex-col space-y-2"></div>
-
-  <!-- Barre de saisie -->
-  <div class="p-3 border-t bg-white flex items-center gap-2">
-    <input id="userInput" 
-           type="text" 
-           placeholder="Écrivez votre message..." 
-           class="flex-1 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-    <button id="sendBtn" 
-            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-      ➤
-    </button>
+<!-- Fenêtre chatbot -->
+<div id="chatbot-window" class="chatbot-window">
+  <!-- Header -->
+  <div class="bg-red-600 text-white flex justify-between items-center p-3">
+    <div class="flex items-center space-x-2">
+      <img src="flags/switzerland.svg" alt="Swiss Flag" class="w-6 h-6 rounded">
+      <span class="font-bold">Helvetic AI</span>
+    </div>
+    <div class="relative">
+      <select id="lang-select" class="appearance-none text-gray-800 rounded-lg px-3 py-1 text-xs font-medium pr-6 focus:outline-none">
+        <option value="fr" data-flag="flags/france.svg">Français</option>
+        <option value="en" data-flag="flags/uk.svg">English</option>
+        <option value="de" data-flag="flags/germany.svg">Deutsch</option>
+      </select>
+    </div>
   </div>
 
+  <!-- Messages -->
+  <div id="chatbot-messages" class="flex-1 overflow-y-auto p-3 space-y-2 chat-background"></div>
+
+  <!-- Questions rapides -->
+  <div class="border-t border-gray-200 bg-white/80 backdrop-blur-sm p-3">
+    <div class="text-xs font-semibold text-gray-700 mb-2">❓ Questions rapides :</div>
+    <div id="questions-container" class="flex flex-wrap gap-2"></div>
+  </div>
+
+  <!-- Input -->
+  <div class="border-t border-gray-300 bg-white p-2 flex items-center space-x-2">
+    <input id="user-input" type="text" placeholder="Posez votre question..." class="flex-1 p-2 border rounded-lg text-sm"/>
+    <button onclick="handleUserInput()" class="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm">Envoyer</button>
+  </div>
+</div>
+
 <script>
-let currentLang = localStorage.getItem("helveticai_lang") || "fr"; 
+let currentLang="fr", conversationHistory=[];
 
-// Fonction pour ajouter un message
-function addMessage(text, sender="bot") {
-  const chat = document.getElementById("chat");
-  const msg = document.createElement("div");
-  msg.className = sender === "bot" 
-    ? "self-start bg-blue-100 text-gray-800 p-3 rounded-lg max-w-[80%]" 
-    : "self-end bg-gray-200 text-gray-800 p-3 rounded-lg max-w-[80%]";
-  msg.textContent = text;
-  chat.appendChild(msg);
-  chat.scrollTop = chat.scrollHeight;
+// Ajoute un message
+function addMessage(text, sender="bot"){
+  const wrapper=document.createElement("div");
+  wrapper.className=sender==="user"?"text-right":"text-left";
+  const bubble=document.createElement("div");
+
+  if(sender==="user"){
+    bubble.className="inline-block px-3 py-2 rounded-2xl max-w-xs text-sm font-medium bg-red-600 text-white";
+  }else{
+    bubble.className="inline-block px-3 py-2 rounded-2xl max-w-xs text-sm font-medium bg-white/90 text-gray-800 whitespace-pre-line";
+  }
+
+  bubble.textContent=text;
+  wrapper.appendChild(bubble);
+  document.getElementById("chatbot-messages").appendChild(wrapper);
+  document.getElementById("chatbot-messages").scrollTop=document.getElementById("chatbot-messages").scrollHeight;
+  conversationHistory.push({sender,text,time:new Date().toISOString()});
 }
 
-// Messages d’introduction
-const introMessage = {
-  fr: "👋 Bonjour et bienvenue chez Helvetic AI ! Nous sommes une société suisse spécialisée dans l’IA appliquée à la finance. Souhaitez-vous découvrir nos solutions ?",
-  en: "👋 Hello and welcome to Helvetic AI! We are a Swiss company specialized in AI applied to finance. Would you like to discover our solutions?",
-  de: "👋 Hallo und willkommen bei Helvetic AI! Wir sind ein Schweizer Unternehmen, das auf KI im Finanzwesen spezialisiert ist. Möchten Sie unsere Lösungen entdecken?"
-};
-
-// Message de bienvenue
-window.addEventListener("DOMContentLoaded", () => {
-  addMessage(introMessage[currentLang], "bot");
-});
-
-// FAQ enrichie
-const faq = {
-  fr: {
-    "mission": "Notre mission est de transformer la finance grâce à l’IA, avec des solutions fiables et utiles adaptées aux directions financières.",
-    "expertises": "Nos expertises couvrent la prévision, l’automatisation des processus, l’aide à la décision et les solutions EPM.",
-    "méthodologie": "Nous travaillons en 3 étapes : analyse de vos besoins, mise en place de solutions IA adaptées et suivi continu.",
-    "identité": "Notre identité suisse repose sur la fiabilité, la précision, la sécurité et l’innovation.",
-    "contact": "📧 Vous pouvez nous écrire à contact@helveticai.ch ou nous appeler au +41 22 123 45 67."
-  },
-  en: {
-    "mission": "Our mission is to transform finance through AI, with reliable and useful solutions tailored to finance departments.",
-    "expertises": "Our expertise covers forecasting, process automation, decision support, and EPM solutions.",
-    "méthodologie": "We work in 3 steps: analyzing your needs, implementing tailored AI solutions, and continuous monitoring.",
-    "identité": "Our Swiss identity is based on reliability, precision, security, and innovation.",
-    "contact": "📧 You can write to us at contact@helveticai.ch or call us at +41 22 123 45 67."
-  },
-  de: {
-    "mission": "Unsere Mission ist es, Finanzen mit KI zu transformieren – mit zuverlässigen und nützlichen Lösungen für Finanzabteilungen.",
-    "expertises": "Unsere Kompetenzen umfassen Prognosen, Prozessautomatisierung, Entscheidungsunterstützung und EPM-Lösungen.",
-    "méthodologie": "Wir arbeiten in 3 Schritten: Bedarfsanalyse, Einführung von maßgeschneiderten KI-Lösungen und kontinuierliche Betreuung.",
-    "identité": "Unsere Schweizer Identität basiert auf Zuverlässigkeit, Präzision, Sicherheit und Innovation.",
-    "contact": "📧 Sie können uns unter contact@helveticai.ch schreiben oder uns unter +41 22 123 45 67 anrufen."
-  }
-};
-
-// Gestion de l’envoi
-document.getElementById("sendBtn").addEventListener("click", sendMessage);
-document.getElementById("userInput").addEventListener("keypress", (e) => {
-  if (e.key === "Enter") sendMessage();
-});
-
-function sendMessage() {
-  const input = document.getElementById("userInput");
-  const text = input.value.trim();
-  if (!text) return;
-  addMessage(text, "user");
-  input.value = "";
-
-  const langFaq = faq[currentLang];
-  let response = null;
-
-  // Vérifie les mots-clés
-  if (/mission/i.test(text)) response = langFaq["mission"];
-  if (/expertise|solution/i.test(text)) response = langFaq["expertises"];
-  if (/method/i.test(text) || /méthodologie/i.test(text)) response = langFaq["méthodologie"];
-  if (/identité|identity/i.test(text)) response = langFaq["identité"];
-  if (/contact|email|téléphone/i.test(text)) response = langFaq["contact"];
-
-  // Réponse
-  if (response) {
-    setTimeout(() => addMessage(response, "bot"), 500);
-  } else {
-    setTimeout(() => addMessage("🤖 Je note votre question, un conseiller vous répondra bientôt.", "bot"), 500);
-  }
+// Gestion input user
+function handleUserInput(){
+  const input=document.getElementById("user-input");
+  const q=input.value.trim();
+  if(!q) return;
+  addMessage(q,"user");
+  input.value="";
+  setTimeout(()=>{
+    const a=getAnswer(q,currentLang) || "🤖 Je note votre question, un conseiller vous répondra bientôt.";
+    addMessage(a,"bot");
+  },800);
 }
+
+// Questions rapides
+function updateQuickQuestions(){
+  const container=document.getElementById("questions-container");
+  container.innerHTML="";
+  const questions=quickQuestions[currentLang]||[];
+  questions.forEach(q=>{
+    const btn=document.createElement("button");
+    btn.className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full hover:bg-gray-200";
+    btn.textContent=q;
+    btn.onclick=()=>{addMessage(q,"user"); setTimeout(()=>addMessage(getAnswer(q,currentLang),"bot"),800);};
+    container.appendChild(btn);
+  });
+}
+
+// Init
+document.addEventListener("DOMContentLoaded",()=>{
+  addMessage(translations[currentLang].welcome,"bot");
+  updateQuickQuestions();
+});
+
+// Gestion langues
+document.getElementById("lang-select").addEventListener("change",e=>{
+  currentLang=e.target.value;
+  document.getElementById("chatbot-messages").innerHTML="";
+  conversationHistory=[];
+  addMessage(translations[currentLang].welcome,"bot");
+  updateQuickQuestions();
+});
 </script>
-
 </body>
 </html>
