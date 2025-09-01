@@ -75,8 +75,22 @@ const responses={fr:{"Qu'est-ce que l'IA en finance ?":"L'IA en finance transfor
 let currentLang="fr",conversationHistory=[];
 function addMessage(t,e="bot",n=!1){const s=document.createElement("div");s.className="user"===e?"text-right":"text-left";const i=document.createElement("div");if(i.className="user"===e?"inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-user bg-indigo-600 text-white":"inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-bot bg-white/90 whitespace-pre-line",n){i.innerHTML=`<div id="welcome-preview" class="line-clamp-5">${t}</div><button id="toggleWelcome" class="mt-2 text-indigo-600 text-xs underline">${translations[currentLang].readMore}</button>`,setTimeout(()=>{const t=document.getElementById("toggleWelcome"),e=document.getElementById("welcome-preview");t.addEventListener("click",()=>{t.textContent===translations[currentLang].readMore?(e.classList.remove("line-clamp-5"),t.textContent=translations[currentLang].readLess):(e.classList.add("line-clamp-5"),t.textContent=translations[currentLang].readMore)})},50)}else i.textContent=t;s.appendChild(i),document.getElementById("chatbot-messages").appendChild(s),document.getElementById("chatbot-messages").scrollTop=document.getElementById("chatbot-messages").scrollHeight,conversationHistory.push({sender:e,text:t,time:(new Date).toISOString()})}
 function handleUserInput(){const t=document.getElementById("user-input"),e=t.value.trim();e&&(addMessage(e,"user"),t.value="",setTimeout(()=>{const t=responses[currentLang][e]||"Désolé, je n’ai pas encore de réponse pour ça.";addMessage(t,"bot")},800))}
-function updateQuickQuestions(){const t=document.getElementById("questions-container");t.innerHTML="",quickQuestions[currentLang].forEach(e=>{const n=document.createElement("button");n.className="question-btn w-full text-left p-3 rounded-xl text-sm font-medium text-gray-700 bg-white/70 hover:bg-white";n.textContent=e;n.onclick=()=>{addMessage(e,"user"),setTimeout(()=>addMessage(responses[currentLang][e],"bot"),800)};t.appendChild(n)})}
-function exportConversation(t="txt"){if(0===conversationHistory.length)return alert("Aucune conversation à exporter.");let e,n,s;"json"===t?(e=JSON.stringify(conversationHistory,null,2),n=new Blob([e],{type:"application/json"}),s="conversation.json"):(e=conversationHistory.map(t=>`[${t.time}] ${t.sender.toUpperCase()}: ${t.text}`).join("\n"),n=new Blob([e],{type:"text/plain"}),s="conversation.txt");const i=document.createElement("a");i.href=URL.createObjectURL(n),i.download=s,i.click(),document.getElementById("exportDropdown").classList.remove("show")}
+
+  function updateQuickQuestions(){const t=document.getElementById("questions-container");t.innerHTML="",quickQuestions[currentLang].forEach(e=>{const n=document.createElement("button");n.className="question-btn w-full text-left p-3 rounded-xl text-sm font-medium text-gray-700 bg-white/70 hover:bg-white";n.textContent=e;n.onclick=()=>{addMessage(e,"user"),setTimeout(()=>addMessage(responses[currentLang][e],"bot"),800)};t.appendChild(n)})}
+if (q.includes("Lire") || q.includes("Read") || q.includes("Mehr")) {
+  btn.onclick = () => {
+    const preview = document.getElementById("welcome-preview");
+    const toggle = document.getElementById("toggleWelcome");
+    if (preview && toggle) toggle.click();
+  };
+} else {
+  btn.onclick = () => {
+    addMessage(q, "user");
+    setTimeout(() => addMessage(responses[currentLang][q], "bot"), 800);
+  };
+}
+
+  function exportConversation(t="txt"){if(0===conversationHistory.length)return alert("Aucune conversation à exporter.");let e,n,s;"json"===t?(e=JSON.stringify(conversationHistory,null,2),n=new Blob([e],{type:"application/json"}),s="conversation.json"):(e=conversationHistory.map(t=>`[${t.time}] ${t.sender.toUpperCase()}: ${t.text}`).join("\n"),n=new Blob([e],{type:"text/plain"}),s="conversation.txt");const i=document.createElement("a");i.href=URL.createObjectURL(n),i.download=s,i.click(),document.getElementById("exportDropdown").classList.remove("show")}
 function toggleDropdown(){document.getElementById("exportDropdown").classList.toggle("show")}
 document.addEventListener("DOMContentLoaded",()=>{addMessage(translations[currentLang].welcome,"bot",!0),updateQuickQuestions()}),document.getElementById("lang-select").addEventListener("change",t=>{currentLang=t.target.value,document.getElementById("status-indicator").textContent=translations[currentLang].online,document.getElementById("chatbot-messages").innerHTML="",conversationHistory=[],addMessage(translations[currentLang].welcome,"bot",!0),updateQuickQuestions()}),window.addEventListener("click",t=>{t.target.closest("#exportDropdown")||document.getElementById("exportDropdown").classList.remove("show")});
 </script></body></html>
