@@ -20,8 +20,8 @@
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(3px);
+      background: rgba(255, 255, 255, 0.45); /* 👈 voile léger pour voir les montagnes */
+      backdrop-filter: blur(2px);
       z-index: 0;
     }
     #chatbot-messages > div {
@@ -52,7 +52,11 @@
   <div id="chatbot-window" class="w-full h-screen flex flex-col relative overflow-hidden chat-background">
     <!-- Header -->
     <div class="bg-red-600 text-white flex justify-between items-center p-4 shadow-lg relative z-10">
-      <span class="font-bold text-lg">🇨🇭 Helvetic AI</span>
+      <div class="flex items-center space-x-2">
+        <!-- 🇨🇭 Drapeau officiel (ton fichier Switzerland.svg) -->
+        <img src="Switzerland.svg" alt="Drapeau Suisse" class="w-7 h-7 rounded-sm shadow-md" />
+        <span class="font-bold text-lg">Helvetic AI</span>
+      </div>
       <select id="lang-select" class="text-gray-800 rounded-lg px-2 py-1 text-sm">
         <option value="fr">FR</option>
         <option value="en">EN</option>
@@ -121,7 +125,7 @@ Unsere Mission: die Leistungsfähigkeit von KI und Enterprise Performance Manage
 👉 Mit Helvetic AI wird Finanzperformance intelligenter, schneller und sicherer.`
     };
 
-    function addMessage(text, sender = "bot", intro = false) {
+    function addMessage(text, sender = "bot", collapsible = false) {
       const wrapper = document.createElement("div");
       wrapper.className = sender === "user" ? "text-right" : "text-left";
 
@@ -131,26 +135,15 @@ Unsere Mission: die Leistungsfähigkeit von KI und Enterprise Performance Manage
           ? "inline-block px-4 py-3 max-w-xs lg:max-w-md text-sm font-medium message-bubble-user"
           : "inline-block px-4 py-3 max-w-xs lg:max-w-md text-sm font-medium message-bubble-bot whitespace-pre-line";
 
-      if (intro) {
+      if (collapsible) {
         bubble.innerHTML = `
-          <div id="welcome-preview" class="line-clamp-5">${text}</div>
-          <button id="toggleWelcome" class="mt-2 text-indigo-600 text-xs underline">
+          <div class="line-clamp-5" id="msg-${conversationHistory.length}">
+            ${text}
+          </div>
+          <button class="mt-2 text-indigo-600 text-xs underline toggle-btn">
             ${currentLang === "fr" ? "Lire plus" : currentLang === "en" ? "Read more" : "Mehr lesen"}
           </button>
         `;
-        setTimeout(() => {
-          const btn = document.getElementById("toggleWelcome");
-          const preview = document.getElementById("welcome-preview");
-          btn.addEventListener("click", () => {
-            if (preview.classList.contains("line-clamp-5")) {
-              preview.classList.remove("line-clamp-5");
-              btn.textContent = currentLang === "fr" ? "Lire moins" : currentLang === "en" ? "Read less" : "Weniger lesen";
-            } else {
-              preview.classList.add("line-clamp-5");
-              btn.textContent = currentLang === "fr" ? "Lire plus" : currentLang === "en" ? "Read more" : "Mehr lesen";
-            }
-          });
-        }, 100);
       } else {
         bubble.textContent = text;
       }
@@ -161,6 +154,20 @@ Unsere Mission: die Leistungsfähigkeit von KI und Enterprise Performance Manage
         document.getElementById("chatbot-messages").scrollHeight;
 
       conversationHistory.push({ sender, text, time: new Date().toISOString() });
+
+      if (collapsible) {
+        const btn = bubble.querySelector(".toggle-btn");
+        const content = bubble.querySelector(`#msg-${conversationHistory.length - 1}`);
+        btn.addEventListener("click", () => {
+          if (content.classList.contains("line-clamp-5")) {
+            content.classList.remove("line-clamp-5");
+            btn.textContent = currentLang === "fr" ? "Lire moins" : currentLang === "en" ? "Read less" : "Weniger lesen";
+          } else {
+            content.classList.add("line-clamp-5");
+            btn.textContent = currentLang === "fr" ? "Lire plus" : currentLang === "en" ? "Read more" : "Mehr lesen";
+          }
+        });
+      }
     }
 
     function getAnswer(userInput) {
@@ -189,7 +196,7 @@ Unsere Mission: die Leistungsfähigkeit von KI und Enterprise Performance Manage
 
       setTimeout(() => {
         const answer = getAnswer(question);
-        addMessage(answer, "bot");
+        addMessage(answer, "bot", answer.length > 150);
       }, 600);
     }
 
