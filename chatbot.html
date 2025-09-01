@@ -6,546 +6,18 @@
 <title>Helvetic AI Chatbot</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-  
-  * {
-    font-family: 'Inter', sans-serif;
+  .dropdown { position: relative; display: inline-block; }
+  .dropdown-content {
+    display: none; position: absolute; right: 0; background: white;
+    min-width: 140px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 6px; z-index: 100;
   }
-
-  #questions-container {
-    max-height: 150px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #e2e8f0 transparent;
+  .dropdown-content button {
+    width: 100%; text-align: left; padding: 8px 12px; border: none;
+    background: none; cursor: pointer; font-size: 0.875rem;
   }
-  
-  #questions-container::-webkit-scrollbar {
-    width: 4px;
-  }
-  
-  #questions-container::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  #questions-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, #60a5fa, #3b82f6);
-    border-radius: 10px;
-  }
-  
-  /* Adaptations mobiles */
-  @media (max-width: 768px) {
-    #questions-container {
-      max-height: 120px;
-    }
-    
-    .message-bubble-bot,
-    .message-bubble-user {
-      max-width: 85vw !important;
-      font-size: 0.875rem;
-      padding: 12px 16px;
-    }
-    
-    .typing-indicator {
-      padding: 8px 16px;
-      margin: 6px 0;
-    }
-    
-    .typing-dot {
-      width: 6px;
-      height: 6px;
-    }
-    
-    .question-btn {
-      padding: 12px 16px;
-      font-size: 0.875rem;
-      border-radius: 12px;
-    }
-    
-    .toggle-btn {
-      padding: 10px 16px;
-      font-size: 0.875rem;
-    }
-    
-    .lang-select {
-      padding: 8px 12px;
-      font-size: 0.875rem;
-    }
-    
-    .logo-container {
-      width: 36px;
-      height: 36px;
-    }
-    
-    .logo-container svg {
-      width: 20px;
-      height: 20px;
-    }
-    
-    .close-btn {
-      width: 32px;
-      height: 32px;
-      font-size: 16px;
-    }
-    
-    .status-pulse {
-      font-size: 0.75rem;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    #questions-container {
-      max-height: 100px;
-    }
-    
-    .message-bubble-bot,
-    .message-bubble-user {
-      max-width: 90vw !important;
-      font-size: 0.8125rem;
-      padding: 10px 14px;
-    }
-    
-    .question-btn {
-      padding: 10px 14px;
-      font-size: 0.8125rem;
-    }
-    
-    .toggle-btn {
-      padding: 8px 14px;
-      font-size: 0.8125rem;
-    }
-    
-    .lang-select {
-      padding: 6px 10px;
-      font-size: 0.8125rem;
-    }
-    
-    .logo-container {
-      width: 32px;
-      height: 32px;
-    }
-    
-    .logo-container svg {
-      width: 18px;
-      height: 18px;
-    }
-    
-    .close-btn {
-      width: 28px;
-      height: 28px;
-      font-size: 14px;
-    }
-    
-    #chatbot-messages {
-      padding: 16px 12px;
-    }
-    
-    .border-t.bg-white\/80 {
-      padding: 16px 12px;
-    }
-    
-    .gradient-bg {
-      padding: 12px 16px;
-    }
-  }
-
-  .glass-effect {
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  }
-  
-  .gradient-bg {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .gradient-bg::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    animation: shimmer 3s infinite;
-  }
-  
-  @keyframes shimmer {
-    0% { left: -100%; }
-    100% { left: 100%; }
-  }
-  
-  .scrollbar-thin {
-    scrollbar-width: thin;
-    scrollbar-color: #e2e8f0 #f8fafc;
-  }
-  
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .scrollbar-thin::-webkit-scrollbar-track {
-    background: #f8fafc;
-    border-radius: 10px;
-  }
-  
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, #60a5fa, #3b82f6);
-    border-radius: 10px;
-    border: 2px solid #f8fafc;
-  }
-  
-  .typing-indicator {
-    display: flex;
-    padding: 12px 20px;
-    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-    border-radius: 20px;
-    width: fit-content;
-    margin: 8px 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  }
-  
-  .typing-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: linear-gradient(45deg, #6366f1, #8b5cf6);
-    animation: typing 1.6s infinite;
-    margin-right: 6px;
-  }
-  
-  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dot:nth-child(3) { animation-delay: 0.4s; margin-right: 0; }
-  
-  @keyframes typing {
-    0%, 60%, 100% { 
-      transform: translateY(0) scale(1); 
-      opacity: 0.4; 
-    }
-    30% { 
-      transform: translateY(-12px) scale(1.1); 
-      opacity: 1; 
-    }
-  }
-  
-  .message-fade-in {
-    animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-  
-  @keyframes fadeInUp {
-    from { 
-      opacity: 0; 
-      transform: translateY(20px) scale(0.95); 
-    }
-    to { 
-      opacity: 1; 
-      transform: translateY(0) scale(1); 
-    }
-  }
-  
-  .question-btn {
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    border: 1px solid transparent;
-    background: linear-gradient(135deg, #ffffff, #f8fafc);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .question-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
-    transition: left 0.6s ease;
-  }
-  
-  .question-btn:hover::before {
-    left: 100%;
-  }
-  
-  .question-btn:hover {
-    border-color: #6366f1;
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
-    background: linear-gradient(135deg, #ffffff, #f0f9ff);
-  }
-  
-  .toggle-btn {
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: white;
-    border-radius: 25px;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .toggle-btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease;
-  }
-  
-  .toggle-btn:hover::before {
-    width: 300px;
-    height: 300px;
-  }
-  
-  .toggle-btn:hover {
-    transform: translateY(-1px) scale(1.05);
-    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-  }
-  
-  .message-bubble-bot,
-  .message-bubble-user {
-    word-break: break-word;
-    hyphens: auto;
-  }
-  
-  .message-bubble-bot {
-    background: linear-gradient(135deg, #ffffff, #f8fafc);
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    position: relative;
-  }
-  
-  .message-bubble-bot::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
-    border-radius: inherit;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  .message-bubble-user {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  /* Amélioration pour le tactile */
-  .question-btn,
-  .toggle-btn,
-  .lang-select,
-  .close-btn {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-  
-  .question-btn:active,
-  .toggle-btn:active {
-    transform: scale(0.98);
-  }
-  
-  /* Optimisations pour petits écrans */
-  @media (max-width: 360px) {
-    .message-bubble-bot,
-    .message-bubble-user {
-      max-width: 92vw !important;
-      font-size: 0.75rem;
-      padding: 8px 12px;
-      line-height: 1.4;
-    }
-    
-    .question-btn {
-      padding: 8px 12px;
-      font-size: 0.75rem;
-      line-height: 1.4;
-    }
-    
-    .toggle-btn {
-      padding: 6px 12px;
-      font-size: 0.75rem;
-    }
-    
-    .lang-select {
-      padding: 4px 8px;
-      font-size: 0.75rem;
-    }
-    
-    .gradient-bg {
-      padding: 8px 12px;
-    }
-    
-    #chatbot-messages {
-      padding: 12px 8px;
-    }
-    
-    .border-t.bg-white\/80 {
-      padding: 12px 8px;
-    }
-    
-    .typing-indicator {
-      padding: 6px 12px;
-    }
-    
-    .logo-container {
-      width: 28px;
-      height: 28px;
-    }
-    
-    .logo-container svg {
-      width: 16px;
-      height: 16px;
-    }
-    
-    .close-btn {
-      width: 24px;
-      height: 24px;
-      font-size: 12px;
-    }
-    
-    .status-pulse {
-      font-size: 0.6875rem;
-    }
-    
-    #questions-title {
-      font-size: 0.75rem;
-      margin-bottom: 12px;
-    }
-    
-    #questions-title svg {
-      width: 14px;
-      height: 14px;
-    }
-  }
-  
-  .message-bubble-user::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    animation: messageShimmer 2s infinite;
-  }
-  
-  @keyframes messageShimmer {
-    0% { left: -100%; }
-    100% { left: 100%; }
-  }
-  
-  .logo-container {
-    background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.3);
-    transition: all 0.3s ease;
-  }
-  
-  .logo-container:hover {
-    transform: rotate(5deg) scale(1.1);
-    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
-  }
-  
-  .status-pulse {
-    position: relative;
-  }
-  
-  .status-pulse::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: -8px;
-    width: 8px;
-    height: 8px;
-    background: #10b981;
-    border-radius: 50%;
-    transform: translateY(-50%);
-    animation: pulse 2s infinite;
-  }
-  
-  @keyframes pulse {
-    0% {
-      transform: translateY(-50%) scale(1);
-      opacity: 1;
-    }
-    50% {
-      transform: translateY(-50%) scale(1.2);
-      opacity: 0.7;
-    }
-    100% {
-      transform: translateY(-50%) scale(1);
-      opacity: 1;
-    }
-  }
-  
-  .lang-select {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    transition: all 0.3s ease;
-  }
-  
-  .lang-select:hover {
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .close-btn {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
-  }
-  
-  .close-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: rotate(90deg) scale(1.1);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  }
-  
-  .chat-background {
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    position: relative;
-  }
-  
-  .chat-background::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
-    pointer-events: none;
-  }
-
-  /* Ajout d'une animation pour l'effacement des messages */
-  .messages-clearing {
-    animation: fadeOutMessages 0.3s ease-out forwards;
-  }
-  
-  @keyframes fadeOutMessages {
-    from { 
-      opacity: 1; 
-      transform: scale(1);
-    }
-    to { 
-      opacity: 0; 
-      transform: scale(0.95);
-    }
-  }
+  .dropdown-content button:hover { background: #f3f4f6; }
+  .dropdown.show .dropdown-content { display: block; }
 </style>
 </head>
 <body>
@@ -568,21 +40,22 @@
       </div>
     </div>
     <div class="flex items-center space-x-2 sm:space-x-3">
-      <div class="relative">
-        <select id="lang-select" class="lang-select text-gray-800 rounded-lg px-3 py-2 text-xs sm:text-sm font-medium appearance-none pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-white/50">
-          <option value="fr">🇫🇷 FR</option>
-          <option value="en">🇬🇧 EN</option>
-          <option value="de">🇩🇪 DE</option>
-        </select>
-        <div class="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
-          <svg class="w-3 h-3 sm:w-4 sm:h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-          </svg>
+      <!-- Bouton Export avec menu déroulant -->
+      <div class="dropdown" id="exportDropdown">
+        <button onclick="toggleDropdown()" class="px-3 py-1 bg-white/20 rounded text-sm">💾 Exporter</button>
+        <div class="dropdown-content">
+          <button onclick="exportConversation('txt')">📄 Exporter en TXT</button>
+          <button onclick="exportConversation('json')">📂 Exporter en JSON</button>
         </div>
       </div>
-      <button onclick="parent.closeChatbot()" class="close-btn w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold">
-        ×
-      </button>
+
+      <!-- Choix langue -->
+      <select id="lang-select" class="lang-select text-gray-800 rounded-lg px-3 py-2 text-xs sm:text-sm font-medium appearance-none pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-white/50">
+        <option value="fr">🇫🇷 FR</option>
+        <option value="en">🇬🇧 EN</option>
+        <option value="de">🇩🇪 DE</option>
+      </select>
+      <button onclick="parent.closeChatbot()" class="close-btn w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold">×</button>
     </div>
   </div>
 
@@ -599,284 +72,155 @@
     </div>
     <div id="questions-container" class="space-y-2 sm:space-y-3"></div>
   </div>
+
+  <!-- Champ de saisie utilisateur -->
+  <div class="border-t border-gray-300 bg-white p-3 flex items-center space-x-2">
+    <input id="user-input" type="text" placeholder="Posez votre question..." class="flex-1 p-2 border rounded-lg text-sm"/>
+    <button onclick="handleUserInput()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Envoyer</button>
+  </div>
 </div>
 
 <!-- Scripts -->
 <script>
+/* ==========================
+   QUESTIONS / RÉPONSES
+   ========================== */
 const quickQuestions = {
-  fr: [
-    "Qu'est-ce que l'IA en finance ?",
-    "Quels sont les avantages de l'IA pour l'EPM ?",
-    "Comment intégrer l'IA dans mon système ?",
-    "Quel est le ROI de l'IA en finance ?",
-    "Quelles technologies IA utilisez-vous ?",
-    "Combien coûte une implémentation IA ?",
-    "L'IA peut-elle améliorer mes prévisions ?",
-    "Comment assurer la sécurité des données ?"
-  ],
-  en: [
-    "What is AI in finance?",
-    "What are the benefits of AI for EPM?",
-    "How to integrate AI in my system?",
-    "What is the ROI of AI in finance?",
-    "What AI technologies do you use?",
-    "How much does AI implementation cost?",
-    "Can AI improve my forecasts?",
-    "How to ensure data security?"
-  ],
-  de: [
-    "Was ist KI im Finanzwesen?",
-    "Was sind die Vorteile von KI für EPM?",
-    "Wie integriere ich KI in mein System?",
-    "Was ist der ROI von KI im Finanzwesen?",
-    "Welche KI-Technologien verwenden Sie?",
-    "Wie viel kostet eine KI-Implementierung?",
-    "Kann KI meine Prognosen verbessern?",
-    "Wie stelle ich Datensicherheit sicher?"
-  ]
+  fr: ["Qu'est-ce que l'IA en finance ?", "Combien coûte une implémentation IA ?"],
+  en: ["What is AI in finance?", "How much does AI implementation cost?"],
+  de: ["Was ist KI im Finanzwesen?", "Wie viel kostet eine KI-Implementierung?"]
 };
 
 const translations = {
-  fr: {
-    typing: "En train d'écrire...",
-    online: "En ligne",
-    questionsTitle: "Questions rapides :",
-    seeMore: "Voir plus",
-    seeLess: "Voir moins",
-    welcome: "Bonjour ! Je suis votre assistant IA Helvetic. Choisissez une question ci-dessous pour commencer."
+  fr: { 
+    welcome: `✨ Helvetic AI – L’intelligence artificielle au service de la performance financière ✨
+
+Helvetic AI accompagne les directions financières dans leur transformation digitale.
+Notre ambition : mettre la puissance de l’intelligence artificielle et de l’Enterprise Performance Management (EPM) au service des décideurs, pour transformer la donnée en véritable levier stratégique.
+
+🔹 Une expertise unique : rigueur suisse + approche pragmatique et orientée résultats.
+🔹 Des solutions concrètes : automatisation des processus, analyse prédictive, optimisation budgétaire, pilotage de la performance.
+🔹 Un engagement fort : fiabilité opérationnelle, innovation maîtrisée, conformité réglementaire.
+
+👉 Avec Helvetic AI, la performance financière devient plus intelligente, plus rapide et plus sûre.`,
+    online: "En ligne" 
   },
-  en: {
-    typing: "Typing...",
-    online: "Online",
-    questionsTitle: "Quick questions:",
-    seeMore: "See more",
-    seeLess: "See less",
-    welcome: "Hello! I'm your Helvetic AI assistant. Choose a question below to get started."
+  en: { 
+    welcome: `✨ Helvetic AI – Artificial Intelligence at the service of financial performance ✨
+
+Helvetic AI supports CFOs in their digital transformation, turning data into a real strategic lever through AI and EPM.
+
+🔹 Unique expertise: Swiss precision combined with pragmatic, results-oriented methods.
+🔹 Concrete solutions: automation, predictive analysis, budgeting optimization, performance management.
+🔹 Strong commitment: operational reliability, controlled innovation, full compliance.
+
+👉 With Helvetic AI, financial performance becomes smarter, faster and safer.`,
+    online: "Online" 
   },
-  de: {
-    typing: "Schreibt...",
-    online: "Online",
-    questionsTitle: "Schnellfragen:",
-    seeMore: "Mehr anzeigen",
-    seeLess: "Weniger anzeigen",
-    welcome: "Hallo! Ich bin Ihr Helvetic AI Assistent. Wählen Sie eine Frage unten aus, um zu beginnen."
+  de: { 
+    welcome: `✨ Helvetic AI – Künstliche Intelligenz im Dienste der Finanzperformance ✨
+
+Helvetic AI begleitet Finanzdirektionen bei der digitalen Transformation und macht Daten dank KI und EPM zu einem echten strategischen Hebel.
+
+🔹 Einzigartige Expertise: Schweizer Präzision + pragmatische, ergebnisorientierte Ansätze.
+🔹 Konkrete Lösungen: Automatisierung, prädiktive Analysen, Budgetoptimierung, Performance-Steuerung.
+🔹 Starkes Engagement: operative Zuverlässigkeit, kontrollierte Innovation, volle Compliance.
+
+👉 Mit Helvetic AI wird die Finanzperformance intelligenter, schneller und sicherer.`,
+    online: "Online" 
   }
 };
 
-// Réponses spécifiques par question et langue
 const responses = {
-  fr: {
-    "Qu'est-ce que l'IA en finance ?": "L'IA en finance transforme la gestion financière en automatisant l'analyse de données, la détection de fraudes, et l'optimisation des investissements. Elle permet une prise de décision plus rapide et précise.",
-    "Quels sont les avantages de l'IA pour l'EPM ?": "L'IA révolutionne l'EPM (Enterprise Performance Management) en automatisant les prévisions budgétaires, optimisant les analyses de variance, et fournissant des insights prédictifs en temps réel pour améliorer la performance d'entreprise.",
-    "Comment intégrer l'IA dans mon système ?": "Notre processus d'intégration comprend : 1) Audit de votre infrastructure, 2) Personnalisation des modèles IA, 3) Migration progressive, 4) Formation des équipes, et 5) Support continu pour assurer une transition fluide.",
-    "Quel est le ROI de l'IA en finance ?": "Nos clients observent en moyenne : 35% de réduction des coûts opérationnels, 50% d'amélioration de la précision des prévisions, et un retour sur investissement de 300% dans les 18 premiers mois.",
-    "Quelles technologies IA utilisez-vous ?": "Nous utilisons des technologies de pointe : Machine Learning avancé, Deep Learning, NLP (traitement du langage naturel), algorithmes prédictifs, et des modèles d'IA explicable adaptés aux exigences financières.",
-    "Combien coûte une implémentation IA ?": "Nos solutions commencent à partir de 15 000 CHF selon la complexité. Nous proposons des packages modulaires adaptés à votre budget et vos besoins spécifiques. Contactez-nous pour un devis personnalisé.",
-    "L'IA peut-elle améliorer mes prévisions ?": "Absolument ! Notre IA analyse des milliers de variables simultanément, identifie des patterns invisibles à l'œil humain, et améliore la précision des prévisions de 40-60% en moyenne par rapport aux méthodes traditionnelles.",
-    "Comment assurer la sécurité des données ?": "Nous appliquons les standards les plus élevés : chiffrement AES-256, conformité RGPD, audits sécuritaires réguliers, hébergement en Suisse, et architecture zero-trust pour protéger vos données financières sensibles."
-  },
-  en: {
-    "What is AI in finance?": "AI in finance transforms financial management by automating data analysis, fraud detection, and investment optimization. It enables faster and more accurate decision-making.",
-    "What are the benefits of AI for EPM?": "AI revolutionizes EPM (Enterprise Performance Management) by automating budget forecasts, optimizing variance analysis, and providing real-time predictive insights to improve business performance.",
-    "How to integrate AI in my system?": "Our integration process includes: 1) Infrastructure audit, 2) AI model customization, 3) Progressive migration, 4) Team training, and 5) Continuous support for smooth transition.",
-    "What is the ROI of AI in finance?": "Our clients observe on average: 35% reduction in operational costs, 50% improvement in forecast accuracy, and 300% return on investment within the first 18 months.",
-    "What AI technologies do you use?": "We use cutting-edge technologies: Advanced Machine Learning, Deep Learning, NLP, predictive algorithms, and explainable AI models adapted to financial requirements.",
-    "How much does AI implementation cost?": "Our solutions start from CHF 15,000 depending on complexity. We offer modular packages adapted to your budget and specific needs. Contact us for a personalized quote.",
-    "Can AI improve my forecasts?": "Absolutely! Our AI analyzes thousands of variables simultaneously, identifies patterns invisible to the human eye, and improves forecast accuracy by 40-60% on average compared to traditional methods.",
-    "How to ensure data security?": "We apply the highest standards: AES-256 encryption, GDPR compliance, regular security audits, Swiss hosting, and zero-trust architecture to protect your sensitive financial data."
-  },
-  de: {
-    "Was ist KI im Finanzwesen?": "KI im Finanzwesen transformiert das Finanzmanagement durch Automatisierung der Datenanalyse, Betrugserkennung und Investitionsoptimierung. Sie ermöglicht schnellere und präzisere Entscheidungen.",
-    "Was sind die Vorteile von KI für EPM?": "KI revolutioniert EPM (Enterprise Performance Management) durch Automatisierung von Budgetprognosen, Optimierung von Abweichungsanalysen und Bereitstellung von Echtzeit-Predictive-Insights zur Verbesserung der Unternehmensleistung.",
-    "Wie integriere ich KI in mein System?": "Unser Integrationsprozess umfasst: 1) Infrastruktur-Audit, 2) KI-Modell-Anpassung, 3) Progressive Migration, 4) Team-Schulung und 5) Kontinuierliche Unterstützung für reibungslose Übergänge.",
-    "Was ist der ROI von KI im Finanzwesen?": "Unsere Kunden beobachten im Durchschnitt: 35% Reduzierung der Betriebskosten, 50% Verbesserung der Prognosegenauigkeit und 300% ROI innerhalb der ersten 18 Monate.",
-    "Welche KI-Technologien verwenden Sie?": "Wir verwenden modernste Technologien: Fortgeschrittenes Machine Learning, Deep Learning, NLP, prädiktive Algorithmen und erklärbare KI-Modelle, angepasst an finanzielle Anforderungen.",
-    "Wie viel kostet eine KI-Implementierung?": "Unsere Lösungen beginnen bei CHF 15.000 je nach Komplexität. Wir bieten modulare Pakete, angepasst an Ihr Budget und spezifische Bedürfnisse. Kontaktieren Sie uns für ein personalisiertes Angebot.",
-    "Kann KI meine Prognosen verbessern?": "Absolut! Unsere KI analysiert tausende Variablen gleichzeitig, identifiziert für das menschliche Auge unsichtbare Muster und verbessert die Prognosegenauigkeit um 40-60% im Vergleich zu traditionellen Methoden.",
-    "Wie stelle ich Datensicherheit sicher?": "Wir wenden höchste Standards an: AES-256-Verschlüsselung, DSGVO-Konformität, regelmäßige Sicherheitsaudits, Schweizer Hosting und Zero-Trust-Architektur zum Schutz Ihrer sensiblen Finanzdaten."
-  }
+  fr: { "Qu'est-ce que l'IA en finance ?": "L'IA en finance transforme la gestion financière...", "Combien coûte une implémentation IA ?": "Nos solutions commencent à partir de 15 000 CHF..." },
+  en: { "What is AI in finance?": "AI in finance transforms financial management...", "How much does AI implementation cost?": "Our solutions start from CHF 15,000..." },
+  de: { "Was ist KI im Finanzwesen?": "KI im Finanzwesen transformiert das Finanzmanagement...", "Wie viel kostet eine KI-Implementierung?": "Unsere Lösungen beginnen bei CHF 15.000..." }
 };
 
-// Variables globales
+/* ==========================
+   VARIABLES
+   ========================== */
 let currentLang = "fr";
-let isTyping = false;
-let expanded = false;
-const messagesContainer = document.getElementById("chatbot-messages");
-const questionsContainer = document.getElementById("questions-container");
-const questionsTitle = document.getElementById("questions-title");
+let conversationHistory = [];
 
-function getResponseForQuestion(question, lang) {
-  return responses[lang][question] || responses[lang]["Qu'est-ce que l'IA en finance ?"] || "Merci pour votre question ! Notre équipe vous contactera bientôt.";
-}
-
-function showTypingIndicator() {
-  const indicator = document.createElement("div");
-  indicator.id = "typing-indicator";
-  indicator.className = "text-left message-fade-in";
-  
-  const bubble = document.createElement("div");
-  bubble.className = "typing-indicator";
-  
-  for (let i = 0; i < 3; i++) {
-    const dot = document.createElement("div");
-    dot.className = "typing-dot";
-    bubble.appendChild(dot);
-  }
-  
-  indicator.appendChild(bubble);
-  messagesContainer.appendChild(indicator);
-  messagesContainer.scrollTop = messagesContainer.scrollHeight;
-}
-
-function hideTypingIndicator() {
-  const indicator = document.getElementById("typing-indicator");
-  if (indicator) {
-    indicator.remove();
-  }
-}
-
-function addMessage(text, sender = "bot", animate = true) {
+/* ==========================
+   FONCTIONS
+   ========================== */
+function addMessage(text, sender = "bot") {
   const msg = document.createElement("div");
-  msg.className = `${sender === "user" ? "text-right" : "text-left"} ${animate ? "message-fade-in" : ""}`;
-  
+  msg.className = sender === "user" ? "text-right" : "text-left";
   const bubble = document.createElement("div");
-  bubble.className = `inline-block px-4 py-3 sm:px-6 sm:py-4 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium ${
-    sender === "user" 
-      ? 'message-bubble-user text-white' 
-      : 'message-bubble-bot text-gray-800'
-  }`;
-  bubble.style.whiteSpace = "pre-wrap";
+  bubble.className = sender === "user"
+    ? "inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-user text-white"
+    : "inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-bot text-gray-800 whitespace-pre-line";
   bubble.textContent = text;
   msg.appendChild(bubble);
-  messagesContainer.appendChild(msg);
-  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  document.getElementById("chatbot-messages").appendChild(msg);
+  document.getElementById("chatbot-messages").scrollTop = document.getElementById("chatbot-messages").scrollHeight;
+  conversationHistory.push({ sender, text, time: new Date().toISOString() });
 }
-
-// Fonction pour vider la zone des messages avec animation
-function clearMessages() {
-  messagesContainer.classList.add('messages-clearing');
-  
+function handleUserInput() {
+  const inputEl = document.getElementById("user-input");
+  const input = inputEl.value.trim();
+  if (!input) return;
+  addMessage(input, "user");
+  inputEl.value = "";
   setTimeout(() => {
-    messagesContainer.innerHTML = '';
-    messagesContainer.classList.remove('messages-clearing');
-    
-    // Afficher le nouveau message d'accueil
-    typeMessage(translations[currentLang].welcome);
-  }, 300);
+    const response = responses[currentLang][input] || "Désolé, je n’ai pas encore de réponse pour ça.";
+    addMessage(response, "bot");
+  }, 800);
 }
-
 function updateQuickQuestions() {
-  questionsContainer.innerHTML = "";
-  questionsTitle.innerHTML = `
-    <svg class="w-4 h-4 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-    </svg>
-    ${translations[currentLang].questionsTitle}
-  `;
-
-  const questions = quickQuestions[currentLang];
-  const visibleCount = expanded ? questions.length : 3;
-  const visibleQuestions = questions.slice(0, visibleCount);
-
-  visibleQuestions.forEach((question, index) => {
-    const button = document.createElement("button");
-    button.className = "question-btn w-full text-left p-4 rounded-xl text-sm font-medium text-gray-700 relative";
-    button.textContent = question;
-    button.onclick = () => {
-      addMessage(question, "user");
-      setTimeout(() => {
-        showTypingIndicator();
-        setTimeout(() => {
-          hideTypingIndicator();
-          const response = getResponseForQuestion(question, currentLang);
-          addMessage(response, "bot");
-        }, 1500);
-      }, 500);
-    };
-    
-    // Animation d'apparition décalée
-    setTimeout(() => {
-      button.style.opacity = '0';
-      button.style.transform = 'translateY(20px)';
-      questionsContainer.appendChild(button);
-      
-      setTimeout(() => {
-        button.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        button.style.opacity = '1';
-        button.style.transform = 'translateY(0)';
-      }, 50);
-    }, index * 100);
+  const container = document.getElementById("questions-container");
+  container.innerHTML = "";
+  quickQuestions[currentLang].forEach((q) => {
+    const btn = document.createElement("button");
+    btn.className = "question-btn w-full text-left p-3 rounded-xl text-sm font-medium text-gray-700";
+    btn.textContent = q;
+    btn.onclick = () => { addMessage(q, "user"); setTimeout(() => addMessage(responses[currentLang][q], "bot"), 800); };
+    container.appendChild(btn);
   });
-
-  if (questions.length > 3) {
-    const toggleButton = document.createElement("button");
-    toggleButton.className = "toggle-btn w-full p-3 text-center text-sm font-semibold mt-2 relative z-10";
-    toggleButton.textContent = expanded
-      ? translations[currentLang].seeLess
-      : translations[currentLang].seeMore;
-
-    toggleButton.addEventListener("click", () => {
-      expanded = !expanded;
-      updateQuickQuestions();
-    });
-
-    setTimeout(() => {
-      questionsContainer.appendChild(toggleButton);
-    }, visibleQuestions.length * 100 + 200);
+}
+function exportConversation(format = "txt") {
+  if (conversationHistory.length === 0) return alert("Aucune conversation à exporter.");
+  let content, blob, filename;
+  if (format === "json") {
+    content = JSON.stringify(conversationHistory, null, 2);
+    blob = new Blob([content], { type: "application/json" });
+    filename = "conversation.json";
+  } else {
+    content = conversationHistory.map(m => `[${m.time}] ${m.sender.toUpperCase()}: ${m.text}`).join("\n");
+    blob = new Blob([content], { type: "text/plain" });
+    filename = "conversation.txt";
   }
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+  document.getElementById("exportDropdown").classList.remove("show");
+}
+function toggleDropdown() {
+  document.getElementById("exportDropdown").classList.toggle("show");
 }
 
-// Effet de frappe pour le message d'accueil
-function typeMessage(text, callback) {
-  const tempMsg = document.createElement("div");
-  tempMsg.className = "text-left";
-  
-  const bubble = document.createElement("div");
-  bubble.className = "inline-block px-4 py-3 sm:px-6 sm:py-4 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-bot text-gray-800";
-  tempMsg.appendChild(bubble);
-  messagesContainer.appendChild(tempMsg);
-
-  let index = 0;
-  const interval = setInterval(() => {
-    bubble.textContent = text.substring(0, index + 1);
-    index++;
-    
-    if (index >= text.length) {
-      clearInterval(interval);
-      if (callback) callback();
-    }
-    
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-  }, 30);
-}
-
+/* ==========================
+   INIT
+   ========================== */
 document.addEventListener("DOMContentLoaded", () => {
-  typeMessage(translations[currentLang].welcome, () => {
-    updateQuickQuestions();
-  });
+  addMessage(translations[currentLang].welcome, "bot");
+  updateQuickQuestions();
 });
-
-// Gestion du changement de langue avec effacement des messages
 document.getElementById("lang-select").addEventListener("change", (e) => {
-  const newLang = e.target.value;
-  
-  // Ne faire quelque chose que si la langue a vraiment changé
-  if (newLang !== currentLang) {
-    currentLang = newLang;
-    
-    // Mettre à jour le statut
-    document.getElementById("status-indicator").textContent = translations[currentLang].online;
-    
-    // Vider les messages et afficher le nouveau message d'accueil
-    clearMessages();
-    
-    // Réinitialiser l'état des questions rapides
-    expanded = false;
-    
-    // Mettre à jour les questions rapides après un petit délai
-    setTimeout(() => {
-      updateQuickQuestions();
-    }, 600);
+  currentLang = e.target.value;
+  document.getElementById("status-indicator").textContent = translations[currentLang].online;
+  document.getElementById("chatbot-messages").innerHTML = "";
+  conversationHistory = [];
+  addMessage(translations[currentLang].welcome, "bot");
+  updateQuickQuestions();
+});
+window.addEventListener("click", (e) => {
+  if (!e.target.closest("#exportDropdown")) {
+    document.getElementById("exportDropdown").classList.remove("show");
   }
 });
 </script>
