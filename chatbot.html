@@ -1,175 +1,93 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Helvetic AI Chatbot</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-  .chatbot-window {
-    position: fixed;
-    bottom: 90px;
-    right: 20px;
-    width: 350px;
-    max-height: 80vh;
-    background: white;
-    border-radius: 16px;
-    display: flex; /* Affiché par défaut dans l'iframe */
-    flex-direction: column;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-    overflow: hidden;
-    z-index: 9998;
-  }
-  .chat-background {
-    background: url("mountains.svg") no-repeat center center;
-    background-size: cover;
-    position: relative;
-  }
-  .chat-background::before {
-    content: "";
-    position: absolute;
-    top:0; left:0; right:0; bottom:0;
-    background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(3px);
-    z-index: 0;
-  }
-  #chatbot-messages > div {
-    position: relative;
-    z-index: 1;
-  }
-  .line-clamp-5 {
-    display: -webkit-box;
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-</style>
-<script src="faq.js"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chatbot – Helvetic AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: sans-serif; }
+    .lang { display:none; }
+    .lang.active { display:block; }
+    .flag { width:28px; height:20px; border-radius:3px; cursor:pointer; }
+    .msg { padding:8px 12px; margin:6px; border-radius:12px; max-width:80%; }
+    .user { background:#2563eb; color:white; align-self:flex-end; }
+    .bot { background:#f1f5f9; color:#111; align-self:flex-start; }
+  </style>
+  <script src="faq.js"></script>
 </head>
-<body class="bg-gray-100">
+<body class="bg-white h-full flex flex-col">
 
-<!-- Fenêtre chatbot -->
-<div id="chatbot-window" class="chatbot-window">
-  <!-- Header -->
-  <div class="bg-blue-600 text-white flex justify-between items-center p-3">
-    <div class="flex items-center space-x-2">
-      <img src="flags/switzerland.svg" alt="Swiss Flag" class="w-6 h-6 rounded">
-      <span class="font-bold">Helvetic AI</span>
+  <!-- HEADER -->
+  <header class="bg-blue-600 text-white px-4 py-2 flex justify-between items-center">
+    <span class="font-semibold">🤖 Helvetic AI</span>
+    <div class="flex gap-2">
+      <img src="https://flagcdn.com/w20/fr.png" alt="FR" class="flag" onclick="setLang('fr')">
+      <img src="https://flagcdn.com/w20/gb.png" alt="EN" class="flag" onclick="setLang('en')">
+      <img src="https://flagcdn.com/w20/de.png" alt="DE" class="flag" onclick="setLang('de')">
     </div>
-    <!-- Bouton fermer -->
-    <button id="close-chatbot" class="text-white text-lg font-bold hover:text-gray-200">×</button>
-  </div>
+  </header>
 
-  <!-- Messages -->
-  <div id="chatbot-messages" class="flex-1 overflow-y-auto p-3 space-y-2 chat-background"></div>
+  <!-- CHAT -->
+  <main id="chat" class="flex-1 overflow-y-auto p-4 flex flex-col"></main>
 
-  <!-- Questions rapides -->
-  <div class="border-t border-gray-200 bg-white/80 backdrop-blur-sm p-3">
-    <div class="text-xs font-semibold text-gray-700 mb-2">❓ Questions rapides :</div>
-    <div id="questions-container" class="space-y-2"></div>
-  </div>
-
-  <!-- Input -->
-  <div class="border-t border-gray-300 bg-white p-2 flex items-center space-x-2">
-    <input id="user-input" type="text" placeholder="Posez votre question..." class="flex-1 p-2 border rounded-lg text-sm"/>
-    <button onclick="handleUserInput()" class="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">Envoyer</button>
-  </div>
-</div>
+  <!-- INPUT -->
+  <form id="chat-form" class="p-3 border-t flex gap-2">
+    <input id="user-input" type="text" placeholder="Écrivez un message..." 
+           class="flex-1 border rounded-lg px-3 py-2" required />
+    <button class="bg-blue-600 text-white px-4 rounded-lg">➤</button>
+  </form>
 
 <script>
-let currentLang="fr", conversationHistory=[];
+let currentLang = localStorage.getItem("chatbot_lang") || "fr";
 
-// Ajoute un message
-function addMessage(text, sender="bot", isWelcome=false){
-  const wrapper=document.createElement("div");
-  wrapper.className=sender==="user"?"text-right":"text-left";
-  const bubble=document.createElement("div");
-
-  if(sender==="user"){
-    bubble.className="inline-block px-3 py-2 rounded-2xl max-w-xs text-sm font-medium bg-blue-600 text-white";
-  }else{
-    bubble.className="inline-block px-3 py-2 rounded-2xl max-w-xs text-sm font-medium bg-white/90 text-gray-800 whitespace-pre-line";
-  }
-
-  if(isWelcome){
-    bubble.innerHTML=`<div id="welcome-preview" class="line-clamp-5">${text}</div>
-    <button id="toggleWelcome" class="mt-1 text-blue-600 text-xs underline">Lire plus</button>`;
-    setTimeout(()=>{
-      const btn=document.getElementById("toggleWelcome");
-      const preview=document.getElementById("welcome-preview");
-      btn.addEventListener("click",()=>{
-        if(btn.textContent==="Lire plus"){
-          preview.classList.remove("line-clamp-5");
-          btn.textContent="Lire moins";
-        }else{
-          preview.classList.add("line-clamp-5");
-          btn.textContent="Lire plus";
-        }
-      });
-    },100);
-  }else{
-    bubble.textContent=text;
-  }
-
-  wrapper.appendChild(bubble);
-  document.getElementById("chatbot-messages").appendChild(wrapper);
-  document.getElementById("chatbot-messages").scrollTop=document.getElementById("chatbot-messages").scrollHeight;
-  conversationHistory.push({sender,text,time:new Date().toISOString()});
+// Gestion des langues
+function setLang(lang){
+  currentLang = lang;
+  localStorage.setItem("chatbot_lang", lang);
+  document.querySelectorAll(".lang").forEach(el => el.classList.remove("active"));
+  document.querySelectorAll("."+lang).forEach(el => el.classList.add("active"));
 }
 
-// Gestion input user
-function handleUserInput(){
-  const input=document.getElementById("user-input");
-  const q=input.value.trim();
-  if(!q) return;
-  addMessage(q,"user");
-  input.value="";
-  setTimeout(()=>{
-    const a=getAnswer(q,currentLang) || "Désolé, je n’ai pas encore de réponse pour ça.";
-    addMessage(a,"bot");
-  },800);
+// Affiche un message
+function addMessage(text, sender){
+  const chat = document.getElementById("chat");
+  const msg = document.createElement("div");
+  msg.className = "msg "+sender;
+  msg.textContent = text;
+  chat.appendChild(msg);
+  chat.scrollTop = chat.scrollHeight;
 }
 
-// Questions rapides
-function updateQuickQuestions(){
-  const container=document.getElementById("questions-container");
-  container.innerHTML="";
-  const questions=quickQuestions[currentLang]||[];
-  questions.forEach(q=>{
-    const btn=document.createElement("button");
-    btn.className="w-full text-left p-2 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-100";
-    btn.textContent=q;
-    btn.onclick=()=>{addMessage(q,"user"); setTimeout(()=>addMessage(getAnswer(q,currentLang),"bot"),800);};
-    container.appendChild(btn);
-  });
+// Réponse depuis FAQ
+function getAnswer(question){
+  const lower = question.toLowerCase();
+  const entry = faq[currentLang].find(f => lower.includes(f.q.toLowerCase()));
+  return entry ? entry.a : {
+    fr: "Je n’ai pas compris, pourriez-vous préciser ?",
+    en: "I didn’t understand, could you clarify?",
+    de: "Ich habe das nicht verstanden, könnten Sie präzisieren?"
+  }[currentLang];
 }
+
+// Gestion formulaire
+document.getElementById("chat-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const input = document.getElementById("user-input");
+  const text = input.value.trim();
+  if(!text) return;
+  addMessage(text, "user");
+  input.value = "";
+  setTimeout(() => addMessage(getAnswer(text), "bot"), 500);
+});
 
 // Init
-document.addEventListener("DOMContentLoaded",()=>{
-  addMessage(translations[currentLang].welcome,"bot",true);
-  updateQuickQuestions();
-});
-
-// Gestion langues
-document.getElementById("lang-select")?.addEventListener("change",e=>{
-  currentLang=e.target.value;
-  document.getElementById("chatbot-messages").innerHTML="";
-  conversationHistory=[];
-  addMessage(translations[currentLang].welcome,"bot",true);
-  updateQuickQuestions();
-});
-
-// Bouton fermer
-document.addEventListener("DOMContentLoaded", () => {
-  const closeBtn = document.getElementById("close-chatbot");
-  closeBtn.addEventListener("click", () => {
-    if (window.parent && window.parent.closeChatbot) {
-      window.parent.closeChatbot();
-    } else {
-      document.getElementById("chatbot-window").style.display = "none";
-    }
-  });
-});
+setLang(currentLang);
+addMessage({
+  fr:"Bonjour 👋, je suis le chatbot Helvetic AI. Comment puis-je vous aider ?",
+  en:"Hello 👋, I’m Helvetic AI’s chatbot. How can I help you?",
+  de:"Hallo 👋, ich bin der Helvetic AI Chatbot. Wie kann ich Ihnen helfen?"
+}[currentLang], "bot");
 </script>
 </body>
 </html>
