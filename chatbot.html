@@ -1,15 +1,23 @@
-<!DOCTYPE html><html lang="fr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Helvetic AI Chatbot</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-.dropdown{position:relative;display:inline-block}.dropdown-content{display:none;position:absolute;right:0;background:#fff;min-width:140px;box-shadow:0 4px 10px rgba(0,0,0,.1);border-radius:6px;z-index:100}.dropdown-content button{width:100%;text-align:left;padding:8px 12px;border:none;background:none;cursor:pointer;font-size:.875rem}.dropdown-content button:hover{background:#f3f4f6}.dropdown.show .dropdown-content{display:block}
+.dropdown{position:relative;display:inline-block}
+.dropdown-content{display:none;position:absolute;right:0;background:#fff;min-width:140px;box-shadow:0 4px 10px rgba(0,0,0,.1);border-radius:6px;z-index:100}
+.dropdown-content button{width:100%;text-align:left;padding:8px 12px;border:none;background:none;cursor:pointer;font-size:.875rem}
+.dropdown-content button:hover{background:#f3f4f6}
+.dropdown.show .dropdown-content{display:block}
 .line-clamp-5{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
 .chat-background{background:url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80") no-repeat center center;background-size:cover;position:relative}
 .chat-background::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.6);backdrop-filter:blur(3px);z-index:0}
 #chatbot-messages>div{position:relative;z-index:1}
 .message-bubble-bot,.message-bubble-user{color:#1e40af!important}
-</style></head>
+</style>
+</head>
 <body>
 <div id="chatbot-window" class="w-full h-screen glass-effect flex flex-col relative overflow-hidden">
   <div class="gradient-bg text-white flex justify-between items-center p-4 shadow-2xl relative z-10">
@@ -27,7 +35,11 @@
           <button onclick="exportConversation('json')">📂 Exporter en JSON</button>
         </div>
       </div>
-      <select id="lang-select" class="lang-select text-gray-800 rounded-lg px-3 py-2 text-xs sm:text-sm font-medium appearance-none pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-white/50"><option value="fr">🇫🇷 FR</option><option value="en">🇬🇧 EN</option><option value="de">🇩🇪 DE</option></select>
+      <select id="lang-select" class="lang-select text-gray-800 rounded-lg px-3 py-2 text-xs sm:text-sm font-medium appearance-none pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-white/50">
+        <option value="fr">🇫🇷 FR</option>
+        <option value="en">🇬🇧 EN</option>
+        <option value="de">🇩🇪 DE</option>
+      </select>
       <button onclick="parent.closeChatbot()" class="close-btn w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold">×</button>
     </div>
   </div>
@@ -71,26 +83,98 @@ Helvetic AI begleitet Finanzdirektionen bei der digitalen Transformation und mac
 🔹 Starkes Engagement: operative Zuverlässigkeit, kontrollierte Innovation, volle Compliance.
 
 👉 Mit Helvetic AI wird die Finanzperformance intelligenter, schneller und sicherer.`,online:"Online",readMore:"Mehr lesen",readLess:"Weniger lesen"}};
-const responses={fr:{"Qu'est-ce que l'IA en finance ?":"L'IA en finance transforme la gestion financière en automatisant les processus, en améliorant la précision et en permettant une analyse prédictive des données.","Quels sont vos services ?":"Helvetic AI propose l’automatisation des processus financiers, l’optimisation budgétaire, l’analyse prédictive et le pilotage de la performance.","Quels sont les avantages de l’EPM ?":"L’EPM permet une meilleure visibilité, une planification optimisée, et une prise de décision plus fiable.","Combien coûte une implémentation IA ?":"Nos solutions commencent à partir de 15 000 CHF, selon la complexité du projet.","Comment Helvetic AI garantit la sécurité des données ?":"Nous respectons les standards suisses et européens les plus stricts en matière de sécurité et de conformité.","Puis-je demander une démo ?":"Oui, vous pouvez demander une démonstration personnalisée de nos solutions via notre site web."},en:{"What is AI in finance?":"AI in finance transforms financial management by automating processes, improving accuracy, and enabling predictive analysis.","What services do you offer?":"Helvetic AI provides financial process automation, budgeting optimization, predictive analytics, and performance management.","What are the benefits of EPM?":"EPM improves visibility, planning, and decision-making reliability.","How much does AI implementation cost?":"Our solutions start from CHF 15,000 depending on project complexity.","How does Helvetic AI ensure data security?":"We comply with the strictest Swiss and European standards in terms of security and compliance.","Can I request a demo?":"Yes, you can request a personalized demonstration of our solutions via our website."},de:{"Was ist KI im Finanzwesen?":"KI im Finanzwesen transformiert das Finanzmanagement durch Automatisierung, höhere Genauigkeit und prädiktive Analysen.","Welche Dienstleistungen bieten Sie an?":"Helvetic AI bietet Automatisierung von Finanzprozessen, Budgetoptimierung, prädiktive Analysen und Performance-Steuerung.","Was sind die Vorteile von EPM?":"EPM verbessert die Transparenz, optimiert die Planung und macht Entscheidungen zuverlässiger.","Wie viel kostet eine KI-Implementierung?":"Unsere Lösungen beginnen bei CHF 15.000, abhängig von der Projektkomplexität.","Wie garantiert Helvetic AI die Datensicherheit?":"Wir erfüllen die strengsten Schweizer und europäischen Sicherheits- und Compliance-Standards.","Kann ich eine Demo anfordern?":"Ja, Sie können eine personalisierte Demo unserer Lösungen über unsere Website anfordern."}};
+const responses={fr:{"Qu'est-ce que l'IA en finance ?":"L'IA en finance transforme la gestion financière en automatisant les processus, en améliorant la précision et en permettant une analyse prédictive des données.","Quels sont vos services ?":"Helvetic AI propose l’automatisation des processus financiers, l’optimisation budgétaire, l’analyse prédictive et le pilotage de la performance.","Quels sont les avantages de l’EPM ?":"L’EPM permet une meilleure visibilité, une planification optimisée, et une prise de décision plus fiable.","Combien coûte une implémentation IA ?":"Nos solutions commencent à partir de 15 000 CHF, selon la complexité du projet.","Comment Helvetic AI garantit la sécurité des données ?":"Nous respectons les standards suisses et européens les plus stricts en matière de sécurité et de conformité.","Puis-je demander une démo ?":"Oui, vous pouvez demander une démonstration personnalisée de nos solutions via notre site web."},en:{"What is AI in finance?":"AI in finance transforms financial management by automating processes, improving accuracy, and enabling predictive analysis.","What services do you offer?":"Helvetic AI provides financial process automation, budgeting optimization, predictive analytics, and performance management.","What are the benefits of EPM?":"EPM improves visibility, planning, and decision-making reliability.","How much does AI implementation cost?":"Our solutions start from CHF 15,000 depending on project complexity.","How does Helvetic AI ensure data security?":"We comply with the strictest Swiss and European standards in terms of security and compliance.","Can I request a demo?":"Yes, you can request a personalized demonstration of our solutions via our website."},de:{"Was ist KI im Finanzwesen?":"KI im Finanzwesen transformiert das Finanzmanagement durch Automatisierung, höhere Genauigkeit und prädiktive Analysen.","Welche Dienstleistungen bieten Sie an?":"Helvetic AI bietet Automatisierung von Finanzprozessen, Budgetoptimierung, prädiktive Analysen und Performance-Steuerung.","Was sind die Vorteile von EPM?":"EPM verbessert die Transparenz, optimiert die Planung und macht Entscheidungen zuverlässiger.","Wie viel kostet eine KI-Implementierung?":"Unsere Lösungen beginnen bei CHF 15.000, abhängig von der Projektkomplexität.","Wie garantiert Helvetic AI die Datensicherheit?":"Wir erfüllen die strengsten Schweizer und europäischen Sicherheits- und Compliance-Standards.","Kann ich eine Demo anfordern?":"Ja, Sie können eine personalisierte Demo unserer Lösungen über unsere Website anfordern."}};  
+
 let currentLang="fr",conversationHistory=[];
-function addMessage(t,e="bot",n=!1){const s=document.createElement("div");s.className="user"===e?"text-right":"text-left";const i=document.createElement("div");if(i.className="user"===e?"inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-user bg-indigo-600 text-white":"inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-bot bg-white/90 whitespace-pre-line",n){i.innerHTML=`<div id="welcome-preview" class="line-clamp-5">${t}</div><button id="toggleWelcome" class="mt-2 text-indigo-600 text-xs underline">${translations[currentLang].readMore}</button>`,setTimeout(()=>{const t=document.getElementById("toggleWelcome"),e=document.getElementById("welcome-preview");t.addEventListener("click",()=>{t.textContent===translations[currentLang].readMore?(e.classList.remove("line-clamp-5"),t.textContent=translations[currentLang].readLess):(e.classList.add("line-clamp-5"),t.textContent=translations[currentLang].readMore)})},50)}else i.textContent=t;s.appendChild(i),document.getElementById("chatbot-messages").appendChild(s),document.getElementById("chatbot-messages").scrollTop=document.getElementById("chatbot-messages").scrollHeight,conversationHistory.push({sender:e,text:t,time:(new Date).toISOString()})}
-function handleUserInput(){const t=document.getElementById("user-input"),e=t.value.trim();e&&(addMessage(e,"user"),t.value="",setTimeout(()=>{const t=responses[currentLang][e]||"Désolé, je n’ai pas encore de réponse pour ça.";addMessage(t,"bot")},800))}
 
-  function updateQuickQuestions(){const t=document.getElementById("questions-container");t.innerHTML="",quickQuestions[currentLang].forEach(e=>{const n=document.createElement("button");n.className="question-btn w-full text-left p-3 rounded-xl text-sm font-medium text-gray-700 bg-white/70 hover:bg-white";n.textContent=e;n.onclick=()=>{addMessage(e,"user"),setTimeout(()=>addMessage(responses[currentLang][e],"bot"),800)};t.appendChild(n)})}}
+function addMessage(t,e="bot",n=!1){
+  const s=document.createElement("div");
+  s.className="user"===e?"text-right":"text-left";
+  const i=document.createElement("div");
+  if(i.className="user"===e?
+    "inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-user bg-indigo-600 text-white":
+    "inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-bot bg-white/90 whitespace-pre-line",
+    n){
+    i.innerHTML=`<div id="welcome-preview" class="line-clamp-5">${t}</div>
+      <button id="toggleWelcome" class="mt-2 text-indigo-600 text-xs underline">${translations[currentLang].readMore}</button>`;
+    setTimeout(()=>{
+      const t=document.getElementById("toggleWelcome"),
+            e=document.getElementById("welcome-preview");
+      t.addEventListener("click",()=>{
+        t.textContent===translations[currentLang].readMore?
+          (e.classList.remove("line-clamp-5"),t.textContent=translations[currentLang].readLess):
+          (e.classList.add("line-clamp-5"),t.textContent=translations[currentLang].readMore)
+      })
+    },50)
+  } else {
+    i.textContent=t;
+  }
+  s.appendChild(i);
+  document.getElementById("chatbot-messages").appendChild(s);
+  document.getElementById("chatbot-messages").scrollTop=document.getElementById("chatbot-messages").scrollHeight;
+  conversationHistory.push({sender:e,text:t,time:(new Date).toISOString()})
+}
 
-  function exportConversation(t="txt"){if(0===conversationHistory.length)return alert("Aucune conversation à exporter.");let e,n,s;"json"===t?(e=JSON.stringify(conversationHistory,null,2),n=new Blob([e],{type:"application/json"}),s="conversation.json"):(e=conversationHistory.map(t=>`[${t.time}] ${t.sender.toUpperCase()}: ${t.text}`).join("\n"),n=new Blob([e],{type:"text/plain"}),s="conversation.txt");const i=document.createElement("a");i.href=URL.createObjectURL(n),i.download=s,i.click(),document.getElementById("exportDropdown").classList.remove("show")}
+function handleUserInput(){
+  const t=document.getElementById("user-input"),
+        e=t.value.trim();
+  if(e){
+    addMessage(e,"user");
+    t.value="";
+    setTimeout(()=>{
+      const t=responses[currentLang][e]||"Désolé, je n’ai pas encore de réponse pour ça.";
+      addMessage(t,"bot")
+    },800)
+  }
+}
+
+function updateQuickQuestions(){
+  const t=document.getElementById("questions-container");
+  t.innerHTML="";
+  quickQuestions[currentLang].forEach(e=>{
+    const n=document.createElement("button");
+    n.className="question-btn w-full text-left p-3 rounded-xl text-sm font-medium text-gray-700 bg-white/70 hover:bg-white";
+    n.textContent=e;
+    n.onclick=()=>{
+      addMessage(e,"user");
+      setTimeout(()=>{
+        const reply=responses[currentLang][e]||"Désolé, je n’ai pas encore de réponse pour ça.";
+        addMessage(reply,"bot")
+      },800)
+    };
+    t.appendChild(n)
+  })
+}
+
+function exportConversation(t="txt"){
+  if(0===conversationHistory.length)return alert("Aucune conversation à exporter.");
+  let e,n,s;
+  "json"===t?
+    (e=JSON.stringify(conversationHistory,null,2),n=new Blob([e],{type:"application/json"}),s="conversation.json"):
+    (e=conversationHistory.map(t=>`[${t.time}] ${t.sender.toUpperCase()}: ${t.text}`).join("\n"),n=new Blob([e],{type:"text/plain"}),s="conversation.txt");
+  const i=document.createElement("a");
+  i.href=URL.createObjectURL(n),i.download=s,i.click(),document.getElementById("exportDropdown").classList.remove("show")
+}
+
 function toggleDropdown(){document.getElementById("exportDropdown").classList.toggle("show")}
-document.addEventListener("DOMContentLoaded",()=>{addMessage(translations[currentLang].welcome,"bot",!0),updateQuickQuestions()}),document.getElementById("lang-select").addEventListener("change",t=>{currentLang=t.target.value,document.getElementById("status-indicator").textContent=translations[currentLang].online,document.getElementById("chatbot-messages").innerHTML="",conversationHistory=[],addMessage(translations[currentLang].welcome,"bot",!0),updateQuickQuestions()}),window.addEventListener("click",t=>{t.target.closest("#exportDropdown")||document.getElementById("exportDropdown").classList.remove("show")});
-if (q.includes("Lire") || q.includes("Read") || q.includes("Mehr")) {
-  btn.onclick = () => {
-    const preview = document.getElementById("welcome-preview");
-    const toggle = document.getElementById("toggleWelcome");
-    if (preview && toggle) toggle.click();
-  };
-} else {
-  btn.onclick = () => {
-    addMessage(q, "user");
-    setTimeout(() => addMessage(responses[currentLang][q], "bot"), 800);
-  };
-</script></body></html>
 
+document.addEventListener("DOMContentLoaded",()=>{
+  addMessage(translations[currentLang].welcome,"bot",!0),
+  updateQuickQuestions()
+});
+
+document.getElementById("lang-select").addEventListener("change",t=>{
+  currentLang=t.target.value;
+  document.getElementById("status-indicator").textContent=translations[currentLang].online;
+  document.getElementById("chatbot-messages").innerHTML="";
+  conversationHistory=[];
+  addMessage(translations[currentLang].welcome,"bot",!0);
+  updateQuickQuestions()
+});
+
+window.addEventListener("click",t=>{
+  t.target.closest("#exportDropdown")||document.getElementById("exportDropdown").classList.remove("show")
+});
+</script>
+</body>
+</html>
