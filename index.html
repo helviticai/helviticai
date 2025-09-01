@@ -620,29 +620,42 @@ html { scroll-behavior: smooth; }
 </div>
 <!-- Bouton flottant -->
 <div id="chatbot-button"
-     class="fixed bottom-6 right-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:scale-105 transition">
+     class="fixed bottom-6 right-6 bg-gradient-to-r from-blue-500 to-blue-700 text-white 
+            w-14 h-14 rounded-full flex items-center justify-center 
+            shadow-lg cursor-pointer hover:scale-105 transition">
   💬
 </div>
 
 <!-- Iframe du chatbot (popup masquée au départ) -->
-<div id="chatbot-popup" class="fixed bottom-20 right-6 w-96 h-[600px] hidden shadow-2xl rounded-2xl overflow-hidden">
-  <iframe src="chatbot.html" class="w-full h-full border-0 rounded-2xl"></iframe>
+<div id="chatbot-popup" 
+     class="fixed bottom-20 right-6 w-96 h-[600px] hidden shadow-2xl rounded-2xl overflow-hidden bg-white flex flex-col">
+  
+  <!-- Header avec bouton fermer -->
+  <div class="bg-blue-600 text-white flex justify-between items-center px-4 py-2">
+    <span class="font-semibold">Helvetic AI</span>
+    <button id="close-chatbot" class="text-white text-lg font-bold hover:text-gray-200">×</button>
+  </div>
+
+  <!-- Contenu chatbot -->
+  <iframe src="chatbot.html" class="w-full flex-1 border-0"></iframe>
 </div>
 
 <script>
 const button = document.getElementById("chatbot-button");
 const popup = document.getElementById("chatbot-popup");
+const closeBtn = document.getElementById("close-chatbot");
 
+// Ouvre/ferme le chatbot
 button.addEventListener("click", () => {
   popup.classList.toggle("hidden");
 });
 
-// Fonction pour fermer depuis chatbot.html
-function closeChatbot() {
+// Ferme avec le bouton ✖️
+closeBtn.addEventListener("click", () => {
   popup.classList.add("hidden");
-}
-window.closeChatbot = closeChatbot;
+});
 </script>
+
 
 
 </body>
