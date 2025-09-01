@@ -207,7 +207,7 @@ function toggleDropdown() {
    INIT
    ========================== */
 document.addEventListener("DOMContentLoaded", () => {
-  addMessage(translations[currentLang].welcome, "bot");
+addMessage(translations[currentLang].welcome, "bot", true);
   updateQuickQuestions();
 });
 document.getElementById("lang-select").addEventListener("change", (e) => {
