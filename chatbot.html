@@ -283,13 +283,70 @@
   transition: width 0.3s ease;
 }
 
+.search-suggestion {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f4f6;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-suggestion:hover {
+  background: #f8fafc;
+  border-left: 3px solid #4f46e5;
+}
+
+.search-suggestion:last-child {
+  border-bottom: none;
+}
+
+.suggestion-text {
+  flex: 1;
+  font-size: 14px;
+  color: #374151;
+}
+
+.suggestion-keywords {
+  font-size: 11px;
+  color: #9ca3af;
+  background: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+}
+
+.search-active #search-toggle {
+  color: #4f46e5;
+  background: #eff6ff;
+  border-radius: 6px;
+}
+
+.search-highlight {
+  background: #fef3c7;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+.search-category {
+  padding: 8px 16px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 @media (max-width: 640px) {
-  .quick-actions {
-    justify-content: center;
+  .search-suggestion {
+    padding: 10px 12px;
   }
   
-  .dropdown-content {
-    min-width: 120px;
+  .suggestion-keywords {
+    display: none;
   }
 }
 </style>
@@ -410,6 +467,11 @@
     </div>
     
     <div class="input-container flex items-center p-2">
+      <!-- Search Toggle Button -->
+      <button onclick="toggleSearchMode()" class="p-2 text-gray-500 hover:text-indigo-600 transition-colors" id="search-toggle" title="Mode recherche">
+        <i class="fas fa-search"></i>
+      </button>
+      
       <!-- Attachment Button -->
       <button onclick="document.getElementById('file-input').click()" class="p-2 text-gray-500 hover:text-indigo-600 transition-colors">
         <i class="fas fa-paperclip"></i>
@@ -419,7 +481,8 @@
       <!-- Text Input -->
       <input id="user-input" type="text" placeholder="Posez votre question..." 
              class="flex-1 p-2 border-none outline-none text-sm bg-transparent"
-             onkeypress="handleKeyPress(event)">
+             onkeypress="handleKeyPress(event)"
+             oninput="handleInputChange(event)">
       
       <!-- Voice Button -->
       <button onclick="toggleVoiceRecording()" class="voice-btn p-2 text-gray-500 hover:text-red-500 transition-all rounded-full mr-2" id="voice-btn">
@@ -430,6 +493,11 @@
       <button onclick="handleUserInput()" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all font-medium">
         <i class="fas fa-paper-plane mr-1"></i> Envoyer
       </button>
+    </div>
+    
+    <!-- Search Suggestions -->
+    <div id="search-suggestions" class="hidden bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto mt-2 mx-4">
+      <!-- Suggestions will be populated here -->
     </div>
   </div>
 </div>
@@ -491,7 +559,9 @@ Notre ambition : mettre la puissance de l'intelligence artificielle et de l'Ente
     readMore: "Lire plus",
     readLess: "Lire moins",
     typing: "En train d'écrire...",
-    rateResponse: "Évaluez cette réponse :"
+    rateResponse: "Évaluez cette réponse :",
+    searchPlaceholder: "Rechercher dans la base de connaissances...",
+    inputPlaceholder: "Posez votre question..."
   },
   en: {
     welcome: `✨ Helvetic AI – Artificial Intelligence at the service of financial performance ✨
@@ -507,7 +577,9 @@ Helvetic AI supports CFOs in their digital transformation, turning data into a r
     readMore: "Read more", 
     readLess: "Read less",
     typing: "Typing...",
-    rateResponse: "Rate this response:"
+    rateResponse: "Rate this response:",
+    searchPlaceholder: "Search in knowledge base...",
+    inputPlaceholder: "Ask your question..."
   },
   de: {
     welcome: `✨ Helvetic AI – Künstliche Intelligenz im Dienste der Finanzperformance ✨
@@ -523,7 +595,9 @@ Helvetic AI begleitet Finanzdirektionen bei der digitalen Transformation und mac
     readMore: "Mehr lesen",
     readLess: "Weniger lesen",
     typing: "Schreibt...",
-    rateResponse: "Bewerten Sie diese Antwort:"
+    rateResponse: "Bewerten Sie diese Antwort:",
+    searchPlaceholder: "In Wissensbasis suchen...",
+    inputPlaceholder: "Stellen Sie Ihre Frage..."
   }
 };
 
@@ -673,6 +747,249 @@ let isDarkTheme = false;
 let messageCount = 0;
 let ratings = [];
 let currentFile = null;
+let isSearchMode = false;
+let searchIndex = null;
+
+// Initialize search index
+function initializeSearchIndex() {
+  searchIndex = {
+    fr: [],
+    en: [],
+    de: []
+  };
+  
+  // Build search index for each language
+  Object.keys(faq).forEach(lang => {
+    Object.entries(faq[lang]).forEach(([keywords, response]) => {
+      const entry = {
+        keywords: keywords.toLowerCase(),
+        keywordArray: keywords.toLowerCase().split(' '),
+        response: response,
+        category: categorizeEntry(keywords)
+      };
+      searchIndex[lang].push(entry);
+    });
+  });
+}
+
+// Categorize FAQ entries
+function categorizeEntry(keywords) {
+  if (keywords.includes('cout') || keywords.includes('cost') || keywords.includes('prix') || keywords.includes('tarif')) {
+    return 'Prix & ROI';
+  }
+  if (keywords.includes('securite') || keywords.includes('security') || keywords.includes('protection')) {
+    return 'Sécurité';
+  }
+  if (keywords.includes('temps') || keywords.includes('delai') || keywords.includes('timeline')) {
+    return 'Délais';
+  }
+  if (keywords.includes('formation') || keywords.includes('training')) {
+    return 'Formation';
+  }
+  if (keywords.includes('integration') || keywords.includes('implementation')) {
+    return 'Implémentation';
+  }
+  if (keywords.includes('technologie') || keywords.includes('technology') || keywords.includes('outils')) {
+    return 'Technologies';
+  }
+  return 'Général';
+}
+
+// Toggle search mode
+function toggleSearchMode() {
+  isSearchMode = !isSearchMode;
+  const searchToggle = document.getElementById('search-toggle');
+  const inputContainer = document.querySelector('.input-container');
+  const userInput = document.getElementById('user-input');
+  
+  if (isSearchMode) {
+    searchToggle.classList.add('text-indigo-600');
+    inputContainer.classList.add('search-active');
+    userInput.placeholder = translations[currentLang].searchPlaceholder || 'Rechercher dans la base de connaissances...';
+    showNotification('Mode recherche activé - Tapez pour chercher');
+  } else {
+    searchToggle.classList.remove('text-indigo-600');
+    inputContainer.classList.remove('search-active');
+    userInput.placeholder = translations[currentLang].inputPlaceholder || 'Posez votre question...';
+    hideSuggestions();
+  }
+}
+
+// Handle input changes for search
+function handleInputChange(event) {
+  if (!isSearchMode) return;
+  
+  const query = event.target.value.trim();
+  if (query.length < 2) {
+    hideSuggestions();
+    return;
+  }
+  
+  performSearch(query);
+}
+
+// Perform intelligent search
+function performSearch(query) {
+  if (!searchIndex) initializeSearchIndex();
+  
+  const results = searchInKnowledgeBase(query, currentLang);
+  displaySearchSuggestions(results, query);
+}
+
+// Search in knowledge base
+function searchInKnowledgeBase(query, language) {
+  const entries = searchIndex[language] || [];
+  const queryWords = query.toLowerCase().split(' ').filter(word => word.length > 1);
+  
+  let results = entries.map(entry => {
+    let score = 0;
+    let matchedKeywords = [];
+    
+    queryWords.forEach(queryWord => {
+      entry.keywordArray.forEach(keyword => {
+        // Exact match
+        if (keyword === queryWord) {
+          score += 10;
+          matchedKeywords.push(keyword);
+        }
+        // Partial match (starts with)
+        else if (keyword.startsWith(queryWord) || queryWord.startsWith(keyword)) {
+          score += 5;
+          matchedKeywords.push(keyword);
+        }
+        // Contains match
+        else if (keyword.includes(queryWord) || queryWord.includes(keyword)) {
+          score += 2;
+          matchedKeywords.push(keyword);
+        }
+      });
+    });
+    
+    // Bonus for category relevance
+    if (entry.category && entry.category.toLowerCase().includes(query.toLowerCase())) {
+      score += 3;
+    }
+    
+    return {
+      ...entry,
+      score,
+      matchedKeywords: [...new Set(matchedKeywords)].slice(0, 3)
+    };
+  });
+  
+  // Filter and sort results
+  results = results
+    .filter(result => result.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 8); // Limit to 8 results
+  
+  return results;
+}
+
+// Display search suggestions
+function displaySearchSuggestions(results, query) {
+  const container = document.getElementById('search-suggestions');
+  container.innerHTML = '';
+  
+  if (results.length === 0) {
+    container.innerHTML = `
+      <div class="p-4 text-center text-gray-500">
+        <i class="fas fa-search mb-2"></i>
+        <div>Aucun résultat trouvé pour "${query}"</div>
+        <div class="text-xs mt-1">Essayez des termes comme "IA", "budget", "ROI", "sécurité"</div>
+      </div>
+    `;
+    container.classList.remove('hidden');
+    return;
+  }
+  
+  // Group results by category
+  const groupedResults = {};
+  results.forEach(result => {
+    const category = result.category || 'Général';
+    if (!groupedResults[category]) {
+      groupedResults[category] = [];
+    }
+    groupedResults[category].push(result);
+  });
+  
+  // Display grouped results
+  Object.entries(groupedResults).forEach(([category, categoryResults]) => {
+    const categoryDiv = document.createElement('div');
+    categoryDiv.className = 'search-category';
+    categoryDiv.textContent = category;
+    container.appendChild(categoryDiv);
+    
+    categoryResults.forEach(result => {
+      const suggestionDiv = document.createElement('div');
+      suggestionDiv.className = 'search-suggestion';
+      
+      // Highlight matching keywords in response preview
+      const preview = result.response.substring(0, 100) + '...';
+      const highlightedPreview = highlightMatches(preview, query);
+      
+      suggestionDiv.innerHTML = `
+        <div class="suggestion-text">
+          <div class="font-medium mb-1">${highlightedPreview}</div>
+        </div>
+        <div class="suggestion-keywords">
+          ${result.matchedKeywords.join(', ')}
+        </div>
+      `;
+      
+      suggestionDiv.onclick = () => selectSuggestion(result.response, query);
+      container.appendChild(suggestionDiv);
+    });
+  });
+  
+  container.classList.remove('hidden');
+}
+
+// Highlight matches in text
+function highlightMatches(text, query) {
+  const words = query.toLowerCase().split(' ');
+  let highlightedText = text;
+  
+  words.forEach(word => {
+    if (word.length > 2) {
+      const regex = new RegExp(`(${word})`, 'gi');
+      highlightedText = highlightedText.replace(regex, '<span class="search-highlight">$1</span>');
+    }
+  });
+  
+  return highlightedText;
+}
+
+// Select a suggestion
+function selectSuggestion(response, query) {
+  hideSuggestions();
+  addMessage(query, 'user');
+  
+  setTimeout(() => {
+    addMessage(response, 'bot');
+  }, 500);
+  
+  // Clear input and exit search mode
+  document.getElementById('user-input').value = '';
+  if (isSearchMode) {
+    toggleSearchMode();
+  }
+}
+
+// Hide suggestions
+function hideSuggestions() {
+  document.getElementById('search-suggestions').classList.add('hidden');
+}
+
+@media (max-width: 640px) {
+  .quick-actions {
+    justify-content: center;
+  }
+  
+  .dropdown-content {
+    min-width: 120px;
+  }
+}
 
 // Sentiment analysis simulation
 function analyzeSentiment(text) {
@@ -1115,7 +1432,9 @@ function toggleDropdown() {
 }
 
 // Language change handler
+// Initialize the application
 document.addEventListener("DOMContentLoaded", () => {
+  initializeSearchIndex();
   addMessage(translations[currentLang].welcome, "bot", true);
   updateQuickQuestions();
 });
@@ -1153,6 +1472,10 @@ window.addEventListener("click", (e) => {
   }
   if (!e.target.closest("#conversation-stats") && !e.target.matches('[onclick="toggleStats()"]')) {
     document.getElementById("conversation-stats").style.display = "none";
+  }
+  // Hide search suggestions when clicking outside
+  if (!e.target.closest("#search-suggestions") && !e.target.closest("#user-input") && !e.target.closest("#search-toggle")) {
+    hideSuggestions();
   }
 });
 </script>
