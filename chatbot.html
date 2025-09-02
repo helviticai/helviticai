@@ -5,164 +5,1034 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Helvetic AI Chatbot</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
-  .chatbot-window {
-    position: fixed;
-    bottom: 90px;
-    right: 20px;
-    width: 350px;
-    max-height: 80vh;
-    background: white;
-    border-radius: 16px;
-    display: none; /* Masqué par défaut */
-    flex-direction: column;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-    overflow: hidden;
-    z-index: 9998;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* { font-family: 'Inter', sans-serif; }
+
+.dropdown{position:relative;display:inline-block}
+.dropdown-content{display:none;position:absolute;right:0;background:#fff;min-width:160px;box-shadow:0 8px 32px rgba(0,0,0,.15);border-radius:12px;z-index:100;border:1px solid rgba(0,0,0,.1)}
+.dropdown-content button{width:100%;text-align:left;padding:12px 16px;border:none;background:none;cursor:pointer;font-size:.875rem;transition:all 0.2s}
+.dropdown-content button:hover{background:#f8fafc;color:#4f46e5}
+.dropdown.show .dropdown-content{display:block;animation:slideDown 0.2s ease}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.line-clamp-5{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+
+.chat-background{
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+}
+
+.chat-background::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  z-index:0
+}
+
+#chatbot-messages>div{position:relative;z-index:1}
+
+.message-bubble-bot, .message-bubble-user{
+  animation: messageSlide 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+@keyframes messageSlide {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 18px;
+  margin: 8px 0;
+  max-width: fit-content;
+  animation: messageSlide 0.3s ease;
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #9ca3af;
+  margin: 0 2px;
+  animation: typingAnimation 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingAnimation {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-10px); opacity: 1; }
+}
+
+.gradient-header {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.gradient-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.status-pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.question-btn {
+  transition: all 0.3s ease;
+  border: 1px solid rgba(79, 70, 229, 0.2);
+}
+
+.question-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.15);
+  border-color: #4f46e5;
+}
+
+.input-container {
+  position: relative;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+
+.input-container:focus-within {
+  box-shadow: 0 8px 32px rgba(79, 70, 229, 0.2);
+  border-color: #4f46e5;
+}
+
+.voice-btn {
+  transition: all 0.3s ease;
+}
+
+.voice-btn:hover {
+  background: #ef4444;
+  transform: scale(1.1);
+}
+
+.voice-recording {
+  background: #ef4444 !important;
+  animation: pulse 1s infinite;
+}
+
+.attachment-preview {
+  max-width: 200px;
+  max-height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.sentiment-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.sentiment-positive { background: #10b981; }
+.sentiment-neutral { background: #6b7280; }
+.sentiment-negative { background: #ef4444; }
+
+.theme-dark {
+  background: #1f2937;
+  color: #f9fafb;
+}
+
+.theme-dark .chat-background::before {
+  background: rgba(31, 41, 55, 0.95);
+}
+
+.theme-dark .message-bubble-bot {
+  background: #374151;
+  color: #f9fafb;
+}
+
+.theme-dark .input-container {
+  background: #374151;
+  border-color: #4b5563;
+}
+
+.satisfaction-rating {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.rating-star {
+  cursor: pointer;
+  font-size: 18px;
+  color: #d1d5db;
+  transition: all 0.2s ease;
+}
+
+.rating-star:hover,
+.rating-star.active {
+  color: #fbbf24;
+  transform: scale(1.2);
+}
+
+.message-actions {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.message-container:hover .message-actions {
+  opacity: 1;
+}
+
+.action-btn {
+  padding: 4px 8px;
+  background: rgba(0,0,0,0.05);
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+.quick-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.quick-action {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quick-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+}
+
+.conversation-stats {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  padding: 16px;
+  min-width: 200px;
+  z-index: 1000;
+  display: none;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  transition: width 0.3s ease;
+}
+
+@media (max-width: 640px) {
+  .quick-actions {
+    justify-content: center;
   }
-  .chat-background {
-    background: url("mountains.svg") no-repeat center center;
-    background-size: cover;
-    position: relative;
+  
+  .dropdown-content {
+    min-width: 120px;
   }
-  .chat-background::before {
-    content: "";
-    position: absolute;
-    top:0; left:0; right:0; bottom:0;
-    background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(3px);
-    z-index: 0;
-  }
-  #chatbot-messages > div {
-    position: relative;
-    z-index: 1;
-  }
-  .line-clamp-5 {
-    display: -webkit-box;
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+}
 </style>
-<script src="faq.js"></script>
 </head>
-<body class="bg-gray-100">
-
-<!-- Fenêtre chatbot -->
-<div id="chatbot-window" class="chatbot-window">
+<body>
+<div id="chatbot-window" class="w-full h-screen flex flex-col relative overflow-hidden">
   <!-- Header -->
-  <div class="bg-red-600 text-white flex justify-between items-center p-3">
-    <div class="flex items-center space-x-2">
-      <img src="https://flagcdn.com/ch.svg" alt="Swiss Flag" class="w-6 h-6 rounded">
-      <span class="font-bold">Helvetic AI</span>
+  <div class="gradient-header text-white flex justify-between items-center p-4 shadow-2xl relative z-10">
+    <div class="flex items-center space-x-2 sm:space-x-4">
+      <div class="logo-container w-12 h-12 rounded-full flex items-center justify-center overflow-hidden bg-white/20 backdrop-blur-sm">
+        <svg width="28" height="28" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect width="32" height="32" fill="#FF0000" rx="4"/>
+          <rect x="6" y="13" width="20" height="6" fill="#FFF" rx="1"/>
+          <rect x="13" y="6" width="6" height="20" fill="#FFF" rx="1"/>
+        </svg>
+      </div>
+      <div class="min-w-0 flex-1">
+        <span class="font-bold text-base sm:text-lg">Helvetic AI</span>
+        <div class="flex items-center text-xs sm:text-sm opacity-90">
+          <div class="status-pulse pl-3 truncate" id="status-indicator">En ligne</div>
+          <div class="sentiment-indicator sentiment-positive ml-2" id="sentiment-indicator"></div>
+        </div>
+      </div>
     </div>
-    <div class="relative">
-      <select id="lang-select" class="appearance-none text-gray-800 rounded-lg px-3 py-1 text-xs font-medium pr-6 focus:outline-none">
-        <option value="fr" data-flag="https://flagcdn.com/fr.svg">Français</option>
-        <option value="en" data-flag="https://flagcdn.com/gb.svg">English</option>
-        <option value="de" data-flag="https://flagcdn.com/de.svg">Deutsch</option>
-        <option value="ch" data-flag="https://flagcdn.com/ch.svg">Suisse</option>
+    <div class="flex items-center space-x-2 sm:space-x-3">
+      <!-- Stats Button -->
+      <button onclick="toggleStats()" class="relative px-3 py-1 bg-white/20 rounded text-sm">
+        <i class="fas fa-chart-line mr-1"></i> Stats
+        <div class="conversation-stats" id="conversation-stats">
+          <h4 class="font-bold text-gray-800 mb-2">Statistiques</h4>
+          <div class="text-sm text-gray-600">
+            <div>Messages: <span id="message-count">0</span></div>
+            <div>Satisfaction: <span id="avg-rating">N/A</span>/5</div>
+            <div>Temps de réponse: <span id="avg-response-time">0.8s</span></div>
+          </div>
+        </div>
+      </button>
+      
+      <!-- Export Dropdown -->
+      <div class="dropdown" id="exportDropdown">
+        <button onclick="toggleDropdown()" class="px-3 py-1 bg-white/20 rounded text-sm">
+          <i class="fas fa-download mr-1"></i> Exporter
+        </button>
+        <div class="dropdown-content">
+          <button onclick="exportConversation('txt')">
+            <i class="fas fa-file-text mr-2"></i> Exporter en TXT
+          </button>
+          <button onclick="exportConversation('json')">
+            <i class="fas fa-file-code mr-2"></i> Exporter en JSON
+          </button>
+          <button onclick="exportConversation('pdf')">
+            <i class="fas fa-file-pdf mr-2"></i> Exporter en PDF
+          </button>
+        </div>
+      </div>
+      
+      <!-- Theme Toggle -->
+      <button onclick="toggleTheme()" class="px-3 py-1 bg-white/20 rounded text-sm" id="theme-toggle">
+        <i class="fas fa-moon"></i>
+      </button>
+      
+      <!-- Language Select -->
+      <select id="lang-select" class="text-gray-800 rounded-lg px-3 py-2 text-xs sm:text-sm font-medium appearance-none pr-6 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-white/50 bg-white/90">
+        <option value="fr">🇫🇷 FR</option>
+        <option value="en">🇬🇧 EN</option>
+        <option value="de">🇩🇪 DE</option>
       </select>
+      
+      <button onclick="parent.closeChatbot && parent.closeChatbot()" class="w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold hover:bg-white/20 transition-colors">×</button>
     </div>
   </div>
-
-  <!-- Messages -->
-  <div id="chatbot-messages" class="flex-1 overflow-y-auto p-3 space-y-2 chat-background"></div>
-
-  <!-- Questions rapides -->
-  <div class="border-t border-gray-200 bg-white/80 backdrop-blur-sm p-3">
-    <div class="text-xs font-semibold text-gray-700 mb-2">❓ Questions rapides :</div>
-    <div id="questions-container" class="space-y-2"></div>
+  
+  <!-- Messages Area -->
+  <div id="chatbot-messages" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3 sm:space-y-4 chat-background">
+    <!-- Messages will be inserted here -->
   </div>
-
-  <!-- Input -->
-  <div class="border-t border-gray-300 bg-white p-2 flex items-center space-x-2">
-    <input id="user-input" type="text" placeholder="Posez votre question..." class="flex-1 p-2 border rounded-lg text-sm"/>
-    <button onclick="handleUserInput()" class="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm">Envoyer</button>
+  
+  <!-- Quick Actions -->
+  <div class="bg-white/80 backdrop-blur-sm px-4 py-2">
+    <div class="quick-actions" id="quick-actions">
+      <button class="quick-action" onclick="handleQuickAction('demo')">
+        <i class="fas fa-play mr-1"></i> Démo
+      </button>
+      <button class="quick-action" onclick="handleQuickAction('contact')">
+        <i class="fas fa-envelope mr-1"></i> Contact
+      </button>
+      <button class="quick-action" onclick="handleQuickAction('pricing')">
+        <i class="fas fa-tag mr-1"></i> Tarifs
+      </button>
+    </div>
+  </div>
+  
+  <!-- Quick Questions -->
+  <div class="border-t border-gray-200 bg-white/80 backdrop-blur-sm p-4 sm:p-6">
+    <div class="text-xs sm:text-sm font-semibold text-gray-700 mb-3 sm:mb-4 flex items-center" id="questions-title">
+      <i class="fas fa-question-circle w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-indigo-500"></i>
+      Questions rapides :
+    </div>
+    <div id="questions-container" class="space-y-2 sm:space-y-3"></div>
+  </div>
+  
+  <!-- Input Area -->
+  <div class="bg-white p-4 border-t border-gray-200">
+    <!-- File Preview -->
+    <div id="file-preview" class="mb-3 hidden">
+      <div class="flex items-center p-2 bg-gray-50 rounded-lg">
+        <img id="preview-image" class="attachment-preview mr-3 hidden">
+        <div id="preview-text" class="flex-1 text-sm text-gray-600"></div>
+        <button onclick="clearFilePreview()" class="text-red-500 hover:text-red-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div class="input-container flex items-center p-2">
+      <!-- Attachment Button -->
+      <button onclick="document.getElementById('file-input').click()" class="p-2 text-gray-500 hover:text-indigo-600 transition-colors">
+        <i class="fas fa-paperclip"></i>
+      </button>
+      <input type="file" id="file-input" class="hidden" accept="image/*,.pdf,.doc,.docx" onchange="handleFileUpload(event)">
+      
+      <!-- Text Input -->
+      <input id="user-input" type="text" placeholder="Posez votre question..." 
+             class="flex-1 p-2 border-none outline-none text-sm bg-transparent"
+             onkeypress="handleKeyPress(event)">
+      
+      <!-- Voice Button -->
+      <button onclick="toggleVoiceRecording()" class="voice-btn p-2 text-gray-500 hover:text-red-500 transition-all rounded-full mr-2" id="voice-btn">
+        <i class="fas fa-microphone"></i>
+      </button>
+      
+      <!-- Send Button -->
+      <button onclick="handleUserInput()" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all font-medium">
+        <i class="fas fa-paper-plane mr-1"></i> Envoyer
+      </button>
+    </div>
   </div>
 </div>
 
 <script>
-let currentLang="fr", conversationHistory=[];
+// Enhanced data structure
+const quickQuestions = {
+  fr: [
+    "Qu'est-ce que l'IA en finance ?",
+    "Quels sont vos services ?", 
+    "Quels sont les avantages de l'EPM ?",
+    "Combien coûte une implémentation IA ?",
+    "Comment garantissez-vous la sécurité ?",
+    "Puis-je demander une démo ?",
+    "Quelles sont vos références clients ?",
+    "Combien de temps dure l'implémentation ?",
+    "Proposez-vous de la formation ?",
+    "Quels sont vos partenariats ?"
+  ],
+  en: [
+    "What is AI in finance?",
+    "What services do you offer?",
+    "What are the benefits of EPM?", 
+    "How much does AI implementation cost?",
+    "How do you ensure data security?",
+    "Can I request a demo?",
+    "What are your client references?",
+    "How long does implementation take?",
+    "Do you provide training?",
+    "What are your partnerships?"
+  ],
+  de: [
+    "Was ist KI im Finanzwesen?",
+    "Welche Dienstleistungen bieten Sie an?",
+    "Was sind die Vorteile von EPM?",
+    "Wie viel kostet eine KI-Implementierung?",
+    "Wie garantieren Sie Datensicherheit?",
+    "Kann ich eine Demo anfordern?",
+    "Was sind Ihre Kundenreferenzen?",
+    "Wie lange dauert die Implementierung?",
+    "Bieten Sie Schulungen an?",
+    "Was sind Ihre Partnerschaften?"
+  ]
+};
 
-// Ajoute un message
-function addMessage(text, sender="bot", isWelcome=false){
-  const wrapper=document.createElement("div");
-  wrapper.className=sender==="user"?"text-right":"text-left";
-  const bubble=document.createElement("div");
+const translations = {
+  fr: {
+    welcome: `✨ Helvetic AI – L'intelligence artificielle au service de la performance financière ✨
 
-  if(sender==="user"){
-    bubble.className="inline-block px-3 py-2 rounded-2xl max-w-xs text-sm font-medium bg-red-600 text-white";
-  }else{
-    bubble.className="inline-block px-3 py-2 rounded-2xl max-w-xs text-sm font-medium bg-white/90 text-gray-800 whitespace-pre-line";
+Helvetic AI accompagne les directions financières dans leur transformation digitale.
+Notre ambition : mettre la puissance de l'intelligence artificielle et de l'Enterprise Performance Management (EPM) au service des décideurs, pour transformer la donnée en véritable levier stratégique.
+
+🔹 Une expertise unique : rigueur suisse + approche pragmatique et orientée résultats.
+🔹 Des solutions concrètes : automatisation des processus, analyse prédictive, optimisation budgétaire, pilotage de la performance.
+🔹 Un engagement fort : fiabilité opérationnelle, innovation maîtrisée, conformité réglementaire.
+
+👉 Avec Helvetic AI, la performance financière devient plus intelligente, plus rapide et plus sûre.`,
+    online: "En ligne",
+    readMore: "Lire plus",
+    readLess: "Lire moins",
+    typing: "En train d'écrire...",
+    rateResponse: "Évaluez cette réponse :"
+  },
+  en: {
+    welcome: `✨ Helvetic AI – Artificial Intelligence at the service of financial performance ✨
+
+Helvetic AI supports CFOs in their digital transformation, turning data into a real strategic lever through AI and EPM.
+
+🔹 Unique expertise: Swiss precision combined with pragmatic, results-oriented methods.
+🔹 Concrete solutions: automation, predictive analysis, budgeting optimization, performance management.
+🔹 Strong commitment: operational reliability, controlled innovation, full compliance.
+
+👉 With Helvetic AI, financial performance becomes smarter, faster and safer.`,
+    online: "Online",
+    readMore: "Read more", 
+    readLess: "Read less",
+    typing: "Typing...",
+    rateResponse: "Rate this response:"
+  },
+  de: {
+    welcome: `✨ Helvetic AI – Künstliche Intelligenz im Dienste der Finanzperformance ✨
+
+Helvetic AI begleitet Finanzdirektionen bei der digitalen Transformation und macht Daten dank KI und EPM zu einem echten strategischen Hebel.
+
+🔹 Einzigartige Expertise: Schweizer Präzision + pragmatische, ergebnisorientierte Ansätze.
+🔹 Konkrete Lösungen: Automatisierung, prädiktive Analysen, Budgetoptimierung, Performance-Steuerung.
+🔹 Starkes Engagement: operative Zuverlässigkeit, kontrollierte Innovation, volle Compliance.
+
+👉 Mit Helvetic AI wird die Finanzperformance intelligenter, schneller und sicherer.`,
+    online: "Online",
+    readMore: "Mehr lesen",
+    readLess: "Weniger lesen",
+    typing: "Schreibt...",
+    rateResponse: "Bewerten Sie diese Antwort:"
   }
+};
 
-  if(isWelcome){
-    bubble.innerHTML=`<div id="welcome-preview" class="line-clamp-5">${text}</div>
-    <button id="toggleWelcome" class="mt-1 text-red-600 text-xs underline">Lire plus</button>`;
-    setTimeout(()=>{
-      const btn=document.getElementById("toggleWelcome");
-      const preview=document.getElementById("welcome-preview");
-      btn.addEventListener("click",()=>{
-        if(btn.textContent==="Lire plus"){
-          preview.classList.remove("line-clamp-5");
-          btn.textContent="Lire moins";
-        }else{
-          preview.classList.add("line-clamp-5");
-          btn.textContent="Lire plus";
-        }
-      });
-    },100);
-  }else{
-    bubble.textContent=text;
+// Enhanced responses with more detailed information
+const responses = {
+  fr: {
+    "Qu'est-ce que l'IA en finance ?": "L'IA en finance révolutionne la gestion financière en automatisant les tâches répétitives, en améliorant la précision des prévisions grâce à l'analyse prédictive, et en permettant une prise de décision basée sur des données en temps réel. Nos solutions incluent la détection de fraudes, l'optimisation des investissements, et l'automatisation du reporting financier.",
+    "Quels sont vos services ?": "Helvetic AI propose une gamme complète de services : \n• Automatisation des processus financiers (P2P, O2C, R2R)\n• Solutions EPM (budgeting, forecasting, consolidation)\n• Analyse prédictive et business intelligence\n• Gestion des risques et compliance\n• Formation et accompagnement au changement\n• Support et maintenance 24/7",
+    "Quels sont les avantages de l'EPM ?": "L'EPM (Enterprise Performance Management) apporte des bénéfices majeurs :\n• Visibilité en temps réel sur la performance\n• Planification et budgeting plus agiles\n• Consolidation financière automatisée\n• Réduction des erreurs de 90%\n• Gain de temps de 60% sur le closing\n• Amélioration de la prise de décision stratégique",
+    "Combien coûte une implémentation IA ?": "Nos solutions sont modulaires et adaptées à votre budget :\n• Starter Pack : à partir de 15 000 CHF\n• Solution Standard : 50 000 - 150 000 CHF\n• Solution Enterprise : sur devis\n\nInclus : licences, implémentation, formation, et 6 mois de support. ROI garanti en moins de 12 mois.",
+    "Comment garantissez-vous la sécurité ?": "La sécurité est notre priorité absolue :\n• Conformité ISO 27001, GDPR, et standards bancaires suisses\n• Chiffrement end-to-end AES-256\n• Hébergement en Suisse avec redondance\n• Audits de sécurité trimestriels\n• Accès par authentification multi-facteurs\n• Sauvegarde et disaster recovery automatisés",
+    "Puis-je demander une démo ?": "Absolument ! Nous proposons des démonstrations personnalisées :\n• Démo live de 30 minutes adaptée à vos besoins\n• Présentation de cas d'usage similaires à votre secteur\n• Q&A avec nos experts\n• Proposition commerciale sur mesure\n\nContactez-nous sur demo@helvetic-ai.ch ou +41 22 123 45 67",
+    "Quelles sont vos références clients ?": "Nous accompagnons plus de 150+ entreprises en Suisse et en Europe :\n• Banques privées et corporate\n• Assurances et réassurances\n• Multinationales (pharma, luxe, technologie)\n• PME en croissance\n\nTaux de satisfaction client : 98%. Références disponibles sur demande.",
+    "Combien de temps dure l'implémentation ?": "Nos délais d'implémentation sont optimisés :\n• Solution Starter : 4-6 semaines\n• Solution Standard : 2-4 mois\n• Solution Enterprise : 6-12 mois\n\nMéthodologie agile avec livrables par sprints de 2 semaines. Go-live progressif pour minimiser les risques.",
+    "Proposez-vous de la formation ?": "Oui, la formation fait partie intégrante de notre approche :\n• Formation des utilisateurs finaux (8h)\n• Formation des administrateurs (16h)\n• Formation des super-users (24h)\n• Supports de formation personnalisés\n• Sessions de refresh trimestrielles\n• Certification disponible",
+    "Quels sont vos partenariats ?": "Helvetic AI s'appuie sur un écosystème de partenaires de premier plan :\n• Microsoft (Gold Partner Azure)\n• SAP (Certified Partner)\n• Oracle (Gold Partner)\n• Tableau (Technology Partner)\n• Intégration avec 200+ applications métier\n\nPartenaires d'implémentation en Suisse, France, et Allemagne."
+  },
+  en: {
+    "What is AI in finance?": "AI in finance transforms financial management by automating repetitive tasks, improving forecast accuracy through predictive analytics, and enabling real-time data-driven decision making. Our solutions include fraud detection, investment optimization, and automated financial reporting.",
+    "What services do you offer?": "Helvetic AI offers a comprehensive range of services:\n• Financial process automation (P2P, O2C, R2R)\n• EPM solutions (budgeting, forecasting, consolidation)\n• Predictive analytics and business intelligence\n• Risk management and compliance\n• Training and change management\n• 24/7 support and maintenance",
+    "What are the benefits of EPM?": "EPM (Enterprise Performance Management) delivers major benefits:\n• Real-time performance visibility\n• More agile planning and budgeting\n• Automated financial consolidation\n• 90% error reduction\n• 60% time savings on closing\n• Improved strategic decision-making",
+    "How much does AI implementation cost?": "Our solutions are modular and budget-adapted:\n• Starter Pack: from CHF 15,000\n• Standard Solution: CHF 50,000 - 150,000\n• Enterprise Solution: custom quote\n\nIncludes: licenses, implementation, training, and 6 months support. ROI guaranteed in under 12 months.",
+    "How do you ensure data security?": "Security is our absolute priority:\n• ISO 27001, GDPR, and Swiss banking standards compliance\n• End-to-end AES-256 encryption\n• Swiss hosting with redundancy\n• Quarterly security audits\n• Multi-factor authentication access\n• Automated backup and disaster recovery",
+    "Can I request a demo?": "Absolutely! We offer personalized demonstrations:\n• 30-minute live demo adapted to your needs\n• Similar use cases presentation for your sector\n• Q&A with our experts\n• Tailored commercial proposal\n\nContact us at demo@helvetic-ai.ch or +41 22 123 45 67",
+    "What are your client references?": "We support 150+ companies in Switzerland and Europe:\n• Private and corporate banks\n• Insurance and reinsurance\n• Multinationals (pharma, luxury, technology)\n• Growing SMEs\n\nClient satisfaction rate: 98%. References available upon request.",
+    "How long does implementation take?": "Our implementation timelines are optimized:\n• Starter Solution: 4-6 weeks\n• Standard Solution: 2-4 months\n• Enterprise Solution: 6-12 months\n\nAgile methodology with 2-week sprint deliverables. Progressive go-live to minimize risks.",
+    "Do you provide training?": "Yes, training is an integral part of our approach:\n• End-user training (8h)\n• Administrator training (16h)\n• Super-user training (24h)\n• Personalized training materials\n• Quarterly refresh sessions\n• Certification available",
+    "What are your partnerships?": "Helvetic AI relies on a premier partner ecosystem:\n• Microsoft (Gold Partner Azure)\n• SAP (Certified Partner)\n• Oracle (Gold Partner)\n• Tableau (Technology Partner)\n• Integration with 200+ business applications\n\nImplementation partners in Switzerland, France, and Germany."
+  },
+  de: {
+    "Was ist KI im Finanzwesen?": "KI im Finanzwesen transformiert das Finanzmanagement durch Automatisierung repetitiver Aufgaben, Verbesserung der Prognosegenauigkeit durch prädiktive Analysen und ermöglicht datenbasierte Entscheidungen in Echtzeit. Unsere Lösungen umfassen Betrugserkennung, Investitionsoptimierung und automatisierte Finanzberichterstattung.",
+    "Welche Dienstleistungen bieten Sie an?": "Helvetic AI bietet eine umfassende Palette von Dienstleistungen:\n• Automatisierung von Finanzprozessen (P2P, O2C, R2R)\n• EPM-Lösungen (Budgetierung, Prognosen, Konsolidierung)\n• Prädiktive Analysen und Business Intelligence\n• Risikomanagement und Compliance\n• Schulungen und Change Management\n• 24/7 Support und Wartung",
+    "Was sind die Vorteile von EPM?": "EPM (Enterprise Performance Management) bietet große Vorteile:\n• Echtzeit-Performance-Transparenz\n• Agilere Planung und Budgetierung\n• Automatisierte Finanzkonsolidierung\n• 90% Fehlerreduktion\n• 60% Zeitersparnis beim Closing\n• Verbesserte strategische Entscheidungsfindung",
+    "Wie viel kostet eine KI-Implementierung?": "Unsere Lösungen sind modular und budgetangepasst:\n• Starter Paket: ab CHF 15.000\n• Standard Lösung: CHF 50.000 - 150.000\n• Enterprise Lösung: individuelles Angebot\n\nInklusive: Lizenzen, Implementierung, Schulung und 6 Monate Support. ROI garantiert in unter 12 Monaten.",
+    "Wie garantieren Sie Datensicherheit?": "Sicherheit ist unsere absolute Priorität:\n• ISO 27001, GDPR und Schweizer Banking-Standards Compliance\n• End-to-End AES-256 Verschlüsselung\n• Schweizer Hosting mit Redundanz\n• Vierteljährliche Sicherheitsaudits\n• Multi-Faktor-Authentifizierung\n• Automatisierte Backup und Disaster Recovery",
+    "Kann ich eine Demo anfordern?": "Auf jeden Fall! Wir bieten personalisierte Demonstrationen:\n• 30-minütige Live-Demo angepasst an Ihre Bedürfnisse\n• Präsentation ähnlicher Use Cases für Ihre Branche\n• Q&A mit unseren Experten\n• Maßgeschneidertes Angebot\n\nKontaktieren Sie uns unter demo@helvetic-ai.ch oder +41 22 123 45 67",
+    "Was sind Ihre Kundenreferenzen?": "Wir unterstützen 150+ Unternehmen in der Schweiz und Europa:\n• Privat- und Firmenbanken\n• Versicherungen und Rückversicherungen\n• Multinationale Konzerne (Pharma, Luxus, Technologie)\n• Wachsende KMU\n\nKundenzufriedenheitsrate: 98%. Referenzen auf Anfrage verfügbar.",
+    "Wie lange dauert die Implementierung?": "Unsere Implementierungszeiträume sind optimiert:\n• Starter Lösung: 4-6 Wochen\n• Standard Lösung: 2-4 Monate\n• Enterprise Lösung: 6-12 Monate\n\nAgile Methodik mit 2-Wochen-Sprint-Lieferungen. Progressiver Go-live zur Risikominimierung.",
+    "Bieten Sie Schulungen an?": "Ja, Schulungen sind integraler Bestandteil unseres Ansatzes:\n• Endbenutzer-Schulung (8h)\n• Administrator-Schulung (16h)\n• Super-User-Schulung (24h)\n• Personalisierte Schulungsunterlagen\n• Vierteljährliche Auffrischungssitzungen\n• Zertifizierung verfügbar",
+    "Was sind Ihre Partnerschaften?": "Helvetic AI stützt sich auf ein erstklassiges Partner-Ökosystem:\n• Microsoft (Gold Partner Azure)\n• SAP (Certified Partner)\n• Oracle (Gold Partner)\n• Tableau (Technology Partner)\n• Integration mit 200+ Geschäftsanwendungen\n\nImplementierungspartner in der Schweiz, Frankreich und Deutschland."
   }
+};
 
-  wrapper.appendChild(bubble);
-  document.getElementById("chatbot-messages").appendChild(wrapper);
-  document.getElementById("chatbot-messages").scrollTop=document.getElementById("chatbot-messages").scrollHeight;
-  conversationHistory.push({sender,text,time:new Date().toISOString()});
+// Global variables
+let currentLang = "fr";
+let conversationHistory = [];
+let isRecording = false;
+let isDarkTheme = false;
+let messageCount = 0;
+let ratings = [];
+let currentFile = null;
+
+// Sentiment analysis simulation
+function analyzeSentiment(text) {
+  const positiveWords = ['excellent', 'parfait', 'super', 'génial', 'fantastique', 'merci'];
+  const negativeWords = ['problème', 'erreur', 'mauvais', 'défaut', 'bug', 'lent'];
+  
+  const words = text.toLowerCase().split(' ');
+  let score = 0;
+  
+  words.forEach(word => {
+    if (positiveWords.includes(word)) score += 1;
+    if (negativeWords.includes(word)) score -= 1;
+  });
+  
+  if (score > 0) return 'positive';
+  if (score < 0) return 'negative';
+  return 'neutral';
 }
 
-// Gestion input user
-function handleUserInput(){
-  const input=document.getElementById("user-input");
-  const q=input.value.trim();
-  if(!q) return;
-  addMessage(q,"user");
-  input.value="";
-  setTimeout(()=>{
-    const a=getAnswer(q,currentLang) || "Désolé, je n’ai pas encore de réponse pour ça.";
-    addMessage(a,"bot");
-  },800);
+function updateSentimentIndicator(sentiment) {
+  const indicator = document.getElementById('sentiment-indicator');
+  indicator.className = `sentiment-indicator sentiment-${sentiment}`;
 }
 
-// Questions rapides
-function updateQuickQuestions(){
-  const container=document.getElementById("questions-container");
-  container.innerHTML="";
-  const questions=quickQuestions[currentLang]||[];
-  questions.forEach(q=>{
-    const btn=document.createElement("button");
-    btn.className="w-full text-left p-2 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-100";
-    btn.textContent=q;
-    btn.onclick=()=>{addMessage(q,"user"); setTimeout(()=>addMessage(getAnswer(q,currentLang),"bot"),800);};
+// Enhanced message addition with actions and ratings
+function addMessage(text, sender = "bot", isWelcome = false, showActions = true) {
+  const container = document.createElement("div");
+  container.className = `message-container ${sender === "user" ? "text-right" : "text-left"}`;
+  
+  const bubble = document.createElement("div");
+  bubble.className = sender === "user" ? 
+    "inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-user bg-gradient-to-r from-indigo-600 to-purple-600 text-white" :
+    "inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-bot bg-white/90 backdrop-blur-sm whitespace-pre-line";
+
+  if (isWelcome) {
+    bubble.innerHTML = `
+      <div id="welcome-preview" class="line-clamp-5">${text}</div>
+      <button id="toggleWelcome" class="mt-2 text-indigo-600 text-xs underline">${translations[currentLang].readMore}</button>
+    `;
+    setTimeout(() => {
+      const toggleBtn = document.getElementById("toggleWelcome");
+      const preview = document.getElementById("welcome-preview");
+      if (toggleBtn && preview) {
+        toggleBtn.addEventListener("click", () => {
+          if (toggleBtn.textContent === translations[currentLang].readMore) {
+            preview.classList.remove("line-clamp-5");
+            toggleBtn.textContent = translations[currentLang].readLess;
+          } else {
+            preview.classList.add("line-clamp-5");
+            toggleBtn.textContent = translations[currentLang].readMore;
+          }
+        });
+      }
+    }, 50);
+  } else {
+    bubble.innerHTML = text;
+  }
+
+  container.appendChild(bubble);
+
+  // Add message actions for bot messages
+  if (sender === "bot" && showActions && !isWelcome) {
+    const actions = document.createElement("div");
+    actions.className = "message-actions";
+    actions.innerHTML = `
+      <button class="action-btn" onclick="copyMessage('${text.replace(/'/g, "\\'")}')">
+        <i class="fas fa-copy mr-1"></i> Copier
+      </button>
+      <button class="action-btn" onclick="shareMessage('${text.replace(/'/g, "\\'")}')">
+        <i class="fas fa-share mr-1"></i> Partager
+      </button>
+    `;
+    container.appendChild(actions);
+
+    // Add rating system
+    const ratingDiv = document.createElement("div");
+    ratingDiv.innerHTML = `
+      <div class="text-xs text-gray-500 mt-2">${translations[currentLang].rateResponse}</div>
+      <div class="satisfaction-rating">
+        ${[1,2,3,4,5].map(i => `<span class="rating-star" onclick="rateMessage(${i}, this)">⭐</span>`).join('')}
+      </div>
+    `;
+    container.appendChild(ratingDiv);
+  }
+
+  document.getElementById("chatbot-messages").appendChild(container);
+  document.getElementById("chatbot-messages").scrollTop = document.getElementById("chatbot-messages").scrollHeight;
+
+  // Update conversation history
+  conversationHistory.push({
+    sender: sender,
+    text: text,
+    time: new Date().toISOString(),
+    sentiment: sender === "user" ? analyzeSentiment(text) : "neutral"
+  });
+
+  messageCount++;
+  updateStats();
+
+  // Update sentiment for user messages
+  if (sender === "user") {
+    updateSentimentIndicator(analyzeSentiment(text));
+  }
+}
+
+function showTypingIndicator() {
+  const indicator = document.createElement("div");
+  indicator.id = "typing-indicator";
+  indicator.className = "text-left";
+  indicator.innerHTML = `
+    <div class="typing-indicator">
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <span class="ml-2 text-xs text-gray-500">${translations[currentLang].typing}</span>
+    </div>
+  `;
+  document.getElementById("chatbot-messages").appendChild(indicator);
+  document.getElementById("chatbot-messages").scrollTop = document.getElementById("chatbot-messages").scrollHeight;
+}
+
+function hideTypingIndicator() {
+  const indicator = document.getElementById("typing-indicator");
+  if (indicator) {
+    indicator.remove();
+  }
+}
+
+// Enhanced user input handling
+function handleUserInput() {
+  const input = document.getElementById("user-input");
+  const text = input.value.trim();
+  
+  if (text) {
+    addMessage(text, "user");
+    input.value = "";
+    
+    showTypingIndicator();
+    
+    setTimeout(() => {
+      hideTypingIndicator();
+      const response = responses[currentLang][text] || 
+        getAIResponse(text) || 
+        "Désolé, je n'ai pas encore de réponse précise pour cette question. Puis-je vous proposer une démonstration personnalisée pour mieux comprendre vos besoins ?";
+      addMessage(response, "bot");
+    }, 1200 + Math.random() * 800); // Variable response time
+  }
+}
+
+// AI-like response generation for unknown questions
+function getAIResponse(question) {
+  const lowerQuestion = question.toLowerCase();
+  
+  if (lowerQuestion.includes('prix') || lowerQuestion.includes('coût') || lowerQuestion.includes('tarif')) {
+    return "Nos tarifs dépendent de vos besoins spécifiques. Nous proposons des solutions à partir de 15 000 CHF. Souhaitez-vous que je vous mette en contact avec un de nos consultants pour une estimation personnalisée ?";
+  }
+  
+  if (lowerQuestion.includes('sécurité') || lowerQuestion.includes('confidential')) {
+    return "La sécurité des données est au cœur de notre approche. Nous respectons les standards suisses et européens les plus stricts (ISO 27001, GDPR). Toutes vos données restent en Suisse avec un chiffrement de niveau bancaire.";
+  }
+  
+  if (lowerQuestion.includes('temps') || lowerQuestion.includes('durée') || lowerQuestion.includes('délai')) {
+    return "Les délais d'implémentation varient selon la complexité : de 4 semaines pour nos solutions Starter à 6 mois pour les projets Enterprise. Notre approche agile garantit des résultats rapides et mesurables.";
+  }
+  
+  if (lowerQuestion.includes('formation') || lowerQuestion.includes('apprentissage')) {
+    return "Nous incluons systématiquement la formation dans nos projets : formation des utilisateurs, administrateurs, et super-users, avec des supports personnalisés et des sessions de refresh régulières.";
+  }
+  
+  return null;
+}
+
+function handleKeyPress(event) {
+  if (event.key === 'Enter') {
+    handleUserInput();
+  }
+}
+
+// Quick actions
+function handleQuickAction(action) {
+  const actions = {
+    fr: {
+      demo: "J'aimerais voir une démonstration de vos solutions IA pour la finance.",
+      contact: "Comment puis-je contacter votre équipe commerciale ?",
+      pricing: "Pouvez-vous me donner plus d'informations sur vos tarifs ?"
+    },
+    en: {
+      demo: "I would like to see a demonstration of your AI solutions for finance.",
+      contact: "How can I contact your sales team?",
+      pricing: "Can you give me more information about your pricing?"
+    },
+    de: {
+      demo: "Ich möchte eine Demonstration Ihrer KI-Lösungen für das Finanzwesen sehen.",
+      contact: "Wie kann ich Ihr Vertriebsteam kontaktieren?",
+      pricing: "Können Sie mir mehr Informationen zu Ihren Preisen geben?"
+    }
+  };
+  
+  const message = actions[currentLang][action];
+  if (message) {
+    addMessage(message, "user");
+    setTimeout(() => {
+      const response = responses[currentLang][Object.values(quickQuestions[currentLang])[Object.keys(actions[currentLang]).indexOf(action)]] ||
+        "Merci pour votre intérêt ! Je vais vous mettre en contact avec un de nos experts.";
+      addMessage(response, "bot");
+    }, 800);
+  }
+}
+
+// File upload handling
+function handleFileUpload(event) {
+  const file = event.target.files[0];
+  if (file) {
+    currentFile = file;
+    const preview = document.getElementById("file-preview");
+    const previewText = document.getElementById("preview-text");
+    const previewImage = document.getElementById("preview-image");
+    
+    preview.classList.remove("hidden");
+    
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        previewImage.src = e.target.result;
+        previewImage.classList.remove("hidden");
+      };
+      reader.readAsDataURL(file);
+      previewText.textContent = `Image: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+    } else {
+      previewImage.classList.add("hidden");
+      previewText.textContent = `Document: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+    }
+  }
+}
+
+function clearFilePreview() {
+  document.getElementById("file-preview").classList.add("hidden");
+  document.getElementById("file-input").value = "";
+  currentFile = null;
+}
+
+// Voice recording
+function toggleVoiceRecording() {
+  const btn = document.getElementById("voice-btn");
+  
+  if (!isRecording) {
+    startRecording();
+    btn.classList.add("voice-recording");
+    btn.innerHTML = '<i class="fas fa-stop"></i>';
+    isRecording = true;
+  } else {
+    stopRecording();
+    btn.classList.remove("voice-recording");
+    btn.innerHTML = '<i class="fas fa-microphone"></i>';
+    isRecording = false;
+  }
+}
+
+function startRecording() {
+  // Simulate voice recording
+  console.log("Voice recording started...");
+}
+
+function stopRecording() {
+  // Simulate voice recording stop
+  console.log("Voice recording stopped...");
+  // Here you would typically process the audio and convert to text
+  const simulatedText = "Message vocal converti en texte";
+  document.getElementById("user-input").value = simulatedText;
+}
+
+// Message actions
+function copyMessage(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    showNotification("Message copié !");
+  });
+}
+
+function shareMessage(text) {
+  if (navigator.share) {
+    navigator.share({
+      title: 'Helvetic AI',
+      text: text
+    });
+  } else {
+    copyMessage(text);
+    showNotification("Message copié pour partage !");
+  }
+}
+
+function rateMessage(rating, element) {
+  // Update visual feedback
+  const stars = element.parentNode.querySelectorAll('.rating-star');
+  stars.forEach((star, index) => {
+    if (index < rating) {
+      star.classList.add('active');
+    } else {
+      star.classList.remove('active');
+    }
+  });
+  
+  ratings.push(rating);
+  updateStats();
+  showNotification("Merci pour votre évaluation !");
+}
+
+// Quick questions update
+function updateQuickQuestions() {
+  const container = document.getElementById("questions-container");
+  container.innerHTML = "";
+  
+  // Show random 6 questions
+  const questions = [...quickQuestions[currentLang]].sort(() => Math.random() - 0.5).slice(0, 6);
+  
+  questions.forEach(question => {
+    const btn = document.createElement("button");
+    btn.className = "question-btn w-full text-left p-3 rounded-xl text-sm font-medium text-gray-700 bg-white/70 hover:bg-white transition-all";
+    btn.textContent = question;
+    btn.onclick = () => {
+      addMessage(question, "user");
+      showTypingIndicator();
+      setTimeout(() => {
+        hideTypingIndicator();
+        const reply = responses[currentLang][question] || getAIResponse(question) || "Merci pour cette question intéressante. Laissez-moi vous mettre en contact avec un expert.";
+        addMessage(reply, "bot");
+      }, 1000);
+    };
     container.appendChild(btn);
   });
 }
 
-// Init
-document.addEventListener("DOMContentLoaded",()=>{
-  addMessage(translations[currentLang].welcome,"bot",true);
+// Theme toggle
+function toggleTheme() {
+  isDarkTheme = !isDarkTheme;
+  const body = document.body;
+  const themeBtn = document.getElementById("theme-toggle");
+  
+  if (isDarkTheme) {
+    body.classList.add("theme-dark");
+    themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+  } else {
+    body.classList.remove("theme-dark");
+    themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+  }
+}
+
+// Statistics
+function updateStats() {
+  document.getElementById("message-count").textContent = messageCount;
+  
+  if (ratings.length > 0) {
+    const avgRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+    document.getElementById("avg-rating").textContent = avgRating.toFixed(1);
+  }
+}
+
+function toggleStats() {
+  const stats = document.getElementById("conversation-stats");
+  stats.style.display = stats.style.display === "block" ? "none" : "block";
+}
+
+// Export functions
+function exportConversation(format = "txt") {
+  if (conversationHistory.length === 0) {
+    showNotification("Aucune conversation à exporter.");
+    return;
+  }
+
+  let content, blob, filename;
+  
+  if (format === "json") {
+    content = JSON.stringify({
+      conversation: conversationHistory,
+      stats: {
+        messageCount: messageCount,
+        averageRating: ratings.length > 0 ? ratings.reduce((a, b) => a + b, 0) / ratings.length : null,
+        language: currentLang
+      },
+      exportDate: new Date().toISOString()
+    }, null, 2);
+    blob = new Blob([content], { type: "application/json" });
+    filename = `helvetic-ai-conversation-${new Date().toISOString().split('T')[0]}.json`;
+  } else if (format === "pdf") {
+    // For PDF export, we'll create a formatted text version
+    content = `Helvetic AI - Conversation Export
+Date: ${new Date().toLocaleString()}
+Language: ${currentLang.toUpperCase()}
+Messages: ${messageCount}
+${ratings.length > 0 ? `Average Rating: ${(ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1)}/5` : ''}
+
+${'='.repeat(50)}
+
+${conversationHistory.map(msg => 
+  `[${new Date(msg.time).toLocaleTimeString()}] ${msg.sender.toUpperCase()}: ${msg.text}`
+).join('\n\n')}`;
+    blob = new Blob([content], { type: "text/plain" });
+    filename = `helvetic-ai-conversation-${new Date().toISOString().split('T')[0]}.pdf`;
+  } else {
+    content = conversationHistory.map(msg => 
+      `[${new Date(msg.time).toLocaleTimeString()}] ${msg.sender.toUpperCase()}: ${msg.text}`
+    ).join('\n\n');
+    blob = new Blob([content], { type: "text/plain" });
+    filename = `helvetic-ai-conversation-${new Date().toISOString().split('T')[0]}.txt`;
+  }
+
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+  
+  document.getElementById("exportDropdown").classList.remove("show");
+  showNotification(`Conversation exportée en ${format.toUpperCase()} !`);
+}
+
+// Utility functions
+function showNotification(message) {
+  const notification = document.createElement("div");
+  notification.className = "fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-all";
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.opacity = "0";
+    setTimeout(() => {
+      document.body.removeChild(notification);
+    }, 300);
+  }, 3000);
+}
+
+function toggleDropdown() {
+  document.getElementById("exportDropdown").classList.toggle("show");
+}
+
+// Language change handler
+document.addEventListener("DOMContentLoaded", () => {
+  addMessage(translations[currentLang].welcome, "bot", true);
   updateQuickQuestions();
 });
 
-// Gestion langues
-document.getElementById("lang-select").addEventListener("change",e=>{
-  currentLang=e.target.value;
-  document.getElementById("chatbot-messages").innerHTML="";
-  conversationHistory=[];
-  addMessage(translations[currentLang].welcome,"bot",true);
+// Event listeners
+document.getElementById("lang-select").addEventListener("change", (e) => {
+  currentLang = e.target.value;
+  document.getElementById("status-indicator").textContent = translations[currentLang].online;
+  
+  // Clear and restart conversation
+  document.getElementById("chatbot-messages").innerHTML = "";
+  conversationHistory = [];
+  messageCount = 0;
+  ratings = [];
+  
+  addMessage(translations[currentLang].welcome, "bot", true);
   updateQuickQuestions();
+  updateStats();
+});
+
+// Close dropdowns when clicking outside
+window.addEventListener("click", (e) => {
+  if (!e.target.closest("#exportDropdown")) {
+    document.getElementById("exportDropdown").classList.remove("show");
+  }
+  if (!e.target.closest("#conversation-stats") && !e.target.matches('[onclick="toggleStats()"]')) {
+    document.getElementById("conversation-stats").style.display = "none";
+  }
 });
 </script>
 </body>
