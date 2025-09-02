@@ -1242,8 +1242,8 @@ function updateQuickQuestions() {
   const container = document.getElementById("questions-container");
   container.innerHTML = "";
   
-  // Show random 4 questions
-  const questions = [...quickQuestions[currentLang]].sort(() => Math.random() - 0.5).slice(0, 4);
+  // Show random 2 questions
+  const questions = [...quickQuestions[currentLang]].sort(() => Math.random() - 0.5).slice(0, 2);
   
   questions.forEach(question => {
     const btn = document.createElement("button");
