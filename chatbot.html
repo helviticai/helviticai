@@ -122,16 +122,45 @@
 
 .input-container {
   position: relative;
-  background: white;
+  background: #ffffff; /* Blanc bien visible */
   border-radius: 24px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  border: 2px solid #4f46e5; /* Bordure violette plus visible */
   transition: all 0.3s ease;
+  min-height: 56px;
+  max-height: 200px; /* Limite la hauteur maximale */
 }
 
 .input-container:focus-within {
-  box-shadow: 0 8px 32px rgba(79, 70, 229, 0.2);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.4); /* Halo lumineux violet */
   border-color: #4f46e5;
+}
+
+.text-input-wrapper {
+  display: flex;
+  align-items: flex-start;
+  max-height: 160px; /* Hauteur max pour la zone de texte */
+  overflow-y: auto; /* Barre de défilement verticale */
+  padding: 2px;
+}
+
+.text-input-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.text-input-wrapper::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.05);
+  border-radius: 3px;
+}
+
+.text-input-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(79, 70, 229, 0.3);
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+.text-input-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(79, 70, 229, 0.5);
 }
 
 .voice-btn {
@@ -283,71 +312,81 @@
   transition: width 0.3s ease;
 }
 
-.search-suggestion {
-  padding: 12px 16px;
+@media (max-width: 640px) {
+  .quick-actions {
+    justify-content: center;
+  }
+  
+  .dropdown-content {
+    min-width: 120px;
+  }
+  
+  #search-input::placeholder {
+    font-size: 12px;
+  }
+}
+
+.search-result-item {
+  padding: 8px 12px;
   cursor: pointer;
   border-bottom: 1px solid #f3f4f6;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  transition: background-color 0.2s ease;
+  font-size: 13px;
 }
 
-.search-suggestion:hover {
-  background: #f8fafc;
-  border-left: 3px solid #4f46e5;
-}
-
-.search-suggestion:last-child {
+.search-result-item:last-child {
   border-bottom: none;
 }
 
-.suggestion-text {
-  flex: 1;
-  font-size: 14px;
+.search-result-item:hover {
+  background-color: #f8fafc;
+}
+
+.search-result-question {
+  font-weight: 500;
   color: #374151;
 }
 
-.suggestion-keywords {
-  font-size: 11px;
-  color: #9ca3af;
-  background: #f3f4f6;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-left: 8px;
-}
-
-.search-active #search-toggle {
-  color: #4f46e5;
-  background: #eff6ff;
-  border-radius: 6px;
+.search-result-preview {
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 2px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .search-highlight {
-  background: #fef3c7;
-  padding: 1px 2px;
+  background-color: #fef3c7;
+  font-weight: 600;
+  padding: 0 2px;
   border-radius: 2px;
 }
 
-.search-category {
-  padding: 8px 16px;
-  background: #f8fafc;
-  border-bottom: 1px solid #e5e7eb;
-  font-size: 12px;
-  font-weight: 600;
+.no-results {
+  padding: 16px;
+  text-align: center;
   color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-size: 13px;
 }
 
-@media (max-width: 640px) {
-  .search-suggestion {
-    padding: 10px 12px;
-  }
-  
-  .suggestion-keywords {
-    display: none;
-  }
+#search-results {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(79, 70, 229, 0.3) transparent;
+}
+
+#search-results::-webkit-scrollbar {
+  width: 4px;
+}
+
+#search-results::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#search-results::-webkit-scrollbar-thumb {
+  background: rgba(79, 70, 229, 0.3);
+  border-radius: 2px;
 }
 </style>
 </head>
@@ -426,6 +465,24 @@
   
   <!-- Quick Actions -->
   <div class="bg-white/80 backdrop-blur-sm px-4 py-2">
+    <!-- Search Bar -->
+    <div class="mb-3">
+      <div class="relative">
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Rechercher par mot-clé (ex: prix, sécurité, formation...)"
+          class="w-full px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/90"
+          oninput="performSearch(this.value)"
+          onkeypress="handleSearchKeyPress(event)"
+        >
+        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+        <div id="search-results" class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 mt-1 hidden max-h-60 overflow-y-auto">
+          <!-- Search results will appear here -->
+        </div>
+      </div>
+    </div>
+    
     <div class="quick-actions" id="quick-actions">
       <button class="quick-action" onclick="handleQuickAction('demo')">
         <i class="fas fa-play mr-1"></i> Démo
@@ -440,17 +497,12 @@
   </div>
   
   <!-- Quick Questions -->
-  <div class="border-t border-gray-200 bg-white/80 backdrop-blur-sm p-3 sm:p-4">
-    <div class="text-xs sm:text-sm font-semibold text-gray-700 mb-2 flex items-center justify-between" id="questions-title">
-      <div class="flex items-center">
-        <i class="fas fa-question-circle w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-indigo-500"></i>
-        Questions rapides :
-      </div>
-      <button onclick="refreshQuickQuestions()" class="text-indigo-600 hover:text-indigo-800 transition-colors text-xs">
-        <i class="fas fa-sync-alt mr-1"></i>Autres
-      </button>
+  <div class="border-t border-gray-200 bg-white/80 backdrop-blur-sm p-4 sm:p-6">
+    <div class="text-xs sm:text-sm font-semibold text-gray-700 mb-3 sm:mb-4 flex items-center" id="questions-title">
+      <i class="fas fa-question-circle w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-indigo-500"></i>
+      Questions rapides :
     </div>
-    <div id="questions-container" class="flex flex-wrap gap-2"></div>
+    <div id="questions-container" class="space-y-2 sm:space-y-3"></div>
   </div>
   
   <!-- Input Area -->
@@ -466,38 +518,37 @@
       </div>
     </div>
     
-    <div class="input-container flex items-center p-2">
-      <!-- Search Toggle Button -->
-      <button onclick="toggleSearchMode()" class="p-2 text-gray-500 hover:text-indigo-600 transition-colors" id="search-toggle" title="Mode recherche">
-        <i class="fas fa-search"></i>
-      </button>
-      
-      <!-- Attachment Button -->
-      <button onclick="document.getElementById('file-input').click()" class="p-2 text-gray-500 hover:text-indigo-600 transition-colors">
-        <i class="fas fa-paperclip"></i>
-      </button>
-      <input type="file" id="file-input" class="hidden" accept="image/*,.pdf,.doc,.docx" onchange="handleFileUpload(event)">
-      
-      <!-- Text Input -->
-      <input id="user-input" type="text" placeholder="Posez votre question..." 
-             class="flex-1 p-2 border-none outline-none text-sm bg-transparent"
-             onkeypress="handleKeyPress(event)"
-             oninput="handleInputChange(event)">
-      
-      <!-- Voice Button -->
-      <button onclick="toggleVoiceRecording()" class="voice-btn p-2 text-gray-500 hover:text-red-500 transition-all rounded-full mr-2" id="voice-btn">
-        <i class="fas fa-microphone"></i>
-      </button>
-      
-      <!-- Send Button -->
-      <button onclick="handleUserInput()" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all font-medium">
-        <i class="fas fa-paper-plane mr-1"></i> Envoyer
-      </button>
-    </div>
-    
-    <!-- Search Suggestions -->
-    <div id="search-suggestions" class="hidden bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto mt-2 mx-4">
-      <!-- Suggestions will be populated here -->
+    <div class="input-container">
+      <div class="flex items-start p-2">
+        <!-- Attachment Button -->
+        <button onclick="document.getElementById('file-input').click()" class="p-2 text-gray-500 hover:text-indigo-600 transition-colors flex-shrink-0">
+          <i class="fas fa-paperclip"></i>
+        </button>
+        <input type="file" id="file-input" class="hidden" accept="image/*,.pdf,.doc,.docx" onchange="handleFileUpload(event)">
+        
+        <!-- Text Input Wrapper with Scrollbar -->
+        <div class="text-input-wrapper flex-1">
+          <textarea id="user-input" 
+                    placeholder="Posez votre question..." 
+                    class="w-full p-2 border-none outline-none text-sm bg-transparent resize-none min-h-[40px] leading-5"
+                    rows="1"
+                    style="overflow-y: hidden;"
+                    oninput="autoResize(this)"
+                    onkeydown="handleKeyPress(event)"></textarea>
+        </div>
+        
+        <div class="flex items-center flex-shrink-0">
+          <!-- Voice Button -->
+          <button onclick="toggleVoiceRecording()" class="voice-btn p-2 text-gray-500 hover:text-red-500 transition-all rounded-full mr-2" id="voice-btn">
+            <i class="fas fa-microphone"></i>
+          </button>
+          
+          <!-- Send Button -->
+          <button onclick="handleUserInput()" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all font-medium">
+            <i class="fas fa-paper-plane mr-1"></i> Envoyer
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -559,9 +610,7 @@ Notre ambition : mettre la puissance de l'intelligence artificielle et de l'Ente
     readMore: "Lire plus",
     readLess: "Lire moins",
     typing: "En train d'écrire...",
-    rateResponse: "Évaluez cette réponse :",
-    searchPlaceholder: "Rechercher dans la base de connaissances...",
-    inputPlaceholder: "Posez votre question..."
+    rateResponse: "Évaluez cette réponse :"
   },
   en: {
     welcome: `✨ Helvetic AI – Artificial Intelligence at the service of financial performance ✨
@@ -577,9 +626,7 @@ Helvetic AI supports CFOs in their digital transformation, turning data into a r
     readMore: "Read more", 
     readLess: "Read less",
     typing: "Typing...",
-    rateResponse: "Rate this response:",
-    searchPlaceholder: "Search in knowledge base...",
-    inputPlaceholder: "Ask your question..."
+    rateResponse: "Rate this response:"
   },
   de: {
     welcome: `✨ Helvetic AI – Künstliche Intelligenz im Dienste der Finanzperformance ✨
@@ -595,107 +642,7 @@ Helvetic AI begleitet Finanzdirektionen bei der digitalen Transformation und mac
     readMore: "Mehr lesen",
     readLess: "Weniger lesen",
     typing: "Schreibt...",
-    rateResponse: "Bewerten Sie diese Antwort:",
-    searchPlaceholder: "In Wissensbasis suchen...",
-    inputPlaceholder: "Stellen Sie Ihre Frage..."
-  }
-};
-
-// Base de connaissances complète IA & Performance Financière EPM
-const faq = {
-  fr: {
-    // Questions spécialisées IA & Finance avec mots-clés de recherche
-    "ia finance definition qu'est-ce": "L'IA appliquée à la performance financière utilise des algorithmes avancés, l'apprentissage automatique et l'analyse prédictive pour automatiser et optimiser les processus de gestion financière dans l'EPM (Enterprise Performance Management).",
-    
-    "avantages benefices ia epm finance": "Les avantages incluent : automatisation des processus (réduction 30-50% du temps), prévisions plus précises (+15-25%), détection d'anomalies en temps réel, optimisation continue, et réduction significative des erreurs humaines dans les processus financiers.",
-    
-    "planification budgeting forecasting ia": "L'IA transforme la planification financière via des modèles prédictifs sophistiqués, simulation de scénarios multiples en temps réel, intégration automatique de variables externes (marché, économie), et génération automatique de budgets/forecasts.",
-    
-    "processus automatisation epm finance": "Processus EPM automatisables avec l'IA : consolidation financière multi-entités, reporting automatisé intelligent, budgeting/forecasting prédictif, analyse de variance automatique, allocation des coûts optimisée, contrôle de gestion prédictif.",
-    
-    "precision amelioration previsions forecasts": "L'IA améliore la précision des prévisions grâce à l'analyse de patterns complexes dans l'historique, intégration de variables externes (indicateurs économiques, saisonnalité), et apprentissage continu qui affine les modèles au fil du temps.",
-    
-    "analyse risques anomalies detection": "L'IA excelle dans l'analyse des risques financiers : détection automatique d'anomalies dans les données, évaluation de probabilités de différents scénarios, surveillance continue des seuils critiques, et génération d'alertes préventives en temps réel.",
-    
-    "integration implementation deploiement ia epm": "L'intégration de l'IA en EPM suit 6 étapes clés : 1) Audit de la qualité des données 2) Définition des cas d'usage prioritaires 3) Sélection des technologies adaptées 4) Phase pilote contrôlée 5) Déploiement progressif 6) Formation complète des équipes.",
-    
-    "prerequis techniques infrastructure ia": "Prérequis techniques : infrastructure cloud/on-premise suffisamment puissante, données propres et cohérentes, APIs robustes pour l'intégration, sécurité renforcée pour données sensibles, compétences IA/data science, gouvernance claire des processus.",
-    
-    "delais temps resultats timeline ia": "Délais pour premiers résultats : 2-3 mois (détection d'anomalies basique), 4-6 mois (automatisation de processus), 6-12 mois (modèles prédictifs avancés), 12-24 mois (transformation complète EPM avec IA).",
-    
-    "technologies outils machine learning": "Technologies IA utilisées : Machine Learning (prévisions et classifications), Deep Learning (patterns complexes), Natural Language Processing (analyse textuelle), Computer Vision (documents/graphiques), RPA (automatisation tâches), IA générative (création rapports).",
-    
-    "solutions logiciels epm ia oracle sap": "Solutions EPM avec IA intégrée : Oracle EPM Cloud (prédictif avancé), SAP Analytics Cloud (IA pour planning), IBM Planning Analytics (analyse cognitive), Microsoft Power BI (IA native), Workday Adaptive Planning (machine learning).",
-    
-    "choix selection solution epm ia": "Critères de choix de solution : adéquation parfaite aux besoins métier spécifiques, compatibilité avec écosystème IT existant, facilité d'utilisation pour les équipes finance, scalabilité future, qualité du support/formation éditeur, ROI global sur 3-5 ans.",
-    
-    "roi retour investissement cout benefices": "ROI attendu avec l'IA : 200-400% sur 3 ans. Gains typiques mesurés : +30-50% productivité des équipes, +15-25% précision des prévisions, -20-35% réduction coûts processus, -40-60% réduction délais de clôture comptable.",
-    
-    "mesurer kpi indicateurs performance impact": "KPIs pour mesurer l'impact IA : précision des prévisions (écart prévu/réalisé), temps de traitement des processus, taux d'automatisation atteint, qualité des données, satisfaction utilisateur, impact mesurable sur décisions stratégiques.",
-    
-    "defis challenges problemes difficultes ia": "Défis principaux de l'IA en EPM : qualité des données (critique pour le succès), résistance au changement des équipes, complexité technique d'implémentation, besoins de gouvernance renforcée, sécurité des données financières sensibles, investissements initiaux conséquents.",
-    
-    "fiabilite qualite controle validation ia": "Assurer la fiabilité des résultats IA : validation croisée avec méthodes traditionnelles, tests réguliers des modèles, transparence des algorithmes utilisés, contrôles qualité systématiques, boucles de feedback continues, audit trails complets pour traçabilité.",
-    
-    "formation training equipes competences": "Formation des équipes à l'IA : sensibilisation aux concepts IA de base, présentation de cas d'usage financiers concrets, manipulation des outils pratiques, interprétation correcte des résultats IA, bonnes pratiques de gouvernance, programmes de formation continue.",
-    
-    "remplacement emplois controleurs gestionnaires": "Non, l'IA ne remplace pas les contrôleurs de gestion. Elle élimine les tâches répétitives et chronophages, libère du temps pour l'analyse à valeur ajoutée, et renforce leur rôle stratégique de conseil et d'interprétation des insights générés par l'IA.",
-    
-    "cout prix tarif implementation ia finance": "Coûts d'implémentation IA variables : solutions simples 50-100K€, projets de taille moyenne 200-500K€, transformation complète 500K-2M€. ROI généralement atteint en 18-24 mois selon la complexité et l'ampleur du projet.",
-    
-    "securite protection donnees confidentialite": "Sécurité des données financières : chiffrement bout-en-bout des flux, contrôles d'accès stricts basés sur les rôles, audit trails complets, conformité RGPD stricte, hébergement sécurisé (Swiss hosting disponible), anonymisation des données sensibles.",
-    
-    "budgeting budget ia automatique": "IA pour budgeting : prévisions bottom-up automatisées basées sur l'analyse de l'historique, ajustements dynamiques selon l'évolution de l'actualité, simulation de scénarios multiples, optimisation intelligente de l'allocation des ressources, validation automatique de cohérence.",
-    
-    "reporting rapports automatiques ia": "IA pour reporting : génération automatique de rapports financiers standardisés, création de narratives explicatives intelligentes, visualisations adaptatives selon l'audience, alertes automatiques sur KPIs critiques, personnalisation complète selon profil utilisateur.",
-    
-    "consolidation comptable ia multi entites": "IA pour consolidation : automatisation des écritures de consolidation complexes, détection intelligente d'incohérences inter-entités, optimisation drastique des délais de clôture, contrôles qualité automatiques avancés, reporting multi-normes (IFRS/US GAAP) unifié.",
-    
-    "tendances trends futur esg generative": "Tendances IA émergentes en EPM : IA générative pour création automatique de contenus, real-time analytics continu, démocratisation des outils IA, IA explicable (transparence totale), edge computing pour performance, intégration critères ESG automatisée.",
-    
-    "contact aide support question": "Pour toute question ou projet IA en finance, contactez-nous : Email helviticaich@gmail.com, Téléphone +41 22 123 45 67. Nous répondons rapidement et proposons un premier échange gratuit pour évaluer vos besoins spécifiques."
-  },
-
-  en: {
-    "what ai finance definition artificial intelligence": "AI in financial performance uses advanced algorithms, machine learning and predictive analytics to automate and optimize financial management processes within EPM (Enterprise Performance Management) frameworks.",
-    
-    "benefits advantages ai epm finance": "Benefits include: process automation (30-50% time reduction), more accurate forecasts (+15-25%), real-time anomaly detection, continuous optimization, and significant reduction in human errors in financial processes.",
-    
-    "planning budgeting forecasting ai": "AI transforms financial planning through sophisticated predictive models, real-time multi-scenario simulation, automatic integration of external variables (market, economy), and automated budget/forecast generation.",
-    
-    "processes automation epm finance": "EPM processes automatable with AI: multi-entity financial consolidation, intelligent automated reporting, predictive budgeting/forecasting, automatic variance analysis, optimized cost allocation, predictive management control.",
-    
-    "accuracy improvement forecasts predictions": "AI improves forecast accuracy through complex pattern analysis in historical data, integration of external variables (economic indicators, seasonality), and continuous learning that refines models over time.",
-    
-    "risk analysis anomaly detection": "AI excels in financial risk analysis: automatic anomaly detection in data, probability assessment of different scenarios, continuous monitoring of critical thresholds, and real-time preventive alert generation.",
-    
-    "integration implementation deployment ai epm": "AI EPM integration follows 6 key steps: 1) Data quality audit 2) Priority use case definition 3) Appropriate technology selection 4) Controlled pilot phase 5) Progressive deployment 6) Comprehensive team training.",
-    
-    "technical prerequisites infrastructure ai": "Technical prerequisites: sufficiently powerful cloud/on-premise infrastructure, clean consistent data, robust APIs for integration, enhanced security for sensitive data, AI/data science skills, clear process governance.",
-    
-    "timeline results implementation ai": "Timeline for first results: 2-3 months (basic anomaly detection), 4-6 months (process automation), 6-12 months (advanced predictive models), 12-24 months (complete EPM transformation with AI).",
-    
-    "technologies tools machine learning": "AI technologies used: Machine Learning (forecasting and classification), Deep Learning (complex patterns), Natural Language Processing (text analysis), Computer Vision (documents/charts), RPA (task automation), Generative AI (report creation).",
-    
-    "solutions software epm ai oracle sap": "EPM solutions with integrated AI: Oracle EPM Cloud (advanced predictive), SAP Analytics Cloud (AI for planning), IBM Planning Analytics (cognitive analysis), Microsoft Power BI (native AI), Workday Adaptive Planning (machine learning).",
-    
-    "roi return investment cost benefits": "Expected AI ROI: 200-400% over 3 years. Typical measured gains: +30-50% team productivity, +15-25% forecast accuracy, -20-35% process cost reduction, -40-60% accounting closing time reduction.",
-    
-    "contact help support question": "For any AI in finance question or project, contact us: Email helviticaich@gmail.com, Phone +41 22 123 45 67. We respond quickly and offer a free initial consultation to assess your specific needs."
-  },
-
-  de: {
-    "was ist ki finanzen definition": "KI in der Finanzperformance nutzt fortgeschrittene Algorithmen, maschinelles Lernen und prädiktive Analytik zur Automatisierung und Optimierung von Finanzmanagementprozessen im EPM-Rahmen (Enterprise Performance Management).",
-    
-    "vorteile nutzen ki epm finanzen": "Vorteile: Prozessautomatisierung (30-50% Zeitreduktion), präzisere Prognosen (+15-25%), Echtzeit-Anomalieerkennung, kontinuierliche Optimierung, deutliche Reduzierung menschlicher Fehler in Finanzprozessen.",
-    
-    "planung budgetierung prognosen ki": "KI transformiert Finanzplanung durch sophisticated prädiktive Modelle, Echtzeit-Multi-Szenario-Simulation, automatische Integration externer Variablen (Markt, Wirtschaft), automatisierte Budget-/Prognosenerstellung.",
-    
-    "prozesse automatisierung epm finanzen": "EPM-Prozesse automatisierbar mit KI: Multi-Entity-Finanzkonsolidierung, intelligente automatisierte Berichterstattung, prädiktive Budgetierung/Forecasting, automatische Varianzanalyse, optimierte Kostenverteilung, prädiktive Unternehmenssteuerung.",
-    
-    "roi rendite investition kosten nutzen": "Erwarteter KI-ROI: 200-400% über 3 Jahre. Typische gemessene Gewinne: +30-50% Team-Produktivität, +15-25% Prognosegenauigkeit, -20-35% Prozesskostenreduktion, -40-60% Reduzierung der Abschlusszeiten.",
-    
-    "kontakt hilfe support frage": "Für jede KI-Finanz-Frage oder Projekt kontaktieren Sie uns: E-Mail helviticaich@gmail.com, Telefon +41 22 123 45 67. Wir antworten schnell und bieten eine kostenlose Erstberatung zur Bewertung Ihrer spezifischen Bedürfnisse."
+    rateResponse: "Bewerten Sie diese Antwort:"
   }
 };
 
@@ -747,247 +694,218 @@ let isDarkTheme = false;
 let messageCount = 0;
 let ratings = [];
 let currentFile = null;
-let isSearchMode = false;
-let searchIndex = null;
+let searchTimeout = null;
 
-// Initialize search index
-function initializeSearchIndex() {
-  searchIndex = {
-    fr: [],
-    en: [],
-    de: []
-  };
+// Keywords and synonyms for intelligent search
+const searchKeywords = {
+  fr: {
+    "prix|coût|tarif|budget|cost": ["Combien coûte une implémentation IA ?"],
+    "sécurité|confidential|protection|données": ["Comment garantissez-vous la sécurité ?"],
+    "formation|apprentissage|training|école": ["Proposez-vous de la formation ?"],
+    "temps|délai|durée|rapidement": ["Combien de temps dure l'implémentation ?"],
+    "démo|démonstration|essai|test": ["Puis-je demander une démo ?"],
+    "service|offre|solution|prestation": ["Quels sont vos services ?"],
+    "epm|performance|management|gestion": ["Quels sont les avantages de l'EPM ?"],
+    "ia|intelligence|artificielle|ai": ["Qu'est-ce que l'IA en finance ?"],
+    "client|référence|témoignage|avis": ["Quelles sont vos références clients ?"],
+    "partenaire|partenariat|collaboration": ["Quels sont vos partenariats ?"]
+  },
+  en: {
+    "price|cost|pricing|budget": ["How much does AI implementation cost?"],
+    "security|confidential|protection|data": ["How do you ensure data security?"],
+    "training|learning|education|course": ["Do you provide training?"],
+    "time|duration|timeline|quickly": ["How long does implementation take?"],
+    "demo|demonstration|trial|test": ["Can I request a demo?"],
+    "service|offer|solution|product": ["What services do you offer?"],
+    "epm|performance|management": ["What are the benefits of EPM?"],
+    "ai|artificial|intelligence": ["What is AI in finance?"],
+    "client|reference|testimonial|review": ["What are your client references?"],
+    "partner|partnership|collaboration": ["What are your partnerships?"]
+  },
+  de: {
+    "preis|kosten|tarif|budget": ["Wie viel kostet eine KI-Implementierung?"],
+    "sicherheit|vertraulich|schutz|daten": ["Wie garantieren Sie Datensicherheit?"],
+    "schulung|ausbildung|lernen|kurs": ["Bieten Sie Schulungen an?"],
+    "zeit|dauer|zeitplan|schnell": ["Wie lange dauert die Implementierung?"],
+    "demo|demonstration|test|probe": ["Kann ich eine Demo anfordern?"],
+    "service|angebot|lösung|produkt": ["Welche Dienstleistungen bieten Sie an?"],
+    "epm|performance|management|leistung": ["Was sind die Vorteile von EPM?"],
+    "ki|künstlich|intelligenz|ai": ["Was ist KI im Finanzwesen?"],
+    "kunde|referenz|zeugnis|bewertung": ["Was sind Ihre Kundenreferenzen?"],
+    "partner|partnerschaft|zusammenarbeit": ["Was sind Ihre Partnerschaften?"]
+  }
+};
+
+// Intelligent search function
+function performSearch(query) {
+  const searchResults = document.getElementById('search-results');
   
-  // Build search index for each language
-  Object.keys(faq).forEach(lang => {
-    Object.entries(faq[lang]).forEach(([keywords, response]) => {
-      const entry = {
-        keywords: keywords.toLowerCase(),
-        keywordArray: keywords.toLowerCase().split(' '),
-        response: response,
-        category: categorizeEntry(keywords)
-      };
-      searchIndex[lang].push(entry);
-    });
-  });
-}
-
-// Categorize FAQ entries
-function categorizeEntry(keywords) {
-  if (keywords.includes('cout') || keywords.includes('cost') || keywords.includes('prix') || keywords.includes('tarif')) {
-    return 'Prix & ROI';
+  // Clear previous timeout
+  if (searchTimeout) {
+    clearTimeout(searchTimeout);
   }
-  if (keywords.includes('securite') || keywords.includes('security') || keywords.includes('protection')) {
-    return 'Sécurité';
-  }
-  if (keywords.includes('temps') || keywords.includes('delai') || keywords.includes('timeline')) {
-    return 'Délais';
-  }
-  if (keywords.includes('formation') || keywords.includes('training')) {
-    return 'Formation';
-  }
-  if (keywords.includes('integration') || keywords.includes('implementation')) {
-    return 'Implémentation';
-  }
-  if (keywords.includes('technologie') || keywords.includes('technology') || keywords.includes('outils')) {
-    return 'Technologies';
-  }
-  return 'Général';
-}
-
-// Toggle search mode
-function toggleSearchMode() {
-  isSearchMode = !isSearchMode;
-  const searchToggle = document.getElementById('search-toggle');
-  const inputContainer = document.querySelector('.input-container');
-  const userInput = document.getElementById('user-input');
   
-  if (isSearchMode) {
-    searchToggle.classList.add('text-indigo-600');
-    inputContainer.classList.add('search-active');
-    userInput.placeholder = translations[currentLang].searchPlaceholder || 'Rechercher dans la base de connaissances...';
-    showNotification('Mode recherche activé - Tapez pour chercher');
-  } else {
-    searchToggle.classList.remove('text-indigo-600');
-    inputContainer.classList.remove('search-active');
-    userInput.placeholder = translations[currentLang].inputPlaceholder || 'Posez votre question...';
-    hideSuggestions();
-  }
-}
-
-// Handle input changes for search
-function handleInputChange(event) {
-  if (!isSearchMode) return;
-  
-  const query = event.target.value.trim();
-  if (query.length < 2) {
-    hideSuggestions();
+  if (!query.trim()) {
+    searchResults.classList.add('hidden');
     return;
   }
   
-  performSearch(query);
+  // Debounce search for better performance
+  searchTimeout = setTimeout(() => {
+    const results = findRelevantQuestions(query.toLowerCase());
+    displaySearchResults(results, query);
+  }, 300);
 }
 
-// Perform intelligent search
-function performSearch(query) {
-  if (!searchIndex) initializeSearchIndex();
+function findRelevantQuestions(query) {
+  const keywords = searchKeywords[currentLang];
+  const allQuestions = quickQuestions[currentLang];
+  const allResponses = responses[currentLang];
+  const results = [];
   
-  const results = searchInKnowledgeBase(query, currentLang);
-  displaySearchSuggestions(results, query);
-}
-
-// Search in knowledge base
-function searchInKnowledgeBase(query, language) {
-  const entries = searchIndex[language] || [];
-  const queryWords = query.toLowerCase().split(' ').filter(word => word.length > 1);
-  
-  let results = entries.map(entry => {
-    let score = 0;
-    let matchedKeywords = [];
-    
-    queryWords.forEach(queryWord => {
-      entry.keywordArray.forEach(keyword => {
-        // Exact match
-        if (keyword === queryWord) {
-          score += 10;
-          matchedKeywords.push(keyword);
-        }
-        // Partial match (starts with)
-        else if (keyword.startsWith(queryWord) || queryWord.startsWith(keyword)) {
-          score += 5;
-          matchedKeywords.push(keyword);
-        }
-        // Contains match
-        else if (keyword.includes(queryWord) || queryWord.includes(keyword)) {
-          score += 2;
-          matchedKeywords.push(keyword);
+  // Search in keywords first (exact matches)
+  for (const [keywordPattern, matchedQuestions] of Object.entries(keywords)) {
+    const regex = new RegExp(keywordPattern, 'i');
+    if (regex.test(query)) {
+      matchedQuestions.forEach(question => {
+        if (!results.find(r => r.question === question)) {
+          results.push({
+            question: question,
+            response: allResponses[question] || "Réponse disponible sur demande",
+            relevance: 10, // High relevance for keyword matches
+            matchType: 'keyword'
+          });
         }
       });
+    }
+  }
+  
+  // Search in question text (partial matches)
+  allQuestions.forEach(question => {
+    const questionWords = question.toLowerCase().split(' ');
+    const queryWords = query.split(' ');
+    
+    let matches = 0;
+    queryWords.forEach(queryWord => {
+      if (queryWord.length > 2) { // Ignore very short words
+        questionWords.forEach(questionWord => {
+          if (questionWord.includes(queryWord) || queryWord.includes(questionWord)) {
+            matches++;
+          }
+        });
+      }
     });
     
-    // Bonus for category relevance
-    if (entry.category && entry.category.toLowerCase().includes(query.toLowerCase())) {
-      score += 3;
+    if (matches > 0 && !results.find(r => r.question === question)) {
+      results.push({
+        question: question,
+        response: allResponses[question] || "Réponse disponible sur demande",
+        relevance: matches,
+        matchType: 'partial'
+      });
     }
-    
-    return {
-      ...entry,
-      score,
-      matchedKeywords: [...new Set(matchedKeywords)].slice(0, 3)
-    };
   });
   
-  // Filter and sort results
-  results = results
-    .filter(result => result.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 8); // Limit to 8 results
+  // Search in response content (fuzzy matches)
+  Object.entries(allResponses).forEach(([question, response]) => {
+    if (!results.find(r => r.question === question)) {
+      const responseWords = response.toLowerCase();
+      let fuzzyScore = 0;
+      
+      query.split(' ').forEach(word => {
+        if (word.length > 3 && responseWords.includes(word)) {
+          fuzzyScore++;
+        }
+      });
+      
+      if (fuzzyScore > 0) {
+        results.push({
+          question: question,
+          response: response,
+          relevance: fuzzyScore * 0.5, // Lower relevance for content matches
+          matchType: 'content'
+        });
+      }
+    }
+  });
   
-  return results;
+  // Sort by relevance
+  return results.sort((a, b) => b.relevance - a.relevance).slice(0, 8);
 }
 
-// Display search suggestions
-function displaySearchSuggestions(results, query) {
-  const container = document.getElementById('search-suggestions');
-  container.innerHTML = '';
+function displaySearchResults(results, query) {
+  const searchResults = document.getElementById('search-results');
   
   if (results.length === 0) {
-    container.innerHTML = `
-      <div class="p-4 text-center text-gray-500">
-        <i class="fas fa-search mb-2"></i>
-        <div>Aucun résultat trouvé pour "${query}"</div>
-        <div class="text-xs mt-1">Essayez des termes comme "IA", "budget", "ROI", "sécurité"</div>
+    searchResults.innerHTML = `
+      <div class="no-results">
+        <i class="fas fa-search text-gray-300 mb-2"></i>
+        <div>Aucun résultat pour "${query}"</div>
+        <div class="text-xs mt-1">Essayez: prix, sécurité, formation, démo</div>
       </div>
     `;
-    container.classList.remove('hidden');
+    searchResults.classList.remove('hidden');
     return;
   }
   
-  // Group results by category
-  const groupedResults = {};
-  results.forEach(result => {
-    const category = result.category || 'Général';
-    if (!groupedResults[category]) {
-      groupedResults[category] = [];
-    }
-    groupedResults[category].push(result);
-  });
-  
-  // Display grouped results
-  Object.entries(groupedResults).forEach(([category, categoryResults]) => {
-    const categoryDiv = document.createElement('div');
-    categoryDiv.className = 'search-category';
-    categoryDiv.textContent = category;
-    container.appendChild(categoryDiv);
+  const resultsHTML = results.map(result => {
+    const preview = result.response.substring(0, 100) + (result.response.length > 100 ? '...' : '');
+    const highlightedQuestion = highlightText(result.question, query);
+    const highlightedPreview = highlightText(preview, query);
     
-    categoryResults.forEach(result => {
-      const suggestionDiv = document.createElement('div');
-      suggestionDiv.className = 'search-suggestion';
-      
-      // Highlight matching keywords in response preview
-      const preview = result.response.substring(0, 100) + '...';
-      const highlightedPreview = highlightMatches(preview, query);
-      
-      suggestionDiv.innerHTML = `
-        <div class="suggestion-text">
-          <div class="font-medium mb-1">${highlightedPreview}</div>
-        </div>
-        <div class="suggestion-keywords">
-          ${result.matchedKeywords.join(', ')}
-        </div>
-      `;
-      
-      suggestionDiv.onclick = () => selectSuggestion(result.response, query);
-      container.appendChild(suggestionDiv);
-    });
-  });
+    return `
+      <div class="search-result-item" onclick="selectSearchResult('${result.question.replace(/'/g, "\\'")}')">
+        <div class="search-result-question">${highlightedQuestion}</div>
+        <div class="search-result-preview">${highlightedPreview}</div>
+      </div>
+    `;
+  }).join('');
   
-  container.classList.remove('hidden');
+  searchResults.innerHTML = resultsHTML;
+  searchResults.classList.remove('hidden');
 }
 
-// Highlight matches in text
-function highlightMatches(text, query) {
-  const words = query.toLowerCase().split(' ');
+function highlightText(text, query) {
+  if (!query) return text;
+  
+  const words = query.split(' ').filter(word => word.length > 2);
   let highlightedText = text;
   
   words.forEach(word => {
-    if (word.length > 2) {
-      const regex = new RegExp(`(${word})`, 'gi');
-      highlightedText = highlightedText.replace(regex, '<span class="search-highlight">$1</span>');
-    }
+    const regex = new RegExp(`(${word})`, 'gi');
+    highlightedText = highlightedText.replace(regex, '<span class="search-highlight">$1</span>');
   });
   
   return highlightedText;
 }
 
-// Select a suggestion
-function selectSuggestion(response, query) {
-  hideSuggestions();
-  addMessage(query, 'user');
+function selectSearchResult(question) {
+  // Hide search results
+  document.getElementById('search-results').classList.add('hidden');
+  document.getElementById('search-input').value = '';
+  
+  // Send the selected question
+  addMessage(question, "user");
+  showTypingIndicator();
   
   setTimeout(() => {
-    addMessage(response, 'bot');
-  }, 500);
-  
-  // Clear input and exit search mode
-  document.getElementById('user-input').value = '';
-  if (isSearchMode) {
-    toggleSearchMode();
-  }
+    hideTypingIndicator();
+    const response = responses[currentLang][question] || getAIResponse(question) || "Merci pour cette question. Je vais vous mettre en contact avec un expert.";
+    addMessage(response, "bot");
+  }, 1000);
 }
 
-// Hide suggestions
-function hideSuggestions() {
-  document.getElementById('search-suggestions').classList.add('hidden');
-}
-
-@media (max-width: 640px) {
-  .quick-actions {
-    justify-content: center;
-  }
+function handleSearchKeyPress(event) {
+  const searchResults = document.getElementById('search-results');
   
-  .dropdown-content {
-    min-width: 120px;
+  if (event.key === 'Enter') {
+    const firstResult = searchResults.querySelector('.search-result-item');
+    if (firstResult) {
+      firstResult.click();
+    }
+  } else if (event.key === 'Escape') {
+    searchResults.classList.add('hidden');
+    document.getElementById('search-input').value = '';
   }
 }
 
@@ -1126,6 +1044,7 @@ function handleUserInput() {
   if (text) {
     addMessage(text, "user");
     input.value = "";
+    autoResize(input); // Reset textarea size
     
     showTypingIndicator();
     
@@ -1137,6 +1056,34 @@ function handleUserInput() {
       addMessage(response, "bot");
     }, 1200 + Math.random() * 800); // Variable response time
   }
+}
+
+// Auto-resize textarea function
+function autoResize(textarea) {
+  // Reset height to auto to get the correct scrollHeight
+  textarea.style.height = 'auto';
+  
+  // Calculate the new height based on content
+  const newHeight = Math.min(textarea.scrollHeight, 120); // Max 120px (about 6 lines)
+  
+  // Set the new height
+  textarea.style.height = newHeight + 'px';
+  
+  // Show scrollbar if content exceeds max height
+  if (textarea.scrollHeight > 120) {
+    textarea.style.overflowY = 'auto';
+  } else {
+    textarea.style.overflowY = 'hidden';
+  }
+}
+
+// Updated key press handler for textarea
+function handleKeyPress(event) {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault(); // Prevent new line
+    handleUserInput();
+  }
+  // Allow Shift+Enter for new lines
 }
 
 // AI-like response generation for unknown questions
@@ -1160,12 +1107,6 @@ function getAIResponse(question) {
   }
   
   return null;
-}
-
-function handleKeyPress(event) {
-  if (event.key === 'Enter') {
-    handleUserInput();
-  }
 }
 
 // Quick actions
@@ -1296,37 +1237,29 @@ function rateMessage(rating, element) {
   showNotification("Merci pour votre évaluation !");
 }
 
-// Quick questions update - Show only 3 at a time
+// Quick questions update
 function updateQuickQuestions() {
   const container = document.getElementById("questions-container");
   container.innerHTML = "";
   
-  // Get 3 random questions
-  const questions = [...quickQuestions[currentLang]].sort(() => Math.random() - 0.5).slice(0, 3);
+  // Show random 4 questions
+  const questions = [...quickQuestions[currentLang]].sort(() => Math.random() - 0.5).slice(0, 4);
   
   questions.forEach(question => {
     const btn = document.createElement("button");
-    btn.className = "question-btn px-3 py-2 rounded-lg text-xs font-medium text-gray-700 bg-white/70 hover:bg-white transition-all border border-indigo-200 hover:border-indigo-400 hover:shadow-sm";
+    btn.className = "question-btn w-full text-left p-3 rounded-xl text-sm font-medium text-gray-700 bg-white/70 hover:bg-white transition-all";
     btn.textContent = question;
     btn.onclick = () => {
       addMessage(question, "user");
       showTypingIndicator();
       setTimeout(() => {
         hideTypingIndicator();
-        const reply = findBestMatch(question.toLowerCase(), currentLang) || 
-                     getAIResponse(question) || 
-                     "Merci pour cette question intéressante. Laissez-moi vous mettre en contact avec un expert.";
+        const reply = responses[currentLang][question] || getAIResponse(question) || "Merci pour cette question intéressante. Laissez-moi vous mettre en contact avec un expert.";
         addMessage(reply, "bot");
       }, 1000);
     };
     container.appendChild(btn);
   });
-}
-
-// Function to refresh quick questions
-function refreshQuickQuestions() {
-  updateQuickQuestions();
-  showNotification("Nouvelles questions générées !");
 }
 
 // Theme toggle
@@ -1432,9 +1365,7 @@ function toggleDropdown() {
 }
 
 // Language change handler
-// Initialize the application
 document.addEventListener("DOMContentLoaded", () => {
-  initializeSearchIndex();
   addMessage(translations[currentLang].welcome, "bot", true);
   updateQuickQuestions();
 });
@@ -1444,24 +1375,19 @@ document.getElementById("lang-select").addEventListener("change", (e) => {
   currentLang = e.target.value;
   document.getElementById("status-indicator").textContent = translations[currentLang].online;
   
-  // Update UI text
-  const questionsTitle = document.querySelector("#questions-title div");
-  if (questionsTitle) {
-    questionsTitle.innerHTML = `<i class="fas fa-question-circle w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-indigo-500"></i>${translations[currentLang]["questions-title"]}`;
-  }
-  const othersBtn = document.querySelector("#questions-title button");
-  if (othersBtn) {
-    othersBtn.innerHTML = `<i class="fas fa-sync-alt mr-1"></i>${translations[currentLang].others}`;
-  }
-  
   // Clear and restart conversation
   document.getElementById("chatbot-messages").innerHTML = "";
   conversationHistory = [];
   messageCount = 0;
   ratings = [];
   
+  // Clear search
+  document.getElementById("search-input").value = "";
+  document.getElementById("search-results").classList.add("hidden");
+  
   addMessage(translations[currentLang].welcome, "bot", true);
   updateQuickQuestions();
+  updateSearchPlaceholder();
   updateStats();
 });
 
@@ -1473,11 +1399,29 @@ window.addEventListener("click", (e) => {
   if (!e.target.closest("#conversation-stats") && !e.target.matches('[onclick="toggleStats()"]')) {
     document.getElementById("conversation-stats").style.display = "none";
   }
-  // Hide search suggestions when clicking outside
-  if (!e.target.closest("#search-suggestions") && !e.target.closest("#user-input") && !e.target.closest("#search-toggle")) {
-    hideSuggestions();
+  
+  // Close search results when clicking outside
+  if (!e.target.closest("#search-input") && !e.target.closest("#search-results")) {
+    const searchResults = document.getElementById("search-results");
+    if (searchResults) {
+      searchResults.classList.add("hidden");
+    }
   }
 });
+
+// Update search placeholder text when language changes
+function updateSearchPlaceholder() {
+  const searchInput = document.getElementById("search-input");
+  const placeholders = {
+    fr: "Rechercher par mot-clé (ex: prix, sécurité, formation...)",
+    en: "Search by keyword (ex: price, security, training...)",
+    de: "Nach Stichwort suchen (z.B: Preis, Sicherheit, Schulung...)"
+  };
+  
+  if (searchInput) {
+    searchInput.placeholder = placeholders[currentLang];
+  }
+}
 </script>
 </body>
 </html>
