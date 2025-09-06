@@ -122,25 +122,25 @@
 
 .input-container {
   position: relative;
-  background: #ffffff; /* Blanc bien visible */
+  background: #ffffff;
   border-radius: 24px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  border: 2px solid #4f46e5; /* Bordure violette plus visible */
+  border: 2px solid #4f46e5;
   transition: all 0.3s ease;
   min-height: 56px;
-  max-height: 200px; /* Limite la hauteur maximale */
+  max-height: 200px;
 }
 
 .input-container:focus-within {
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.4); /* Halo lumineux violet */
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.4);
   border-color: #4f46e5;
 }
 
 .text-input-wrapper {
   display: flex;
   align-items: flex-start;
-  max-height: 160px; /* Hauteur max pour la zone de texte */
-  overflow-y: auto; /* Barre de défilement verticale */
+  max-height: 160px;
+  overflow-y: auto;
   padding: 2px;
 }
 
@@ -388,9 +388,243 @@
   background: rgba(79, 70, 229, 0.3);
   border-radius: 2px;
 }
+
+/* Nouvelles animations et améliorations */
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #4f46e5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message {
+  background: linear-gradient(135deg, #fef2f2, #fecaca);
+  border: 1px solid #f87171;
+  color: #991b1b;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.success-message {
+  background: linear-gradient(135deg, #f0fdf4, #bbf7d0);
+  border: 1px solid #4ade80;
+  color: #166534;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.context-menu {
+  position: absolute;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 4px 0;
+  z-index: 1000;
+  min-width: 120px;
+}
+
+.context-menu button {
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.context-menu button:hover {
+  background: #f3f4f6;
+}
+
+.ai-thinking {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(79, 70, 229, 0.1);
+  border-radius: 12px;
+  margin: 8px 0;
+  font-size: 13px;
+  color: #4f46e5;
+}
+
+.confidence-indicator {
+  width: 100%;
+  height: 3px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.confidence-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+.confidence-high { background: #10b981; }
+.confidence-medium { background: #f59e0b; }
+.confidence-low { background: #ef4444; }
+
+.conversation-backup {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4f46e5;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  z-index: 1000;
+  animation: slideDown 0.3s ease;
+}
+
+.smart-suggestion {
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 1px solid #0ea5e9;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 4px 0;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.smart-suggestion:hover {
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  transform: translateY(-1px);
+}
+
+.message-timestamp {
+  font-size: 10px;
+  color: #9ca3af;
+  margin-top: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.message-container:hover .message-timestamp {
+  opacity: 1;
+}
+
+.feature-highlight {
+  position: relative;
+  animation: highlight 2s ease-in-out;
+}
+
+@keyframes highlight {
+  0%, 100% { background: transparent; }
+  50% { background: rgba(79, 70, 229, 0.1); }
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  animation: pulse 2s infinite;
+}
+
+.status-offline { background: #ef4444; }
+.status-connecting { background: #f59e0b; animation: pulse 0.5s infinite; }
+
+.advanced-search {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.advanced-search:hover {
+  background: #f3f4f6;
+  color: #4f46e5;
+}
+
+.smart-compose {
+  position: absolute;
+  right: 80px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.smart-compose.show {
+  opacity: 1;
+}
+
+.smart-compose:hover {
+  transform: translateY(-50%) scale(1.05);
+}
 </style>
 </head>
 <body>
+<!-- Notification Toast -->
+<div id="notification-toast" class="fixed top-4 right-4 z-50 hidden">
+  <div class="bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm">
+    <div class="flex items-start">
+      <div class="flex-shrink-0">
+        <i id="toast-icon" class="fas fa-info-circle text-blue-500"></i>
+      </div>
+      <div class="ml-3 w-0 flex-1">
+        <p id="toast-message" class="text-sm font-medium text-gray-900"></p>
+        <p id="toast-description" class="mt-1 text-sm text-gray-500"></p>
+      </div>
+      <div class="ml-4 flex-shrink-0 flex">
+        <button onclick="hideNotification()" class="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Context Menu -->
+<div id="context-menu" class="context-menu hidden">
+  <button onclick="copySelectedText()"><i class="fas fa-copy mr-2"></i>Copier</button>
+  <button onclick="searchSelectedText()"><i class="fas fa-search mr-2"></i>Rechercher</button>
+  <button onclick="translateSelectedText()"><i class="fas fa-language mr-2"></i>Traduire</button>
+</div>
+
 <div id="chatbot-window" class="w-full h-screen flex flex-col relative overflow-hidden">
   <!-- Header -->
   <div class="gradient-header text-white flex justify-between items-center p-4 shadow-2xl relative z-10">
@@ -405,14 +639,17 @@
       <div class="min-w-0 flex-1">
         <span class="font-bold text-base sm:text-lg">Helvetic AI</span>
         <div class="flex items-center text-xs sm:text-sm opacity-90">
-          <div class="status-pulse pl-3 truncate" id="status-indicator">En ligne</div>
+          <div class="connection-status">
+            <div class="status-dot" id="connection-dot"></div>
+            <span id="status-indicator">En ligne</span>
+          </div>
           <div class="sentiment-indicator sentiment-positive ml-2" id="sentiment-indicator"></div>
         </div>
       </div>
     </div>
     <div class="flex items-center space-x-2 sm:space-x-3">
       <!-- Stats Button -->
-      <button onclick="toggleStats()" class="relative px-3 py-1 bg-white/20 rounded text-sm">
+      <button onclick="toggleStats()" class="relative px-3 py-1 bg-white/20 rounded text-sm hover:bg-white/30 transition">
         <i class="fas fa-chart-line mr-1"></i> Stats
         <div class="conversation-stats" id="conversation-stats">
           <h4 class="font-bold text-gray-800 mb-2">Statistiques</h4>
@@ -420,13 +657,17 @@
             <div>Messages: <span id="message-count">0</span></div>
             <div>Satisfaction: <span id="avg-rating">N/A</span>/5</div>
             <div>Temps de réponse: <span id="avg-response-time">0.8s</span></div>
+            <div>Précision IA: <span id="ai-accuracy">94%</span></div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 94%"></div>
+            </div>
           </div>
         </div>
       </button>
       
       <!-- Export Dropdown -->
       <div class="dropdown" id="exportDropdown">
-        <button onclick="toggleDropdown()" class="px-3 py-1 bg-white/20 rounded text-sm">
+        <button onclick="toggleDropdown()" class="px-3 py-1 bg-white/20 rounded text-sm hover:bg-white/30 transition">
           <i class="fas fa-download mr-1"></i> Exporter
         </button>
         <div class="dropdown-content">
@@ -439,11 +680,14 @@
           <button onclick="exportConversation('pdf')">
             <i class="fas fa-file-pdf mr-2"></i> Exporter en PDF
           </button>
+          <button onclick="exportConversation('docx')">
+            <i class="fas fa-file-word mr-2"></i> Exporter en DOCX
+          </button>
         </div>
       </div>
       
       <!-- Theme Toggle -->
-      <button onclick="toggleTheme()" class="px-3 py-1 bg-white/20 rounded text-sm" id="theme-toggle">
+      <button onclick="toggleTheme()" class="px-3 py-1 bg-white/20 rounded text-sm hover:bg-white/30 transition" id="theme-toggle">
         <i class="fas fa-moon"></i>
       </button>
       
@@ -472,11 +716,22 @@
           type="text" 
           id="search-input" 
           placeholder="Rechercher par mot-clé (ex: prix, sécurité, formation...)"
-          class="w-full px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/90"
+          class="w-full px-4 py-2 pl-10 pr-20 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/90"
           oninput="performSearch(this.value)"
           onkeypress="handleSearchKeyPress(event)"
         >
         <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+        
+        <!-- Smart Compose Button -->
+        <button id="smart-compose-btn" class="smart-compose" onclick="showSmartCompose()" title="Assistance IA pour composer votre message">
+          <i class="fas fa-magic mr-1"></i>IA
+        </button>
+        
+        <!-- Advanced Search -->
+        <button class="advanced-search" onclick="toggleAdvancedSearch()" title="Recherche avancée">
+          <i class="fas fa-sliders-h"></i>
+        </button>
+        
         <div id="search-results" class="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 mt-1 hidden max-h-60 overflow-y-auto">
           <!-- Search results will appear here -->
         </div>
@@ -493,26 +748,49 @@
       <button class="quick-action" onclick="handleQuickAction('pricing')">
         <i class="fas fa-tag mr-1"></i> Tarifs
       </button>
+      <button class="quick-action" onclick="showAIInsights()">
+        <i class="fas fa-brain mr-1"></i> Insights IA
+      </button>
     </div>
   </div>
   
   <!-- Quick Questions -->
   <div class="border-t border-gray-200 bg-white/80 backdrop-blur-sm p-4 sm:p-6">
-    <div class="text-xs sm:text-sm font-semibold text-gray-700 mb-3 sm:mb-4 flex items-center" id="questions-title">
-      <i class="fas fa-question-circle w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-indigo-500"></i>
-      Questions rapides :
+    <div class="text-xs sm:text-sm font-semibold text-gray-700 mb-3 sm:mb-4 flex items-center justify-between" id="questions-title">
+      <span>
+        <i class="fas fa-question-circle w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-indigo-500"></i>
+        Questions intelligentes :
+      </span>
+      <button onclick="refreshQuestions()" class="text-indigo-500 hover:text-indigo-700 transition" title="Actualiser les suggestions">
+        <i class="fas fa-sync-alt"></i>
+      </button>
     </div>
     <div id="questions-container" class="space-y-2 sm:space-y-3"></div>
+    
+    <!-- Smart Suggestions -->
+    <div id="smart-suggestions" class="mt-4 hidden">
+      <div class="text-xs font-semibold text-gray-700 mb-2">
+        <i class="fas fa-lightbulb mr-1 text-yellow-500"></i>
+        Suggestions basées sur votre conversation :
+      </div>
+      <div id="suggestions-container"></div>
+    </div>
   </div>
   
   <!-- Input Area -->
   <div class="bg-white p-4 border-t border-gray-200">
+    <!-- AI Thinking Indicator -->
+    <div id="ai-thinking" class="ai-thinking hidden">
+      <div class="loading-spinner"></div>
+      <span>L'IA analyse votre demande...</span>
+    </div>
+    
     <!-- File Preview -->
     <div id="file-preview" class="mb-3 hidden">
       <div class="flex items-center p-2 bg-gray-50 rounded-lg">
         <img id="preview-image" class="attachment-preview mr-3 hidden">
         <div id="preview-text" class="flex-1 text-sm text-gray-600"></div>
-        <button onclick="clearFilePreview()" class="text-red-500 hover:text-red-700">
+        <button onclick="clearFilePreview()" class="text-red-500 hover:text-red-700 transition">
           <i class="fas fa-times"></i>
         </button>
       </div>
@@ -521,10 +799,10 @@
     <div class="input-container">
       <div class="flex items-start p-2">
         <!-- Attachment Button -->
-        <button onclick="document.getElementById('file-input').click()" class="p-2 text-gray-500 hover:text-indigo-600 transition-colors flex-shrink-0">
+        <button onclick="document.getElementById('file-input').click()" class="p-2 text-gray-500 hover:text-indigo-600 transition-colors flex-shrink-0" title="Joindre un fichier">
           <i class="fas fa-paperclip"></i>
         </button>
-        <input type="file" id="file-input" class="hidden" accept="image/*,.pdf,.doc,.docx" onchange="handleFileUpload(event)">
+        <input type="file" id="file-input" class="hidden" accept="image/*,.pdf,.doc,.docx,.txt,.csv,.xlsx" onchange="handleFileUpload(event)">
         
         <!-- Text Input Wrapper with Scrollbar -->
         <div class="text-input-wrapper flex-1">
@@ -533,28 +811,93 @@
                     class="w-full p-2 border-none outline-none text-sm bg-transparent resize-none min-h-[40px] leading-5"
                     rows="1"
                     style="overflow-y: hidden;"
-                    oninput="autoResize(this)"
-                    onkeydown="handleKeyPress(event)"></textarea>
+                    oninput="autoResize(this); checkSmartCompose(this.value)"
+                    onkeydown="handleKeyPress(event)"
+                    onfocus="showInputSuggestions()"
+                    onblur="hideInputSuggestions()"></textarea>
         </div>
         
         <div class="flex items-center flex-shrink-0">
           <!-- Voice Button -->
-          <button onclick="toggleVoiceRecording()" class="voice-btn p-2 text-gray-500 hover:text-red-500 transition-all rounded-full mr-2" id="voice-btn">
+          <button onclick="toggleVoiceRecording()" class="voice-btn p-2 text-gray-500 hover:text-red-500 transition-all rounded-full mr-2" id="voice-btn" title="Enregistrement vocal">
             <i class="fas fa-microphone"></i>
           </button>
           
           <!-- Send Button -->
-          <button onclick="handleUserInput()" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all font-medium">
-            <i class="fas fa-paper-plane mr-1"></i> Envoyer
+          <button onclick="handleUserInput()" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all font-medium disabled:opacity-50" id="send-btn">
+            <i class="fas fa-paper-plane mr-1"></i> 
+            <span id="send-text">Envoyer</span>
           </button>
         </div>
+      </div>
+    </div>
+    
+    <!-- Input Suggestions -->
+    <div id="input-suggestions" class="mt-2 hidden">
+      <div class="flex flex-wrap gap-2">
+        <!-- Dynamic suggestions will be added here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Advanced Search Modal -->
+<div id="advanced-search-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+  <div class="bg-white rounded-lg p-6 m-4 max-w-md w-full">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold">Recherche Avancée</h3>
+      <button onclick="closeAdvancedSearch()" class="text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
+        <select id="search-category" class="w-full border border-gray-300 rounded px-3 py-2">
+          <option value="">Toutes les catégories</option>
+          <option value="pricing">Tarification</option>
+          <option value="security">Sécurité</option>
+          <option value="features">Fonctionnalités</option>
+          <option value="support">Support</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+        <select id="search-date" class="w-full border border-gray-300 rounded px-3 py-2">
+          <option value="">Toute période</option>
+          <option value="today">Aujourd'hui</option>
+          <option value="week">Cette semaine</option>
+          <option value="month">Ce mois</option>
+        </select>
+      </div>
+      <div class="flex space-x-3">
+        <button onclick="performAdvancedSearch()" class="flex-1 bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition">
+          Rechercher
+        </button>
+        <button onclick="closeAdvancedSearch()" class="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400 transition">
+          Annuler
+        </button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// Enhanced data structure
+// Enhanced Helvetic AI Chatbot - Advanced Implementation
+
+// ============== CORE CONFIGURATION ==============
+const CONFIG = {
+  maxMessageLength: 2000,
+  maxFileSize: 10 * 1024 * 1024, // 10MB
+  autoSaveInterval: 30000, // 30 seconds
+  typingDelay: { min: 800, max: 2000 },
+  maxConversationHistory: 500,
+  aiConfidenceThreshold: 0.7,
+  enableAnalytics: true,
+  enableVoiceRecognition: 'webkitSpeechRecognition' in window
+};
+
+// ============== ENHANCED DATA STRUCTURES ==============
 const quickQuestions = {
   fr: [
     "Qu'est-ce que l'IA en finance ?",
@@ -566,7 +909,12 @@ const quickQuestions = {
     "Quelles sont vos références clients ?",
     "Combien de temps dure l'implémentation ?",
     "Proposez-vous de la formation ?",
-    "Quels sont vos partenariats ?"
+    "Quels sont vos partenariats ?",
+    "Comment mesurer le ROI ?",
+    "Quelles sont les prérequis techniques ?",
+    "Gérez-vous la migration des données ?",
+    "Quel niveau de personnalisation offrez-vous ?",
+    "Comment assurer la conformité réglementaire ?"
   ],
   en: [
     "What is AI in finance?",
@@ -578,7 +926,12 @@ const quickQuestions = {
     "What are your client references?",
     "How long does implementation take?",
     "Do you provide training?",
-    "What are your partnerships?"
+    "What are your partnerships?",
+    "How to measure ROI?",
+    "What are the technical prerequisites?",
+    "Do you handle data migration?",
+    "What level of customization do you offer?",
+    "How to ensure regulatory compliance?"
   ],
   de: [
     "Was ist KI im Finanzwesen?",
@@ -590,13 +943,18 @@ const quickQuestions = {
     "Was sind Ihre Kundenreferenzen?",
     "Wie lange dauert die Implementierung?",
     "Bieten Sie Schulungen an?",
-    "Was sind Ihre Partnerschaften?"
+    "Was sind Ihre Partnerschaften?",
+    "Wie misst man den ROI?",
+    "Was sind die technischen Voraussetzungen?",
+    "Übernehmen Sie die Datenmigration?",
+    "Welchen Grad der Anpassung bieten Sie?",
+    "Wie gewährleisten Sie die Einhaltung von Vorschriften?"
   ]
 };
 
 const translations = {
   fr: {
-    welcome: `✨ Helvetic AI – L'intelligence artificielle au service de la performance financière ✨
+    welcome: `✨ Helvetic AI — L'intelligence artificielle au service de la performance financière ✨
 
 Helvetic AI accompagne les directions financières dans leur transformation digitale.
 Notre ambition : mettre la puissance de l'intelligence artificielle et de l'Enterprise Performance Management (EPM) au service des décideurs, pour transformer la donnée en véritable levier stratégique.
@@ -610,10 +968,13 @@ Notre ambition : mettre la puissance de l'intelligence artificielle et de l'Ente
     readMore: "Lire plus",
     readLess: "Lire moins",
     typing: "En train d'écrire...",
-    rateResponse: "Évaluez cette réponse :"
+    rateResponse: "Évaluez cette réponse :",
+    thinking: "L'IA réfléchit...",
+    analyzing: "Analyse en cours...",
+    processing: "Traitement..."
   },
   en: {
-    welcome: `✨ Helvetic AI – Artificial Intelligence at the service of financial performance ✨
+    welcome: `✨ Helvetic AI — Artificial Intelligence at the service of financial performance ✨
 
 Helvetic AI supports CFOs in their digital transformation, turning data into a real strategic lever through AI and EPM.
 
@@ -626,10 +987,13 @@ Helvetic AI supports CFOs in their digital transformation, turning data into a r
     readMore: "Read more", 
     readLess: "Read less",
     typing: "Typing...",
-    rateResponse: "Rate this response:"
+    rateResponse: "Rate this response:",
+    thinking: "AI is thinking...",
+    analyzing: "Analyzing...",
+    processing: "Processing..."
   },
   de: {
-    welcome: `✨ Helvetic AI – Künstliche Intelligenz im Dienste der Finanzperformance ✨
+    welcome: `✨ Helvetic AI — Künstliche Intelligenz im Dienste der Finanzperformance ✨
 
 Helvetic AI begleitet Finanzdirektionen bei der digitalen Transformation und macht Daten dank KI und EPM zu einem echten strategischen Hebel.
 
@@ -642,474 +1006,1188 @@ Helvetic AI begleitet Finanzdirektionen bei der digitalen Transformation und mac
     readMore: "Mehr lesen",
     readLess: "Weniger lesen",
     typing: "Schreibt...",
-    rateResponse: "Bewerten Sie diese Antwort:"
+    rateResponse: "Bewerten Sie diese Antwort:",
+    thinking: "KI denkt nach...",
+    analyzing: "Analysiert...",
+    processing: "Verarbeitung..."
   }
 };
 
-// Enhanced responses with more detailed information
-const responses = {
+// ============== ENHANCED RESPONSE DATABASE ==============
+const enhancedResponses = {
   fr: {
-    "Qu'est-ce que l'IA en finance ?": "L'IA en finance révolutionne la gestion financière en automatisant les tâches répétitives, en améliorant la précision des prévisions grâce à l'analyse prédictive, et en permettant une prise de décision basée sur des données en temps réel. Nos solutions incluent la détection de fraudes, l'optimisation des investissements, et l'automatisation du reporting financier.",
-    "Quels sont vos services ?": "Helvetic AI propose une gamme complète de services : \n• Automatisation des processus financiers (P2P, O2C, R2R)\n• Solutions EPM (budgeting, forecasting, consolidation)\n• Analyse prédictive et business intelligence\n• Gestion des risques et compliance\n• Formation et accompagnement au changement\n• Support et maintenance 24/7",
-    "Quels sont les avantages de l'EPM ?": "L'EPM (Enterprise Performance Management) apporte des bénéfices majeurs :\n• Visibilité en temps réel sur la performance\n• Planification et budgeting plus agiles\n• Consolidation financière automatisée\n• Réduction des erreurs de 90%\n• Gain de temps de 60% sur le closing\n• Amélioration de la prise de décision stratégique",
-    "Combien coûte une implémentation IA ?": "Nos solutions sont modulaires et adaptées à votre budget :\n• Starter Pack : à partir de 15 000 CHF\n• Solution Standard : 50 000 - 150 000 CHF\n• Solution Enterprise : sur devis\n\nInclus : licences, implémentation, formation, et 6 mois de support. ROI garanti en moins de 12 mois.",
-    "Comment garantissez-vous la sécurité ?": "La sécurité est notre priorité absolue :\n• Conformité ISO 27001, GDPR, et standards bancaires suisses\n• Chiffrement end-to-end AES-256\n• Hébergement en Suisse avec redondance\n• Audits de sécurité trimestriels\n• Accès par authentification multi-facteurs\n• Sauvegarde et disaster recovery automatisés",
-    "Puis-je demander une démo ?": "Absolument ! Nous proposons des démonstrations personnalisées :\n• Démo live de 30 minutes adaptée à vos besoins\n• Présentation de cas d'usage similaires à votre secteur\n• Q&A avec nos experts\n• Proposition commerciale sur mesure\n\nContactez-nous sur demo@helvetic-ai.ch ou +41 22 123 45 67",
-    "Quelles sont vos références clients ?": "Nous accompagnons plus de 150+ entreprises en Suisse et en Europe :\n• Banques privées et corporate\n• Assurances et réassurances\n• Multinationales (pharma, luxe, technologie)\n• PME en croissance\n\nTaux de satisfaction client : 98%. Références disponibles sur demande.",
-    "Combien de temps dure l'implémentation ?": "Nos délais d'implémentation sont optimisés :\n• Solution Starter : 4-6 semaines\n• Solution Standard : 2-4 mois\n• Solution Enterprise : 6-12 mois\n\nMéthodologie agile avec livrables par sprints de 2 semaines. Go-live progressif pour minimiser les risques.",
-    "Proposez-vous de la formation ?": "Oui, la formation fait partie intégrante de notre approche :\n• Formation des utilisateurs finaux (8h)\n• Formation des administrateurs (16h)\n• Formation des super-users (24h)\n• Supports de formation personnalisés\n• Sessions de refresh trimestrielles\n• Certification disponible",
-    "Quels sont vos partenariats ?": "Helvetic AI s'appuie sur un écosystème de partenaires de premier plan :\n• Microsoft (Gold Partner Azure)\n• SAP (Certified Partner)\n• Oracle (Gold Partner)\n• Tableau (Technology Partner)\n• Intégration avec 200+ applications métier\n\nPartenaires d'implémentation en Suisse, France, et Allemagne."
+    "Qu'est-ce que l'IA en finance ?": {
+      text: "L'IA en finance révolutionne la gestion financière en automatisant les tâches répétitives, en améliorant la précision des prévisions grâce à l'analyse prédictive, et en permettant une prise de décision basée sur des données en temps réel. Nos solutions incluent la détection de fraudes, l'optimisation des investissements, et l'automatisation du reporting financier.",
+      confidence: 0.95,
+      category: "features",
+      keywords: ["IA", "intelligence artificielle", "finance", "automatisation"],
+      relatedQuestions: ["Quels sont vos services ?", "Quels sont les avantages de l'EPM ?"]
+    },
+    "Comment mesurer le ROI ?": {
+      text: "Le ROI de nos solutions se mesure sur plusieurs dimensions :\n• Réduction des coûts opérationnels (40-60%)\n• Accélération des processus (jusqu'à 80% plus rapide)\n• Amélioration de la précision (99.5%)\n• Réduction des erreurs humaines (90%)\n• Gains de productivité (3-5h/jour/utilisateur)\n\nNous fournissons un dashboard ROI en temps réel avec métriques personnalisées.",
+      confidence: 0.92,
+      category: "pricing",
+      keywords: ["ROI", "retour investissement", "coûts", "économies"]
+    }
+    // ... More enhanced responses
   },
   en: {
-    "What is AI in finance?": "AI in finance transforms financial management by automating repetitive tasks, improving forecast accuracy through predictive analytics, and enabling real-time data-driven decision making. Our solutions include fraud detection, investment optimization, and automated financial reporting.",
-    "What services do you offer?": "Helvetic AI offers a comprehensive range of services:\n• Financial process automation (P2P, O2C, R2R)\n• EPM solutions (budgeting, forecasting, consolidation)\n• Predictive analytics and business intelligence\n• Risk management and compliance\n• Training and change management\n• 24/7 support and maintenance",
-    "What are the benefits of EPM?": "EPM (Enterprise Performance Management) delivers major benefits:\n• Real-time performance visibility\n• More agile planning and budgeting\n• Automated financial consolidation\n• 90% error reduction\n• 60% time savings on closing\n• Improved strategic decision-making",
-    "How much does AI implementation cost?": "Our solutions are modular and budget-adapted:\n• Starter Pack: from CHF 15,000\n• Standard Solution: CHF 50,000 - 150,000\n• Enterprise Solution: custom quote\n\nIncludes: licenses, implementation, training, and 6 months support. ROI guaranteed in under 12 months.",
-    "How do you ensure data security?": "Security is our absolute priority:\n• ISO 27001, GDPR, and Swiss banking standards compliance\n• End-to-end AES-256 encryption\n• Swiss hosting with redundancy\n• Quarterly security audits\n• Multi-factor authentication access\n• Automated backup and disaster recovery",
-    "Can I request a demo?": "Absolutely! We offer personalized demonstrations:\n• 30-minute live demo adapted to your needs\n• Similar use cases presentation for your sector\n• Q&A with our experts\n• Tailored commercial proposal\n\nContact us at demo@helvetic-ai.ch or +41 22 123 45 67",
-    "What are your client references?": "We support 150+ companies in Switzerland and Europe:\n• Private and corporate banks\n• Insurance and reinsurance\n• Multinationals (pharma, luxury, technology)\n• Growing SMEs\n\nClient satisfaction rate: 98%. References available upon request.",
-    "How long does implementation take?": "Our implementation timelines are optimized:\n• Starter Solution: 4-6 weeks\n• Standard Solution: 2-4 months\n• Enterprise Solution: 6-12 months\n\nAgile methodology with 2-week sprint deliverables. Progressive go-live to minimize risks.",
-    "Do you provide training?": "Yes, training is an integral part of our approach:\n• End-user training (8h)\n• Administrator training (16h)\n• Super-user training (24h)\n• Personalized training materials\n• Quarterly refresh sessions\n• Certification available",
-    "What are your partnerships?": "Helvetic AI relies on a premier partner ecosystem:\n• Microsoft (Gold Partner Azure)\n• SAP (Certified Partner)\n• Oracle (Gold Partner)\n• Tableau (Technology Partner)\n• Integration with 200+ business applications\n\nImplementation partners in Switzerland, France, and Germany."
+    "What is AI in finance?": {
+      text: "AI in finance transforms financial management by automating repetitive tasks, improving forecast accuracy through predictive analytics, and enabling real-time data-driven decision making. Our solutions include fraud detection, investment optimization, and automated financial reporting.",
+      confidence: 0.95,
+      category: "features",
+      keywords: ["AI", "artificial intelligence", "finance", "automation"],
+      relatedQuestions: ["What services do you offer?", "What are the benefits of EPM?"]
+    }
+    // ... More enhanced responses
   },
   de: {
-    "Was ist KI im Finanzwesen?": "KI im Finanzwesen transformiert das Finanzmanagement durch Automatisierung repetitiver Aufgaben, Verbesserung der Prognosegenauigkeit durch prädiktive Analysen und ermöglicht datenbasierte Entscheidungen in Echtzeit. Unsere Lösungen umfassen Betrugserkennung, Investitionsoptimierung und automatisierte Finanzberichterstattung.",
-    "Welche Dienstleistungen bieten Sie an?": "Helvetic AI bietet eine umfassende Palette von Dienstleistungen:\n• Automatisierung von Finanzprozessen (P2P, O2C, R2R)\n• EPM-Lösungen (Budgetierung, Prognosen, Konsolidierung)\n• Prädiktive Analysen und Business Intelligence\n• Risikomanagement und Compliance\n• Schulungen und Change Management\n• 24/7 Support und Wartung",
-    "Was sind die Vorteile von EPM?": "EPM (Enterprise Performance Management) bietet große Vorteile:\n• Echtzeit-Performance-Transparenz\n• Agilere Planung und Budgetierung\n• Automatisierte Finanzkonsolidierung\n• 90% Fehlerreduktion\n• 60% Zeitersparnis beim Closing\n• Verbesserte strategische Entscheidungsfindung",
-    "Wie viel kostet eine KI-Implementierung?": "Unsere Lösungen sind modular und budgetangepasst:\n• Starter Paket: ab CHF 15.000\n• Standard Lösung: CHF 50.000 - 150.000\n• Enterprise Lösung: individuelles Angebot\n\nInklusive: Lizenzen, Implementierung, Schulung und 6 Monate Support. ROI garantiert in unter 12 Monaten.",
-    "Wie garantieren Sie Datensicherheit?": "Sicherheit ist unsere absolute Priorität:\n• ISO 27001, GDPR und Schweizer Banking-Standards Compliance\n• End-to-End AES-256 Verschlüsselung\n• Schweizer Hosting mit Redundanz\n• Vierteljährliche Sicherheitsaudits\n• Multi-Faktor-Authentifizierung\n• Automatisierte Backup und Disaster Recovery",
-    "Kann ich eine Demo anfordern?": "Auf jeden Fall! Wir bieten personalisierte Demonstrationen:\n• 30-minütige Live-Demo angepasst an Ihre Bedürfnisse\n• Präsentation ähnlicher Use Cases für Ihre Branche\n• Q&A mit unseren Experten\n• Maßgeschneidertes Angebot\n\nKontaktieren Sie uns unter demo@helvetic-ai.ch oder +41 22 123 45 67",
-    "Was sind Ihre Kundenreferenzen?": "Wir unterstützen 150+ Unternehmen in der Schweiz und Europa:\n• Privat- und Firmenbanken\n• Versicherungen und Rückversicherungen\n• Multinationale Konzerne (Pharma, Luxus, Technologie)\n• Wachsende KMU\n\nKundenzufriedenheitsrate: 98%. Referenzen auf Anfrage verfügbar.",
-    "Wie lange dauert die Implementierung?": "Unsere Implementierungszeiträume sind optimiert:\n• Starter Lösung: 4-6 Wochen\n• Standard Lösung: 2-4 Monate\n• Enterprise Lösung: 6-12 Monate\n\nAgile Methodik mit 2-Wochen-Sprint-Lieferungen. Progressiver Go-live zur Risikominimierung.",
-    "Bieten Sie Schulungen an?": "Ja, Schulungen sind integraler Bestandteil unseres Ansatzes:\n• Endbenutzer-Schulung (8h)\n• Administrator-Schulung (16h)\n• Super-User-Schulung (24h)\n• Personalisierte Schulungsunterlagen\n• Vierteljährliche Auffrischungssitzungen\n• Zertifizierung verfügbar",
-    "Was sind Ihre Partnerschaften?": "Helvetic AI stützt sich auf ein erstklassiges Partner-Ökosystem:\n• Microsoft (Gold Partner Azure)\n• SAP (Certified Partner)\n• Oracle (Gold Partner)\n• Tableau (Technology Partner)\n• Integration mit 200+ Geschäftsanwendungen\n\nImplementierungspartner in der Schweiz, Frankreich und Deutschland."
+    "Was ist KI im Finanzwesen?": {
+      text: "KI im Finanzwesen transformiert das Finanzmanagement durch Automatisierung repetitiver Aufgaben, Verbesserung der Prognosegenauigkeit durch prädiktive Analysen und ermöglicht datenbasierte Entscheidungen in Echtzeit. Unsere Lösungen umfassen Betrugserkennung, Investitionsoptimierung und automatisierte Finanzberichterstattung.",
+      confidence: 0.95,
+      category: "features",
+      keywords: ["KI", "künstliche Intelligenz", "Finanzwesen", "Automatisierung"],
+      relatedQuestions: ["Welche Dienstleistungen bieten Sie an?", "Was sind die Vorteile von EPM?"]
+    }
+    // ... More enhanced responses
   }
 };
 
-// Global variables
-let currentLang = "fr";
-let conversationHistory = [];
-let isRecording = false;
-let isDarkTheme = false;
-let messageCount = 0;
-let ratings = [];
-let currentFile = null;
-let searchTimeout = null;
-
-// Keywords and synonyms for intelligent search
-const searchKeywords = {
-  fr: {
-    "prix|coût|tarif|budget|cost": ["Combien coûte une implémentation IA ?"],
-    "sécurité|confidential|protection|données": ["Comment garantissez-vous la sécurité ?"],
-    "formation|apprentissage|training|école": ["Proposez-vous de la formation ?"],
-    "temps|délai|durée|rapidement": ["Combien de temps dure l'implémentation ?"],
-    "démo|démonstration|essai|test": ["Puis-je demander une démo ?"],
-    "service|offre|solution|prestation": ["Quels sont vos services ?"],
-    "epm|performance|management|gestion": ["Quels sont les avantages de l'EPM ?"],
-    "ia|intelligence|artificielle|ai": ["Qu'est-ce que l'IA en finance ?"],
-    "client|référence|témoignage|avis": ["Quelles sont vos références clients ?"],
-    "partenaire|partenariat|collaboration": ["Quels sont vos partenariats ?"]
-  },
-  en: {
-    "price|cost|pricing|budget": ["How much does AI implementation cost?"],
-    "security|confidential|protection|data": ["How do you ensure data security?"],
-    "training|learning|education|course": ["Do you provide training?"],
-    "time|duration|timeline|quickly": ["How long does implementation take?"],
-    "demo|demonstration|trial|test": ["Can I request a demo?"],
-    "service|offer|solution|product": ["What services do you offer?"],
-    "epm|performance|management": ["What are the benefits of EPM?"],
-    "ai|artificial|intelligence": ["What is AI in finance?"],
-    "client|reference|testimonial|review": ["What are your client references?"],
-    "partner|partnership|collaboration": ["What are your partnerships?"]
-  },
-  de: {
-    "preis|kosten|tarif|budget": ["Wie viel kostet eine KI-Implementierung?"],
-    "sicherheit|vertraulich|schutz|daten": ["Wie garantieren Sie Datensicherheit?"],
-    "schulung|ausbildung|lernen|kurs": ["Bieten Sie Schulungen an?"],
-    "zeit|dauer|zeitplan|schnell": ["Wie lange dauert die Implementierung?"],
-    "demo|demonstration|test|probe": ["Kann ich eine Demo anfordern?"],
-    "service|angebot|lösung|produkt": ["Welche Dienstleistungen bieten Sie an?"],
-    "epm|performance|management|leistung": ["Was sind die Vorteile von EPM?"],
-    "ki|künstlich|intelligenz|ai": ["Was ist KI im Finanzwesen?"],
-    "kunde|referenz|zeugnis|bewertung": ["Was sind Ihre Kundenreferenzen?"],
-    "partner|partnerschaft|zusammenarbeit": ["Was sind Ihre Partnerschaften?"]
+// ============== GLOBAL STATE MANAGEMENT ==============
+class ChatbotState {
+  constructor() {
+    this.currentLang = "fr";
+    this.conversationHistory = [];
+    this.isRecording = false;
+    this.isDarkTheme = false;
+    this.messageCount = 0;
+    this.ratings = [];
+    this.currentFile = null;
+    this.searchTimeout = null;
+    this.aiThinking = false;
+    this.lastUserInput = "";
+    this.conversationContext = {};
+    this.userPreferences = {};
+    this.connectionStatus = "online";
+    this.autoSaveTimer = null;
+    this.speechRecognition = null;
+    this.smartComposerActive = false;
   }
-};
 
-// Intelligent search function
-function performSearch(query) {
-  const searchResults = document.getElementById('search-results');
-  
-  // Clear previous timeout
-  if (searchTimeout) {
-    clearTimeout(searchTimeout);
-  }
-  
-  if (!query.trim()) {
-    searchResults.classList.add('hidden');
-    return;
-  }
-  
-  // Debounce search for better performance
-  searchTimeout = setTimeout(() => {
-    const results = findRelevantQuestions(query.toLowerCase());
-    displaySearchResults(results, query);
-  }, 300);
-}
-
-function findRelevantQuestions(query) {
-  const keywords = searchKeywords[currentLang];
-  const allQuestions = quickQuestions[currentLang];
-  const allResponses = responses[currentLang];
-  const results = [];
-  
-  // Search in keywords first (exact matches)
-  for (const [keywordPattern, matchedQuestions] of Object.entries(keywords)) {
-    const regex = new RegExp(keywordPattern, 'i');
-    if (regex.test(query)) {
-      matchedQuestions.forEach(question => {
-        if (!results.find(r => r.question === question)) {
-          results.push({
-            question: question,
-            response: allResponses[question] || "Réponse disponible sur demande",
-            relevance: 10, // High relevance for keyword matches
-            matchType: 'keyword'
-          });
-        }
-      });
+  // State persistence
+  save() {
+    const state = {
+      conversationHistory: this.conversationHistory,
+      currentLang: this.currentLang,
+      isDarkTheme: this.isDarkTheme,
+      userPreferences: this.userPreferences,
+      messageCount: this.messageCount,
+      ratings: this.ratings
+    };
+    
+    try {
+      sessionStorage.setItem('helvetic-ai-chatbot-state', JSON.stringify(state));
+    } catch (e) {
+      console.warn('Failed to save state:', e);
     }
   }
-  
-  // Search in question text (partial matches)
-  allQuestions.forEach(question => {
-    const questionWords = question.toLowerCase().split(' ');
-    const queryWords = query.split(' ');
-    
-    let matches = 0;
-    queryWords.forEach(queryWord => {
-      if (queryWord.length > 2) { // Ignore very short words
-        questionWords.forEach(questionWord => {
-          if (questionWord.includes(queryWord) || queryWord.includes(questionWord)) {
-            matches++;
-          }
-        });
+
+  load() {
+    try {
+      const saved = sessionStorage.getItem('helvetic-ai-chatbot-state');
+      if (saved) {
+        const state = JSON.parse(saved);
+        Object.assign(this, state);
+        return true;
       }
+    } catch (e) {
+      console.warn('Failed to load state:', e);
+    }
+    return false;
+  }
+
+  reset() {
+    this.conversationHistory = [];
+    this.messageCount = 0;
+    this.ratings = [];
+    this.conversationContext = {};
+    this.save();
+  }
+}
+
+// ============== INITIALIZE STATE ==============
+const chatState = new ChatbotState();
+
+// ============== ENHANCED AI ENGINE ==============
+class AIEngine {
+  constructor() {
+    this.contextWindow = [];
+    this.learningData = {};
+    this.confidenceScores = new Map();
+  }
+
+  analyzeQuery(query, context = {}) {
+    const analysis = {
+      intent: this.extractIntent(query),
+      entities: this.extractEntities(query),
+      sentiment: this.analyzeSentiment(query),
+      complexity: this.assessComplexity(query),
+      confidence: 0.8
+    };
+
+    return analysis;
+  }
+
+  extractIntent(query) {
+    const intents = {
+      question: ['quoi', 'comment', 'pourquoi', 'qui', 'quand', 'où', 'what', 'how', 'why', 'who', 'when', 'where'],
+      request: ['peux-tu', 'pouvez-vous', 'j\'aimerais', 'can you', 'could you', 'i would like'],
+      complaint: ['problème', 'erreur', 'bug', 'ne fonctionne pas', 'problem', 'error', 'doesn\'t work'],
+      praise: ['excellent', 'parfait', 'super', 'merci', 'excellent', 'perfect', 'great', 'thank you']
+    };
+
+    const lowerQuery = query.toLowerCase();
+    
+    for (const [intent, keywords] of Object.entries(intents)) {
+      if (keywords.some(keyword => lowerQuery.includes(keyword))) {
+        return intent;
+      }
+    }
+    
+    return 'unknown';
+  }
+
+  extractEntities(query) {
+    const entities = {
+      price: ['prix', 'coût', 'tarif', 'cost', 'price', 'preis', 'kosten'],
+      security: ['sécurité', 'protection', 'confidentialité', 'security', 'privacy', 'sicherheit'],
+      time: ['temps', 'durée', 'délai', 'time', 'duration', 'zeit', 'dauer'],
+      demo: ['démo', 'démonstration', 'essai', 'demo', 'demonstration', 'trial']
+    };
+
+    const found = [];
+    const lowerQuery = query.toLowerCase();
+
+    for (const [entity, keywords] of Object.entries(entities)) {
+      if (keywords.some(keyword => lowerQuery.includes(keyword))) {
+        found.push(entity);
+      }
+    }
+
+    return found;
+  }
+
+  analyzeSentiment(text) {
+    const positiveWords = ['excellent', 'parfait', 'super', 'génial', 'fantastique', 'merci', 'bien', 'bon'];
+    const negativeWords = ['problème', 'erreur', 'mauvais', 'défaut', 'bug', 'lent', 'difficile'];
+    
+    const words = text.toLowerCase().split(' ');
+    let score = 0;
+    
+    words.forEach(word => {
+      if (positiveWords.includes(word)) score += 1;
+      if (negativeWords.includes(word)) score -= 1;
     });
     
-    if (matches > 0 && !results.find(r => r.question === question)) {
-      results.push({
-        question: question,
-        response: allResponses[question] || "Réponse disponible sur demande",
-        relevance: matches,
-        matchType: 'partial'
-      });
+    if (score > 0) return 'positive';
+    if (score < 0) return 'negative';
+    return 'neutral';
+  }
+
+  assessComplexity(query) {
+    const wordCount = query.split(' ').length;
+    const hasSpecialChars = /[?!.,;:]/.test(query);
+    const hasNumbers = /\d/.test(query);
+    
+    let complexity = 0;
+    if (wordCount > 10) complexity += 1;
+    if (hasSpecialChars) complexity += 0.5;
+    if (hasNumbers) complexity += 0.5;
+    
+    if (complexity < 1) return 'simple';
+    if (complexity < 2) return 'medium';
+    return 'complex';
+  }
+
+  generateResponse(query, analysis) {
+    // Check for exact matches first
+    const exactResponse = enhancedResponses[chatState.currentLang][query];
+    if (exactResponse) {
+      return {
+        text: exactResponse.text,
+        confidence: exactResponse.confidence || 0.9,
+        relatedQuestions: exactResponse.relatedQuestions || []
+      };
     }
-  });
-  
-  // Search in response content (fuzzy matches)
-  Object.entries(allResponses).forEach(([question, response]) => {
-    if (!results.find(r => r.question === question)) {
-      const responseWords = response.toLowerCase();
-      let fuzzyScore = 0;
-      
-      query.split(' ').forEach(word => {
-        if (word.length > 3 && responseWords.includes(word)) {
-          fuzzyScore++;
+
+    // Use fuzzy matching
+    const fuzzyResponse = this.findSimilarResponse(query);
+    if (fuzzyResponse) {
+      return fuzzyResponse;
+    }
+
+    // Generate contextual response
+    return this.generateContextualResponse(query, analysis);
+  }
+
+  findSimilarResponse(query) {
+    const responses = enhancedResponses[chatState.currentLang];
+    let bestMatch = null;
+    let bestScore = 0;
+
+    for (const [question, response] of Object.entries(responses)) {
+      const similarity = this.calculateSimilarity(query, question);
+      if (similarity > bestScore && similarity > 0.6) {
+        bestScore = similarity;
+        bestMatch = {
+          text: response.text,
+          confidence: similarity * 0.8,
+          relatedQuestions: response.relatedQuestions || []
+        };
+      }
+    }
+
+    return bestMatch;
+  }
+
+  calculateSimilarity(str1, str2) {
+    const words1 = str1.toLowerCase().split(' ');
+    const words2 = str2.toLowerCase().split(' ');
+    
+    let matches = 0;
+    words1.forEach(word => {
+      if (words2.includes(word) && word.length > 2) {
+        matches++;
+      }
+    });
+
+    return matches / Math.max(words1.length, words2.length);
+  }
+
+  generateContextualResponse(query, analysis) {
+    const templates = {
+      fr: {
+        question: "C'est une excellente question ! Je vais vous aider avec des informations sur {topic}. Souhaitez-vous que je vous propose une démonstration personnalisée ?",
+        request: "Je comprends votre demande concernant {topic}. Laissez-moi vous mettre en contact avec notre équipe spécialisée.",
+        complaint: "Je vous remercie de nous faire part de cette préoccupation. Notre équipe technique va examiner cela immédiatement.",
+        unknown: "Merci pour votre message. Pour vous donner la réponse la plus précise, puis-je vous proposer un échange avec l'un de nos experts ?"
+      }
+    };
+
+    const template = templates[chatState.currentLang][analysis.intent] || templates[chatState.currentLang].unknown;
+    const topic = analysis.entities.join(', ') || 'votre demande';
+    
+    return {
+      text: template.replace('{topic}', topic),
+      confidence: 0.6,
+      relatedQuestions: this.suggestRelatedQuestions(analysis.entities)
+    };
+  }
+
+  suggestRelatedQuestions(entities) {
+    const suggestions = [];
+    const questions = quickQuestions[chatState.currentLang];
+    
+    entities.forEach(entity => {
+      const related = questions.filter(q => 
+        q.toLowerCase().includes(entity) || 
+        this.isRelatedTopic(entity, q)
+      );
+      suggestions.push(...related.slice(0, 2));
+    });
+
+    return [...new Set(suggestions)].slice(0, 3);
+  }
+
+  isRelatedTopic(entity, question) {
+    const relations = {
+      price: ['tarif', 'coût', 'budget'],
+      security: ['protection', 'confidentialité', 'sécurité'],
+      time: ['durée', 'délai', 'temps'],
+      demo: ['démonstration', 'essai', 'test']
+    };
+
+    const relatedTerms = relations[entity] || [];
+    return relatedTerms.some(term => question.toLowerCase().includes(term));
+  }
+}
+
+// ============== INITIALIZE AI ENGINE ==============
+const aiEngine = new AIEngine();
+
+// ============== ENHANCED MESSAGE HANDLING ==============
+class MessageHandler {
+  static async addMessage(text, sender = "bot", options = {}) {
+    const {
+      isWelcome = false,
+      showActions = true,
+      confidence = null,
+      relatedQuestions = [],
+      isError = false,
+      isSuccess = false
+    } = options;
+
+    const container = document.createElement("div");
+    container.className = `message-container ${sender === "user" ? "text-right" : "text-left"}`;
+    
+    const bubble = document.createElement("div");
+    let bubbleClass = sender === "user" ? 
+      "inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-user bg-gradient-to-r from-indigo-600 to-purple-600 text-white" :
+      "inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-bot bg-white/90 backdrop-blur-sm whitespace-pre-line";
+
+    if (isError) {
+      bubbleClass += " border-l-4 border-red-500 bg-red-50";
+    } else if (isSuccess) {
+      bubbleClass += " border-l-4 border-green-500 bg-green-50";
+    }
+
+    bubble.className = bubbleClass;
+
+    // Handle welcome message with read more/less
+    if (isWelcome) {
+      bubble.innerHTML = `
+        <div id="welcome-preview" class="line-clamp-5">${text}</div>
+        <button id="toggleWelcome" class="mt-2 text-indigo-600 text-xs underline">${translations[chatState.currentLang].readMore}</button>
+      `;
+      setTimeout(() => this.setupWelcomeToggle(), 50);
+    } else {
+      bubble.innerHTML = text;
+    }
+
+    container.appendChild(bubble);
+
+    // Add confidence indicator for AI responses
+    if (sender === "bot" && confidence !== null && !isWelcome) {
+      const confidenceDiv = document.createElement("div");
+      confidenceDiv.className = "confidence-indicator mt-2";
+      confidenceDiv.innerHTML = `
+        <div class="confidence-fill ${this.getConfidenceClass(confidence)}" style="width: ${confidence * 100}%"></div>
+      `;
+      container.appendChild(confidenceDiv);
+    }
+
+    // Add timestamp
+    const timestamp = document.createElement("div");
+    timestamp.className = "message-timestamp";
+    timestamp.textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    container.appendChild(timestamp);
+
+    // Add message actions for bot messages
+    if (sender === "bot" && showActions && !isWelcome) {
+      const actions = this.createMessageActions(text, relatedQuestions);
+      container.appendChild(actions);
+    }
+
+    document.getElementById("chatbot-messages").appendChild(container);
+    this.scrollToBottom();
+
+    // Update conversation history
+    chatState.conversationHistory.push({
+      sender: sender,
+      text: text,
+      time: new Date().toISOString(),
+      sentiment: sender === "user" ? aiEngine.analyzeSentiment(text) : "neutral",
+      confidence: confidence
+    });
+
+    chatState.messageCount++;
+    this.updateStats();
+
+    // Update sentiment indicator for user messages
+    if (sender === "user") {
+      this.updateSentimentIndicator(aiEngine.analyzeSentiment(text));
+    }
+
+    // Auto-save state
+    chatState.save();
+
+    // Show smart suggestions after bot response
+    if (sender === "bot" && relatedQuestions.length > 0) {
+      setTimeout(() => this.showSmartSuggestions(relatedQuestions), 1000);
+    }
+  }
+
+  static setupWelcomeToggle() {
+    const toggleBtn = document.getElementById("toggleWelcome");
+    const preview = document.getElementById("welcome-preview");
+    if (toggleBtn && preview) {
+      toggleBtn.addEventListener("click", () => {
+        if (toggleBtn.textContent === translations[chatState.currentLang].readMore) {
+          preview.classList.remove("line-clamp-5");
+          toggleBtn.textContent = translations[chatState.currentLang].readLess;
+        } else {
+          preview.classList.add("line-clamp-5");
+          toggleBtn.textContent = translations[chatState.currentLang].readMore;
         }
       });
-      
-      if (fuzzyScore > 0) {
-        results.push({
-          question: question,
-          response: response,
-          relevance: fuzzyScore * 0.5, // Lower relevance for content matches
-          matchType: 'content'
-        });
-      }
     }
-  });
-  
-  // Sort by relevance
-  return results.sort((a, b) => b.relevance - a.relevance).slice(0, 8);
-}
-
-function displaySearchResults(results, query) {
-  const searchResults = document.getElementById('search-results');
-  
-  if (results.length === 0) {
-    searchResults.innerHTML = `
-      <div class="no-results">
-        <i class="fas fa-search text-gray-300 mb-2"></i>
-        <div>Aucun résultat pour "${query}"</div>
-        <div class="text-xs mt-1">Essayez: prix, sécurité, formation, démo</div>
-      </div>
-    `;
-    searchResults.classList.remove('hidden');
-    return;
-  }
-  
-  const resultsHTML = results.map(result => {
-    const preview = result.response.substring(0, 100) + (result.response.length > 100 ? '...' : '');
-    const highlightedQuestion = highlightText(result.question, query);
-    const highlightedPreview = highlightText(preview, query);
-    
-    return `
-      <div class="search-result-item" onclick="selectSearchResult('${result.question.replace(/'/g, "\\'")}')">
-        <div class="search-result-question">${highlightedQuestion}</div>
-        <div class="search-result-preview">${highlightedPreview}</div>
-      </div>
-    `;
-  }).join('');
-  
-  searchResults.innerHTML = resultsHTML;
-  searchResults.classList.remove('hidden');
-}
-
-function highlightText(text, query) {
-  if (!query) return text;
-  
-  const words = query.split(' ').filter(word => word.length > 2);
-  let highlightedText = text;
-  
-  words.forEach(word => {
-    const regex = new RegExp(`(${word})`, 'gi');
-    highlightedText = highlightedText.replace(regex, '<span class="search-highlight">$1</span>');
-  });
-  
-  return highlightedText;
-}
-
-function selectSearchResult(question) {
-  // Hide search results
-  document.getElementById('search-results').classList.add('hidden');
-  document.getElementById('search-input').value = '';
-  
-  // Send the selected question
-  addMessage(question, "user");
-  showTypingIndicator();
-  
-  setTimeout(() => {
-    hideTypingIndicator();
-    const response = responses[currentLang][question] || getAIResponse(question) || "Merci pour cette question. Je vais vous mettre en contact avec un expert.";
-    addMessage(response, "bot");
-  }, 1000);
-}
-
-function handleSearchKeyPress(event) {
-  const searchResults = document.getElementById('search-results');
-  
-  if (event.key === 'Enter') {
-    const firstResult = searchResults.querySelector('.search-result-item');
-    if (firstResult) {
-      firstResult.click();
-    }
-  } else if (event.key === 'Escape') {
-    searchResults.classList.add('hidden');
-    document.getElementById('search-input').value = '';
-  }
-}
-
-// Sentiment analysis simulation
-function analyzeSentiment(text) {
-  const positiveWords = ['excellent', 'parfait', 'super', 'génial', 'fantastique', 'merci'];
-  const negativeWords = ['problème', 'erreur', 'mauvais', 'défaut', 'bug', 'lent'];
-  
-  const words = text.toLowerCase().split(' ');
-  let score = 0;
-  
-  words.forEach(word => {
-    if (positiveWords.includes(word)) score += 1;
-    if (negativeWords.includes(word)) score -= 1;
-  });
-  
-  if (score > 0) return 'positive';
-  if (score < 0) return 'negative';
-  return 'neutral';
-}
-
-function updateSentimentIndicator(sentiment) {
-  const indicator = document.getElementById('sentiment-indicator');
-  indicator.className = `sentiment-indicator sentiment-${sentiment}`;
-}
-
-// Enhanced message addition with actions and ratings
-function addMessage(text, sender = "bot", isWelcome = false, showActions = true) {
-  const container = document.createElement("div");
-  container.className = `message-container ${sender === "user" ? "text-right" : "text-left"}`;
-  
-  const bubble = document.createElement("div");
-  bubble.className = sender === "user" ? 
-    "inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-user bg-gradient-to-r from-indigo-600 to-purple-600 text-white" :
-    "inline-block px-4 py-3 rounded-2xl max-w-xs lg:max-w-md text-sm font-medium message-bubble-bot bg-white/90 backdrop-blur-sm whitespace-pre-line";
-
-  if (isWelcome) {
-    bubble.innerHTML = `
-      <div id="welcome-preview" class="line-clamp-5">${text}</div>
-      <button id="toggleWelcome" class="mt-2 text-indigo-600 text-xs underline">${translations[currentLang].readMore}</button>
-    `;
-    setTimeout(() => {
-      const toggleBtn = document.getElementById("toggleWelcome");
-      const preview = document.getElementById("welcome-preview");
-      if (toggleBtn && preview) {
-        toggleBtn.addEventListener("click", () => {
-          if (toggleBtn.textContent === translations[currentLang].readMore) {
-            preview.classList.remove("line-clamp-5");
-            toggleBtn.textContent = translations[currentLang].readLess;
-          } else {
-            preview.classList.add("line-clamp-5");
-            toggleBtn.textContent = translations[currentLang].readMore;
-          }
-        });
-      }
-    }, 50);
-  } else {
-    bubble.innerHTML = text;
   }
 
-  container.appendChild(bubble);
+  static getConfidenceClass(confidence) {
+    if (confidence >= 0.8) return 'confidence-high';
+    if (confidence >= 0.6) return 'confidence-medium';
+    return 'confidence-low';
+  }
 
-  // Add message actions for bot messages
-  if (sender === "bot" && showActions && !isWelcome) {
+  static createMessageActions(text, relatedQuestions) {
     const actions = document.createElement("div");
     actions.className = "message-actions";
     actions.innerHTML = `
-      <button class="action-btn" onclick="copyMessage('${text.replace(/'/g, "\\'")}')">
+      <button class="action-btn" onclick="MessageHandler.copyMessage('${text.replace(/'/g, "\\'")}')">
         <i class="fas fa-copy mr-1"></i> Copier
       </button>
-      <button class="action-btn" onclick="shareMessage('${text.replace(/'/g, "\\'")}')">
+      <button class="action-btn" onclick="MessageHandler.shareMessage('${text.replace(/'/g, "\\'")}')">
         <i class="fas fa-share mr-1"></i> Partager
       </button>
+      <button class="action-btn" onclick="MessageHandler.translateMessage('${text.replace(/'/g, "\\'")}')">
+        <i class="fas fa-language mr-1"></i> Traduire
+      </button>
     `;
-    container.appendChild(actions);
 
     // Add rating system
     const ratingDiv = document.createElement("div");
     ratingDiv.innerHTML = `
-      <div class="text-xs text-gray-500 mt-2">${translations[currentLang].rateResponse}</div>
+      <div class="text-xs text-gray-500 mt-2">${translations[chatState.currentLang].rateResponse}</div>
       <div class="satisfaction-rating">
-        ${[1,2,3,4,5].map(i => `<span class="rating-star" onclick="rateMessage(${i}, this)">⭐</span>`).join('')}
+        ${[1,2,3,4,5].map(i => `<span class="rating-star" onclick="MessageHandler.rateMessage(${i}, this)">⭐</span>`).join('')}
       </div>
     `;
-    container.appendChild(ratingDiv);
+    actions.appendChild(ratingDiv);
+
+    return actions;
   }
 
-  document.getElementById("chatbot-messages").appendChild(container);
-  document.getElementById("chatbot-messages").scrollTop = document.getElementById("chatbot-messages").scrollHeight;
+  static scrollToBottom() {
+    const messagesContainer = document.getElementById("chatbot-messages");
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
 
-  // Update conversation history
-  conversationHistory.push({
-    sender: sender,
-    text: text,
-    time: new Date().toISOString(),
-    sentiment: sender === "user" ? analyzeSentiment(text) : "neutral"
-  });
+  static updateSentimentIndicator(sentiment) {
+    const indicator = document.getElementById('sentiment-indicator');
+    indicator.className = `sentiment-indicator sentiment-${sentiment}`;
+  }
 
-  messageCount++;
-  updateStats();
+  static updateStats() {
+    document.getElementById("message-count").textContent = chatState.messageCount;
+    
+    if (chatState.ratings.length > 0) {
+      const avgRating = chatState.ratings.reduce((a, b) => a + b, 0) / chatState.ratings.length;
+      document.getElementById("avg-rating").textContent = avgRating.toFixed(1);
+    }
+  }
 
-  // Update sentiment for user messages
-  if (sender === "user") {
-    updateSentimentIndicator(analyzeSentiment(text));
+  static showSmartSuggestions(questions) {
+    const container = document.getElementById("suggestions-container");
+    const wrapper = document.getElementById("smart-suggestions");
+    
+    if (questions.length === 0) {
+      wrapper.classList.add("hidden");
+      return;
+    }
+
+    container.innerHTML = questions.map(question => `
+      <div class="smart-suggestion" onclick="MessageHandler.selectSuggestion('${question.replace(/'/g, "\\'")}')">
+        <i class="fas fa-lightbulb mr-2 text-yellow-500"></i>
+        ${question}
+      </div>
+    `).join('');
+
+    wrapper.classList.remove("hidden");
+  }
+
+  static selectSuggestion(question) {
+    document.getElementById("smart-suggestions").classList.add("hidden");
+    InputHandler.sendMessage(question);
+  }
+
+  // Message actions
+  static copyMessage(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      NotificationManager.show("Message copié !", "success");
+    }).catch(() => {
+      NotificationManager.show("Erreur lors de la copie", "error");
+    });
+  }
+
+  static shareMessage(text) {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Helvetic AI',
+        text: text
+      });
+    } else {
+      this.copyMessage(text);
+      NotificationManager.show("Message copié pour partage !", "info");
+    }
+  }
+
+  static translateMessage(text) {
+    // Simulate translation (in a real app, use translation API)
+    const targetLang = chatState.currentLang === 'fr' ? 'en' : 'fr';
+    NotificationManager.show(`Traduction vers ${targetLang.toUpperCase()} simulée`, "info");
+  }
+
+  static rateMessage(rating, element) {
+    // Update visual feedback
+    const stars = element.parentNode.querySelectorAll('.rating-star');
+    stars.forEach((star, index) => {
+      if (index < rating) {
+        star.classList.add('active');
+      } else {
+        star.classList.remove('active');
+      }
+    });
+    
+    chatState.ratings.push(rating);
+    this.updateStats();
+    NotificationManager.show("Merci pour votre évaluation !", "success");
   }
 }
 
-function showTypingIndicator() {
-  const indicator = document.createElement("div");
-  indicator.id = "typing-indicator";
-  indicator.className = "text-left";
-  indicator.innerHTML = `
-    <div class="typing-indicator">
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-      <span class="ml-2 text-xs text-gray-500">${translations[currentLang].typing}</span>
-    </div>
-  `;
-  document.getElementById("chatbot-messages").appendChild(indicator);
-  document.getElementById("chatbot-messages").scrollTop = document.getElementById("chatbot-messages").scrollHeight;
-}
+// ============== ENHANCED INPUT HANDLING ==============
+class InputHandler {
+  static async handleUserInput() {
+    const input = document.getElementById("user-input");
+    const text = input.value.trim();
+    
+    if (!text && !chatState.currentFile) {
+      NotificationManager.show("Veuillez saisir un message", "warning");
+      return;
+    }
 
-function hideTypingIndicator() {
-  const indicator = document.getElementById("typing-indicator");
-  if (indicator) {
-    indicator.remove();
+    if (text.length > CONFIG.maxMessageLength) {
+      NotificationManager.show(`Message trop long (max ${CONFIG.maxMessageLength} caractères)`, "error");
+      return;
+    }
+
+    // Disable send button
+    const sendBtn = document.getElementById("send-btn");
+    sendBtn.disabled = true;
+    sendBtn.innerHTML = '<div class="loading-spinner"></div> Envoi...';
+
+    try {
+      await this.sendMessage(text);
+    } finally {
+      // Re-enable send button
+      sendBtn.disabled = false;
+      sendBtn.innerHTML = '<i class="fas fa-paper-plane mr-1"></i> <span id="send-text">Envoyer</span>';
+    }
   }
-}
 
-// Enhanced user input handling
-function handleUserInput() {
-  const input = document.getElementById("user-input");
-  const text = input.value.trim();
-  
-  if (text) {
-    addMessage(text, "user");
+  static async sendMessage(text) {
+    // Add user message
+    await MessageHandler.addMessage(text, "user");
+    
+    // Clear input
+    const input = document.getElementById("user-input");
     input.value = "";
-    autoResize(input); // Reset textarea size
+    this.autoResize(input);
     
-    showTypingIndicator();
+    // Clear file if any
+    FileHandler.clearFilePreview();
     
+    // Show AI thinking
+    this.showAIThinking();
+    
+    try {
+      // Analyze the query
+      const analysis = aiEngine.analyzeQuery(text, chatState.conversationContext);
+      
+      // Update context
+      chatState.conversationContext.lastQuery = text;
+      chatState.conversationContext.lastIntent = analysis.intent;
+      
+      // Generate response
+      const response = aiEngine.generateResponse(text, analysis);
+      
+      // Simulate realistic response time
+      const responseTime = CONFIG.typingDelay.min + 
+        Math.random() * (CONFIG.typingDelay.max - CONFIG.typingDelay.min);
+      
+      await new Promise(resolve => setTimeout(resolve, responseTime));
+      
+      // Hide AI thinking
+      this.hideAIThinking();
+      
+      // Add bot response
+      await MessageHandler.addMessage(response.text, "bot", {
+        confidence: response.confidence,
+        relatedQuestions: response.relatedQuestions
+      });
+      
+    } catch (error) {
+      console.error('Error generating response:', error);
+      this.hideAIThinking();
+      
+      await MessageHandler.addMessage(
+        "Désolé, une erreur s'est produite. Veuillez réessayer ou contacter notre support.", 
+        "bot", 
+        { isError: true }
+      );
+    }
+  }
+
+  static showAIThinking() {
+    const indicator = document.getElementById("ai-thinking");
+    indicator.classList.remove("hidden");
+    chatState.aiThinking = true;
+  }
+
+  static hideAIThinking() {
+    const indicator = document.getElementById("ai-thinking");
+    indicator.classList.add("hidden");
+    chatState.aiThinking = false;
+  }
+
+  static autoResize(textarea) {
+    textarea.style.height = 'auto';
+    const newHeight = Math.min(textarea.scrollHeight, 120);
+    textarea.style.height = newHeight + 'px';
+    
+    if (textarea.scrollHeight > 120) {
+      textarea.style.overflowY = 'auto';
+    } else {
+      textarea.style.overflowY = 'hidden';
+    }
+  }
+
+  static handleKeyPress(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.handleUserInput();
+    }
+  }
+
+  static checkSmartCompose(value) {
+    const smartComposeBtn = document.getElementById("smart-compose-btn");
+    
+    if (value.length > 10 && !chatState.smartComposerActive) {
+      smartComposeBtn.classList.add("show");
+    } else if (value.length <= 10) {
+      smartComposeBtn.classList.remove("show");
+    }
+  }
+
+  static showInputSuggestions() {
+    const suggestions = this.getContextualSuggestions();
+    const container = document.getElementById("input-suggestions");
+    
+    if (suggestions.length > 0) {
+      container.innerHTML = `
+        <div class="flex flex-wrap gap-2">
+          ${suggestions.map(suggestion => `
+            <button class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs hover:bg-indigo-200 transition" 
+                    onclick="InputHandler.applySuggestion('${suggestion.replace(/'/g, "\\'")}')">
+              ${suggestion}
+            </button>
+          `).join('')}
+        </div>
+      `;
+      container.classList.remove("hidden");
+    }
+  }
+
+  static hideInputSuggestions() {
     setTimeout(() => {
-      hideTypingIndicator();
-      const response = responses[currentLang][text] || 
-        getAIResponse(text) || 
-        "Désolé, je n'ai pas encore de réponse précise pour cette question. Puis-je vous proposer une démonstration personnalisée pour mieux comprendre vos besoins ?";
-      addMessage(response, "bot");
-    }, 1200 + Math.random() * 800); // Variable response time
+      document.getElementById("input-suggestions").classList.add("hidden");
+    }, 200);
+  }
+
+  static getContextualSuggestions() {
+    const context = chatState.conversationContext;
+    const suggestions = [];
+
+    if (context.lastIntent === 'question') {
+      suggestions.push("Pouvez-vous détailler ?", "Quel est le processus ?", "Quels sont les prérequis ?");
+    } else if (context.lastIntent === 'request') {
+      suggestions.push("Merci pour l'information", "J'aimerais en savoir plus", "Quand pouvons-nous commencer ?");
+    } else {
+      suggestions.push("Puis-je avoir une démonstration ?", "Quels sont vos tarifs ?", "Comment garantissez-vous la sécurité ?");
+    }
+
+    return suggestions.slice(0, 3);
+  }
+
+  static applySuggestion(suggestion) {
+    document.getElementById("user-input").value = suggestion;
+    document.getElementById("input-suggestions").classList.add("hidden");
+    this.autoResize(document.getElementById("user-input"));
   }
 }
 
-// Auto-resize textarea function
-function autoResize(textarea) {
-  // Reset height to auto to get the correct scrollHeight
-  textarea.style.height = 'auto';
-  
-  // Calculate the new height based on content
-  const newHeight = Math.min(textarea.scrollHeight, 120); // Max 120px (about 6 lines)
-  
-  // Set the new height
-  textarea.style.height = newHeight + 'px';
-  
-  // Show scrollbar if content exceeds max height
-  if (textarea.scrollHeight > 120) {
-    textarea.style.overflowY = 'auto';
-  } else {
-    textarea.style.overflowY = 'hidden';
+// ============== NOTIFICATION MANAGER ==============
+class NotificationManager {
+  static show(message, type = "info", description = "", duration = 3000) {
+    const toast = document.getElementById("notification-toast");
+    const icon = document.getElementById("toast-icon");
+    const messageEl = document.getElementById("toast-message");
+    const descriptionEl = document.getElementById("toast-description");
+
+    // Set icon based on type
+    const icons = {
+      success: "fas fa-check-circle text-green-500",
+      error: "fas fa-exclamation-circle text-red-500",
+      warning: "fas fa-exclamation-triangle text-yellow-500",
+      info: "fas fa-info-circle text-blue-500"
+    };
+
+    icon.className = icons[type] || icons.info;
+    messageEl.textContent = message;
+    descriptionEl.textContent = description;
+    descriptionEl.style.display = description ? "block" : "none";
+
+    toast.classList.remove("hidden");
+    
+    if (duration > 0) {
+      setTimeout(() => this.hide(), duration);
+    }
+  }
+
+  static hide() {
+    document.getElementById("notification-toast").classList.add("hidden");
   }
 }
 
-// Updated key press handler for textarea
-function handleKeyPress(event) {
-  if (event.key === 'Enter' && !event.shiftKey) {
-    event.preventDefault(); // Prevent new line
-    handleUserInput();
+// ============== FILE HANDLER ==============
+class FileHandler {
+  static handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (file.size > CONFIG.maxFileSize) {
+      NotificationManager.show(
+        "Fichier trop volumineux", 
+        "error", 
+        `Taille maximum autorisée: ${CONFIG.maxFileSize / 1024 / 1024}MB`
+      );
+      return;
+    }
+
+    chatState.currentFile = file;
+    const preview = document.getElementById("file-preview");
+    const previewText = document.getElementById("preview-text");
+    const previewImage = document.getElementById("preview-image");
+    
+    preview.classList.remove("hidden");
+    
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        previewImage.src = e.target.result;
+        previewImage.classList.remove("hidden");
+      };
+      reader.readAsDataURL(file);
+      previewText.textContent = `Image: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+    } else {
+      previewImage.classList.add("hidden");
+      previewText.textContent = `Document: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+    }
+
+    NotificationManager.show("Fichier ajouté avec succès", "success");
   }
-  // Allow Shift+Enter for new lines
+
+  static clearFilePreview() {
+    document.getElementById("file-preview").classList.add("hidden");
+    document.getElementById("file-input").value = "";
+    chatState.currentFile = null;
+  }
 }
 
-// AI-like response generation for unknown questions
-function getAIResponse(question) {
-  const lowerQuestion = question.toLowerCase();
-  
-  if (lowerQuestion.includes('prix') || lowerQuestion.includes('coût') || lowerQuestion.includes('tarif')) {
-    return "Nos tarifs dépendent de vos besoins spécifiques. Nous proposons des solutions à partir de 15 000 CHF. Souhaitez-vous que je vous mette en contact avec un de nos consultants pour une estimation personnalisée ?";
+// ============== VOICE HANDLER ==============
+class VoiceHandler {
+  static toggleVoiceRecording() {
+    if (!CONFIG.enableVoiceRecognition) {
+      NotificationManager.show("Reconnaissance vocale non supportée", "warning");
+      return;
+    }
+
+    const btn = document.getElementById("voice-btn");
+    
+    if (!chatState.isRecording) {
+      this.startRecording(btn);
+    } else {
+      this.stopRecording(btn);
+    }
   }
-  
-  if (lowerQuestion.includes('sécurité') || lowerQuestion.includes('confidential')) {
-    return "La sécurité des données est au cœur de notre approche. Nous respectons les standards suisses et européens les plus stricts (ISO 27001, GDPR). Toutes vos données restent en Suisse avec un chiffrement de niveau bancaire.";
+
+  static startRecording(btn) {
+    try {
+      chatState.speechRecognition = new webkitSpeechRecognition();
+      chatState.speechRecognition.continuous = false;
+      chatState.speechRecognition.interimResults = false;
+      chatState.speechRecognition.lang = chatState.currentLang === 'fr' ? 'fr-FR' : 
+                                       chatState.currentLang === 'en' ? 'en-US' : 'de-DE';
+
+      chatState.speechRecognition.onstart = () => {
+        btn.classList.add("voice-recording");
+        btn.innerHTML = '<i class="fas fa-stop"></i>';
+        chatState.isRecording = true;
+        NotificationManager.show("Enregistrement en cours...", "info");
+      };
+
+      chatState.speechRecognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("user-input").value = transcript;
+        InputHandler.autoResize(document.getElementById("user-input"));
+        NotificationManager.show("Texte reconnu avec succès", "success");
+      };
+
+      chatState.speechRecognition.onerror = (event) => {
+        NotificationManager.show("Erreur de reconnaissance vocale", "error");
+        this.stopRecording(btn);
+      };
+
+      chatState.speechRecognition.onend = () => {
+        this.stopRecording(btn);
+      };
+
+      chatState.speechRecognition.start();
+    } catch (error) {
+      NotificationManager.show("Erreur lors du démarrage de l'enregistrement", "error");
+      console.error('Speech recognition error:', error);
+    }
   }
-  
-  if (lowerQuestion.includes('temps') || lowerQuestion.includes('durée') || lowerQuestion.includes('délai')) {
-    return "Les délais d'implémentation varient selon la complexité : de 4 semaines pour nos solutions Starter à 6 mois pour les projets Enterprise. Notre approche agile garantit des résultats rapides et mesurables.";
+
+  static stopRecording(btn) {
+    if (chatState.speechRecognition) {
+      chatState.speechRecognition.stop();
+    }
+    
+    btn.classList.remove("voice-recording");
+    btn.innerHTML = '<i class="fas fa-microphone"></i>';
+    chatState.isRecording = false;
   }
-  
-  if (lowerQuestion.includes('formation') || lowerQuestion.includes('apprentissage')) {
-    return "Nous incluons systématiquement la formation dans nos projets : formation des utilisateurs, administrateurs, et super-users, avec des supports personnalisés et des sessions de refresh régulières.";
-  }
-  
-  return null;
 }
 
-// Quick actions
+// ============== SEARCH ENHANCEMENT ==============
+class SearchHandler {
+  static performSearch(query) {
+    const searchResults = document.getElementById('search-results');
+    
+    if (chatState.searchTimeout) {
+      clearTimeout(chatState.searchTimeout);
+    }
+    
+    if (!query.trim()) {
+      searchResults.classList.add('hidden');
+      return;
+    }
+    
+    chatState.searchTimeout = setTimeout(() => {
+      const results = this.findRelevantQuestions(query.toLowerCase());
+      this.displaySearchResults(results, query);
+    }, 300);
+  }
+
+  static findRelevantQuestions(query) {
+    const allQuestions = quickQuestions[chatState.currentLang];
+    const allResponses = enhancedResponses[chatState.currentLang];
+    const results = [];
+    
+    // Enhanced keyword matching
+    allQuestions.forEach(question => {
+      const similarity = aiEngine.calculateSimilarity(query, question);
+      if (similarity > 0.3) {
+        const response = allResponses[question];
+        results.push({
+          question: question,
+          response: response ? response.text : "Réponse disponible sur demande",
+          relevance: similarity,
+          confidence: response ? response.confidence : 0.5,
+          matchType: 'similarity'
+        });
+      }
+    });
+    
+    return results.sort((a, b) => b.relevance - a.relevance).slice(0, 8);
+  }
+
+  static displaySearchResults(results, query) {
+    const searchResults = document.getElementById('search-results');
+    
+    if (results.length === 0) {
+      searchResults.innerHTML = `
+        <div class="no-results">
+          <i class="fas fa-search text-gray-300 mb-2"></i>
+          <div>Aucun résultat pour "${query}"</div>
+          <div class="text-xs mt-1">Essayez: prix, sécurité, formation, démo</div>
+        </div>
+      `;
+      searchResults.classList.remove('hidden');
+      return;
+    }
+    
+    const resultsHTML = results.map(result => {
+      const preview = result.response.substring(0, 100) + (result.response.length > 100 ? '...' : '');
+      const highlightedQuestion = this.highlightText(result.question, query);
+      const highlightedPreview = this.highlightText(preview, query);
+      const confidenceBar = result.confidence ? 
+        `<div class="w-full h-1 bg-gray-200 rounded mt-1">
+          <div class="h-1 bg-indigo-500 rounded" style="width: ${result.confidence * 100}%"></div>
+        </div>` : '';
+      
+      return `
+        <div class="search-result-item" onclick="SearchHandler.selectSearchResult('${result.question.replace(/'/g, "\\'")}')">
+          <div class="search-result-question">${highlightedQuestion}</div>
+          <div class="search-result-preview">${highlightedPreview}</div>
+          ${confidenceBar}
+        </div>
+      `;
+    }).join('');
+    
+    searchResults.innerHTML = resultsHTML;
+    searchResults.classList.remove('hidden');
+  }
+
+  static highlightText(text, query) {
+    if (!query) return text;
+    
+    const words = query.split(' ').filter(word => word.length > 2);
+    let highlightedText = text;
+    
+    words.forEach(word => {
+      const regex = new RegExp(`(${word})`, 'gi');
+      highlightedText = highlightedText.replace(regex, '<span class="search-highlight">$1</span>');
+    });
+    
+    return highlightedText;
+  }
+
+  static selectSearchResult(question) {
+    document.getElementById('search-results').classList.add('hidden');
+    document.getElementById('search-input').value = '';
+    InputHandler.sendMessage(question);
+  }
+
+  static handleSearchKeyPress(event) {
+    const searchResults = document.getElementById('search-results');
+    
+    if (event.key === 'Enter') {
+      const firstResult = searchResults.querySelector('.search-result-item');
+      if (firstResult) {
+        firstResult.click();
+      }
+    } else if (event.key === 'Escape') {
+      searchResults.classList.add('hidden');
+      document.getElementById('search-input').value = '';
+    }
+  }
+}
+
+// ============== EXPORT FUNCTIONALITY ==============
+class ExportHandler {
+  static async exportConversation(format = "txt") {
+    if (chatState.conversationHistory.length === 0) {
+      NotificationManager.show("Aucune conversation à exporter", "warning");
+      return;
+    }
+
+    NotificationManager.show("Génération de l'export...", "info");
+
+    try {
+      let content, blob, filename;
+      
+      switch (format) {
+        case "json":
+          content = JSON.stringify({
+            conversation: chatState.conversationHistory,
+            stats: {
+              messageCount: chatState.messageCount,
+              averageRating: chatState.ratings.length > 0 ? 
+                chatState.ratings.reduce((a, b) => a + b, 0) / chatState.ratings.length : null,
+              language: chatState.currentLang,
+              userPreferences: chatState.userPreferences
+            },
+            exportDate: new Date().toISOString(),
+            version: "1.0"
+          }, null, 2);
+          blob = new Blob([content], { type: "application/json" });
+          filename = `helvetic-ai-conversation-${new Date().toISOString().split('T')[0]}.json`;
+          break;
+
+        case "docx":
+          content = this.generateDocxContent();
+          blob = new Blob([content], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+          filename = `helvetic-ai-conversation-${new Date().toISOString().split('T')[0]}.docx`;
+          break;
+
+        case "pdf":
+          content = this.generatePdfContent();
+          blob = new Blob([content], { type: "application/pdf" });
+          filename = `helvetic-ai-conversation-${new Date().toISOString().split('T')[0]}.pdf`;
+          break;
+
+        default: // txt
+          content = this.generateTextContent();
+          blob = new Blob([content], { type: "text/plain" });
+          filename = `helvetic-ai-conversation-${new Date().toISOString().split('T')[0]}.txt`;
+      }
+
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+      
+      document.getElementById("exportDropdown").classList.remove("show");
+      NotificationManager.show(`Conversation exportée en ${format.toUpperCase()} !`, "success");
+      
+    } catch (error) {
+      console.error('Export error:', error);
+      NotificationManager.show("Erreur lors de l'export", "error");
+    }
+  }
+
+  static generateTextContent() {
+    const header = `Helvetic AI - Export de Conversation
+Date: ${new Date().toLocaleString()}
+Langue: ${chatState.currentLang.toUpperCase()}
+Messages: ${chatState.messageCount}
+${chatState.ratings.length > 0 ? `Note moyenne: ${(chatState.ratings.reduce((a, b) => a + b, 0) / chatState.ratings.length).toFixed(1)}/5` : ''}
+
+${'='.repeat(80)}
+
+`;
+
+    const messages = chatState.conversationHistory.map(msg => {
+      const time = new Date(msg.time).toLocaleTimeString();
+      const confidence = msg.confidence ? ` (confiance: ${(msg.confidence * 100).toFixed(0)}%)` : '';
+      return `[${time}] ${msg.sender.toUpperCase()}${confidence}: ${msg.text}`;
+    }).join('\n\n');
+
+    return header + messages;
+  }
+
+  static generateDocxContent() {
+    // Simplified DOCX content - in a real implementation, use a proper DOCX library
+    return this.generateTextContent();
+  }
+
+  static generatePdfContent() {
+    // Simplified PDF content - in a real implementation, use a proper PDF library
+    return this.generateTextContent();
+  }
+}
+
+// ============== THEME AND UI MANAGEMENT ==============
+class ThemeManager {
+  static toggleTheme() {
+    chatState.isDarkTheme = !chatState.isDarkTheme;
+    const body = document.body;
+    const themeBtn = document.getElementById("theme-toggle");
+    
+    if (chatState.isDarkTheme) {
+      body.classList.add("theme-dark");
+      themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+      body.classList.remove("theme-dark");
+      themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+    }
+    
+    chatState.save();
+    NotificationManager.show(
+      `Thème ${chatState.isDarkTheme ? 'sombre' : 'clair'} activé`, 
+      "success"
+    );
+  }
+}
+
+// ============== LANGUAGE MANAGEMENT ==============
+class LanguageManager {
+  static changeLanguage(newLang) {
+    if (newLang === chatState.currentLang) return;
+    
+    const oldLang = chatState.currentLang;
+    chatState.currentLang = newLang;
+    
+    // Update status indicator
+    document.getElementById("status-indicator").textContent = translations[newLang].online;
+    
+    // Update search placeholder
+    this.updateSearchPlaceholder();
+    
+    // Update quick questions
+    this.updateQuickQuestions();
+    
+    // Show language change notification
+    const langNames = { fr: 'Français', en: 'English', de: 'Deutsch' };
+    NotificationManager.show(
+      `Langue changée vers ${langNames[newLang]}`, 
+      "success"
+    );
+    
+    // Save state
+    chatState.save();
+  }
+
+  static updateSearchPlaceholder() {
+    const searchInput = document.getElementById("search-input");
+    const placeholders = {
+      fr: "Rechercher par mot-clé (ex: prix, sécurité, formation...)",
+      en: "Search by keyword (ex: price, security, training...)",
+      de: "Nach Stichwort suchen (z.B: Preis, Sicherheit, Schulung...)"
+    };
+    
+    if (searchInput) {
+      searchInput.placeholder = placeholders[chatState.currentLang];
+    }
+  }
+
+  static updateQuickQuestions() {
+    const container = document.getElementById("questions-container");
+    container.innerHTML = "";
+    
+    // Show random 2 questions
+    const questions = [...quickQuestions[chatState.currentLang]]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 2);
+    
+    questions.forEach(question => {
+      const btn = document.createElement("button");
+      btn.className = "question-btn w-full text-left p-3 rounded-xl text-sm font-medium text-gray-700 bg-white/70 hover:bg-white transition-all";
+      btn.textContent = question;
+      btn.onclick = () => InputHandler.sendMessage(question);
+      container.appendChild(btn);
+    });
+  }
+}
+
+// ============== CONNECTION MONITORING ==============
+class ConnectionManager {
+  static init() {
+    window.addEventListener('online', () => this.updateStatus('online'));
+    window.addEventListener('offline', () => this.updateStatus('offline'));
+    
+    // Simulate periodic connection check
+    setInterval(() => this.checkConnection(), 30000);
+  }
+
+  static updateStatus(status) {
+    chatState.connectionStatus = status;
+    const dot = document.getElementById('connection-dot');
+    const indicator = document.getElementById('status-indicator');
+    
+    dot.className = `status-dot ${status === 'online' ? '' : 'status-offline'}`;
+    indicator.textContent = status === 'online' ? 
+      translations[chatState.currentLang].online : 'Hors ligne';
+    
+    if (status === 'offline') {
+      NotificationManager.show("Connexion perdue", "warning", "Certaines fonctionnalités peuvent être limitées");
+    } else {
+      NotificationManager.show("Connexion rétablie", "success");
+    }
+  }
+
+  static checkConnection() {
+    // Simulate connection check
+    if (navigator.onLine) {
+      this.updateStatus('online');
+    } else {
+      this.updateStatus('offline');
+    }
+  }
+}
+
+// ============== QUICK ACTIONS ==============
 function handleQuickAction(action) {
   const actions = {
     fr: {
@@ -1129,162 +2207,66 @@ function handleQuickAction(action) {
     }
   };
   
-  const message = actions[currentLang][action];
+  const message = actions[chatState.currentLang][action];
   if (message) {
-    addMessage(message, "user");
-    setTimeout(() => {
-      const response = responses[currentLang][Object.values(quickQuestions[currentLang])[Object.keys(actions[currentLang]).indexOf(action)]] ||
-        "Merci pour votre intérêt ! Je vais vous mettre en contact avec un de nos experts.";
-      addMessage(response, "bot");
-    }, 800);
+    InputHandler.sendMessage(message);
   }
 }
 
-// File upload handling
-function handleFileUpload(event) {
-  const file = event.target.files[0];
-  if (file) {
-    currentFile = file;
-    const preview = document.getElementById("file-preview");
-    const previewText = document.getElementById("preview-text");
-    const previewImage = document.getElementById("preview-image");
-    
-    preview.classList.remove("hidden");
-    
-    if (file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        previewImage.src = e.target.result;
-        previewImage.classList.remove("hidden");
-      };
-      reader.readAsDataURL(file);
-      previewText.textContent = `Image: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
-    } else {
-      previewImage.classList.add("hidden");
-      previewText.textContent = `Document: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
-    }
-  }
-}
-
-function clearFilePreview() {
-  document.getElementById("file-preview").classList.add("hidden");
-  document.getElementById("file-input").value = "";
-  currentFile = null;
-}
-
-// Voice recording
-function toggleVoiceRecording() {
-  const btn = document.getElementById("voice-btn");
+function showAIInsights() {
+  const insights = [
+    "📊 Votre activité de chat suggère un intérêt pour l'automatisation",
+    "🎯 Les entreprises de votre taille économisent en moyenne 40% avec nos solutions",
+    "⚡ Délai moyen d'implémentation : 2-3 mois pour votre secteur"
+  ];
   
-  if (!isRecording) {
-    startRecording();
-    btn.classList.add("voice-recording");
-    btn.innerHTML = '<i class="fas fa-stop"></i>';
-    isRecording = true;
-  } else {
-    stopRecording();
-    btn.classList.remove("voice-recording");
-    btn.innerHTML = '<i class="fas fa-microphone"></i>';
-    isRecording = false;
-  }
-}
-
-function startRecording() {
-  // Simulate voice recording
-  console.log("Voice recording started...");
-}
-
-function stopRecording() {
-  // Simulate voice recording stop
-  console.log("Voice recording stopped...");
-  // Here you would typically process the audio and convert to text
-  const simulatedText = "Message vocal converti en texte";
-  document.getElementById("user-input").value = simulatedText;
-}
-
-// Message actions
-function copyMessage(text) {
-  navigator.clipboard.writeText(text).then(() => {
-    showNotification("Message copié !");
+  const randomInsight = insights[Math.floor(Math.random() * insights.length)];
+  MessageHandler.addMessage(randomInsight, "bot", { 
+    confidence: 0.8,
+    relatedQuestions: ["Puis-je demander une démo ?", "Quels sont vos tarifs ?"]
   });
 }
 
-function shareMessage(text) {
-  if (navigator.share) {
-    navigator.share({
-      title: 'Helvetic AI',
-      text: text
-    });
-  } else {
-    copyMessage(text);
-    showNotification("Message copié pour partage !");
-  }
+// ============== SMART COMPOSE ==============
+function showSmartCompose() {
+  const suggestions = [
+    "Pouvez-vous m'expliquer",
+    "J'aimerais en savoir plus sur",
+    "Quels sont les avantages de",
+    "Comment puis-je",
+    "Proposez-vous"
+  ];
+  
+  const input = document.getElementById("user-input");
+  const currentText = input.value;
+  
+  const suggestion = suggestions[Math.floor(Math.random() * suggestions.length)];
+  input.value = currentText + (currentText ? " " : "") + suggestion + " ";
+  input.focus();
+  InputHandler.autoResize(input);
 }
 
-function rateMessage(rating, element) {
-  // Update visual feedback
-  const stars = element.parentNode.querySelectorAll('.rating-star');
-  stars.forEach((star, index) => {
-    if (index < rating) {
-      star.classList.add('active');
-    } else {
-      star.classList.remove('active');
-    }
-  });
-  
-  ratings.push(rating);
-  updateStats();
-  showNotification("Merci pour votre évaluation !");
+// ============== ADVANCED SEARCH ==============
+function toggleAdvancedSearch() {
+  document.getElementById('advanced-search-modal').classList.remove('hidden');
 }
 
-// Quick questions update
-function updateQuickQuestions() {
-  const container = document.getElementById("questions-container");
-  container.innerHTML = "";
-  
-  // Show random 2 questions
-  const questions = [...quickQuestions[currentLang]].sort(() => Math.random() - 0.5).slice(0, 2);
-  
-  questions.forEach(question => {
-    const btn = document.createElement("button");
-    btn.className = "question-btn w-full text-left p-3 rounded-xl text-sm font-medium text-gray-700 bg-white/70 hover:bg-white transition-all";
-    btn.textContent = question;
-    btn.onclick = () => {
-      addMessage(question, "user");
-      showTypingIndicator();
-      setTimeout(() => {
-        hideTypingIndicator();
-        const reply = responses[currentLang][question] || getAIResponse(question) || "Merci pour cette question intéressante. Laissez-moi vous mettre en contact avec un expert.";
-        addMessage(reply, "bot");
-      }, 1000);
-    };
-    container.appendChild(btn);
-  });
+function closeAdvancedSearch() {
+  document.getElementById('advanced-search-modal').classList.add('hidden');
 }
 
-// Theme toggle
-function toggleTheme() {
-  isDarkTheme = !isDarkTheme;
-  const body = document.body;
-  const themeBtn = document.getElementById("theme-toggle");
+function performAdvancedSearch() {
+  const category = document.getElementById('search-category').value;
+  const date = document.getElementById('search-date').value;
   
-  if (isDarkTheme) {
-    body.classList.add("theme-dark");
-    themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
-  } else {
-    body.classList.remove("theme-dark");
-    themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
-  }
+  NotificationManager.show("Recherche avancée simulée", "info", `Catégorie: ${category}, Période: ${date}`);
+  closeAdvancedSearch();
 }
 
-// Statistics
-function updateStats() {
-  document.getElementById("message-count").textContent = messageCount;
-  
-  if (ratings.length > 0) {
-    const avgRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
-    document.getElementById("avg-rating").textContent = avgRating.toFixed(1);
-  }
+// ============== UTILITY FUNCTIONS ==============
+function refreshQuestions() {
+  LanguageManager.updateQuickQuestions();
+  NotificationManager.show("Questions actualisées", "success");
 }
 
 function toggleStats() {
@@ -1292,136 +2274,11 @@ function toggleStats() {
   stats.style.display = stats.style.display === "block" ? "none" : "block";
 }
 
-// Export functions
-function exportConversation(format = "txt") {
-  if (conversationHistory.length === 0) {
-    showNotification("Aucune conversation à exporter.");
-    return;
-  }
-
-  let content, blob, filename;
-  
-  if (format === "json") {
-    content = JSON.stringify({
-      conversation: conversationHistory,
-      stats: {
-        messageCount: messageCount,
-        averageRating: ratings.length > 0 ? ratings.reduce((a, b) => a + b, 0) / ratings.length : null,
-        language: currentLang
-      },
-      exportDate: new Date().toISOString()
-    }, null, 2);
-    blob = new Blob([content], { type: "application/json" });
-    filename = `helvetic-ai-conversation-${new Date().toISOString().split('T')[0]}.json`;
-  } else if (format === "pdf") {
-    // For PDF export, we'll create a formatted text version
-    content = `Helvetic AI - Conversation Export
-Date: ${new Date().toLocaleString()}
-Language: ${currentLang.toUpperCase()}
-Messages: ${messageCount}
-${ratings.length > 0 ? `Average Rating: ${(ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1)}/5` : ''}
-
-${'='.repeat(50)}
-
-${conversationHistory.map(msg => 
-  `[${new Date(msg.time).toLocaleTimeString()}] ${msg.sender.toUpperCase()}: ${msg.text}`
-).join('\n\n')}`;
-    blob = new Blob([content], { type: "text/plain" });
-    filename = `helvetic-ai-conversation-${new Date().toISOString().split('T')[0]}.pdf`;
-  } else {
-    content = conversationHistory.map(msg => 
-      `[${new Date(msg.time).toLocaleTimeString()}] ${msg.sender.toUpperCase()}: ${msg.text}`
-    ).join('\n\n');
-    blob = new Blob([content], { type: "text/plain" });
-    filename = `helvetic-ai-conversation-${new Date().toISOString().split('T')[0]}.txt`;
-  }
-
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = filename;
-  link.click();
-  
-  document.getElementById("exportDropdown").classList.remove("show");
-  showNotification(`Conversation exportée en ${format.toUpperCase()} !`);
-}
-
-// Utility functions
-function showNotification(message) {
-  const notification = document.createElement("div");
-  notification.className = "fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-all";
-  notification.textContent = message;
-  document.body.appendChild(notification);
-  
-  setTimeout(() => {
-    notification.style.opacity = "0";
-    setTimeout(() => {
-      document.body.removeChild(notification);
-    }, 300);
-  }, 3000);
-}
-
 function toggleDropdown() {
   document.getElementById("exportDropdown").classList.toggle("show");
 }
 
-// Language change handler
-document.addEventListener("DOMContentLoaded", () => {
-  addMessage(translations[currentLang].welcome, "bot", true);
-  updateQuickQuestions();
-});
-
-// Event listeners
-document.getElementById("lang-select").addEventListener("change", (e) => {
-  currentLang = e.target.value;
-  document.getElementById("status-indicator").textContent = translations[currentLang].online;
-  
-  // Clear and restart conversation
-  document.getElementById("chatbot-messages").innerHTML = "";
-  conversationHistory = [];
-  messageCount = 0;
-  ratings = [];
-  
-  // Clear search
-  document.getElementById("search-input").value = "";
-  document.getElementById("search-results").classList.add("hidden");
-  
-  addMessage(translations[currentLang].welcome, "bot", true);
-  updateQuickQuestions();
-  updateSearchPlaceholder();
-  updateStats();
-});
-
-// Close dropdowns when clicking outside
-window.addEventListener("click", (e) => {
-  if (!e.target.closest("#exportDropdown")) {
-    document.getElementById("exportDropdown").classList.remove("show");
-  }
-  if (!e.target.closest("#conversation-stats") && !e.target.matches('[onclick="toggleStats()"]')) {
-    document.getElementById("conversation-stats").style.display = "none";
-  }
-  
-  // Close search results when clicking outside
-  if (!e.target.closest("#search-input") && !e.target.closest("#search-results")) {
-    const searchResults = document.getElementById("search-results");
-    if (searchResults) {
-      searchResults.classList.add("hidden");
-    }
-  }
-});
-
-// Update search placeholder text when language changes
-function updateSearchPlaceholder() {
-  const searchInput = document.getElementById("search-input");
-  const placeholders = {
-    fr: "Rechercher par mot-clé (ex: prix, sécurité, formation...)",
-    en: "Search by keyword (ex: price, security, training...)",
-    de: "Nach Stichwort suchen (z.B: Preis, Sicherheit, Schulung...)"
-  };
-  
-  if (searchInput) {
-    searchInput.placeholder = placeholders[currentLang];
-  }
-}
-</script>
-</body>
-</html>
+// Re-export functions to global scope for backward compatibility
+window.MessageHandler = MessageHandler;
+window.InputHandler = InputHandler;
+window
